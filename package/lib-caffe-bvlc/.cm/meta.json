@@ -1,0 +1,35 @@
+{
+  "check_exit_status": "yes", 
+  "customize": {
+    "skip_file_check": "yes",
+    "extra_dir": "",
+    "version": "master",
+    "install_env":{
+      "CAFFE_URL":"https://github.com/BVLC/caffe",
+      "CAFFE_BRANCH":"master"
+    }
+  }, 
+  "end_full_path": {
+    "linux": "", 
+    "mingw": "", 
+    "win": ""
+  }, 
+  "need_cpu_info":"yes",
+  "only_for_host_os_tags": [
+    "linux", 
+    "windows"
+  ], 
+  "only_for_target_os_tags": [
+    "linux", 
+    "windows"
+  ], 
+  "process_script": "process", 
+  "soft_uoa": "04ab08137582bd03",
+  "suggested_path": "lib-caffe-bvlc", 
+  "tags": [
+    "lib", 
+    "caffe", 
+    "bvlc", 
+    "master"
+  ]
+}

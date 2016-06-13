@@ -1,1 +1,16 @@
-{}
+{
+  "auto_detect": "no", 
+  "skip_file_check":"yes",
+  "customize": {
+    "add_include_path": "yes", 
+    "env_prefix": "CK_ENV_LIB_CAFFE"
+  }, 
+  "deps": {
+  }, 
+  "soft_name": "BVLC Caffe framework", 
+  "tags": [
+    "lib", 
+    "caffe", 
+    "bvlc"
+  ]
+}
