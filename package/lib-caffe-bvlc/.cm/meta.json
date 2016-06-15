@@ -1,12 +1,16 @@
 {
+  "ck_to_env": {
+    "CAFFE_BUILD_SCRIPTS_DIR": "ck-caffe:script:b4c49a03756b8e69"
+  },
   "check_exit_status": "yes", 
   "customize": {
     "skip_file_check": "yes",
     "extra_dir": "",
-    "version": "master",
-    "install_env":{
+    "version": "latest",
+    "install_env": {
       "CAFFE_URL":"https://github.com/BVLC/caffe",
-      "CAFFE_BRANCH":"master"
+      "CAFFE_BRANCH":"master",
+      "CAFFE_BUILD_SCRIPTS_DIR": "${HOME}/CK/ck-caffe/script/build"
     }
   }, 
   "end_full_path": {
@@ -25,7 +29,7 @@
   ], 
   "process_script": "process", 
   "soft_uoa": "04ab08137582bd03",
-  "suggested_path": "lib-caffe-bvlc", 
+  "suggested_path": "lib-caffe-bvlc-master",
   "tags": [
     "lib", 
     "caffe", 
