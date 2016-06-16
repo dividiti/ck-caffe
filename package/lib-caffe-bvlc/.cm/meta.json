@@ -1,6 +1,17 @@
 {
-  "ck_to_env": {
-    "CAFFE_BUILD_SCRIPTS_DIR": "ck-caffe:script:b4c49a03756b8e69"
+  "deps": {
+    "compiler": {
+      "local": "yes", 
+      "name": "C++ compiler", 
+      "sort": 20, 
+      "tags": "compiler,lang-cpp"
+    },
+    "lib-clblast": {
+      "local": "yes",
+      "name": "CLBlast library",
+      "sort": 30,
+      "tags": "lib,clblast"
+    }
   },
   "check_exit_status": "yes", 
   "customize": {
@@ -10,7 +21,11 @@
     "install_env": {
       "CAFFE_URL":"https://github.com/BVLC/caffe",
       "CAFFE_BRANCH":"master",
-      "CAFFE_BUILD_SCRIPTS_DIR": "${HOME}/CK/ck-caffe/script/build"
+      "CAFFE_BUILD_SCRIPTS_DIR": "${CK_REPOS}/ck-caffe/script/build",
+      "CAFFE_BUILD_SCRIPTS_DIR_FIXME": "Specify the base path properly (e.g. as ck-caffe:script:b4c49a03756b8e69)?",
+      "CAFFE_CONFIG_TEMPLATE_FILE":     "Makefile.config.template",
+      "CAFFE_CONFIG_SETTINGS_IN_FILE":  "Makefile.config.in.json",
+      "CAFFE_CONFIG_SETTINGS_OUT_FILE": "Makefile.config.out.json"
     }
   }, 
   "end_full_path": {
