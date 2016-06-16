@@ -5,12 +5,6 @@
       "name": "C++ compiler", 
       "sort": 20, 
       "tags": "compiler,lang-cpp"
-    },
-    "lib-clblast": {
-      "local": "yes",
-      "name": "CLBlast library",
-      "sort": 30,
-      "tags": "lib,clblast"
     }
   },
   "check_exit_status": "yes", 
@@ -28,27 +22,21 @@
       "CAFFE_CONFIG_SETTINGS_OUT_FILE": "Makefile.config.out.json"
     }
   }, 
-  "end_full_path": {
-    "linux": "", 
-    "mingw": "", 
-    "win": ""
-  }, 
   "need_cpu_info":"yes",
   "only_for_host_os_tags": [
-    "linux", 
-    "windows"
+    "linux"
   ], 
   "only_for_target_os_tags": [
-    "linux", 
-    "windows"
+    "linux"
   ], 
-  "process_script": "process", 
+  "process_script": "install", 
   "soft_uoa": "04ab08137582bd03",
-  "suggested_path": "lib-caffe-bvlc-master",
+  "suggested_path": "lib-caffe-bvlc-master-cpu",
   "tags": [
     "lib", 
     "caffe", 
     "bvlc", 
-    "master"
+    "master",
+    "cpu"
   ]
 }

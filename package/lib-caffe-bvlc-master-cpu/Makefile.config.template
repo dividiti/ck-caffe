@@ -1,51 +1,14 @@
 #
 # {
 #   "CAFFE_URL":"https://github.com/BVLC/caffe",
-#   "CAFFE_BRANCH":"opencl",
-#   "CAFFE_COMMIT":"686f554915fca6aa4c7e4d1ca2633066fa1c6269",
+#   "CAFFE_BRANCH":"master",
+#   "CAFFE_COMMIT":"df412ac0da3e2e7eb194f0c16842fd126496d90d",
 #   "CAFFE_RETRIEVED_ON":"2016-06-16"
 # }
 #
 
 ## Refer to http://caffe.berkeleyvision.org/installation.html
 # Contributions simplifying and improving our build system are welcome!
-
-# 32 bit / 64 bit indexing
-USE_INDEX_64 := {use_index_64}
-
-# GreenTea (ViennaCL/OpenCL) backend switch
-
-# Enable the CUDA backend
-USE_CUDA := {use_cuda}
-
-# Enable the OpenCL/Greentea backend
-USE_GREENTEA := {use_greentea}
-# Enable the Greentea-LibDNN convolution backend
-USE_LIBDNN := {use_libdnn}
-
-# Enable the Intel spatial convolutions
-# USE_INTEL_SPATIAL := 1
-
-# Folder of the ViennaCL header-only library
-VIENNACL_DIR = {viennacl_dir}
-
-# Override BLAS, use CLBlast instead of ViennacLBLAS.
-USE_CLBLAST := {use_clblast}
-# Custom CLBlast lib and include directories.
-CLBLAST_INCLUDE := {clblast_include}
-CLBLAST_LIB     := {clblast_lib}
-
-# Override BLAS, use clBLAS insead of ViennaclBLAS.
-USE_CLBLAS := {use_clblas}
-# Custom clBLAS lib and include directories.
-CLBLAS_INCLUDE := {clblas_include}
-CLBLAS_LIB     := {clblas_lib}
-
-# Override BLAS, use ISAAC instead of ViennaclBLAS.
-USE_ISAAC := {use_isaac}
-
-# Uncomment for FFT
-USE_FFT := {use_fft}
 
 # cuDNN acceleration switch (uncomment to build with cuDNN).
 # USE_CUDNN := 1
@@ -150,7 +113,6 @@ DISTRIBUTE_DIR := distribute
 
 # Uncomment for debugging. Does not work on OSX due to https://github.com/BVLC/caffe/issues/171
 DEBUG := {debug}
-VIENNACL_DEBUG := {viennacl_debug}
 
 # The ID of the GPU that 'make runtest' will use to run unit tests.
 TEST_GPUID := 0
