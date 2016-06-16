@@ -1,13 +1,19 @@
 {
   "deps": {
     "compiler": {
-      "local": "yes", 
-      "name": "C++ compiler", 
-      "sort": 20, 
+      "local": "yes",
+      "name": "C++ compiler",
+      "sort": 20,
       "tags": "compiler,lang-cpp"
+    },
+    "lib-blas": {
+      "local": "yes",
+      "name": "BLAS library",
+      "sort": 30,
+      "tags": "lib,blas,openblas"
     }
   },
-  "check_exit_status": "yes", 
+  "check_exit_status": "yes",
   "customize": {
     "skip_file_check": "yes",
     "extra_dir": "",
@@ -21,21 +27,21 @@
       "CAFFE_CONFIG_SETTINGS_IN_FILE":  "Makefile.config.in.json",
       "CAFFE_CONFIG_SETTINGS_OUT_FILE": "Makefile.config.out.json"
     }
-  }, 
+  },
   "need_cpu_info":"yes",
   "only_for_host_os_tags": [
     "linux"
-  ], 
+  ],
   "only_for_target_os_tags": [
     "linux"
-  ], 
-  "process_script": "install", 
+  ],
+  "process_script": "install",
   "soft_uoa": "04ab08137582bd03",
   "suggested_path": "lib-caffe-bvlc-master-cpu",
   "tags": [
-    "lib", 
-    "caffe", 
-    "bvlc", 
+    "lib",
+    "caffe",
+    "bvlc",
     "master",
     "cpu"
   ]
