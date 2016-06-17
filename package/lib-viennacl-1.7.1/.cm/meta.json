@@ -1,0 +1,23 @@
+{
+  "customize": {
+    "extra_dir": "",
+    "version": "1.7.1",
+    "install_env":{
+       "VIENNACL_URL":"https://github.com/viennacl/viennacl-dev",
+       "VIENNACL_TAG":"release-1.7.1"
+    }
+  },
+  "process_script": "install",
+  "soft_uoa": "b8319cc532802fe2",
+  "suggested_path": "lib-viennacl",
+  "tags": [
+    "lib",
+    "viennacl",
+    "blas",
+    "opencl",
+    "1.7.1",
+    "release-1.7.1",
+    "1.7",
+    "release-1.7"
+  ]
+}
