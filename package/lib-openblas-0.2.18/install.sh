@@ -17,11 +17,11 @@ export OPENBLAS_SRC_DIR=${INSTALL_DIR}/src
 export OPENBLAS_BLD_DIR=${OPENBLAS_SRC_DIR}
 
 echo ""
-echo "Cloning OpenBLAS from ${OPENBLAS_URL} ..."
+echo "Cloning OpenBLAS from '${OPENBLAS_URL}' ..."
 rm -rf ${OPENBLAS_SRC_DIR}
 git clone ${OPENBLAS_URL} --no-checkout ${OPENBLAS_SRC_DIR}
 if [ "${?}" != "0" ] ; then
-  echo "Error: Cloning OpenBLAS from ${OPENBLAS_URL}.failed!"
+  echo "Error: Cloning OpenBLAS from '${OPENBLAS_URL}' failed!"
   exit 1
 fi
 
