@@ -1,10 +1,8 @@
 #
-# {
-#   "CAFFE_URL":"https://github.com/BVLC/caffe",
-#   "CAFFE_BRANCH":"opencl",
-#   "CAFFE_COMMIT":"686f554915fca6aa4c7e4d1ca2633066fa1c6269",
-#   "CAFFE_RETRIEVED_ON":"2016-06-16"
-# }
+# "CAFFE_URL":"https://github.com/BVLC/caffe"
+# "CAFFE_BRANCH":"opencl"
+# "CAFFE_COMMIT":"686f554915fca6aa4c7e4d1ca2633066fa1c6269"
+# "CAFFE_RETRIEVED_ON":"2016-06-16"
 #
 
 ## Refer to http://caffe.berkeleyvision.org/installation.html
