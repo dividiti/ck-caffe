@@ -20,7 +20,8 @@
     "linux"
   ],
   "only_for_target_os_tags": [
-    "linux"
+    "linux",
+    "android"
   ],
   "end_full_path": {
     "linux": "lib/libopenblas.so"

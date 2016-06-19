@@ -7,6 +7,24 @@
        "VIENNACL_TAG":"release-1.7.1"
     }
   },
+  "deps": {
+    "compiler": {
+      "local": "yes",
+      "name": "C++ compiler",
+      "sort": 10,
+      "tags": "compiler,lang-cpp"
+    },
+    "boost": {
+      "local": "yes", 
+      "name": "boost library", 
+      "tags": "lib,boost"
+    },
+    "cmake": {
+      "local": "yes", 
+      "name": "cmake tool", 
+      "tags": "cmake"
+    }
+  },
   "process_script": "install",
   "soft_uoa": "b8319cc532802fe2",
   "suggested_path": "lib-viennacl",
