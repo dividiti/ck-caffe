@@ -27,7 +27,13 @@
   },
   "process_script": "install",
   "soft_uoa": "b8319cc532802fe2",
-  "suggested_path": "lib-viennacl",
+  "end_full_path": {
+    "android": "lib$#sep#$libviennacl.so", 
+    "linux": "lib/libviennacl.so", 
+    "mingw": "lib\\libviennacl.so", 
+    "win": "lib\\libviennacl.so"
+  }, 
+ "suggested_path": "lib-viennacl",
   "tags": [
     "lib",
     "viennacl",
