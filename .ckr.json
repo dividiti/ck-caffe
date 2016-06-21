@@ -4,7 +4,12 @@
   "dict": {
     "url": "git@github.com:dividiti/ck-caffe.git", 
     "shared": "git", 
-    "sync": "yes"
+    "sync": "yes",
+    "repo_deps": [
+      {
+        "repo_uoa": "ck-math"
+      }
+    ] 
   }, 
   "data_alias": "ck-caffe", 
   "data_uoa": "ck-caffe"
