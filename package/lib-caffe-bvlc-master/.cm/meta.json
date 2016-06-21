@@ -1,0 +1,47 @@
+{
+  "check_exit_status": "yes",
+  "customize": {
+    "extra_dir": "",
+    "install_env": {
+      "CAFFE_BRANCH": "master",
+      "CAFFE_BUILD_SCRIPTS_DIR": "${CK_REPOS}/ck-caffe/script/build",
+      "CAFFE_BUILD_SCRIPTS_DIR_FIXME": "Specify the base path properly (e.g. as ck-caffe:script:b4c49a03756b8e69)?",
+      "CAFFE_CONFIG_SETTINGS_IN_FILE": "Makefile.config.in.json",
+      "CAFFE_CONFIG_SETTINGS_OUT_FILE": "Makefile.config.out.json",
+      "CAFFE_CONFIG_TEMPLATE_FILE": "Makefile.config.template",
+      "CAFFE_URL": "https://github.com/BVLC/caffe"
+    },
+    "skip_file_check": "yes",
+    "version": "latest"
+  },
+  "deps": {
+    "compiler": {
+      "local": "yes",
+      "name": "C++ compiler",
+      "sort": 20,
+      "tags": "compiler,lang-cpp"
+    },
+    "lib-blas": {
+      "local": "yes",
+      "name": "Standard BLAS library",
+      "sort": 30,
+      "tags": "lib,blas,standard-blas"
+    }
+  },
+  "need_cpu_info": "yes",
+  "only_for_host_os_tags": [
+    "linux"
+  ],
+  "only_for_target_os_tags": [
+    "linux"
+  ],
+  "process_script": "install",
+  "soft_uoa": "04ab08137582bd03",
+  "suggested_path": "lib-caffe-bvlc-master",
+  "tags": [
+    "lib",
+    "caffe",
+    "bvlc",
+    "vmaster"
+  ]
+}

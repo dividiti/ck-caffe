@@ -59,6 +59,7 @@
     "lib",
     "caffe",
     "bvlc",
-    "opencl"
+    "vmaster",
+    "vopencl"
   ]
 }

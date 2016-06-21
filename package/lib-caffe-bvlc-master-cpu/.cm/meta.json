@@ -42,7 +42,7 @@
     "lib",
     "caffe",
     "bvlc",
-    "master",
-    "cpu"
+    "vmaster",
+    "vcpu"
   ]
 }
