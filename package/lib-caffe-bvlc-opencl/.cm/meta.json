@@ -1,4 +1,19 @@
 {
+  "check_exit_status": "yes",
+  "customize": {
+    "extra_dir": "",
+    "install_env": {
+      "CAFFE_BRANCH": "opencl",
+      "CAFFE_BUILD_SCRIPTS_DIR": "${CK_REPOS}/ck-caffe/script/build",
+      "CAFFE_BUILD_SCRIPTS_DIR_FIXME": "Specify the base path properly (e.g. as ck-caffe:script:b4c49a03756b8e69)?",
+      "CAFFE_CONFIG_SETTINGS_IN_FILE": "Makefile.config.in.json",
+      "CAFFE_CONFIG_SETTINGS_OUT_FILE": "Makefile.config.out.json",
+      "CAFFE_CONFIG_TEMPLATE_FILE": "Makefile.config.template",
+      "CAFFE_URL": "https://github.com/BVLC/caffe"
+    },
+    "skip_file_check": "yes",
+    "version": "latest"
+  },
   "deps": {
     "compiler": {
       "local": "yes",
@@ -6,46 +21,27 @@
       "sort": 10,
       "tags": "compiler,lang-cpp"
     },
+    "lib-blas": {
+      "add_to_path": "yes",
+      "local": "yes",
+      "name": "Standard, OpenCL-based BLAS library",
+      "sort": 30,
+      "tags": "lib,blas,opencl-blas"
+    },
     "opencl": {
+      "add_to_path": "yes",
       "local": "yes",
       "name": "OpenCL library",
       "sort": 20,
       "tags": "lib,opencl"
-    },
-    "lib-viennacl": {
-      "local": "yes",
-      "name": "ViennaCL library",
-      "sort": 30,
-      "tags": "lib,viennacl"
-    },
-    "lib-clblast": {
-      "local": "yes",
-      "name": "CLBlast library",
-      "sort": 40,
-      "tags": "lib,clblast"
     }
-  },
-  "check_exit_status": "yes",
-  "customize": {
-    "install_env": {
-      "CAFFE_URL":"https://github.com/BVLC/caffe",
-      "CAFFE_BRANCH":"opencl",
-      "CAFFE_BUILD_SCRIPTS_DIR": "${CK_REPOS}/ck-caffe/script/build",
-      "CAFFE_BUILD_SCRIPTS_DIR_FIXME": "Specify the base path properly (e.g. as ck-caffe:script:b4c49a03756b8e69)?",
-      "CAFFE_CONFIG_TEMPLATE_FILE":     "Makefile.config.template",
-      "CAFFE_CONFIG_SETTINGS_IN_FILE":  "Makefile.config.in.json",
-      "CAFFE_CONFIG_SETTINGS_OUT_FILE": "Makefile.config.out.json"
-    },
-    "version": "latest",
-    "skip_file_check": "yes",
-    "extra_dir": ""
   },
   "end_full_path": {
     "linux": "",
     "mingw": "",
     "win": ""
   },
-  "need_cpu_info":"yes",
+  "need_cpu_info": "yes",
   "only_for_host_os_tags": [
     "linux"
   ],
@@ -61,5 +57,8 @@
     "bvlc",
     "vmaster",
     "vopencl"
-  ]
+  ],
+  "use_scripts_from_another_entry": {
+    "data_uoa": "8411e1646aa8c320"
+  }
 }

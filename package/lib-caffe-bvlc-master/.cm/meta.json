@@ -22,10 +22,11 @@
       "tags": "compiler,lang-cpp"
     },
     "lib-blas": {
+      "add_to_path": "yes",
       "local": "yes",
-      "name": "Standard BLAS library",
+      "name": "Standard, OpenCL-based BLAS library",
       "sort": 30,
-      "tags": "lib,blas,standard-blas"
+      "tags": "lib,blas,opencl-blas"
     }
   },
   "need_cpu_info": "yes",
