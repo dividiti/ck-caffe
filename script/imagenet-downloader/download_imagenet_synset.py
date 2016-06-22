@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 # Copyright (c) 2014 Seiya Tokui
+# Copyright (c) 2014 Emmanuel Benazera
+# Copyright (c) 2016 Anton Lokhmotov
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -107,7 +109,7 @@ def download_imagenet(list_filename,
     count_total -= offset
 
     sys.stderr.write('Total: {0}\n'.format(count_total))
-    
+
     num_jobs = max(num_jobs, 1)
 
     entries = Queue.Queue(num_jobs)
@@ -119,9 +121,15 @@ def download_imagenet(list_filename,
     def producer():
         count = 0
         with open(list_filename) as list_in:
+            sep = None; max_split = 1
             for line in list_in:
                 if count >= offset:
-                    name, url = line.strip().split(None, 1)
+                    name_url = line.strip().split(sep, max_split)
+                    if len(name_url) == 2: # URL and name
+                        name, url = name_url
+                    else: # URL only
+                        name = '%s_%d' % (list_filename, count)
+                        url = name_url
                     entries.put((name, url), block=True)
                 count += 1
 
@@ -167,7 +175,7 @@ def download_imagenet(list_filename,
                 counts_fail[i] += 1
                 if verbose:
                     sys.stderr.write('Error: {0} / {1}: {2}\n'.format(name, url, e))
-            
+
             entries.task_done()
 
     def message_loop():
@@ -236,5 +244,5 @@ if __name__ == '__main__':
 
     download_imagenet(args.list, args.outdir,
                       timeout=args.timeout, retry=args.retry,
-                      num_jobs=args.jobs, verbose=args.verbose, 
+                      num_jobs=args.jobs, verbose=args.verbose,
                       offset=args.offset, msg=args.msg)
