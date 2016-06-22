@@ -54,11 +54,6 @@
       "tags": "lib,clblast"
     }
   },
-  "end_full_path": {
-    "linux": "",
-    "mingw": "",
-    "win": ""
-  },
   "need_cpu_info": "yes",
   "only_for_host_os_tags": [
     "linux"
@@ -68,13 +63,17 @@
   ],
   "process_script": "install",
   "soft_uoa": "04ab08137582bd03",
+  "end_full_path": {
+    "linux": "src/build/tools/caffe.bin"
+  }, 
   "suggested_path": "lib-caffe-bvlc-opencl",
   "tags": [
     "lib",
     "caffe",
     "bvlc",
     "vmaster",
-    "vopencl"
+    "vopencl",
+    "vclblast"
   ],
   "use_scripts_from_another_entry": {
     "data_uoa": "14c56f748be92b38"

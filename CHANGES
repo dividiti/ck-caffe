@@ -1,4 +1,5 @@
 2016.06.22 * major update (packages + program + dataset)
+           * opencl-based caffe is working now
 
 2016.06.21 * moving some math libs to ck-math repo
 

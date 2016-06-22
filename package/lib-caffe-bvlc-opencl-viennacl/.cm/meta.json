@@ -48,10 +48,8 @@
     }
   },
   "end_full_path": {
-    "linux": "",
-    "mingw": "",
-    "win": ""
-  },
+    "linux": "src/build/tools/caffe.bin"
+  }, 
   "need_cpu_info": "yes",
   "only_for_host_os_tags": [
     "linux"
@@ -67,7 +65,8 @@
     "caffe",
     "bvlc",
     "vmaster",
-    "vopencl"
+    "vopencl",
+    "vviennacl"
   ],
   "use_scripts_from_another_entry": {
     "data_uoa": "14c56f748be92b38"
