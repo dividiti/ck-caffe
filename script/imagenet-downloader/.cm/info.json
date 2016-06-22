@@ -1,0 +1,20 @@
+{
+  "backup_data_uid": "5900e0d8e5502e49",
+  "backup_module_uid": "84e27ad9dd12e734",
+  "backup_module_uoa": "script",
+  "control": {
+    "author": "cTuning foundation",
+    "author_email": "admin@cTuning.org",
+    "author_webpage": "http://cTuning.org",
+    "copyright": "See README.txt for copyright details",
+    "engine": "CK",
+    "iso_datetime": "2016-06-22T13:00:43.448067",
+    "license": "MIT",
+    "version": [
+      "1",
+      "7",
+      "2dev"
+    ]
+  },
+  "data_name": "imagenet-downloader"
+}
