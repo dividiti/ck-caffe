@@ -17,6 +17,7 @@ export CAFFE_PKG_DIR=${PACKAGE_DIR}
 export CAFFE_SRC_DIR=${INSTALL_DIR}/src
 export CAFFE_BLD_DIR=${CAFFE_SRC_DIR}
 
+#####################################################################
 echo ""
 echo "Cloning Caffe from '${CAFFE_URL}' ..."
 
@@ -26,6 +27,19 @@ if [ "${?}" != "0" ] ; then
   echo "Error: Cloning Caffe from '${CAFFE_URL}' failed!"
   exit 1
 fi
+
+#####################################################################
+echo ""
+echo "Checking out the '${CAFFE_BRANCH}' branch of Caffe ..."
+
+cd ${CAFFE_SRC_DIR}
+git checkout ${CAFFE_BRANCH}
+if [ "${?}" != "0" ] ; then
+  echo "Error: Checking out the '${CAFFE_BRANCH}' branch of Caffe failed!"
+  exit 1
+fi
+
+
 
 exit 1
 

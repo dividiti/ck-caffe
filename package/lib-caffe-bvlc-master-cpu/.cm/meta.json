@@ -12,7 +12,7 @@
       "CAFFE_URL": "https://github.com/BVLC/caffe"
     },
     "skip_file_check": "yes",
-    "version": "latest"
+    "version": "trunk"
   },
   "deps": {
     "compiler": {
