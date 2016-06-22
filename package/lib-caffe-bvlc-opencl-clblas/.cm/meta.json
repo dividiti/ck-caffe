@@ -9,9 +9,9 @@
     "params": {
       "cpu_only": 0,
       "debug": 0,
-      "use_cuda": 0,
-      "use_clblas": 0,
+      "use_clblas": 1,
       "use_clblast": 0,
+      "use_cuda": 0,
       "use_leveldb": 1,
       "use_lmdb": 1,
       "use_opencv": 1
@@ -26,12 +26,6 @@
       "sort": 10,
       "tags": "compiler,lang-cpp"
     },
-    "lib-opencv": {
-      "local": "yes",
-      "name": "OpenCV library",
-      "sort": 20,
-      "tags": "lib,opencv"
-    },
     "lib-blas": {
       "add_to_path": "yes",
       "local": "yes",
@@ -39,12 +33,25 @@
       "sort": 30,
       "tags": "lib,blas,openblas"
     },
+    "lib-opencv": {
+      "local": "yes",
+      "name": "OpenCV library",
+      "sort": 20,
+      "tags": "lib,opencv"
+    },
     "lib-viennacl": {
       "add_to_path": "yes",
       "local": "yes",
       "name": "ViennaCL library",
       "sort": 40,
       "tags": "lib,viennacl"
+    },
+    "lib-clblas": {
+      "add_to_path": "yes",
+      "local": "yes",
+      "name": "clBLAS library",
+      "sort": 50,
+      "tags": "lib,clblas"
     }
   },
   "end_full_path": {

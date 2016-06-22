@@ -21,8 +21,8 @@ export CAFFE_BLD_DIR=${CAFFE_SRC_DIR}
 echo ""
 echo "Cloning Caffe from '${CAFFE_URL}' ..."
 
-#rm -rf ${CAFFE_SRC_DIR}
-#git clone ${CAFFE_URL} --no-checkout ${CAFFE_SRC_DIR}
+rm -rf ${CAFFE_SRC_DIR}
+git clone ${CAFFE_URL} --no-checkout ${CAFFE_SRC_DIR}
 if [ "${?}" != "0" ] ; then
   echo "Error: Cloning Caffe from '${CAFFE_URL}' failed!"
   exit 1
@@ -33,7 +33,7 @@ echo ""
 echo "Checking out the '${CAFFE_BRANCH}' branch of Caffe ..."
 
 cd ${CAFFE_SRC_DIR}
-#git checkout ${CAFFE_BRANCH}
+git checkout ${CAFFE_BRANCH}
 if [ "${?}" != "0" ] ; then
   echo "Error: Checking out the '${CAFFE_BRANCH}' branch of Caffe failed!"
   exit 1
