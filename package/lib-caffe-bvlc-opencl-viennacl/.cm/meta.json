@@ -3,16 +3,20 @@
   "customize": {
     "extra_dir": "",
     "install_env": {
-      "CAFFE_BRANCH": "master",
+      "CAFFE_BRANCH": "opencl",
       "CAFFE_URL": "https://github.com/BVLC/caffe"
     },
     "params": {
-      "cpu_only": 1,
+      "cpu_only": 0,
       "debug": 0,
+      "use_cuda": 0,
+      "use_clblas": 0,
+      "use_clblast": 0,
       "use_leveldb": 1,
       "use_lmdb": 1,
       "use_opencv": 1
     },
+    "skip_file_check": "yes",
     "version": "trunk"
   },
   "deps": {
@@ -34,13 +38,19 @@
       "name": "BLAS library",
       "sort": 30,
       "tags": "lib,blas,openblas"
+    },
+    "lib-viennacl": {
+      "add_to_path": "yes",
+      "local": "yes",
+      "name": "ViennaCL library",
+      "sort": 40,
+      "tags": "lib,viennacl"
     }
   },
-  "need_cpu_info": "yes",
   "end_full_path": {
     "linux": "src/build/tools/caffe.bin"
   }, 
-  "need_cpu_info": "yes", 
+  "need_cpu_info": "yes",
   "only_for_host_os_tags": [
     "linux"
   ],
@@ -49,11 +59,16 @@
   ],
   "process_script": "install",
   "soft_uoa": "04ab08137582bd03",
-  "suggested_path": "lib-caffe-bvlc-master",
+  "suggested_path": "lib-caffe-bvlc-opencl",
   "tags": [
     "lib",
     "caffe",
     "bvlc",
-    "vmaster"
-  ]
+    "vmaster",
+    "vopencl",
+    "vviennacl"
+  ],
+  "use_scripts_from_another_entry": {
+    "data_uoa": "14c56f748be92b38"
+  }
 }

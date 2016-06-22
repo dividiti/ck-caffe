@@ -7,18 +7,6 @@
       "name": "Caffe framework",
       "sort": 10,
       "tags": "lib,caffe,bvlc"
-    },
-    "lib-boost": {
-      "local": "yes",
-      "name": "Boost library",
-      "sort": 20,
-      "tags": "lib,boost"
-    },
-    "lib-cblas": {
-      "local": "yes",
-      "name": "C BLAS library",
-      "sort": 30,
-      "tags": "lib,blas,cblas"
     }
   },
   "FIXME": "Many things below are probably not needed as not compiling!",
@@ -43,7 +31,7 @@
       "run_time": {
         "fine_grain_timer_file": "tmp-ck-timer.json",
         "post_process_cmds": [],
-        "run_cmd_main": "$#BIN_FILE#$ time --model=$#dataset_path#$$#dataset_filename#$ --iterations=1",
+        "run_cmd_main": "caffe.bin time --model=$#dataset_path#$$#dataset_filename#$ --iterations=1",
         "run_cmd_out1": "stdout.log",
         "run_cmd_out2": "stderr.log",
         "run_correctness_output_files": [],
@@ -62,6 +50,5 @@
     "program",
     "caffe",
     "cpu"
-  ],
-  "target_file": "$CAFFE_INSTALL_DIR/src/build/tools/caffe.bin"
+  ]
 }
