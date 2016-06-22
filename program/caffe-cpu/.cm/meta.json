@@ -1,0 +1,67 @@
+{
+  "backup_data_uid": "569404c41618603a",
+  "build_compiler_vars": {},
+  "compile_deps": {
+    "lib-caffe": {
+      "local": "yes",
+      "name": "Caffe framework",
+      "sort": 10,
+      "tags": "lib,caffe,bvlc"
+    },
+    "lib-boost": {
+      "local": "yes",
+      "name": "Boost library",
+      "sort": 20,
+      "tags": "lib,boost"
+    },
+    "lib-cblas": {
+      "local": "yes",
+      "name": "C BLAS library",
+      "sort": 30,
+      "tags": "lib,blas,cblas"
+    }
+  },
+  "FIXME": "Many things below are probably not needed as not compiling!",
+  "compiler_add_include_as_env_from_deps": [],
+  "compiler_env": "CK_CXX",
+  "compiler_flags_as_env": "",
+  "data_name": "caffe-cpu",
+  "extra_ld_vars": "$<<CK_ENV_LIB_OPENBLAS_LIB>>$",
+  "include_dirs": [],
+  "linker_add_lib_as_env": [],
+  "main_language": "cpp",
+  "process_in_tmp": "yes",
+  "program": "yes",
+  "run_cmds": {
+    "default": {
+      "dataset_tags": [
+        "dataset",
+        "caffe",
+        "model"
+      ],
+      "ignore_return_code": "no",
+      "run_time": {
+        "fine_grain_timer_file": "tmp-ck-timer.json",
+        "post_process_cmds": [],
+        "run_cmd_main": "$#BIN_FILE#$ time --model=$#dataset_path#$$#dataset_filename#$ --iterations=1",
+        "run_cmd_out1": "stdout.log",
+        "run_cmd_out2": "stderr.log",
+        "run_correctness_output_files": [],
+        "run_input_files": [],
+        "run_output_files": [
+          "tmp-output.tmp",
+          "tmp-ck-timer.json"
+        ]
+      }
+    }
+  },
+  "run_vars": {},
+  "source_files": [],
+  "species": [],
+  "tags": [
+    "program",
+    "caffe",
+    "cpu"
+  ],
+  "target_file": "$CAFFE_INSTALL_DIR/src/build/tools/caffe.bin"
+}
