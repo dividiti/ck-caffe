@@ -4,12 +4,17 @@
     "extra_dir": "",
     "install_env": {
       "CAFFE_BRANCH": "opencl",
-      "CAFFE_BUILD_SCRIPTS_DIR": "${CK_REPOS}/ck-caffe/script/build",
-      "CAFFE_BUILD_SCRIPTS_DIR_FIXME": "Specify the base path properly (e.g. as ck-caffe:script:b4c49a03756b8e69)?",
-      "CAFFE_CONFIG_SETTINGS_IN_FILE": "Makefile.config.in.json",
-      "CAFFE_CONFIG_SETTINGS_OUT_FILE": "Makefile.config.out.json",
-      "CAFFE_CONFIG_TEMPLATE_FILE": "Makefile.config.template",
       "CAFFE_URL": "https://github.com/BVLC/caffe"
+    },
+    "params": {
+      "cpu_only": 0,
+      "debug": 0,
+      "use_cuda": 0,
+      "use_clblas": 0,
+      "use_clblast": 1,
+      "use_leveldb": 1,
+      "use_lmdb": 1,
+      "use_opencv": 1
     },
     "skip_file_check": "yes",
     "version": "trunk"
@@ -21,19 +26,25 @@
       "sort": 10,
       "tags": "compiler,lang-cpp"
     },
+    "lib-opencv": {
+      "local": "yes",
+      "name": "OpenCV library",
+      "sort": 20,
+      "tags": "lib,opencv"
+    },
     "lib-blas": {
       "add_to_path": "yes",
       "local": "yes",
-      "name": "Standard, OpenCL-based BLAS library",
+      "name": "BLAS library",
       "sort": 30,
-      "tags": "lib,blas,opencl-blas"
+      "tags": "lib,blas,openblas"
     },
-    "opencl": {
+    "lib-viennacl": {
       "add_to_path": "yes",
       "local": "yes",
-      "name": "OpenCL library",
-      "sort": 20,
-      "tags": "lib,opencl"
+      "name": "ViennaCL library",
+      "sort": 40,
+      "tags": "lib,viennacl"
     }
   },
   "end_full_path": {
@@ -59,6 +70,6 @@
     "vopencl"
   ],
   "use_scripts_from_another_entry": {
-    "data_uoa": "8411e1646aa8c320"
+    "data_uoa": "14c56f748be92b38"
   }
 }
