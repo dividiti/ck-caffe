@@ -9,6 +9,28 @@ Prerequisites
 =============
 * Collective Knowledge framework ([@GitHub](http://github.com/ctuning/ck))
 
+Ubuntu dependencies:
+ sudo apt-get install \
+              build-essential \
+              cmake \
+              git \
+              wget \
+              libatlas-base-dev \
+              libboost-all-dev \
+              libgflags-dev \
+              libgoogle-glog-dev \
+              libhdf5-serial-dev \
+              libleveldb-dev \
+              liblmdb-dev \
+              libopencv-dev \
+              libprotobuf-dev \
+              libsnappy-dev \
+              protobuf-compiler \
+              python-dev \
+              python-numpy \
+              python-pip \
+              python-scipy
+
 Authors
 =======
 
@@ -26,5 +48,5 @@ Installation
 ```
 or
 ```
-$ ck pull repo --url=git@github.com:dividiti/ck-caffe
+ $ ck pull repo --url=git@github.com:dividiti/ck-caffe
 ```

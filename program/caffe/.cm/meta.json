@@ -13,7 +13,7 @@
   "compiler_add_include_as_env_from_deps": [],
   "compiler_env": "CK_CXX",
   "compiler_flags_as_env": "",
-  "data_name": "caffe-cpu",
+  "data_name": "caffe",
   "extra_ld_vars": "$<<CK_ENV_LIB_OPENBLAS_LIB>>$",
   "include_dirs": [],
   "linker_add_lib_as_env": [],
@@ -32,6 +32,7 @@
         "fine_grain_timer_file": "tmp-ck-timer.json",
         "post_process_cmds": [],
         "run_cmd_main": "caffe.bin time --model=$#dataset_path#$$#dataset_filename#$ --iterations=1",
+        "post_process_via_ck":"yes",
         "post_process_cmds": [
           "python $#src_path_local#$ck_postprocess.py"
         ], 
@@ -51,7 +52,6 @@
   "species": [],
   "tags": [
     "program",
-    "caffe",
-    "cpu"
+    "caffe"
   ]
 }
