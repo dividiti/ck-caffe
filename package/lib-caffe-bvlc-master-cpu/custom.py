@@ -85,7 +85,7 @@ def setup(i):
     params={
      "use_index_64": 0,
      "use_cuda": 0,
-     "use_greentea": 1,
+     "use_greentea": 0,
      "use_libdnn": 0,
      "viennacl_dir": sv1+'CK_ENV_LIB_VIENNACL'+sv2+'/include',
      "use_clblast": 0,

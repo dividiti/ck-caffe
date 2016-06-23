@@ -41,20 +41,20 @@ fi
 
 #####################################################################
 echo ""
-echo "Copying automatically prepared Makefile.config to build directory ..."
+echo "Copying automatically generated 'Makefile.config' to '${CAFFE_BLD_DIR}' ..."
 
-cp -rf ${CAFFE_PKG_DIR}/Makefile.config ${CAFFE_SRC_DIR}
+cp ${CAFFE_PKG_DIR}/Makefile.config ${CAFFE_BLD_DIR}
 
 #####################################################################
 echo ""
-echo "Building Caffe in ${CAFFE_BLD_DIR} ..."
+echo "Building Caffe in '${CAFFE_BLD_DIR}' ..."
 
 mkdir -p ${CAFFE_BLD_DIR}
 cd ${CAFFE_BLD_DIR}
 
 make -j ${CK_HOST_CPU_NUMBER_OF_PROCESSORS}
 if [ "${?}" != "0" ] ; then
-  echo "Error: Building Caffe in ${CAFFE_BLD_DIR} failed!"
+  echo "Error: Building Caffe in '${CAFFE_BLD_DIR}' failed!"
   exit 1
 fi
 
