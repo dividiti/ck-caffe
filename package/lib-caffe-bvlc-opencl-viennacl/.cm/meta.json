@@ -71,7 +71,6 @@
     "lib",
     "caffe",
     "bvlc",
-    "vmaster",
     "vopencl",
     "vviennacl"
   ],
