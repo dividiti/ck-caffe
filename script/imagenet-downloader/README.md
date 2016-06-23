@@ -60,8 +60,83 @@ script has been modified to handle this case as well.
 
 ## Download images for a given category
 
+```
 $ python download_imagenet_synset.py \
     n01440764_urls.txt
     dataset-imagenet-n01440764
     --jobs 10 --retry 3 --sleep 0
 ```
+
+## CK support
+
+When downloading a new synset, a new local repository is created via a CK
+command sequence roughly equivalent to the following shell command sequence:
+
+```
+$ ck add repo:imagenet-n01440764
+```
+
+Then, individual images can be:
+
+- registered:
+
+```
+$ ck add imagenet-n01440764:dataset:9981 \
+    --tags=imagenet,n01440764,9981,http://dividiti.com
+$ ck find imagenet-n01440764:dataset:9981
+/home/anton/CK/imagenet-n01440764/dataset/9981
+```
+
+- searched through by a combination of tags:
+```
+$ ck search dataset:* --tags=imagenet,n01440764
+imagenet-n01440764:dataset:9981
+$ ck search dataset:* --tags=imagenet,http://dividiti.com
+imagenet-n01440764:dataset:9981
+```
+
+- inspected (printing the contents of `meta.json` and `desc.json`):
+```
+$ ck load imagenet-n01440764:dataset:9981 --min
+{
+  "dict": {
+    "tags": [
+      "imagenet", 
+      "n01440764", 
+      "9981", 
+      "http://dividiti.com"
+    ]
+  }, 
+  "desc": {}
+}
+```
+
+- updated:
+```
+$ cp n01440764_9981.jpg `ck find imagenet-n01440764:dataset:9981`
+$ ck update imagenet-n01440764:dataset:9981 @@dict
+{
+  "dataset_files": [
+    "n01440764_9981.jpg"
+  ]
+}
+
+Entry 9981 (c52d8c8b1f54b879, /home/anton/CK/imagenet-n01440764/dataset/9981) updated successfully!
+$ ck load imagenet-n01440764:dataset:9981 --min
+{
+  "dict": {
+    "dataset_files": [
+      "n01440764_9981.jpg"
+    ], 
+    "tags": [
+      "imagenet", 
+      "n01440764", 
+      "9981", 
+      "http://dividiti.com"
+    ]
+  }, 
+  "desc": {}
+}
+```
+
+- and more...

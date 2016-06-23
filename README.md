@@ -10,7 +10,8 @@ Prerequisites
 * Collective Knowledge framework ([@GitHub](http://github.com/ctuning/ck))
 
 Ubuntu dependencies:
- sudo apt-get install \
+```
+sudo apt-get install \
               build-essential \
               cmake \
               git \
@@ -30,6 +31,7 @@ Ubuntu dependencies:
               python-numpy \
               python-pip \
               python-scipy
+```
 
 Authors
 =======
