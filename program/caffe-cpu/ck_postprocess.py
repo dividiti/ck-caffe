@@ -9,103 +9,42 @@ import os
 
 d={}
 
-print ('  (processing OpenME output ...)')
+def ck_postprocess(i):
 
-# Preload tmp-ck-timer.json from OpenME if exists.
-exists=True
-try:
-  f=open('tmp-ck-timer.json', 'r')
-except Exception as e:
-  exists=False
-  pass
+    ck=i['ck_kernel']
 
-if exists:
-  try:
-    s=f.read()
-    d=json.loads(s)
-  except Exception as e:
-    exists=False
-    pass
+    d={}
 
-  if exists:
-    f.close()
+    # Load output as list
+    r=ck.load_text_file({'text_file':'stderr.log','split_to_list':'yes'})
+    if r['return']>0: return r
 
-d['post_processed']='yes'
+    lst=r['lst']
+    for l in lst:
+        j=l.find('Total Time:')
+        if j>0:
+           l=l[j+12:]
 
-# Temporal hack to fix strange problem in serialization of JSON via internet
-#x=d.get('run_time_state',{}).get('RESULTS#max_abs_diff','')
-#if x!='':
-#   d['run_time_state']['RESULTS#max_abs_diff']=str(x)
+           j1=l.find(' ')
+           if j1>0:
+              l=l[:j1]
 
-# Adding user to identify crowdtuning results
-user=os.environ.get('CK_CROWDTUNING_USER','')
-if user!='':
-   d['crowdtuning_user']=user
+              ttp=float(l)*1.0E-3
 
-# Read vector of values.
-exists=True
-try:
-  f=open('tmp-output.txt', 'r')
-except Exception as e:
-  exists=False
-  pass
+              d['post_processed']='yes'
+              d['execution_time']=ttp
+              d['execution_time_kernel_0']=ttp
 
-if exists:
-  try:
-    s=f.read()
-  except Exception as e:
-    exists=False
-    pass
+    rr={'return':0}
 
-  if exists:
-    f.close()
+    if d.get('post_processed','')=='yes':
+       # Record to CK timer file
+       r=ck.save_json_to_file({'json_file':'tmp-ck-timer.json', 'dict':d})
+       if r['return']>0: return r
+    else:
+       rr['return']=1
+       rr['error']='didn\'t manage to find Total Time string in Caffe output ...'
 
-    if len(s)>0:
-      if s[-1]==',': s=s[:-1]
-      d['result_string']=s
+    return rr
 
-# Read stdout.
-exists=True
-try:
-  f=open('run.stdout', 'r')
-except Exception as e:
-  exists=False
-  pass
-
-if exists:
-  try:
-    s=f.read()
-  except Exception as e:
-    exists=False
-    pass
-
-  if exists:
-    f.close()
-    d['stdout']=s
-
-# Read stderr.
-exists=True
-try:
-  f=open('run.stderr', 'r')
-except Exception as e:
-  exists=False
-  pass
-
-if exists:
-  try:
-    s=f.read()
-  except Exception as e:
-    exists=False
-    pass
-
-  if exists:
-    f.close()
-    d['stderr']=s
-
-# Temporary workaround for when executing with "--sudo".
-os.system('sudo rm tmp-ck-timer.json')
-
-# Write CK json.
-f=open('tmp-ck-timer.json','wt')
-f.write(json.dumps(d, indent=2, sort_keys=True)+'\n')
-f.close()
+# Do not add anything here!
