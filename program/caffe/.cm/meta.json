@@ -13,7 +13,7 @@
   "compiler_add_include_as_env_from_deps": [],
   "compiler_env": "CK_CXX",
   "compiler_flags_as_env": "",
-  "data_name": "caffe-cpu",
+  "data_name": "caffe",
   "extra_ld_vars": "$<<CK_ENV_LIB_OPENBLAS_LIB>>$",
   "include_dirs": [],
   "linker_add_lib_as_env": [],
@@ -52,7 +52,6 @@
   "species": [],
   "tags": [
     "program",
-    "caffe",
-    "cpu"
+    "caffe"
   ]
 }
