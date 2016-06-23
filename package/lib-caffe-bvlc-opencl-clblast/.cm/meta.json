@@ -56,7 +56,7 @@
     "lib-clblast": {
       "add_to_path": "yes",
       "local": "yes",
-      "name": "clBLAST library",
+      "name": "CLBlast library",
       "sort": 50,
       "tags": "lib,clblast"
     }
