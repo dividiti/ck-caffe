@@ -21,7 +21,7 @@
   "process_in_tmp": "yes",
   "program": "yes",
   "run_cmds": {
-    "default": {
+    "time_cpu": {
       "dataset_tags": [
         "dataset",
         "caffe",
@@ -31,11 +31,11 @@
       "run_time": {
         "fine_grain_timer_file": "tmp-ck-timer.json",
         "post_process_cmds": [],
-        "run_cmd_main": "caffe.bin time --model=$#dataset_path#$$#dataset_filename#$ --iterations=1",
+        "run_cmd_main": "caffe.bin time --model=$#dataset_path#$$#dataset_filename#$ --iterations=${CK_CAFFE_ITERATIONS}",
         "post_process_via_ck":"yes",
         "post_process_cmds": [
           "python $#src_path_local#$ck_postprocess.py"
-        ], 
+        ],
         "run_cmd_out1": "stdout.log",
         "run_cmd_out2": "stderr.log",
         "run_correctness_output_files": [],
@@ -45,9 +45,46 @@
           "tmp-ck-timer.json"
         ]
       }
+    },
+    "time_gpu": {
+      "dataset_tags": [
+        "dataset",
+        "caffe",
+        "model"
+      ],
+      "ignore_return_code": "no",
+      "run_time": {
+        "fine_grain_timer_file": "tmp-ck-timer.json",
+        "post_process_cmds": [],
+        "run_cmd_main": "caffe.bin time --model=$#dataset_path#$$#dataset_filename#$ --iterations=${CK_CAFFE_ITERATIONS} --gpu=${CK_CAFFE_GPU_ID}",
+        "post_process_via_ck":"yes",
+        "post_process_cmds": [
+          "python $#src_path_local#$ck_postprocess.py"
+        ],
+        "run_cmd_out1": "stdout.log",
+        "run_cmd_out2": "stderr.log",
+        "run_correctness_output_files": [],
+        "run_input_files": [],
+        "run_output_files": [
+          "tmp-output.tmp",
+          "tmp-ck-timer.json"
+        ]
+      }
+    },
+    "query_gpu": {
+      "ignore_return_code": "no",
+      "run_time": {
+        "run_cmd_main": "caffe.bin device_query",
+        "run_cmd_out1": "stdout.log",
+        "run_cmd_out2": "stderr.log",
+        "post_process_via_ck":"no"
+      }
     }
   },
-  "run_vars": {},
+  "run_vars": {
+    "CK_CAFFE_ITERATIONS": 1,
+    "CK_CAFFE_GPU_ID": 0
+  },
   "source_files": [],
   "species": [],
   "tags": [
