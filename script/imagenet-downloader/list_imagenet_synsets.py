@@ -26,7 +26,7 @@ import ck.kernel as ck
 
 def get_downloaded_synsets(repo_uoa='local', module_uoa='repo', data_uoa='imagenet-*'):
     r=ck.access({
-        'action':'list',
+        'action':'search',
         'repo_uoa':repo_uoa,
         'module_uoa':module_uoa,
         'data_uoa':data_uoa

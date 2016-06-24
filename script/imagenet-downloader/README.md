@@ -139,4 +139,11 @@ $ ck load imagenet-n01440764:dataset:9981 --min
 }
 ```
 
+- cleaned:
+```
+$ ck rm imagenet-unknown:dataset:* --force &&
+  ck rm repo:imagenet-unknown --force &&
+  rm -rf ~/CK/imagenet-unknown/
+```
+
 - and more...
