@@ -73,7 +73,7 @@ When downloading a new synset, a new local repository is created via a CK
 command sequence roughly equivalent to the following shell command sequence:
 
 ```
-$ ck add repo:imagenet-n01440764
+$ ck add repo:imagenet-n01440764 --quiet
 ```
 
 Then, individual images can be:
@@ -101,12 +101,12 @@ $ ck load imagenet-n01440764:dataset:9981 --min
 {
   "dict": {
     "tags": [
-      "imagenet", 
-      "n01440764", 
-      "9981", 
+      "imagenet",
+      "n01440764",
+      "9981",
       "http://dividiti.com"
     ]
-  }, 
+  },
   "desc": {}
 }
 ```
@@ -127,14 +127,14 @@ $ ck load imagenet-n01440764:dataset:9981 --min
   "dict": {
     "dataset_files": [
       "n01440764_9981.jpg"
-    ], 
+    ],
     "tags": [
-      "imagenet", 
-      "n01440764", 
-      "9981", 
+      "imagenet",
+      "n01440764",
+      "9981",
       "http://dividiti.com"
     ]
-  }, 
+  },
   "desc": {}
 }
 ```

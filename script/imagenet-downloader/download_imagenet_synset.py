@@ -32,6 +32,7 @@ import threading
 import time
 import urllib2
 import glob
+import ck.kernel as ck
 
 def download(url, timeout, retry, sleep, verbose=False):
     """Downloads a file at given URL."""
@@ -86,23 +87,23 @@ def make_directory(path):
     if not os.path.isdir(path):
         os.makedirs(path)
 
-def download_imagenet(list_filename,
-                      out_dir,
-                      timeout=10,
-                      retry=10,
-                      num_jobs=1,
-                      sleep_after_dl=1,
-                      verbose=False,
-                      offset=0,
-                      msg=1):
-    """Downloads to out_dir all images whose names and URLs are written in file
-    of name list_filename.
+def download_list(list_file,
+                  out_dir,
+                  timeout=10,
+                  retry=10,
+                  num_jobs=1,
+                  sleep_after_dl=1,
+                  verbose=False,
+                  offset=0,
+                  msg=1):
+    """Try to download to 'out_dir' all images
+    whose URLs are listed in 'list_file'.
     """
 
     make_directory(out_dir)
 
     count_total = 0
-    with open(list_filename) as list_in:
+    with open(list_file) as list_in:
         for i, l in enumerate(list_in):
             pass
         count_total = i + 1
@@ -120,7 +121,7 @@ def download_imagenet(list_filename,
 
     def producer():
         count = 0
-        with open(list_filename) as list_in:
+        with open(list_file) as list_in:
             sep = None; max_split = 1
             for line in list_in:
                 if count >= offset:
@@ -128,7 +129,7 @@ def download_imagenet(list_filename,
                     if len(name_url) == 2: # URL and name
                         name, url = name_url
                     else: # URL only
-                        name = '%s_%d' % (list_filename, count)
+                        name = '%s_%d' % (list_file, count)
                         url = name_url
                     entries.put((name, url), block=True)
                 count += 1
@@ -224,7 +225,7 @@ def download_imagenet(list_filename,
 
 if __name__ == '__main__':
     p = argparse.ArgumentParser()
-    p.add_argument('list', help='Imagenet list file')
+    p.add_argument('list', help='ImageNet list file')
     p.add_argument('outdir', help='Output directory')
     p.add_argument('--jobs', '-j', type=int, default=1,
                    help='Number of parallel threads to download')
@@ -237,12 +238,12 @@ if __name__ == '__main__':
     p.add_argument('--verbose', '-v', action='store_true',
                    help='Enable verbose messages')
     p.add_argument('--offset', '-o', type=int, default=0,
-                   help='Offset to where to start in Imagenet list file')
+                   help='Which line to start from in ImageNet list file')
     p.add_argument('--msg', '-m', type=int, default=1,
                    help='Logging message every x seconds')
     args = p.parse_args()
 
-    download_imagenet(args.list, args.outdir,
-                      timeout=args.timeout, retry=args.retry,
-                      num_jobs=args.jobs, verbose=args.verbose,
-                      offset=args.offset, msg=args.msg)
+    download_list(args.list, args.outdir,
+                  timeout=args.timeout, retry=args.retry,
+                  num_jobs=args.jobs, verbose=args.verbose,
+                  offset=args.offset, msg=args.msg)

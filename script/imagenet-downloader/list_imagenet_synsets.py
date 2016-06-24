@@ -42,10 +42,31 @@ def get_downloaded_synsets(repo_uoa='local', module_uoa='repo', data_uoa='imagen
     return synsets
 
 
-def list_imagenet_synsets(lower, upper, list_downloaded_only=False):
+def list_image_urls(synset):
+    get_image_urls_url = \
+        'http://www.image-net.org/api/text/imagenet.synset.geturls?wnid=%s' % synset
+    content = urllib2.urlopen(get_image_urls_url).read()
+    urls = content.split('\n')
+    count = -1
+    for url in urls:
+        count += 1
+        if len(url) > 0:
+            print( '%s_%d %s' % (synset, count, url) )
+
+
+def list_synset(synset, list_images):
+    if not synset.startswith('n'):
+         return
+    if list_images:
+        list_image_urls(synset)
+    else:
+        print(synset)
+
+
+def list_imagenet_synsets(lower, upper, list_downloaded_only, list_images):
     # http://image-net.org/download-API
-    url = 'http://www.image-net.org/api/text/imagenet.synset.obtain_synset_list'
-    content = urllib2.urlopen(url).read()
+    get_synset_list_url = 'http://www.image-net.org/api/text/imagenet.synset.obtain_synset_list'
+    content = urllib2.urlopen(get_synset_list_url).read()
     synsets = content.split('\n')
     downloaded_synsets = get_downloaded_synsets() if list_downloaded_only else []
 
@@ -56,13 +77,11 @@ def list_imagenet_synsets(lower, upper, list_downloaded_only=False):
             continue
         if count > upper:
             break
-        if not synset.startswith('n'):
-            continue
         if list_downloaded_only:
             if synset in downloaded_synsets:
-                print synset
+                list_synset(synset, list_images)
         else:
-            print synset
+            list_synset(synset, list_images)
 
 
 if __name__ == '__main__':
@@ -73,6 +92,8 @@ if __name__ == '__main__':
                    help='Upper bound on ImageNet synset index')
     p.add_argument('--downloaded', '-d', action='store_true',
                    help='List downloaded ImageNet synsets only')
+    p.add_argument('--images', '-i', action='store_true',
+                   help='List image URLs for ImageNet synsets')
     args = p.parse_args()
 
-    list_imagenet_synsets(args.lower, args.upper, args.downloaded)
+    list_imagenet_synsets(args.lower, args.upper, args.downloaded, args.images)
