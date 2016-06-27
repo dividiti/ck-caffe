@@ -69,7 +69,7 @@ OPENCV_VERSION := $#opencv_version#$
 CUSTOM_CXX := $#custom_cxx#$
 
 # CUDA directory contains bin/ and lib/ directories that we need.
-CUDA_DIR := /usr/local/cuda
+CUDA_DIR := $#cuda_dir#$
 # On Ubuntu 14.04, if cuda tools are installed via
 # "sudo apt-get install nvidia-cuda-toolkit" then use this instead:
 # CUDA_DIR := /usr
