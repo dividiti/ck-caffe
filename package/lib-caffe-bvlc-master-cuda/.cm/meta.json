@@ -65,7 +65,8 @@
     "lib",
     "caffe",
     "bvlc",
-    "vmaster"
+    "vmaster",
+    "vcuda"
   ],
   "use_scripts_from_another_entry": {
     "data_uoa": "14c56f748be92b38"
