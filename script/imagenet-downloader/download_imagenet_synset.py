@@ -288,6 +288,29 @@ def download_list(list_file,
                 path = os.path.join(directory, name)
                 with open(path, 'w') as f:
                     f.write(content)
+
+                # Download the image category description.
+                words_url = "http://www.image-net.org/api/text/wordnet.synset.getwords?wnid=%s" % category
+                content = download(words_url, timeout, retry, sleep_after_dl)
+                all_words = content.split("\n")
+
+                # Update the image metadata.
+                info={}
+                info['dataset_files'] = [ name ]
+                info['dataset_words'] = [ word for word in all_words if word != ""]
+                r=ck.access({
+                    'action':'update',
+                    'repo_uoa':repo_uoa,
+                    'module_uoa':module_uoa,
+                    'data_uoa':data_uoa,
+                    'dict':info
+                })
+                if r['return']>0:
+                    if verbose:
+                        sys.stderr.write ("CK error: %s\n" % r['error'])
+                    counts_fail[i] += 1
+                    continue
+
                 counts_success[i] += 1
                 time.sleep(sleep_after_dl)
 
