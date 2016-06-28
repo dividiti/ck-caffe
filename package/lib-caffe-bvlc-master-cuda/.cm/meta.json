@@ -3,16 +3,17 @@
   "customize": {
     "extra_dir": "",
     "install_env": {
-      "CAFFE_BRANCH": "opencl",
-      "CAFFE_URL": "https://github.com/BVLC/caffe"
+      "CAFFE_BRANCH": "master",
+      "CAFFE_URL": "https://github.com/BVLC/caffe",
+      "NVCCFLAGS": "-D_FORCE_INLINES"
     },
     "params": {
       "cpu_only": 0,
       "debug": 0,
       "use_clblas": 0,
       "use_clblast": 0,
-      "use_cuda": 0,
-      "use_greentea": 1,
+      "use_cuda": 1,
+      "use_greentea": 0,
       "use_leveldb": 1,
       "use_lmdb": 1,
       "use_opencv": 1
@@ -22,36 +23,29 @@
   },
   "deps": {
     "compiler": {
+      "local": "yes", 
+      "name": "CUDA compiler >=7.0", 
+      "sort": 10, 
+      "tags": "compiler,lang-c-cuda"
+    },
+    "compiler-extra": {
       "local": "yes",
       "name": "C++ compiler",
-      "sort": 10,
+      "sort": 20,
       "tags": "compiler,lang-cpp"
-    },
-    "lib-opencl": {
-      "local": "yes",
-      "name": "OpenCL library",
-      "sort": 15,
-      "tags": "lib,opencl"
     },
     "lib-opencv": {
       "local": "yes",
       "name": "OpenCV library",
-      "sort": 20,
+      "sort": 30,
       "tags": "lib,opencv"
     },
     "lib-blas": {
       "add_to_path": "yes",
       "local": "yes",
       "name": "BLAS library",
-      "sort": 30,
-      "tags": "lib,blas,openblas"
-    },
-    "lib-viennacl": {
-      "add_to_path": "yes",
-      "local": "yes",
-      "name": "ViennaCL library",
       "sort": 40,
-      "tags": "lib,viennacl"
+      "tags": "lib,blas,openblas"
     }
   },
   "end_full_path": {
@@ -66,13 +60,13 @@
   ],
   "process_script": "install",
   "soft_uoa": "04ab08137582bd03",
-  "suggested_path": "lib-caffe-bvlc-opencl",
+  "suggested_path": "lib-caffe-bvlc-master-cuda",
   "tags": [
     "lib",
     "caffe",
     "bvlc",
-    "vopencl",
-    "vviennacl"
+    "vmaster",
+    "vcuda"
   ],
   "use_scripts_from_another_entry": {
     "data_uoa": "14c56f748be92b38"

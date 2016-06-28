@@ -102,9 +102,10 @@ def setup(i):
      "use_leveldb": 1,
      "use_lmdb": 1,
      "custom_cxx": sv1+'CK_CXX'+sv2,
+     "cuda_dir": sv1+'CK_ENV_COMPILER_CUDA'+sv2,
      "cpu_blas": "open",
      "cpu_blas_include": sv1+'CK_ENV_LIB_OPENBLAS_INCLUDE'+sv2,
-     "cpu_blas_lib": sv1+'CK_ENV_LIB_OPENBLAS_INCLUDE'+sv2,
+     "cpu_blas_lib": sv1+'CK_ENV_LIB_OPENBLAS_LIB'+sv2,
      "debug": 0,
      "viennacl_debug": 0
     }
