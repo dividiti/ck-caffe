@@ -190,7 +190,7 @@ def download_list(list_file,
                 })
                 if r['return']>0:
                     # If already exists, give a warning rather than an error.
-                    if r['return']==1:
+                    if r['return']==16:
                         if verbose:
                             sys.stdout.write ("CK info: repository for category \'%s\' already exists.\n" % category)
                     else:
@@ -242,7 +242,6 @@ def download_list(list_file,
                     if verbose:
                         sys.stdout.write ("CK info: image at \'%s\' already downloaded\n" % url)
                     counts_success[i] += 1
-                    print counts_success[i]
                     entries.task_done()
                     continue
                 
