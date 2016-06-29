@@ -74,7 +74,7 @@
     "query_gpu": {
       "ignore_return_code": "no",
       "run_time": {
-        "run_cmd_main": "caffe.bin device_query",
+        "run_cmd_main": "caffe.bin device_query --gpu=${CK_CAFFE_GPU_ID}",
         "run_cmd_out1": "stdout.log",
         "run_cmd_out2": "stderr.log",
         "post_process_via_ck":"no"
