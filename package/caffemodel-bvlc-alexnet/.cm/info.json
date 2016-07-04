@@ -14,5 +14,5 @@
       "2dev"
     ]
   }, 
-  "data_name": "bvlc-alexnet"
+  "data_name": "caffemodel-bvlc-alexnet"
 }
