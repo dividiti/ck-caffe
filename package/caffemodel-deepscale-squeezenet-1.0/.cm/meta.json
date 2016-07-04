@@ -1,0 +1,36 @@
+{
+  "check_exit_status": "yes",
+  "customize": {
+    "extra_dir": "",
+    "skip_file_check": "yes",
+    "install_env": {
+      "MODEL_URL": "https://github.com/DeepScale/SqueezeNet/blob/master/SqueezeNet_v1.0/squeezenet_v1.0.caffemodel",
+      "MODEL_FILE": "squeezenet_v1.0.caffemodel",
+      "MODEL_HASH_CALCULATOR": "sha1sum",
+      "MODEL_HASH_REF": "579d0beb658e43c45937bf8bb5e4034fea4e1f69",
+      "MODEL_ENV": "CK_CAFFE_WEIGHTS_SQUEEZENET_1_0"
+    }
+  },
+  "only_for_host_os_tags": [
+    "linux"
+  ],
+  "only_for_target_os_tags": [
+    "linux"
+  ],
+  "process_script": "download",
+  "suggested_path": "caffemodel-bvlc-squeezenet_v1.0",
+  "tags": [
+    "caffe",
+    "weights",
+    "caffemodel",
+    "deepscale",
+    "squeezenet",
+    "v1.1",
+    "v1"
+  ],
+  "use_scripts_from_another_entry": {
+    "repo_uoa": "ck-caffe",
+    "module_uoa": "script",
+    "data_uoa": "download-caffemodel"
+  }
+}
