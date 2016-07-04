@@ -25,7 +25,7 @@
     "caffemodel",
     "deepscale",
     "squeezenet",
-    "v1.1",
+    "v1.0",
     "v1"
   ],
   "use_scripts_from_another_entry": {
