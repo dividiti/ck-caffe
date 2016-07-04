@@ -1,0 +1,18 @@
+{
+  "backup_data_uid": "59414348b1bdedb5",
+  "backup_module_uid": "1dc07ee0f4742028",
+  "backup_module_uoa": "package",
+  "control": {
+    "author": "DeepScale",
+    "author_webpage": "http://deepscale.ai",
+    "engine": "CK",
+    "iso_datetime": "2016-07-04T18:14:01.102594",
+    "license": "BSD",
+    "version": [
+      "1",
+      "7",
+      "2dev"
+    ]
+  },
+  "data_name": "caffemodel-deepscale-squeezenet-1.1"
+}
