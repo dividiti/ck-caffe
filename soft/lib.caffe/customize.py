@@ -74,13 +74,32 @@ def setup(i):
 
     env=i['env']
 
+    pi=fp
+    found=False
+    while True:
+       if os.path.isdir(os.path.join(pi,'include')):
+          found=True
+          break
+       pix=os.path.dirname(pi)
+       if pix==pi:
+          break
+       pi=pix
+
+    if not found:
+       return {'return':1, 'error':'can\'t find root dir of the CAFFE installation'}
+
     p1=os.path.dirname(fp)
-    p2=os.path.dirname(p1)
-    p3=os.path.dirname(p2)
 
     cus['path_bin']=p1
-    cus['path_lib']=os.path.join(p2,'lib')
-    cus['path_include']=os.path.join(p3,'include')
+
+    pl=os.path.join(pi,'lib')
+    if not os.path.isdir(pl):
+       pl=os.path.join(pi,'.build_release','lib')
+       if not os.path.isdir(pl):
+          return {'return':1, 'error':'can\'t find lib dir of the CAFFE installation'}
+
+    cus['path_lib']=pl
+    cus['path_include']=os.path.join(pi,'include')
 
     s+='export PATH='+cus['path_bin']+':$PATH\n'
     if cus.get('path_lib','')!='':
@@ -88,8 +107,8 @@ def setup(i):
        s+='export LIBRARY_PATH="'+cus['path_lib']+'":$LIBRARY_PATH\n\n'
 
     ep=cus.get('env_prefix','')
-    env[ep]=p3
+    env[ep]=pi
 
-    env['CAFFE_INSTALL_DIR']=p3
+    env['CAFFE_INSTALL_DIR']=pi
 
     return {'return':0, 'bat':s}

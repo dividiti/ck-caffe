@@ -1,7 +1,15 @@
 {
-  "auto_detect": "no", 
+  "auto_detect": "yes", 
   "customize": {
-    "env_prefix": "CK_ENV_LIB_CAFFE"
+    "check_that_exists": "yes", 
+    "ck_version": 10, 
+    "env_prefix": "CK_ENV_LIB_CAFFE",
+    "limit_recursion_dir_search": {
+      "linux": 4
+    }, 
+    "soft_file": {
+      "linux": "caffe.bin"
+    }
   }, 
   "deps": {
   }, 
