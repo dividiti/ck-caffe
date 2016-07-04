@@ -1,3 +1,5 @@
+2016.07.03 * fixing auto-detection of CAFFE + do not install package if already installed
+
 2016.06.22 * major update (packages + program + dataset)
            * opencl-based caffe is working now
 
