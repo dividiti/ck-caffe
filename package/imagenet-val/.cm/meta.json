@@ -1,1 +1,28 @@
-{}
+{
+  "check_exit_status": "yes",
+  "customize": {
+    "extra_dir": "",
+    "force_ask_path":"yes",
+    "install_env": {
+       "IMAGENET_VAL_URL":"http://www.image-net.org/challenges/LSVRC/2012/nnoupb/ILSVRC2012_img_val.tar",
+       "IMAGENET_VAL_MD5":"29b22e2961454d5413ddabcf34fc5622"
+    },
+    "version": "trunk"
+  },
+  "deps": {
+  },
+  "need_cpu_info": "no",
+  "end_full_path": {
+    "linux": "ILSVRC2012_val_00000001.JPEG"
+  }, 
+  "process_script": "install",
+  "soft_uoa": "ff47fc6a33b4b03b",
+  "suggested_path": "dataset-imagenet-val-ilsvrc2012",
+  "tags": [
+    "dataset", 
+    "imagenet", 
+    "val",
+    "caffe",
+    "ilsvrc2012"
+  ]
+}

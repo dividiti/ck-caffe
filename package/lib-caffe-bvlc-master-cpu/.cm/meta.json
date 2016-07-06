@@ -41,7 +41,6 @@
   "end_full_path": {
     "linux": "src/build/tools/caffe.bin"
   }, 
-  "need_cpu_info": "yes", 
   "only_for_host_os_tags": [
     "linux"
   ],

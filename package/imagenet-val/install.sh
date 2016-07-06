@@ -14,9 +14,7 @@
 # PACKAGE_DIR
 # INSTALL_DIR
 
-IMAGENET_VAL_URL=http://www.image-net.org/challenges/LSVRC/2012/nonpub/ILSVRC2012_img_val.tar
 IMAGENET_VAL_TAR=${INSTALL_DIR}/ILSVRC2012_img_val.tar
-IMAGENET_VAL_MD5=29b22e2961454d5413ddabcf34fc5622
 
 #####################################################################
 echo ""
