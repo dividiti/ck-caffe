@@ -30,15 +30,16 @@ sudo apt-get install \
     python-dev \
     python-numpy \
     python-pip \
-    python-scipy
+    python-scipy \
+    python-matplotlib
 ```
 To satisfy the Python interface dependencies (needed for some compressed networks):
 ```
 sudo -H pip install \
     scikit-image \
-    protobuf
+    protobuf \
+    pyyaml
 ```
-
 
 Authors
 =======

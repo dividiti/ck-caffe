@@ -71,6 +71,31 @@
         ]
       }
     },
+    "test_gpu": {
+      "dataset_tags": [
+        "dataset",
+        "caffe",
+        "model"
+      ],
+      "ignore_return_code": "no",
+      "run_time": {
+        "fine_grain_timer_file": "tmp-ck-timer.json",
+        "post_process_cmds": [],
+        "run_cmd_main": "caffe.bin test --model=${CK_CAFFE_MODEL} --weights=${CK_CAFFE_WEIGHTS} --iterations=${CK_CAFFE_ITERATIONS} --gpu=${CK_CAFFE_GPU_ID}",
+        "post_process_via_ck":"yes",
+        "post_process_cmds": [
+          "python $#src_path_local#$ck_postprocess.py"
+        ],
+        "run_cmd_out1": "stdout.log",
+        "run_cmd_out2": "stderr.log",
+        "run_correctness_output_files": [],
+        "run_input_files": [],
+        "run_output_files": [
+          "tmp-output.tmp",
+          "tmp-ck-timer.json"
+        ]
+      }
+    },
     "query_gpu": {
       "ignore_return_code": "no",
       "run_time": {
@@ -82,7 +107,11 @@
     }
   },
   "run_vars": {
+    "CK_CAFFE_MODEL": "${CAFFE_ROOT}/models/bvlc_alexnet/train_val.prototxt",
+    "CK_CAFFE_MODEL_TODO": "The model file must be modified before launch. In particular, the above file has the following hardcoded paths relative to $CAFFE_ROOT: data/ilsvrc12/imagenet_mean.binaryproto (ImageNet binary means as part of $CK_CAFFE_IMAGENET_AUX; examples/imagenet/ilsvrc12_val_lmdb (ImageNet validation data in the lmdb format); examples/imagenet/ilsvrc12_train_lmdb (ImageNet training data in the lmdb format).",
+    "CK_CAFFE_WEIGHTS": "${CAFFE_ROOT}/models/bvlc_alexnet/bvlc_alexnet.caffenet",
     "CK_CAFFE_ITERATIONS": 1,
+    "CK_CAFFE_ITERATIONS_FIXME:" : "1 is probably appropriate for benchmarking inference (deployment), but not for validating accuracy. The above model file hardcodes the training batch sizes to 256 and the validation batch size to 50. The validation set has 50000 images, so the number of iterations must be 1000 to go over the entire validation set. This is important as accuracy is reported over the entire data sets. Perhaps it's not as critical for the training data set? As we will want to modify the validation batch size on embedded GPUs (most likely to a small number under 10), we should also compute the number of iterations rather than keep it at 1000.",
     "CK_CAFFE_GPU_ID": 0
   },
   "source_files": [],
