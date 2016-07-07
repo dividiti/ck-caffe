@@ -10,11 +10,11 @@ layer {
   transform_param {
     mirror: true
     crop_size: 227
-    mean_file: "data/ilsvrc12/imagenet_mean.binaryproto"
+    mean_file: "$#train_mean#$"
   }
   data_param {
-    source: "examples/imagenet/ilsvrc12_train_lmdb"
-    batch_size: 256
+    source: "$#train_lmdb#$"
+    batch_size: $#train_batch_size#$
     backend: LMDB
   }
 }
@@ -29,11 +29,11 @@ layer {
   transform_param {
     mirror: false
     crop_size: 227
-    mean_file: "data/ilsvrc12/imagenet_mean.binaryproto"
+    mean_file: "$#val_mean#$"
   }
   data_param {
-    source: "examples/imagenet/ilsvrc12_val_lmdb"
-    batch_size: 50
+    source: "$#val_lmdb#$"
+    batch_size: $#val_batch_size#$
     backend: LMDB
   }
 }
