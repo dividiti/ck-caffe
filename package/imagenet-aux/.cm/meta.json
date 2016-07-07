@@ -1,0 +1,29 @@
+{
+  "check_exit_status": "yes", 
+  "customize": {
+    "extra_dir": "", 
+    "no_os_in_suggested_path": "yes", 
+    "install_env": {
+      "DOWNLOAD_FILE_MD5": "f963098ea0e785a968ca1eb634003a90", 
+      "DOWNLOAD_FILE": "caffe_ilsvrc12.tar.gz",
+      "DOWNLOAD_NAME": "ILSVRC'12 aux dataset",
+      "DOWNLOAD_URL": "http://dl.caffe.berkeleyvision.org/"
+    }, 
+    "version": "2012"
+  }, 
+  "deps": {}, 
+  "end_full_path": {
+    "linux": "imagenet_mean.binaryproto"
+  }, 
+  "need_cpu_info": "no", 
+  "process_script": "install", 
+  "soft_uoa": "167d823440e6a59a", 
+  "suggested_path": "dataset-imagenet-ilsvrc2012-aux", 
+  "tags": [
+    "dataset", 
+    "imagenet", 
+    "val", 
+    "caffe", 
+    "ilsvrc2012"
+  ]
+}

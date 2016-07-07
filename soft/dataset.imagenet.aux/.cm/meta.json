@@ -1,0 +1,23 @@
+{
+  "auto_detect": "yes", 
+  "customize": {
+    "check_that_exists": "yes", 
+    "ck_version": 10, 
+    "env_prefix": "CK_ENV_DATASET_IMAGENET_AUX", 
+    "limit_recursion_dir_search": {
+      "linux": 3
+    }, 
+    "soft_file": {
+      "linux": "imagenet_mean.binaryproto",
+      "win": "imagenet_mean.binaryproto"
+    }
+  }, 
+  "deps": {}, 
+  "soft_name": "ImageNet dataset (aux)", 
+  "tags": [
+    "dataset", 
+    "imagenet", 
+    "aux", 
+    "caffe"
+  ]
+}

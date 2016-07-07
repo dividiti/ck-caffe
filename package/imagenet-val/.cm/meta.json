@@ -3,11 +3,12 @@
   "customize": {
     "extra_dir": "",
     "force_ask_path":"yes",
+    "no_os_in_suggested_path": "yes", 
     "install_env": {
        "IMAGENET_VAL_URL":"http://www.image-net.org/challenges/LSVRC/2012/nnoupb/ILSVRC2012_img_val.tar",
        "IMAGENET_VAL_MD5":"29b22e2961454d5413ddabcf34fc5622"
     },
-    "version": "trunk"
+    "version": "2012"
   },
   "deps": {
   },
@@ -17,11 +18,11 @@
   }, 
   "process_script": "install",
   "soft_uoa": "ff47fc6a33b4b03b",
-  "suggested_path": "dataset-imagenet-val-ilsvrc2012",
+  "suggested_path": "dataset-imagenet-ilsvrc2012-val",
   "tags": [
     "dataset", 
     "imagenet", 
-    "val",
+    "aux",
     "caffe",
     "ilsvrc2012"
   ]
