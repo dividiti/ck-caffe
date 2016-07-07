@@ -9,6 +9,19 @@
       "MODEL_HASH_CALCULATOR": "sha1sum",
       "MODEL_HASH_REF": "3397f026368a45ae236403ccc81cfcbe8ebe1bd0",
       "MODEL_ENV": "CK_CAFFE_WEIGHTS_SQUEEZENET_1_1"
+    },
+    "params": {
+      "train": {
+        "template": "train_val.prototxt",
+        "lmdb": "examples/imagenet/ilsvrc12_train_lmdb",
+        "batch_size": 32
+      },
+      "val": {
+        "template": "train_val.prototxt",
+        "lmdb": "examples/imagenet/ilsvrc12_val_lmdb",
+        "batch_size": 25,
+        "accuracy_layers": [ "accuracy", "accuracy_top5" ]
+      }
     }
   },
   "only_for_host_os_tags": [
