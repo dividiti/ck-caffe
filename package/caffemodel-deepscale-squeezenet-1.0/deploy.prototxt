@@ -8,7 +8,7 @@
 
 input: "data"
 input_shape {
-  dim: 10
+  dim: $#deploy_batch_size#$
   dim: 3
   dim: 227
   dim: 227
