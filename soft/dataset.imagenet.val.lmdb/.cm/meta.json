@@ -3,22 +3,21 @@
   "customize": {
     "check_that_exists": "yes", 
     "ck_version": 10, 
-    "env_prefix": "CK_ENV_DATASET_IMAGENET_VAL",
+    "env_prefix": "CK_ENV_DATASET_IMAGENET_VAL_LMDB", 
     "limit_recursion_dir_search": {
       "linux": 3
     }, 
     "soft_file": {
-      "linux": "ILSVRC2012_val_00000001.JPEG"
+      "linux": "data.mdb"
     }
   }, 
-  "deps": {
-  }, 
-  "soft_name": "ImageNet dataset (validation)", 
+  "deps": {}, 
+  "soft_name": "ImageNet dataset (validation, LMDB)", 
   "tags": [
     "dataset", 
     "imagenet", 
-    "raw",
-    "val",
+    "val-lmdb", 
+    "lmdb",
     "caffe"
   ]
 }

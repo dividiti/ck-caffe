@@ -4,6 +4,7 @@
     "extra_dir": "",
     "force_ask_path":"yes",
     "no_os_in_suggested_path": "yes", 
+    "no_ver_in_suggested_path": "yes", 
     "install_env": {
        "IMAGENET_VAL_URL":"http://www.image-net.org/challenges/LSVRC/2012/nnoupb/ILSVRC2012_img_val.tar",
        "IMAGENET_VAL_MD5":"29b22e2961454d5413ddabcf34fc5622"
@@ -22,7 +23,8 @@
   "tags": [
     "dataset", 
     "imagenet", 
-    "aux",
+    "raw",
+    "val",
     "caffe",
     "ilsvrc2012"
   ]

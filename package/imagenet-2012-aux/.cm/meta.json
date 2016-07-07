@@ -2,7 +2,8 @@
   "check_exit_status": "yes", 
   "customize": {
     "extra_dir": "", 
-    "no_os_in_suggested_path": "yes", 
+    "no_os_in_suggested_path": "yes",
+    "no_ver_in_suggested_path": "yes", 
     "install_env": {
       "DOWNLOAD_FILE_MD5": "f963098ea0e785a968ca1eb634003a90", 
       "DOWNLOAD_FILE": "caffe_ilsvrc12.tar.gz",
@@ -22,7 +23,7 @@
   "tags": [
     "dataset", 
     "imagenet", 
-    "val", 
+    "aux", 
     "caffe", 
     "ilsvrc2012"
   ]
