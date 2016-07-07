@@ -34,7 +34,7 @@
         "run_cmd_main": "caffe.bin time --model=$#dataset_path#$$#dataset_filename#$ --iterations=${CK_CAFFE_ITERATIONS}",
         "post_process_via_ck":"yes",
         "post_process_cmds": [
-          "python $#src_path_local#$ck_postprocess.py"
+          "python $#src_path_local#$postprocess_time.py"
         ],
         "run_cmd_out1": "stdout.log",
         "run_cmd_out2": "stderr.log",
@@ -59,7 +59,7 @@
         "run_cmd_main": "caffe.bin time --model=$#dataset_path#$$#dataset_filename#$ --iterations=${CK_CAFFE_ITERATIONS} --gpu=${CK_CAFFE_GPU_ID}",
         "post_process_via_ck":"yes",
         "post_process_cmds": [
-          "python $#src_path_local#$ck_postprocess.py"
+          "python $#src_path_local#$postprocess_time.py"
         ],
         "run_cmd_out1": "stdout.log",
         "run_cmd_out2": "stderr.log",
@@ -84,7 +84,7 @@
         "run_cmd_main": "caffe.bin test --model=${CK_CAFFE_MODEL} --weights=${CK_CAFFE_WEIGHTS} --iterations=${CK_CAFFE_ITERATIONS} --gpu=${CK_CAFFE_GPU_ID}",
         "post_process_via_ck":"yes",
         "post_process_cmds": [
-          "python $#src_path_local#$ck_postprocess.py"
+          "python $#src_path_local#$postprocess_accuracy.py"
         ],
         "run_cmd_out1": "stdout.log",
         "run_cmd_out2": "stderr.log",
