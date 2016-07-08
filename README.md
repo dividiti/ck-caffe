@@ -60,3 +60,12 @@ or
 ```
  $ ck pull repo --url=git@github.com:dividiti/ck-caffe
 ```
+
+
+
+
+Misc
+====
+If you want to use different number of images, you can differentiate environment by specifying
+extra version during installation, for example:
+$ ck install package:imagenet-2012-val-lmdb-256-no-shuffle --extra_version=_99images
