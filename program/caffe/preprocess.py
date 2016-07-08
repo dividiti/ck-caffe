@@ -13,6 +13,7 @@ def ck_preprocess(i):
     ck=i['ck_kernel']
     rt=i['run_time']
     deps=i['deps']
+
     params=i['params']
 
     cm_key=params['caffemodel_key']

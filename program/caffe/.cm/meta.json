@@ -119,7 +119,7 @@
     "stderr.log"
   ], 
   "run_vars": {
-    "CK_CAFFE_ITERATIONS": 1,
+    "CK_CAFFE_ITERATIONS": 10,
     "CK_CAFFE_GPU_ID": 0
   },
   "tags": [

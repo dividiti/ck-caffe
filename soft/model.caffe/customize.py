@@ -84,4 +84,21 @@ def setup(i):
     env[ep+'_WEIGHTS']=os.path.join(pi, cus.get('file_with_weights',''))
     env[ep+'_WEIGHTS_FILE']=cus.get('file_with_weights','')
 
+    # record params
+    pff=cus['ck_params_file']
+    pf=os.path.join(pi, pff)
+    params=cus.get('params',{})
+
+    if len(params)==0:
+       if os.path.isfile(pf):
+          r=ck.load_json_file({'json_file':pf})
+          if r['return']>0: return r
+          cus['params']=r['dict']
+       else:
+          return {'return':1, 'error':'CK params for the DNN are not defined and file '+pff+' doesn\'t exist'}
+
+    else:
+       r=ck.save_json_to_file({'json_file':pf, 'dict':params})
+       if r['return']>0: return r
+
     return {'return':0, 'bat':s}

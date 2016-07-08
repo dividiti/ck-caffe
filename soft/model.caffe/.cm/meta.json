@@ -1,6 +1,7 @@
 {
   "auto_detect": "yes", 
   "customize": {
+    "ck_params_file":"ck-params.json",
     "check_that_exists": "yes", 
     "ck_version": 10, 
     "env_prefix": "CK_ENV_MODEL_CAFFE", 
@@ -17,6 +18,7 @@
     "caffe",
     "net",
     "weights",
-    "caffemodel"
+    "caffemodel",
+    "bvlc"
   ]
 }
