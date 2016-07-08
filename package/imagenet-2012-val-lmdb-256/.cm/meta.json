@@ -35,6 +35,7 @@
   }, 
   "need_cpu_info": "no", 
   "process_script": "install", 
+  "remove_deps":"yes",
   "soft_uoa": "092da4cabb3b7f8c", 
   "suggested_path": "dataset-imagenet-ilsvrc2012-val-lmdb", 
   "tags": [

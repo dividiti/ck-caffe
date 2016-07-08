@@ -57,7 +57,7 @@
   "end_full_path": {
     "linux": "src/build/tools/caffe.bin"
   },
-  "package_extra_name":" (clblast)",
+  "package_extra_name":" (viennacl)",
   "need_cpu_info": "yes",
   "only_for_host_os_tags": [
     "linux"
