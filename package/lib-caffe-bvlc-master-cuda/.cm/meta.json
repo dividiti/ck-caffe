@@ -58,6 +58,7 @@
   "only_for_target_os_tags": [
     "linux"
   ],
+  "package_extra_name":" (cuda)",
   "process_script": "install",
   "soft_uoa": "04ab08137582bd03",
   "suggested_path": "lib-caffe-bvlc-master-cuda",

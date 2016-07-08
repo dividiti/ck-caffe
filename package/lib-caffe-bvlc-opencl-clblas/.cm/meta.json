@@ -68,6 +68,7 @@
   "only_for_target_os_tags": [
     "linux"
   ],
+  "package_extra_name":" (clblas)",
   "process_script": "install",
   "end_full_path": {
     "linux": "src/build/tools/caffe.bin"
