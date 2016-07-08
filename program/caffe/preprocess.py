@@ -14,8 +14,7 @@ def ck_preprocess(i):
     rt=i['run_time']
     deps=i['deps']
 
-    params=i['params']
-
+    params=rt['params']
     cm_key=params['caffemodel_key']
 
     # Find template
