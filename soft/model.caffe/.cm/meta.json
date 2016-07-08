@@ -1,0 +1,22 @@
+{
+  "auto_detect": "yes", 
+  "customize": {
+    "check_that_exists": "yes", 
+    "ck_version": 10, 
+    "env_prefix": "CK_ENV_MODEL_CAFFE", 
+    "limit_recursion_dir_search": {
+      "linux": 3
+    }, 
+    "soft_file": {
+      "linux": "deploy.prototxt"
+    }
+  }, 
+  "deps": {}, 
+  "soft_name": "Caffe model (net and weights)", 
+  "tags": [
+    "caffe",
+    "net",
+    "weights",
+    "caffemodel"
+  ]
+}

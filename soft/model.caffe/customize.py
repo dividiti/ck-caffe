@@ -78,17 +78,10 @@ def setup(i):
 
     pi=os.path.dirname(fp)
 
-    cus['path_bin']=pi
-
-    s+='export PATH='+cus['path_bin']+':$PATH\n'
-
     ep=cus.get('env_prefix','')
     env[ep]=pi
 
-    env['CK_CAFFE_IMAGENET_VAL_TXT']=pi+sdirs+'val.txt'
-    env['CK_CAFFE_IMAGENET_VAL_TRAIN']=pi+sdirs+'train.txt'
-
-    env['CK_CAFFE_IMAGENET_MEAN_BIN']=pi+sdirs+'imagenet_mean.binaryproto'
-    env['CK_CAFFE_IMAGENET_BET_BIN']=pi+sdirs+'imagenet.bet.pickle'
+    env[ep+'_WEIGHTS']=os.path.join(pi, cus.get('file_with_weights',''))
+    env[ep+'_WEIGHTS_FILE']=cus.get('file_with_weights','')
 
     return {'return':0, 'bat':s}

@@ -66,6 +66,8 @@ if [ "${?}" != "0" ] ; then
   exit 1
 fi
 
+chmod 755 imagenet*
+
 #####################################################################
 echo ""
 echo "Successfully installed the ${DOWNLOAD_NAME} validation dataset ..."

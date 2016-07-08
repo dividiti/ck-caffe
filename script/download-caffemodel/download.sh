@@ -10,8 +10,21 @@
 # - Anton Lokhmotov, anton@dividiti.com, 2016
 # - Grigori Fursin, grigori@dividiti.com, 2016
 
-# PACKAGE_DIR
+# ORIGINAL_PACKAGE_DIR (path to original package even if scripts are used from some other package or script)
+# PACKAGE_DIR (path where scripts are reused)
 # INSTALL_DIR
+
+export MODEL_PATH=${INSTALL_DIR}/${MODEL_FILE}
+
+#####################################################################
+echo ""
+echo "Copying net topology files to '${INSTALL_DIR}' ..."
+
+cp -f ${ORIGINAL_PACKAGE_DIR}/* ${INSTALL_DIR}
+if [ "${?}" != "0" ] ; then
+  echo "Error: copying net topology files failed!"
+  exit 1
+fi
 
 #####################################################################
 echo ""

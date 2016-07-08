@@ -1,37 +1,46 @@
 {
   "backup_data_uid": "569404c41618603a",
-  "build_compiler_vars": {},
   "compile_deps": {
+    "dataset-imagenet-lmdb": {
+      "local": "yes",
+      "name": "ImageNet dataset (lmdb)",
+      "sort": 1,
+      "tags": "dataset,imagenet,val-lmdb"
+    },
+    "caffemodel": {
+      "local": "yes",
+      "name": "CaffeModel",
+      "sort": 20,
+      "tags": "caffemodel"
+    },
+    "dataset-imagenet-aux": {
+      "local": "yes",
+      "name": "ImageNet dataset (aux)",
+      "sort": 30,
+      "tags": "dataset,imagenet,aux"
+    },
     "lib-caffe": {
       "local": "yes",
       "name": "Caffe framework",
-      "sort": 10,
+      "sort": 100,
       "tags": "lib,caffe,bvlc"
     }
   },
-  "FIXME": "Many things below are probably not needed as not compiling!",
-  "compiler_add_include_as_env_from_deps": [],
-  "compiler_env": "CK_CXX",
-  "compiler_flags_as_env": "",
   "data_name": "caffe",
-  "extra_ld_vars": "$<<CK_ENV_LIB_OPENBLAS_LIB>>$",
-  "include_dirs": [],
-  "linker_add_lib_as_env": [],
-  "main_language": "cpp",
   "process_in_tmp": "yes",
   "program": "yes",
   "run_cmds": {
     "time_cpu": {
-      "dataset_tags": [
-        "dataset",
-        "caffe",
-        "model"
-      ],
       "ignore_return_code": "no",
       "run_time": {
         "fine_grain_timer_file": "tmp-ck-timer.json",
-        "post_process_cmds": [],
-        "run_cmd_main": "caffe.bin time --model=$#dataset_path#$$#dataset_filename#$ --iterations=${CK_CAFFE_ITERATIONS}",
+        "pre_process_via_ck": {
+          "script_name":"preprocess",
+          "params":{
+            "caffemodel_key":"deploy"
+          }
+        },
+        "run_cmd_main": "caffe.bin time --model=$<<CK_CAFFE_MODEL>>$ --iterations=$<<CK_CAFFE_ITERATIONS>>$",
         "post_process_via_ck":"yes",
         "post_process_cmds": [
           "python $#src_path_local#$postprocess_time.py"
@@ -41,22 +50,22 @@
         "run_correctness_output_files": [],
         "run_input_files": [],
         "run_output_files": [
-          "tmp-output.tmp",
           "tmp-ck-timer.json"
         ]
       }
     },
     "time_gpu": {
-      "dataset_tags": [
-        "dataset",
-        "caffe",
-        "model"
-      ],
       "ignore_return_code": "no",
       "run_time": {
         "fine_grain_timer_file": "tmp-ck-timer.json",
+        "pre_process_via_ck": {
+          "script_name":"preprocess",
+          "params":{
+            "caffemodel_key":"deploy"
+          }
+        },
         "post_process_cmds": [],
-        "run_cmd_main": "caffe.bin time --model=$#dataset_path#$$#dataset_filename#$ --iterations=${CK_CAFFE_ITERATIONS} --gpu=${CK_CAFFE_GPU_ID}",
+        "run_cmd_main": "caffe.bin time --model=$<<CK_CAFFE_MODEL>>$ --iterations=$<<CK_CAFFE_ITERATIONS>>$ --gpu=$<<CK_CAFFE_GPU_ID>>$",
         "post_process_via_ck":"yes",
         "post_process_cmds": [
           "python $#src_path_local#$postprocess_time.py"
@@ -66,22 +75,22 @@
         "run_correctness_output_files": [],
         "run_input_files": [],
         "run_output_files": [
-          "tmp-output.tmp",
           "tmp-ck-timer.json"
         ]
       }
     },
     "test_gpu": {
-      "dataset_tags": [
-        "dataset",
-        "caffe",
-        "model"
-      ],
       "ignore_return_code": "no",
       "run_time": {
         "fine_grain_timer_file": "tmp-ck-timer.json",
+        "pre_process_via_ck": {
+          "script_name":"preprocess",
+          "params":{
+            "caffemodel_key":"val"
+          }
+        },
         "post_process_cmds": [],
-        "run_cmd_main": "caffe.bin test --model=${CK_CAFFE_MODEL} --weights=${CK_CAFFE_WEIGHTS} --iterations=${CK_CAFFE_ITERATIONS} --gpu=${CK_CAFFE_GPU_ID}",
+        "run_cmd_main": "caffe.bin test --model=$<<CK_CAFFE_MODEL>>$ --weights=$<<CK_ENV_MODEL_CAFFE_WEIGHTS>>$ --iterations=$<<CK_CAFFE_ITERATIONS>>$ --gpu=$<<CK_CAFFE_GPU_ID>>$",
         "post_process_via_ck":"yes",
         "post_process_cmds": [
           "python $#src_path_local#$postprocess_accuracy.py"
@@ -91,7 +100,6 @@
         "run_correctness_output_files": [],
         "run_input_files": [],
         "run_output_files": [
-          "tmp-output.tmp",
           "tmp-ck-timer.json"
         ]
       }
@@ -99,23 +107,21 @@
     "query_gpu": {
       "ignore_return_code": "no",
       "run_time": {
-        "run_cmd_main": "caffe.bin device_query --gpu=${CK_CAFFE_GPU_ID}",
+        "run_cmd_main": "caffe.bin device_query --gpu=$<<CK_CAFFE_GPU_ID>>$",
         "run_cmd_out1": "stdout.log",
         "run_cmd_out2": "stderr.log",
         "post_process_via_ck":"no"
       }
     }
   },
+  "print_files_after_run": [
+    "stdout.log", 
+    "stderr.log"
+  ], 
   "run_vars": {
-    "CK_CAFFE_MODEL": "${CAFFE_ROOT}/models/bvlc_alexnet/train_val.prototxt",
-    "CK_CAFFE_MODEL_TODO": "The model file must be modified before launch. In particular, the above file has the following hardcoded paths relative to $CAFFE_ROOT: data/ilsvrc12/imagenet_mean.binaryproto (ImageNet binary means as part of $CK_CAFFE_IMAGENET_AUX; examples/imagenet/ilsvrc12_val_lmdb (ImageNet validation data in the lmdb format); examples/imagenet/ilsvrc12_train_lmdb (ImageNet training data in the lmdb format).",
-    "CK_CAFFE_WEIGHTS": "${CAFFE_ROOT}/models/bvlc_alexnet/bvlc_alexnet.caffenet",
     "CK_CAFFE_ITERATIONS": 1,
-    "CK_CAFFE_ITERATIONS_FIXME:" : "1 is probably appropriate for benchmarking inference (deployment), but not for validating accuracy. The above model file hardcodes the training batch sizes to 256 and the validation batch size to 50. The validation set has 50000 images, so the number of iterations must be 1000 to go over the entire validation set. This is important as accuracy is reported over the entire data sets. Perhaps it's not as critical for the training data set? As we will want to modify the validation batch size on embedded GPUs (most likely to a small number under 10), we should also compute the number of iterations rather than keep it at 1000.",
     "CK_CAFFE_GPU_ID": 0
   },
-  "source_files": [],
-  "species": [],
   "tags": [
     "program",
     "caffe"

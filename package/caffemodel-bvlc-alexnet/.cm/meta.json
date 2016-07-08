@@ -3,6 +3,10 @@
   "customize": {
     "extra_dir": "",
     "skip_file_check": "yes",
+    "force_ask_path":"yes",
+    "no_os_in_suggested_path": "yes",
+    "no_ver_in_suggested_path": "yes", 
+    "file_with_weights": "bvlc_alexnet.caffemodel",
     "install_env": {
       "MODEL_URL": "http://dl.caffe.berkeleyvision.org/bvlc_alexnet.caffemodel",
       "MODEL_FILE": "bvlc_alexnet.caffemodel",
@@ -13,20 +17,28 @@
     "params": {
       "train": {
         "template": "train_val.prototxt",
-        "mean": "data/ilsvrc12/imagenet_mean.binaryproto",
-        "lmdb": "examples/imagenet/ilsvrc12_train_lmdb",
-        "batch_size": 256
+        "substitute":{
+          "train_mean": "$#path_to_imagenet_aux#$imagenet_mean.binaryproto",
+          "train_batch_size": 256,
+          "val_mean": "$#path_to_imagenet_aux#$imagenet_mean.binaryproto",
+          "val_batch_size": 50
+        }
       },
       "val": {
         "template": "train_val.prototxt",
-        "mean": "data/ilsvrc12/imagenet_mean.binaryproto",
-        "lmdb": "examples/imagenet/ilsvrc12_val_lmdb",
-        "batch_size": 50,
+        "substitute":{
+          "train_mean": "$#path_to_imagenet_aux#$imagenet_mean.binaryproto",
+          "train_batch_size": 256,
+          "val_mean": "$#path_to_imagenet_aux#$imagenet_mean.binaryproto",
+          "val_batch_size": 50
+        },
         "accuracy_layers": ["accuracy"]
       },
       "deploy": {
-        "template": "deploy.txt",
-        "batch_size": 10
+        "template": "deploy.prototxt",
+        "substitute":{
+          "batch_size": 10
+        }
       }
     }
   },
@@ -37,6 +49,10 @@
     "linux"
   ],
   "process_script": "download",
+  "soft_uoa": "e2400aabc11d6cd1", 
+  "end_full_path": {
+    "linux": "bvlc_alexnet.caffemodel"
+  }, 
   "suggested_path": "caffemodel-bvlc-alexnet",
   "tags": [
     "caffe",

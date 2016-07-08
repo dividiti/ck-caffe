@@ -8,7 +8,6 @@ import json
 import os
 import re
 
-
 def ck_postprocess(i):
     ck=i['ck_kernel']
 
@@ -81,7 +80,7 @@ def ck_postprocess(i):
               d['time_total_s']=s
               d['time_total_s_kernel_0']=s
               d['post_processed']='yes'
-    
+
     rr={}
     rr['return']=0
     if d.get('post_processed','')=='yes':
