@@ -11,8 +11,7 @@
       "MODEL_URL": "http://dl.caffe.berkeleyvision.org/bvlc_alexnet.caffemodel",
       "MODEL_FILE": "bvlc_alexnet.caffemodel",
       "MODEL_HASH_CALCULATOR": "sha1sum",
-      "MODEL_HASH_REF": "9116a64c0fbe4459d18f4bb6b56d647b63920377",
-      "MODEL_ENV": "CK_CAFFE_WEIGHTS_BVLC_ALEXNET"
+      "MODEL_HASH_REF": "9116a64c0fbe4459d18f4bb6b56d647b63920377"
     },
     "params": {
       "train": {
@@ -40,7 +39,8 @@
           "batch_size": 10
         }
       }
-    }
+    },
+    "version": "trunk"
   },
   "only_for_host_os_tags": [
     "linux"
@@ -48,6 +48,7 @@
   "only_for_target_os_tags": [
     "linux"
   ],
+  "package_extra_name":" (bvlc, alexnet)",
   "process_script": "download",
   "soft_uoa": "e2400aabc11d6cd1", 
   "end_full_path": {

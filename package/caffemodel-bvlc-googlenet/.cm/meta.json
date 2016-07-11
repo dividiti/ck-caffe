@@ -3,12 +3,15 @@
   "customize": {
     "extra_dir": "",
     "skip_file_check": "yes",
+    "force_ask_path":"yes",
+    "no_os_in_suggested_path": "yes",
+    "no_ver_in_suggested_path": "yes", 
+    "file_with_weights": "bvlc_googlenet.caffemodel",
     "install_env": {
       "MODEL_URL": "http://dl.caffe.berkeleyvision.org/bvlc_googlenet.caffemodel",
       "MODEL_FILE": "bvlc_googlenet.caffemodel",
       "MODEL_HASH_CALCULATOR": "sha1sum",
-      "MODEL_HASH_REF": "405fc5acd08a3bb12de8ee5e23a96bec22f08204",
-      "MODEL_ENV": "CK_CAFFE_WEIGHTS_BVLC_ALEXNET"
+      "MODEL_HASH_REF": "405fc5acd08a3bb12de8ee5e23a96bec22f08204"
     },
     "params": {
       "train": {
@@ -26,7 +29,8 @@
         "template": "deploy.txt",
         "batch_size": 10
       }
-    }
+    },
+    "version": "trunk"
   },
   "only_for_host_os_tags": [
     "linux"
@@ -34,6 +38,7 @@
   "only_for_target_os_tags": [
     "linux"
   ],
+  "package_extra_name":" (bvlc, googlenet)",
   "process_script": "download",
   "soft_uoa": "e2400aabc11d6cd1",
   "end_full_path": {
