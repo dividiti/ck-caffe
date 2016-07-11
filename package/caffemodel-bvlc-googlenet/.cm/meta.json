@@ -16,18 +16,24 @@
     "params": {
       "train": {
         "template": "train_val.prototxt",
-        "lmdb": "examples/imagenet/ilsvrc12_train_lmdb",
-        "batch_size": 32
+        "substitute":{
+          "train_batch_size": 32,
+          "val_batch_size": 50
+        }
       },
       "val": {
         "template": "train_val.prototxt",
-        "lmdb": "examples/imagenet/ilsvrc12_val_lmdb",
-        "batch_size": 50,
+        "substitute":{
+          "train_batch_size": 32,
+          "val_batch_size": 50
+        },
         "accuracy_layers": [ "loss3/top-1", "loss3/top-5" ]
       },
       "deploy": {
         "template": "deploy.txt",
-        "batch_size": 10
+        "substitute":{
+          "batch_size": 10
+        }
       }
     },
     "version": "trunk"

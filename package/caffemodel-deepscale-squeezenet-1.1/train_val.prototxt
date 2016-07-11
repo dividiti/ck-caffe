@@ -41,7 +41,7 @@ layer {
   }
   data_param {
     source: "$#val_lmdb#$"
-    batch_size: $#val_lmdb#$ #not *iter_size
+    batch_size: $#val_batch_size#$ #not *iter_size
     backend: LMDB
   }
 }

@@ -16,13 +16,17 @@
     "params": {
       "train": {
         "template": "train_val.prototxt",
-        "lmdb": "examples/imagenet/ilsvrc12_train_lmdb",
-        "batch_size": 32
+        "substitute":{
+          "train_batch_size": 32,
+          "val_batch_size": 25
+        }
       },
       "val": {
         "template": "train_val.prototxt",
-        "lmdb": "examples/imagenet/ilsvrc12_val_lmdb",
-        "batch_size": 25,
+        "substitute":{
+          "train_batch_size": 32,
+          "val_batch_size": 25
+        },
         "accuracy_layers": [ "accuracy", "accuracy_top5" ]
       }
     },
