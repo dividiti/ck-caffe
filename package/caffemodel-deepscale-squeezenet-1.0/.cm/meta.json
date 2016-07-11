@@ -35,6 +35,10 @@
     "linux"
   ],
   "process_script": "download",
+  "soft_uoa": "e2400aabc11d6cd1",
+  "end_full_path": {
+    "linux": "squeezenet_v1.0.caffemodel"
+  },
   "suggested_path": "caffemodel-bvlc-squeezenet_v1.0",
   "tags": [
     "caffe",
