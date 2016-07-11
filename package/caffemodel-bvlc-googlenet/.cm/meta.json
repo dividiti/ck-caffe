@@ -35,6 +35,10 @@
     "linux"
   ],
   "process_script": "download",
+  "soft_uoa": "e2400aabc11d6cd1",
+  "end_full_path": {
+    "linux": "bvlc_googlenet.caffemodel"
+  },
   "suggested_path": "caffemodel-bvlc-googlenet",
   "tags": [
     "caffe",
