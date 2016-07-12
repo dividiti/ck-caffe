@@ -100,13 +100,17 @@ def setup(i):
           return {'return':1, 'error':'CK features for DNN lmdb dataset are not defined and file '+pff+' doesn\'t exist'}
 
     else:
-       dl=os.listdir(pim)
+       num=cus.get('first_images','')
+       if num!='':
+          num=int(num)
+       else:
+          dl=os.listdir(pim)
 
-       num=0
+          num=0
 
-       for fn in dl:
-           if fn.endswith('.JPEG') or fn.endswith('.jpeg'):
-              num+=1
+          for fn in dl:
+              if fn.endswith('.JPEG') or fn.endswith('.jpeg'):
+                 num+=1
 
        features['number_of_original_images']=num
 
