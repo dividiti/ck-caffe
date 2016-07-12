@@ -40,7 +40,7 @@
         "pre_process_via_ck": {
           "script_name":"preprocess"
         },
-        "run_cmd_main": "caffe.bin time --model=$<<CK_CAFFE_MODEL>>$ --iterations=$<<CK_CAFFE_ITERATIONS>>$",
+        "run_cmd_main": "caffe.bin time --model=$<<CK_CAFFE_MODEL>>$ --iterations=1",
         "post_process_via_ck":"yes",
         "post_process_cmds": [
           "python $#src_path_local#$postprocess_time.py"
