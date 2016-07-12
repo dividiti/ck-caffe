@@ -56,9 +56,15 @@ def ck_preprocess(i):
     sub=cus.get('substitute',{})
 
     # Check batch_size
-    bs=sub.get('batch_size','')
-    if bs=='':
-       bs=sub.get('val_batch_size','')
+    bs=env.get('CK_CAFFE_BATCH_SIZE','')
+    if bs!='':
+       sub['batch_size']=bs
+       sub['val_batch_size']=bs
+       sub['train_batch_size']=bs
+    else:
+       bs=sub.get('batch_size','')
+       if bs=='':
+          bs=sub.get('val_batch_size','')
 
     iters=env.get('CK_CAFFE_ITERATIONS','')
 
@@ -66,6 +72,7 @@ def ck_preprocess(i):
        if bs=='':
           iters=1
        else:
+          bs=int(bs)
           iters=nim/bs
 
        env['CK_CAFFE_ITERATIONS']=iters

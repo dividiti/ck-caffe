@@ -22,6 +22,10 @@ def ck_postprocess(i):
     d['per_layer_info']=[]
     layer_index = 0
 
+    d['REAL_ENV_CK_CAFFE_BATCH_SIZE']=env.get('CK_CAFFE_BATCH_SIZE','')
+    d['REAL_ENV_CK_CAFFE_ITERATIONS']=env.get('CK_CAFFE_ITERATIONS','')
+    d['REAL_ENV_CK_CAFFE_MODEL']=env.get('CK_CAFFE_MODEL','')
+
     for line in r['lst']:
         # Match layer info.
         layer_regex = 'caffe\.cpp:\d{3,4}](\s+)' + \
