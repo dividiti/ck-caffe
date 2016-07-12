@@ -30,3 +30,17 @@ This model was trained by Sergio Guadarrama @sguada
 ## License
 
 This model is released for unrestricted use.
+
+## Sample validation output
+
+```
+      I0712 11:53:19.627121 109762 caffe.cpp:292] loss1/loss1 = 1.86667 (* 0.3 = 0.560002 loss)
+      I0712 11:53:19.627127 109762 caffe.cpp:292] loss1/top-1 = 0.55522
+      I0712 11:53:19.627131 109762 caffe.cpp:292] loss1/top-5 = 0.804981
+      I0712 11:53:19.627136 109762 caffe.cpp:292] loss2/loss1 = 1.50183 (* 0.3 = 0.45055 loss)
+      I0712 11:53:19.627140 109762 caffe.cpp:292] loss2/top-1 = 0.629759
+      I0712 11:53:19.627142 109762 caffe.cpp:292] loss2/top-5 = 0.856821
+      I0712 11:53:19.627147 109762 caffe.cpp:292] loss3/loss3 = 1.25635 (* 1 = 1.25635 loss)
+      I0712 11:53:19.627153 109762 caffe.cpp:292] loss3/top-1 = 0.689299
+      I0712 11:53:19.627156 109762 caffe.cpp:292] loss3/top-5 = 0.891441
+```
