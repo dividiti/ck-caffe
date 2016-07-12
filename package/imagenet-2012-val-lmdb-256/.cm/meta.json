@@ -5,11 +5,12 @@
     "install_env": {
       "RESIZE_HEIGHT": "256",
       "RESIZE_WIDTH": "256",
-      "SHUFFLE" :"-shuffle"
+      "SHUFFLE" :""
     }, 
     "no_os_in_suggested_path": "yes", 
     "no_ver_in_suggested_path": "yes", 
-    "version": "2012"
+    "version": "2012",
+    "extra_suggested_path":"-resize-256"
   }, 
   "deps": {
     "lib-caffe": {
@@ -33,7 +34,7 @@
     }
   },
   "end_full_path": {
-    "linux": "data.mdb"
+    "linux": "data/data.mdb"
   }, 
   "need_cpu_info": "no", 
   "process_script": "install", 

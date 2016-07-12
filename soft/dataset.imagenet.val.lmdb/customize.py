@@ -109,6 +109,16 @@ def setup(i):
               num+=1
 
        features['number_of_original_images']=num
+
+       ie=cus.get('install_env',{})
+       rw=ie.get('RESIZE_WIDTH','')
+       rh=ie.get('RESIZE_HEIGHT','')
+       sh=ie.get('SHUFFLE','')
+
+       features['resize_width']=rw
+       features['resize_height']=rh
+       features['shuffle']=sh
+
        cus['features']=features
 
        r=ck.save_json_to_file({'json_file':pf, 'dict':features})

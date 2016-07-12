@@ -14,7 +14,7 @@
 # PACKAGE_DIR
 # INSTALL_DIR
 
-export CK_CAFFE_IMAGENET_VAL_LMDB=${INSTALL_DIR}
+export CK_CAFFE_IMAGENET_VAL_LMDB=${INSTALL_DIR}/data
 
 # Need to delete install dir otherwise CAFFE fails ...
 rm -rf ${CK_CAFFE_IMAGENET_VAL_LMDB}
