@@ -109,6 +109,7 @@ def setup(i):
               num+=1
 
        features['number_of_original_images']=num
+       cus['features']=features
 
        r=ck.save_json_to_file({'json_file':pf, 'dict':features})
        if r['return']>0: return r
