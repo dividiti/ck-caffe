@@ -13,6 +13,8 @@ def ck_postprocess(i):
 
     d={}
 
+    env=i.get('env',{})
+
     # Load output as list.
     # NB: This assumes that Caffe iterates only once (--iterations=1).
     # Otherwise, looping over the log would be required.
