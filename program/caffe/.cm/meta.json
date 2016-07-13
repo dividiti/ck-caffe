@@ -121,6 +121,7 @@
   "run_vars": {
     "CK_CAFFE_GPU_ID": 0
   },
+  "skip_tmp_deps":"yes",
   "tags": [
     "program",
     "caffe"
