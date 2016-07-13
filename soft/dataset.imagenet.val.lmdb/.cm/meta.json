@@ -6,7 +6,7 @@
     "ck_features_file":"ck-features.json",
     "env_prefix": "CK_ENV_DATASET_IMAGENET_VAL_LMDB", 
     "limit_recursion_dir_search": {
-      "linux": 3
+      "linux": 4
     }, 
     "soft_file": {
       "linux": "data.mdb"
