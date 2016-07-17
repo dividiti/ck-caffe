@@ -1,7 +1,14 @@
 #
-# Preprocessing Caffe templates
+# Convert raw output of the Caffe 'test' command
+# to the CK format.
 #
-# Developer: Grigori Fursin, cTuning foundation, 2016
+# Sample output:
+#      I0717 14:16:39.975189 10804 caffe.cpp:359] accuracy = 0.57
+#      I0717 14:16:39.975280 10804 caffe.cpp:359] accuracy_top5 = 0.81
+#
+# Developers:
+#   - Grigori Fursin, cTuning foundation, 2016
+#   - Anton Lokhmotov, dividiti, 2016
 #
 
 import json
@@ -14,19 +21,35 @@ def ck_postprocess(i):
     rt=i['run_time']
     deps=i['deps']
 
-    params=rt['params']
-    cm_key=params['caffemodel_key']
+    cm_key=rt['params']['caffemodel_key']
+    cus=deps['caffemodel']['cus']['params'][cm_key]
 
-    # Find accuracy 
-    x=deps['caffemodel']
-    cm_path=x['dict']['env']['CK_ENV_MODEL_CAFFE']
+    # Load output as list.
+    r=ck.load_text_file({'text_file':'stderr.log','split_to_list':'yes'})
+    if r['return']>0: return r
 
-    cus=x['cus']['params'][cm_key]
+    # Match accuracy and loss info.
+    d={}
+    for accuracy_layer in cus['accuracy_layers']:
+        ck.out('Searching for output of accuracy layer \'%s\' ...' % accuracy_layer)
+        accuracy_regex = 'caffe\.cpp:\d{3,4}](\s+)' + accuracy_layer + \
+                         '(\s+)=(\s+)(?P<number>\d*\.?\d*)'
+        for line in r['lst']:
+            match = re.search(accuracy_regex, line)
+            if match:
+                d[accuracy_layer] = float(match.group('number'))
+                d['post_processed']='yes'
 
-    al=cus['accuracy_layers']
+    rr={}
+    rr['return']=0
+    if d.get('post_processed','')=='yes':
+       # Save to file.
+       r=ck.save_json_to_file({'json_file':'tmp-ck-timer.json', 'dict':d})
+       if r['return']>0: return r
+    else:
+       rr['return']=1
+       rr['error']='failed to match any accuracy layer info in Caffe output'
 
-    print ('Accuracy layers: ',al)
-
-    return {'return':0}
+    return rr
 
 # Do not add anything here!
