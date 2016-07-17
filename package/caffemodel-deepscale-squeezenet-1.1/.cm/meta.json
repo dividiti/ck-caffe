@@ -27,7 +27,7 @@
           "train_batch_size": 32,
           "val_batch_size": 25
         },
-        "accuracy_layers": [ "accuracy", "accuracy_top5" ]
+        "accuracy_layers": [ "accuracy", "accuracy_top5", "loss" ]
       }
     },
     "version": "1.1"
