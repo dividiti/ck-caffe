@@ -65,7 +65,7 @@
           "script_name":"preprocess"
         },
         "post_process_cmds": [],
-        "run_cmd_main": "caffe.bin time --model=$<<CK_CAFFE_MODEL>>$ --iterations=$<<CK_CAFFE_ITERATIONS>>$ --gpu=$<<CK_CAFFE_GPU_ID>>$",
+        "run_cmd_main": "caffe.bin time --model=$<<CK_CAFFE_MODEL>>$ --gpu=$<<CK_CAFFE_GPU_ID>>$ --iterations=1",
         "post_process_via_ck":"yes",
         "post_process_cmds": [
           "python $#src_path_local#$postprocess_time.py"
@@ -91,6 +91,31 @@
         },
         "post_process_cmds": [],
         "run_cmd_main": "caffe.bin test --model=$<<CK_CAFFE_MODEL>>$ --weights=$<<CK_ENV_MODEL_CAFFE_WEIGHTS>>$ --iterations=$<<CK_CAFFE_ITERATIONS>>$ --gpu=$<<CK_CAFFE_GPU_ID>>$",
+        "post_process_via_ck":"yes",
+        "post_process_cmds": [
+          "python $#src_path_local#$postprocess_accuracy.py"
+        ],
+        "run_cmd_out1": "stdout.log",
+        "run_cmd_out2": "stderr.log",
+        "run_correctness_output_files": [],
+        "run_input_files": [],
+        "run_output_files": [
+          "tmp-ck-timer.json"
+        ]
+      }
+    },
+    "test_cpu": {
+      "ignore_return_code": "no",
+      "run_time": {
+        "fine_grain_timer_file": "tmp-ck-timer.json",
+        "params":{
+          "caffemodel_key":"val"
+        },
+        "pre_process_via_ck": {
+          "script_name":"preprocess"
+        },
+        "post_process_cmds": [],
+        "run_cmd_main": "caffe.bin test --model=$<<CK_CAFFE_MODEL>>$ --weights=$<<CK_ENV_MODEL_CAFFE_WEIGHTS>>$ --iterations=$<<CK_CAFFE_ITERATIONS>>$",
         "post_process_via_ck":"yes",
         "post_process_cmds": [
           "python $#src_path_local#$postprocess_accuracy.py"
