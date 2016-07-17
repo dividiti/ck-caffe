@@ -5,7 +5,7 @@
     "skip_file_check": "yes",
     "force_ask_path":"yes",
     "no_os_in_suggested_path": "yes",
-    "no_ver_in_suggested_path": "yes", 
+    "no_ver_in_suggested_path": "yes",
     "file_with_weights": "bvlc_googlenet.caffemodel",
     "install_env": {
       "MODEL_URL": "http://dl.caffe.berkeleyvision.org/bvlc_googlenet.caffemodel",
@@ -27,7 +27,11 @@
           "train_batch_size": 32,
           "val_batch_size": 50
         },
-        "accuracy_layers": [ "loss3/top-1", "loss3/top-5" ]
+        "accuracy_layers": [
+          "loss1/loss1", "loss1/top-1", "loss1/top-5",
+          "loss2/loss1", "loss2/top-1", "loss2/top-5",
+          "loss3/loss3", "loss3/top-1", "loss3/top-5"
+        ]
       },
       "deploy": {
         "template": "deploy.txt",
