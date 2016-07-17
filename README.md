@@ -61,11 +61,22 @@ or
  $ ck pull repo --url=git@github.com:dividiti/ck-caffe
 ```
 
+## Misc
+
+### Creating dataset subsets
+
+The ILSVRC2012 validation dataset contains 50K images. For quick experiments, you can create a subset of this dataset, as follows. Run:
+
+```
+$ ck install package:imagenet-2012-val-lmdb-256
+```
+When prompted, enter the number of images to convert to LMDB, say, `N` = 100. The first `N` images will be taken.
 
 
+## Setting environment variables
 
-Misc
-====
-If you want to use different number of images, you can differentiate environment by specifying
-extra version during installation, for example:
-$ ck install package:imagenet-2012-val-lmdb-256-no-shuffle --extra_version=_99images
+To set environment variables for running the program, use e.g.:
+
+```
+$ ck run program:caffe --env.CK_CAFFE_BATCH_SIZE=1 --env.CK_CAFFE_ITERATIONS=10
+```
