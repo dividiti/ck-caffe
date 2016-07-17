@@ -1,7 +1,10 @@
 #
-# Converting raw Caffe output to CK timing format
+# Convert raw output of the Caffe 'time' command
+# to the CK timing format.
 #
-# Developer: Grigori Fursin, cTuning foundation, 2016
+# Developers:
+#   - Grigori Fursin, cTuning foundation, 2016
+#   - Anton Lokhmotov, dividiti, 2016
 #
 
 import json
@@ -52,8 +55,8 @@ def ck_postprocess(i):
             '(?P<ms>\d*\.*\d*(e\+\d+)*) ms\.'
         match = re.search(fw_regex, line)
         if match:
-              d['time_fw_ms'] = float(match.group('ms'))
-              d['time_fw_s']= d['time_fw_ms']*1e-3
+            d['time_fw_ms'] = float(match.group('ms'))
+            d['time_fw_s']= d['time_fw_ms']*1e-3
 
         # Match backward execution time.
         bw_regex = 'caffe\.cpp:\d{3,4}](\s+)' + \
@@ -61,8 +64,8 @@ def ck_postprocess(i):
             '(?P<ms>\d*\.*\d*(e\+\d+)*) ms\.'
         match = re.search(bw_regex, line)
         if match:
-              d['time_bw_ms'] = float(match.group('ms'))
-              d['time_bw_s']= d['time_bw_ms']*1e-3
+            d['time_bw_ms'] = float(match.group('ms'))
+            d['time_bw_s']= d['time_bw_ms']*1e-3
 
         # Match forward-backward execution time.
         fwbw_regex = 'caffe\.cpp:\d{3,4}](\s+)' + \
@@ -70,8 +73,8 @@ def ck_postprocess(i):
             '(?P<ms>\d*\.*\d*(e\+\d+)*) ms\.'
         match = re.search(fwbw_regex, line)
         if match:
-              d['time_fwbw_ms'] = float(match.group('ms'))
-              d['time_fwbw_s']= d['time_fwbw_ms']*1e-3
+            d['time_fwbw_ms'] = float(match.group('ms'))
+            d['time_fwbw_s']= d['time_fwbw_ms']*1e-3
 
         # Match total execution time.
         total_regex = 'caffe\.cpp:\d{3,4}](\s+)' + \
@@ -79,13 +82,13 @@ def ck_postprocess(i):
             '(?P<ms>\d*\.*\d*(e\+\d+)*) ms\.'
         match = re.search(total_regex, line)
         if match:
-              ms=float(match.group('ms'))
-              d['time_total_ms']=ms
-              d['time_total_ms_kernel_0']=ms
-              s=ms*1e-3
-              d['time_total_s']=s
-              d['time_total_s_kernel_0']=s
-              d['post_processed']='yes'
+            ms=float(match.group('ms'))
+            d['time_total_ms']=ms
+            d['time_total_ms_kernel_0']=ms
+            s=ms*1e-3
+            d['time_total_s']=s
+            d['time_total_s_kernel_0']=s
+            d['post_processed']='yes'
 
     rr={}
     rr['return']=0
