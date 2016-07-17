@@ -31,7 +31,7 @@
           "val_mean": "$#path_to_imagenet_aux#$imagenet_mean.binaryproto",
           "val_batch_size": 50
         },
-        "accuracy_layers": ["accuracy"]
+        "accuracy_layers": [ "accuracy", "accuracy_top5" ]
       },
       "deploy": {
         "template": "deploy.prototxt",
