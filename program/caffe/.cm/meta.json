@@ -1,29 +1,29 @@
 {
   "backup_data_uid": "569404c41618603a",
   "compile_deps": {
-    "dataset-imagenet-lmdb": {
-      "local": "yes",
-      "name": "ImageNet dataset (lmdb)",
-      "sort": 1,
-      "tags": "dataset,imagenet,val-lmdb"
-    },
-    "caffemodel": {
-      "local": "yes",
-      "name": "CaffeModel",
-      "sort": 20,
-      "tags": "caffemodel"
-    },
     "dataset-imagenet-aux": {
       "local": "yes",
       "name": "ImageNet dataset (aux)",
-      "sort": 30,
+      "sort": 10,
       "tags": "dataset,imagenet,aux"
+    },
+    "dataset-imagenet-lmdb": {
+      "local": "yes",
+      "name": "ImageNet dataset (lmdb)",
+      "sort": 20,
+      "tags": "dataset,imagenet,val-lmdb"
     },
     "lib-caffe": {
       "local": "yes",
       "name": "Caffe framework",
-      "sort": 100,
+      "sort": 30,
       "tags": "lib,caffe,bvlc"
+    },
+    "caffemodel": {
+      "local": "yes",
+      "name": "Caffe model (net and weights)",
+      "sort": 40,
+      "tags": "caffemodel"
     }
   },
   "data_name": "caffe",
