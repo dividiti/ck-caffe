@@ -1,3 +1,4 @@
 *~
 *tmp/
 *.pyc
+*_tmp.json
