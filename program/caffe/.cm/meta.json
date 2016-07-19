@@ -35,7 +35,7 @@
       "run_time": {
         "fine_grain_timer_file": "tmp-ck-timer.json",
         "params":{
-          "caffemodel_key":"val"
+          "caffemodel_key":"deploy"
         },
         "pre_process_via_ck": {
           "script_name":"preprocess"
@@ -59,7 +59,7 @@
       "run_time": {
         "fine_grain_timer_file": "tmp-ck-timer.json",
         "params":{
-          "caffemodel_key":"val"
+          "caffemodel_key":"deploy"
         },
         "pre_process_via_ck": {
           "script_name":"preprocess"
