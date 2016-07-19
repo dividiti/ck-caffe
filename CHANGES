@@ -1,3 +1,5 @@
+2016.07.18 * added batch size autotuning and graphs
+
 2016.07.12 * many updates in packaging, customization, model fixes, etc
            * added env CK_CAFFE_BATCH_SIZE and CK_CAFFE_ITERATIONS for DNN autotuning and crowdtuning
 

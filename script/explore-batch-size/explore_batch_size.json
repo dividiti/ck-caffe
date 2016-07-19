@@ -1,11 +1,11 @@
 {
   "choices_order":[
     [
-      "##dataset_file"
+      "##env#CK_CAFFE_BATCH_SIZE"
     ]
   ],
   "choices_selection":[
-    {"type":"loop"}
+    {"type":"loop", "start":1, "stop":128, "step":1, "default":1}
   ],
 
   "iterations":-1,

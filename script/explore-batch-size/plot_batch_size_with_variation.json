@@ -1,0 +1,38 @@
+{
+  "experiment_module_uoa":"experiment",
+
+  "data_uoa_list":[
+    "caffe-explore-batch-size" 
+   ],
+
+  "flat_keys_list":[
+    "##choices#env#CK_CAFFE_BATCH_SIZE#min",
+    "##characteristics#run#time_fw_ms#center",
+    "##characteristics#run#time_fw_ms#halfrange"
+  ],
+
+  "add_x_loop":"no",
+  "sort_index":0,
+
+  "ignore_point_if_empty_string":"yes",
+
+  "plot_type":"mpl_2d_scatter",
+  "display_x_error_bar":"no",
+  "display_y_error_bar":"yes",
+
+  "title":"Powered by Collective Knowledge",
+
+  "axis_x_desc":"Batch size",
+  "axis_y_desc":"Time FW (ms)",
+
+  "plot_grid":"yes",
+
+  "mpl_image_size_x":"12",
+  "mpl_image_size_y":"6",
+  "mpl_image_dpi":"100",
+
+  "out_to_file":"algorithm_exploration.png",
+
+  "point_style":{"0":{"elinewidth":"5", "color":"#dc3912"},
+                 "1":{"color":"#3366cc"}}
+}
