@@ -30,7 +30,7 @@
         "accuracy_layers": [ "accuracy", "accuracy_top5" ]
       },
       "deploy": {
-        "template": "deploy.txt",
+        "template": "deploy.prototxt",
         "substitute":{
           "batch_size": 10
         }
