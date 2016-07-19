@@ -31,7 +31,7 @@
   "mpl_image_size_y":"6",
   "mpl_image_dpi":"100",
 
-  "out_to_file":"algorithm_exploration.png",
+  "out_to_file":"batch_size_exploration.png",
 
   "point_style":{"0":{"elinewidth":"5", "color":"#dc3912"},
                  "1":{"color":"#3366cc"}}
