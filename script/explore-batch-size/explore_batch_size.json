@@ -5,7 +5,7 @@
     ]
   ],
   "choices_selection":[
-    {"type":"loop", "start":1, "stop":128, "step":1, "default":1}
+    {"type":"loop", "start":1, "stop":4, "step":1, "default":1}
   ],
 
   "iterations":-1,

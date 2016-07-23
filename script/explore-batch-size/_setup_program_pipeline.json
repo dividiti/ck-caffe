@@ -5,7 +5,7 @@
 
   "data_uoa":"caffe",
 
-  "cmd_key":"time_cpu",
+  "cmd_key":"time_gpu",
 
   "speed":"yes",
   "energy":"no",
