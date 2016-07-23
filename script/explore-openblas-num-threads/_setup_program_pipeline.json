@@ -7,10 +7,6 @@
 
   "cmd_key":"time_cpu",
 
-  "env": {
-    "CK_CAFFE_BATCH_SIZE":1
-  },
-
   "speed":"yes",
   "energy":"no",
 
