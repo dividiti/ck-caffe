@@ -46,6 +46,17 @@ echo "Copying automatically generated 'Makefile.config' to '${CAFFE_BLD_DIR}' ..
 cp ${CAFFE_PKG_DIR}/Makefile.config ${CAFFE_BLD_DIR}
 
 #####################################################################
+if [ "${CK_ENV_LIB_CLBLAST_DYNAMIC_NAME}" == "libclblast_mali.so" ] ; then
+  echo ""
+  echo "Editing 'Makefile' in '${CAFFE_BLD_DIR}' to link against Mali-optimized CLBlast overlay ..."
+  sed -re 's/clblast/clblast_mali clblast/' --in-place=.bak ${CAFFE_SRC_DIR}/Makefile
+  if [ "${?}" != "0" ] ; then
+    echo "Error: Editing 'Makefile' in '${CAFFE_BLD_DIR}' failed!"
+    exit 1
+  fi
+fi
+
+#####################################################################
 echo ""
 echo "Building Caffe in '${CAFFE_BLD_DIR}' ..."
 
