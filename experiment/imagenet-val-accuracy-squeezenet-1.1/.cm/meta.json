@@ -1,0 +1,26 @@
+{
+  "added": {
+    "author": "cTuning foundation", 
+    "author_email": "admin@cTuning.org", 
+    "author_webpage": "http://cTuning.org", 
+    "copyright": "See CK COPYRIGHT.txt for copyright details", 
+    "engine": "CK", 
+    "iso_datetime": "2016-08-02T15:08:38.054182", 
+    "license": "See CK LICENSE.txt for licensing details", 
+    "version": [
+      "1", 
+      "7", 
+      "3dev"
+    ]
+  }, 
+  "meta": {}, 
+  "pipeline_uid": "b0ac08fe1d3c2615", 
+  "pipeline_uoa": "program", 
+  "points": "1", 
+  "tags": [
+    "accuracy", 
+    "caffemodel", 
+    "deepscale", 
+    "squeezenet-1.1"
+  ]
+}
