@@ -1,0 +1,14 @@
+{
+  "iterations":1,
+  "repetitions":1,
+
+  "record":"yes",
+  "record_repo":"local",
+  "record_uoa":"caffe-explore-accuracy-squeezenet-1.1",
+  "record_failed":"yes",
+  "record_params":{
+    "search_point_by_features":"no"
+  },
+  
+  "tags":["accuracy", "caffemodel", "deepscale", "squeezenet-1.1"]
+}
