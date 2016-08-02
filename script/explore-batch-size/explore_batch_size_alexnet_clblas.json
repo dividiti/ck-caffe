@@ -25,7 +25,7 @@
   "record_repo":"local",
   "record_uoa":"caffe-explore-batch-size-alexnet-clblas",
 
-  "tags":["caffemodel", "alexnet", "clblas"],
+  "tags":["time", "caffemodel", "alexnet", "clblas"],
 
   "features_keys_to_process":["##choices#*"]
 }
