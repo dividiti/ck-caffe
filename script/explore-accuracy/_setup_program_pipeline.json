@@ -1,0 +1,22 @@
+{
+  "prepare":"yes",
+
+  "save_to_file":"_setup_program_pipeline_tmp.json",
+
+  "data_uoa":"caffe",
+
+  "cmd_key":"test_gpu",
+
+  "speed":"yes",
+  "energy":"no",
+
+  "cpu_freq":"max",
+  "gpu_freq":"max",
+
+  "no_compiler_description":"yes",
+
+  "no_state_check":"yes",
+
+  "compile_only_once":"yes",
+  "skip_calibration":"yes"
+}
