@@ -1,0 +1,31 @@
+{
+  "choices_order":[
+    [
+      "##env#CK_CAFFE_BATCH_SIZE"
+    ]
+  ],
+  "choices_selection":[
+    {"type":"loop", "start":1, "stop":4, "step":1, "default":1}
+  ],
+
+  "iterations":-1,
+  "repetitions":3,
+
+  "pipeline_update":{
+    "cpu_freq":"max",
+    "gpu_freq":"max",
+    "compiler_vars": {}
+  },
+
+  "record":"yes",
+  "record_failed":"yes",
+  "record_params":{
+    "search_point_by_features":"yes"
+  },
+  "record_repo":"local",
+  "record_uoa":"caffe-explore-batch-size-googlenet-clblast-mali-overlay",
+
+  "tags":["time", "caffemodel", "googlenet", "clblast", "vmali-overlay"],
+
+  "features_keys_to_process":["##choices#*"]
+}
