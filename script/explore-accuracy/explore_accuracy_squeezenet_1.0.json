@@ -1,17 +1,11 @@
 {
-  "iterations":-1,
+  "iterations":1,
   "repetitions":1,
 
-  "pipeline_update":{
-    "cpu_freq":"max",
-    "gpu_freq":"max",
-    "compiler_vars": {}
-  },
-
   "record":"yes",
-  "record_failed":"yes",
   "record_repo":"local",
   "record_uoa":"caffe-explore-accuracy-squeezenet-1.0",
+  "record_failed":"yes",
   "record_params":{
     "search_point_by_features":"no"
   },
