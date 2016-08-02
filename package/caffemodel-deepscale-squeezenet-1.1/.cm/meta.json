@@ -28,6 +28,12 @@
           "val_batch_size": 25
         },
         "accuracy_layers": [ "accuracy", "accuracy_top5", "loss" ]
+      },
+      "deploy": {
+        "template": "deploy.prototxt",
+        "substitute":{
+          "batch_size": 10
+        }
       }
     },
     "version": "1.1"
