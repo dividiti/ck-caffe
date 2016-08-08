@@ -19,7 +19,9 @@
       "use_opencv": 1
     },
     "skip_file_check": "yes",
-    "version": "trunk"
+    "version": "trunk",
+    "use_git_revision":"yes",
+    "git_src_dir":"src"
   },
   "deps": {
     "compiler": {

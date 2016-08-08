@@ -14,7 +14,9 @@
       "use_lmdb": 1,
       "use_opencv": 1
     },
-    "version": "trunk"
+    "version": "trunk",
+    "use_git_revision":"yes",
+    "git_src_dir":"src"
   },
   "deps": {
     "compiler": {
