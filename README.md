@@ -148,6 +148,11 @@ gollop](https://books.google.co.uk/books?isbn=0224046918) as follows:
     protobuf
 ```
 
+### Checking all dependencies
+
+You can check all the dependencies on an Ubuntu system by running this [notebook](https://github.com/dividiti/ck-caffe/blob/master/script/check-deps/check_deps.ipynb). (View the output this notebook on an [Odroid XU3](http://odroid.com/dokuwiki/doku.php?id=en:odroid-xu3) board [here](http://nbviewer.jupyter.org/github/dividiti/ck-caffe/blob/master/script/check-deps/check_deps.xu3.20160808.ipynb).)
+
+
 ## Installing CK
 
 Clone CK from GitHub into e.g. `'$HOME/CK'`:
