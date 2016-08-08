@@ -173,7 +173,9 @@ export PATH=${HOME}/CK/bin:$PATH
 Install the Python interface to CK:
 ```
 $ cd $HOME/CK && sudo python setup.py install
+```
 
+Test that both the command line and Python interfaces work:
 ```
 $ ck version
 V1.7.4dev
