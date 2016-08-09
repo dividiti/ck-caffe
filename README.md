@@ -24,7 +24,7 @@ the experimental data.
 ### Compare accuracy of four CNN architectures
 
 In this [Jupyter
-notebook](http://nbviewer.jupyter.org/github/dividiti/ck-caffe/blob/master/script/explore-accuracy/explore_accuracy.20160808.ipynb),
+notebook](https://github.com/dividiti/ck-caffe/blob/master/script/explore-accuracy/explore_accuracy.20160808.ipynb),
 we compare the Top-1 and Top-5 accuracy of four CNN architectures:
 
 - [AlexNet](https://github.com/BVLC/caffe/tree/master/models/bvlc_alexnet)
@@ -150,7 +150,11 @@ gollop](https://books.google.co.uk/books?isbn=0224046918) as follows:
 
 ### Checking all dependencies
 
-You can check all the dependencies on an Ubuntu system by running this [notebook](https://github.com/dividiti/ck-caffe/blob/master/script/check-deps/check_deps.ipynb). (View the output this notebook on an [Odroid XU3](http://odroid.com/dokuwiki/doku.php?id=en:odroid-xu3) board [here](http://nbviewer.jupyter.org/github/dividiti/ck-caffe/blob/master/script/check-deps/check_deps.xu3.20160808.ipynb).)
+You can check all the dependencies on an Ubuntu system by running this
+[notebook](https://github.com/dividiti/ck-caffe/blob/master/script/check-deps/check_deps.ipynb).
+(View the output of this notebook on an [Odroid
+XU3](http://odroid.com/dokuwiki/doku.php?id=en:odroid-xu3) board [here](
+https://github.com/dividiti/ck-caffe/blob/master/script/check-deps/check_deps.xu3.20160808.ipynb).)
 
 
 ## Installing CK
