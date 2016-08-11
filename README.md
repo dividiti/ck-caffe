@@ -21,11 +21,11 @@ the experimental data.
 
 ## Examples
 
-### Compare accuracy of four CNN architectures
+### Compare accuracy of 4 CNNs
 
 In this [Jupyter
-notebook](http://nbviewer.jupyter.org/github/dividiti/ck-caffe/blob/master/script/explore-accuracy/explore_accuracy.20160808.ipynb),
-we compare the Top-1 and Top-5 accuracy of four CNN architectures:
+notebook](https://github.com/dividiti/ck-caffe/blob/master/script/explore-accuracy/explore_accuracy.20160808.ipynb),
+we compare the Top-1 and Top-5 accuracy of 4 CNNs:
 
 - [AlexNet](https://github.com/BVLC/caffe/tree/master/models/bvlc_alexnet)
 - [SqueezeNet 1.0](https://github.com/DeepScale/SqueezeNet/tree/master/SqueezeNet_v1.0)
@@ -34,14 +34,48 @@ we compare the Top-1 and Top-5 accuracy of four CNN architectures:
 
 on the [Imagenet validation set](http://academictorrents.com/details/5d6d0df7ed81efd49ca99ea4737e0ae5e3a5f2e5) (50,000 images).
 
-We have thus independently verified that on this data set [SqueezeNet](https://arxiv.org/abs/1602.07360) matches and slightly exceeds the accuracy of [AlexNet](https://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks.pdf).
+We have thus independently verified that on this data set [SqueezeNet](https://arxiv.org/abs/1602.07360) matches (and even slightly exceeds) the accuracy of [AlexNet](https://papers.nips.cc/paper/4824-imagenet-classification-with-deep-convolutional-neural-networks.pdf).
 
 The experimental data is stored in the main CK-Caffe repository under '[experiment](https://github.com/dividiti/ck-caffe/tree/master/experiment)'.
 
-### Compare performance of four CNN architectures on Chromebook 2
+### Compare performance of 4 CNNs on Chromebook 2
 
-**TBD**
+This
+[notebook](https://github.com/dividiti/ck-caffe-explore-batch-size-chromebook2/blob/master/script/explore-batch-size/explore_batch_size.20160809.ipynb)
+investigates effects on inference performance of varying the batch size:
 
+- across the same 4 **CNNs**;
+- with 4 BLAS **libraries**:
+  - [CPU] [OpenBLAS](https://github.com/xianyi/OpenBLAS) 0.2.18 (one thread per core);
+  - [GPU] [clBLAS](https://github.com/clMathLibraries/clBLAS) 2.4 (OpenCL 1.1 compliant);
+  - [GPU] [CLBlast](https://github.com/CNugteren/CLBlast) dev (35623cd > 0.8.0);
+  - [GPU] [CLBlast](https://github.com/CNugteren/CLBlast) dev (35623cd > 0.8.0) with Mali-optimized [overlay](https://github.com/intelfx/CLBlast/tree/mali-overlay) (641bb07);
+- on the [Samsung Chromebook 2](http://www.samsung.com/us/computing/chromebooks/under-12/samsung-chromebook-2-11-6-xe503c12-k01us/) **platform**:
+  - [CPU] quad-core ARM Cortex-A15 (@ 1900 MHz);
+  - [GPU] quad-core ARM Mali-T628 (@ 600 MHz);
+  - [GPU] OpenCL driver 6.0 (r6p0); OpenCL standard 1.1.
+
+Finally, this
+[notebook](https://github.com/dividiti/ck-caffe-explore-batch-size-chromebook2/blob/master/script/compare-time-fw/compare_time_fw.20160809.ipynb)
+compares the best performance per image across the CNNs and BLAS libraries.
+When using OpenBLAS, SqueezeNet 1.1 is 2 times faster than SqueezeNet 1.0 and
+2.4 times faster than AlexNet, broadly in line with expectations set by the
+[SqueezeNet](http://arxiv.org/abs/1602.07360) paper.
+
+When using OpenCL BLAS libraries, however, SqueezeNet 1.0 is not necessarily
+faster than AlexNet, despite roughly 500 times reduction in the weights' size.
+This suggests that an optimal network design for a given task may depend on the
+software stack as well as on the hardware platform. Moreover, design choices
+may well shift over time, as software matures and new hardware becomes
+available. That's why we believe it is necessary to leverage community effort
+to collectively grow design and optimisation knowledge.
+
+The experimental data and visualisation notebooks are stored in a separate
+repository which can be obtained as follows:
+```
+ck pull repo:ck-caffe-explore-batch-size-chromebook2 \
+    --url=https://github.com/dividiti/ck-caffe-explore-batch-size-chromebook2.git
+```
  
 ## Authors
 
@@ -150,7 +184,11 @@ gollop](https://books.google.co.uk/books?isbn=0224046918) as follows:
 
 ### Checking all dependencies
 
-You can check all the dependencies on an Ubuntu system by running this [notebook](https://github.com/dividiti/ck-caffe/blob/master/script/check-deps/check_deps.ipynb). (View the output this notebook on an [Odroid XU3](http://odroid.com/dokuwiki/doku.php?id=en:odroid-xu3) board [here](http://nbviewer.jupyter.org/github/dividiti/ck-caffe/blob/master/script/check-deps/check_deps.xu3.20160808.ipynb).)
+You can check all the dependencies on an Ubuntu system by running this
+[notebook](https://github.com/dividiti/ck-caffe/blob/master/script/check-deps/check_deps.ipynb).
+(View the output of this notebook on an [Odroid
+XU3](http://odroid.com/dokuwiki/doku.php?id=en:odroid-xu3) board [here](
+https://github.com/dividiti/ck-caffe/blob/master/script/check-deps/check_deps.xu3.20160808.ipynb).)
 
 
 ## Installing CK
@@ -173,7 +211,9 @@ export PATH=${HOME}/CK/bin:$PATH
 Install the Python interface to CK:
 ```
 $ cd $HOME/CK && sudo python setup.py install
+```
 
+Test that both the command line and Python interfaces work:
 ```
 $ ck version
 V1.7.4dev
