@@ -77,10 +77,11 @@ ck pull repo:ck-caffe-explore-batch-size-chromebook2 \
     --url=https://github.com/dividiti/ck-caffe-explore-batch-size-chromebook2.git
 ```
  
-## Authors
+## Contributors
 
-* Anton Lokhmotov, [dividiti](http://dividiti.com) (UK)
-* Grigori Fursin, [dividiti](http://dividiti.com) (UK)
+* Anton Lokhmotov, [dividiti](http://dividiti.com)
+* Grigori Fursin, [dividiti](http://dividiti.com) / [cTuning foundation](http://ctuning.org)
+* Unmesh Bordoloi, [General Motors](http://gm.com)
 
 ## License
 * [BSD](https://github.com/dividiti/ck-caffe/blob/master/LICENSE) (3 clause)
