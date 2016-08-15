@@ -108,12 +108,12 @@ For example, to install the `'pip'` package manager and then
 [Jupyter](http://jupyter.org), run as root:
 
 ```
-# apt install pip-install
+# apt install python-pip
 # pip install jupyter
 ```
 or as user:
 ```
-$ sudo apt install pip-install
+$ sudo apt install python-pip
 $ sudo -H pip install jupyter
 ```
 
@@ -144,7 +144,7 @@ Some CK packages and Caffe require common Linux utilities (e.g.
     make \
     cmake \
     wget \
-    pip-install
+    python-pip
 ```
 
 ### Installing Caffe dependencies
