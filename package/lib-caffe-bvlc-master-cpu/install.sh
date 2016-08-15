@@ -64,7 +64,7 @@ mkdir -p ${CAFFE_BLD_DIR}
 cd ${CAFFE_BLD_DIR}
 
 make -j ${CK_HOST_CPU_NUMBER_OF_PROCESSORS}
-make -j ${CK_HOST_CPU_NUMBER_OF_PROCESSORS} pycaffe
+#make -j ${CK_HOST_CPU_NUMBER_OF_PROCESSORS} pycaffe
 if [ "${?}" != "0" ] ; then
   echo "Error: Building Caffe in '${CAFFE_BLD_DIR}' failed!"
   exit 1

@@ -141,7 +141,7 @@ Some CK packages and Caffe require common Linux utilities (e.g.
 # apt install \
     coreutils \
     build-essential \
-    make \ 
+    make \
     cmake \
     wget \
     pip-install
@@ -175,11 +175,10 @@ gollop](https://books.google.co.uk/books?isbn=0224046918) as follows:
 
 ```
 # pip install \
-    jupyter   \
+    jupyter \
     pandas numpy scipy matplotlib \
-    scikit-image scikit-learn     \
-    pyyaml \
-    protobuf
+    scikit-image scikit-learn \
+    pyyaml
 ```
 
 ### Checking all dependencies
