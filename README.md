@@ -93,11 +93,11 @@ Under development.
 # Installing CK-Caffe on Ubuntu
 
 Before installing CK-Caffe on the target system, several libraries and programs
-should be installed.  This can be simply done by opening a Linux shell and
-copying-and-pasting commands from cells below.  Installing the dependencies is
-recommended via `'apt install'` (for standard Ubuntu packages), or `'pip
-install'` (for standard Python packages, typically of more recent versions than
-those available via `'apt install'`).
+should be installed. So far, instructions for the following Linux flavours are
+available:
+
+- [Ubuntu](#installing-deps-ubuntu)
+- [Gentoo](#installing-deps-gentoo)
 
 ## Conventions
 
@@ -106,7 +106,7 @@ whereas commands prefixed with `'#'` should be run as root (or as user with
 `'sudo'`).
 
 For example, to install the `'pip'` package manager and then
-[Jupyter](http://jupyter.org), run as root:
+[Jupyter](http://jupyter.org) on Ubuntu, run as root:
 
 ```
 # apt install python-pip
@@ -118,7 +118,14 @@ $ sudo apt install python-pip
 $ sudo -H pip install jupyter
 ```
 
-## Installing dependencies
+<a name="installing-deps-ubuntu"></a>
+## Installing CK-Caffe dependencies on Ubuntu
+
+Installing the dependencies is recommended via `'apt install'` (for standard
+Ubuntu packages), or `'pip install'` (for standard Python packages, typically
+of more recent versions than those available via `'apt install'`).  This can be
+simply done by opening a Linux shell and copying-and-pasting commands from
+cells below.
 
 ### Installing core CK dependencies
 
@@ -157,17 +164,16 @@ gollop](https://books.google.co.uk/books?isbn=0224046918) as follows:
 
 ```
 # apt install \
-    libatlas-base-dev \
     libboost-all-dev \
     libgflags-dev \
     libgoogle-glog-dev \
     libhdf5-serial-dev \
-    libleveldb-dev \
     liblmdb-dev \
-    libopencv-dev \
+    libleveldb-dev \
     libprotobuf-dev \
+    protobuf-compiler \
     libsnappy-dev \
-    protobuf-compiler
+    libopencv-dev
 # pip install \
     protobuf
 ```
@@ -175,6 +181,8 @@ gollop](https://books.google.co.uk/books?isbn=0224046918) as follows:
 ### Installing optional dependencies
 
 ```
+# apt install \
+    libatlas-base-dev \
 # pip install \
     jupyter \
     pandas numpy scipy matplotlib \
@@ -190,7 +198,86 @@ You can check all the dependencies on an Ubuntu system by running this
 XU3](http://odroid.com/dokuwiki/doku.php?id=en:odroid-xu3) board [here](
 https://github.com/dividiti/ck-caffe/blob/master/script/check-deps/check_deps.xu3.20160808.ipynb).)
 
+### Installing CK
 
+Please proceed to <a href="#installing-ck">installing CK</a>.
+
+<a name="installing-deps-gentoo"></a>
+## Installing CK-Caffe dependencies on Gentoo
+
+Installing the dependencies is recommended via `'emerge'` (for standard
+Gentoo packages), or `'pip install'` (for standard Python packages, typically
+of more recent versions than those available via `'emerge'`).  This can be
+simply done by opening a Linux shell and copying-and-pasting commands from
+cells below.
+
+### Installing core CK dependencies
+
+Collective Knowledge has only two dependencies: [Python](http://python.org)
+(2.x and 3.x) and [Git](https://git-scm.com), which can be installed as
+follows:
+
+```
+# emerge  \
+    dev-lang/python \
+    dev-vcs/git
+```
+
+### Installing common dependencies
+
+Some CK packages and Caffe require common Linux utilities (e.g.
+[make](https://www.gnu.org/software/make), [cmake](http://cmake.org),
+[wget](https://www.gnu.org/software/wget)), which can be installed as follows:
+
+```
+# emerge \
+    sys-devel/gcc \
+    sys-devel/make \
+    dev-util/cmake \
+    net-misc/wget \
+    dev-python/pip
+```
+
+### Installing Caffe dependencies
+
+The BVLC Caffe framework has quite a few dependencies. If you've already run
+Caffe on your machine, it's likely that you've already satisfied all of them.
+If not, however, you can easily install them [in one
+gollop](https://books.google.co.uk/books?isbn=0224046918) as follows:
+
+```
+# emerge \
+    dev-libs/boost \
+    dev-util/boost-build \
+    dev-cpp/gflags \
+    dev-cpp/glog \
+    sci-libs/hdf5 \
+    dev-db/lmdb \
+    dev-libs/leveldb \
+    dev-libs/protobuf \
+    app-arch/snappy \
+    media-libs/opencv
+# pip install \
+    protobuf
+```
+
+### Installing optional dependencies
+
+```
+# emerge \
+    sci-libs/atlas
+# pip install \
+    jupyter \
+    pandas numpy scipy matplotlib \
+    scikit-image scikit-learn \
+    pyyaml
+```
+
+### Installing CK
+
+Please proceed to <a href="#installing-ck">installing CK</a>.
+
+<a name="installing-ck"></a>
 ## Installing CK
 
 Clone CK from GitHub into e.g. `'$HOME/CK'`:
