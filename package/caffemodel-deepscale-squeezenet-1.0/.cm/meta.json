@@ -8,7 +8,7 @@
     "no_ver_in_suggested_path": "yes", 
     "file_with_weights": "squeezenet_v1.0.caffemodel",
     "install_env": {
-      "MODEL_URL": "https://github.com/DeepScale/SqueezeNet/raw/master/SqueezeNet_v1.0/squeezenet_v1.0.caffemodel",
+      "MODEL_URL": "https://github.com/DeepScale/SqueezeNet/blob/master/SqueezeNet_v1.0/squeezenet_v1.0.caffemodel",
       "MODEL_FILE": "squeezenet_v1.0.caffemodel",
       "MODEL_HASH_CALCULATOR": "sha1sum",
       "MODEL_HASH_REF": "579d0beb658e43c45937bf8bb5e4034fea4e1f69"
