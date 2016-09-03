@@ -345,4 +345,4 @@ $ ck run program:caffe --env.CK_CAFFE_BATCH_SIZE=1 --env.CK_CAFFE_ITERATIONS=10
 ```
 ## Our publications related to this project and crowd-tuning
 
-- [https://github.com/ctuning/ck/wiki/Publications Reference with BibTex]
+- <a href="https://github.com/ctuning/ck/wiki/Publications">All references with BibTex</a>
