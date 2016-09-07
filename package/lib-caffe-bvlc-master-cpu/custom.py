@@ -97,6 +97,7 @@ def setup(i):
      "use_isaac": 0,
      "use_fft": 0,
      "cpu_only": 0,
+     "use_openmp": 1,
      "use_opencv": 1,
      "opencv_version": 2,
      "use_leveldb": 1,
