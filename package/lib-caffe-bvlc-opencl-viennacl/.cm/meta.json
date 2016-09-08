@@ -41,6 +41,12 @@
       "sort": 20,
       "tags": "lib,opencv"
     },
+    "lib-hdf5": {
+      "local": "yes",
+      "name": "HDF5 library",
+      "sort": 25,
+      "tags": "lib,hdf5"
+    },
     "lib-blas": {
       "add_to_path": "yes",
       "local": "yes",

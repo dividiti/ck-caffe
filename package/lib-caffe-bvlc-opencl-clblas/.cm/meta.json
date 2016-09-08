@@ -35,18 +35,24 @@
       "sort": 15,
       "tags": "lib,opencl"
     },
+    "lib-opencv": {
+      "local": "yes",
+      "name": "OpenCV library",
+      "sort": 20,
+      "tags": "lib,opencv"
+    },
+    "lib-hdf5": {
+      "local": "yes",
+      "name": "HDF5 library",
+      "sort": 25,
+      "tags": "lib,hdf5"
+    },
     "lib-blas": {
       "add_to_path": "yes",
       "local": "yes",
       "name": "BLAS library",
       "sort": 30,
       "tags": "lib,blas,openblas"
-    },
-    "lib-opencv": {
-      "local": "yes",
-      "name": "OpenCV library",
-      "sort": 20,
-      "tags": "lib,opencv"
     },
     "lib-viennacl": {
       "add_to_path": "yes",

@@ -33,20 +33,26 @@
     "compiler-extra": {
       "local": "yes",
       "name": "C++ compiler",
-      "sort": 20,
+      "sort": 15,
       "tags": "compiler,lang-cpp"
     },
     "lib-opencv": {
       "local": "yes",
       "name": "OpenCV library",
-      "sort": 30,
+      "sort": 20,
       "tags": "lib,opencv"
+    },
+    "lib-hdf5": {
+      "local": "yes",
+      "name": "HDF5 library",
+      "sort": 25,
+      "tags": "lib,hdf5"
     },
     "lib-blas": {
       "add_to_path": "yes",
       "local": "yes",
       "name": "BLAS library",
-      "sort": 40,
+      "sort": 30,
       "tags": "lib,blas,openblas"
     }
   },
