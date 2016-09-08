@@ -15,7 +15,8 @@
       "use_greentea" : 1,
       "use_leveldb": 1,
       "use_lmdb": 1,
-      "use_opencv": 1
+      "use_opencv": 1,
+      "viennacl_debug": 0
     },
     "skip_file_check": "yes",
     "version": "trunk",
