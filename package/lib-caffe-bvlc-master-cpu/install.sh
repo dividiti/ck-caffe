@@ -3,12 +3,12 @@
 #
 # Installation script for Caffe.
 #
-# See CK LICENSE for licensing details.
-# See CK COPYRIGHT for copyright details.
+# See CK LICENSE.txt for licensing details.
+# See CK COPYRIGHT.txt for copyright details.
 #
 # Developer(s):
 # - Anton Lokhmotov, anton@dividiti.com, 2016
-# - Grigori Fursin, Grigori.Fursin@cTuning.org, 2016
+# - Grigori Fursin, grigori@dividiti.com, 2016
 
 # PACKAGE_DIR
 # INSTALL_DIR
@@ -17,7 +17,7 @@ export CAFFE_PKG_DIR=${PACKAGE_DIR}
 export CAFFE_SRC_DIR=${INSTALL_DIR}/src
 export CAFFE_BLD_DIR=${CAFFE_SRC_DIR}
 
-#####################################################################
+################################################################################
 echo ""
 echo "Cloning Caffe from '${CAFFE_URL}' ..."
 
@@ -28,7 +28,7 @@ if [ "${?}" != "0" ] ; then
   exit 1
 fi
 
-#####################################################################
+################################################################################
 echo ""
 echo "Checking out the '${CAFFE_BRANCH}' branch of Caffe ..."
 
@@ -39,13 +39,13 @@ if [ "${?}" != "0" ] ; then
   exit 1
 fi
 
-#####################################################################
+################################################################################
 echo ""
 echo "Copying automatically generated 'Makefile.config' to '${CAFFE_BLD_DIR}' ..."
 
 cp ${CAFFE_PKG_DIR}/Makefile.config ${CAFFE_BLD_DIR}
 
-#####################################################################
+################################################################################
 if [ "${CK_ENV_LIB_CLBLAST_DYNAMIC_NAME}" == "libclblast_mali.so" ] ; then
   echo ""
   echo "Editing 'Makefile' in '${CAFFE_BLD_DIR}' to link against Mali-optimized CLBlast overlay ..."
@@ -56,7 +56,7 @@ if [ "${CK_ENV_LIB_CLBLAST_DYNAMIC_NAME}" == "libclblast_mali.so" ] ; then
   fi
 fi
 
-#####################################################################
+################################################################################
 echo ""
 echo "Building Caffe in '${CAFFE_BLD_DIR}' ..."
 
@@ -64,7 +64,6 @@ mkdir -p ${CAFFE_BLD_DIR}
 cd ${CAFFE_BLD_DIR}
 
 make -j ${CK_HOST_CPU_NUMBER_OF_PROCESSORS}
-#make -j ${CK_HOST_CPU_NUMBER_OF_PROCESSORS} pycaffe
 if [ "${?}" != "0" ] ; then
   echo "Error: Building Caffe in '${CAFFE_BLD_DIR}' failed!"
   exit 1
