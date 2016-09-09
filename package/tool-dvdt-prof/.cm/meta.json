@@ -3,7 +3,7 @@
     "extra_dir": "",
     "install_env": {
       "PACKAGE_BRANCH": "master",
-      "PACKAGE_URL": "git@github.com:dividiti/dvdt-prof",
+      "PACKAGE_URL": "https://github.com/dividiti/dvdt-prof",
       "PACKAGE_NAME": "dvdt-prof",
       "TOOL_NAME": "tool-dvdt-prof"
     },
@@ -45,6 +45,10 @@
   "only_for_target_os_tags": [
     "linux"
   ],
+  "end_full_path": {
+    "linux": "lib/tool-dvdt-prof.so",
+    "win":"lib/tool-dvdt-prof.dll"
+  }, 
   "process_script": "install",
   "soft_uoa": "4b024aad9147b043",
   "suggested_path": "tool-dvdt-prof",
