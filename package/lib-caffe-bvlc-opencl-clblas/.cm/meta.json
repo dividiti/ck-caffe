@@ -60,7 +60,7 @@
       "local": "yes",
       "name": "ViennaCL library",
       "sort": 40,
-      "tags": "lib,viennacl"
+      "tags": "lib,viennacl,src"
     },
     "lib-clblas": {
       "add_to_path": "yes",
