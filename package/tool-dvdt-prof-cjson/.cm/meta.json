@@ -5,7 +5,8 @@
       "PACKAGE_BRANCH": "master",
       "PACKAGE_URL": "git@github.com:dividiti/dvdt-prof",
       "PACKAGE_NAME": "dvdt-prof",
-      "TOOL_NAME": "tool-dvdt-prof"
+      "TOOL_NAME": "tool-dvdt-prof",
+      "TOOL_FLAGS": "-DDVDT_PROF_CJSON=1"
     },
     "version": "trunk"
   },
@@ -37,6 +38,12 @@
       "skip_from_bat": "yes",
       "sort": 30,
       "tags": "lib,opencl"
+    },
+    "lib-cjson": {
+      "local": "yes",
+      "name": "cJSON library",
+      "sort": 40,
+      "tags": "lib,cjson"
     }
   },
   "only_for_host_os_tags": [
@@ -47,10 +54,11 @@
   ],
   "end_full_path": {
     "linux": "lib/tool-dvdt-prof.so"
-  }, 
+  },
+  "package_extra_name":" (cjson)",
   "process_script": "install",
   "soft_uoa": "4b024aad9147b043",
-  "suggested_path": "tool-dvdt-prof",
+  "suggested_path": "tool-dvdt-prof-cjson",
   "tags": [
     "tool",
     "opencl",
@@ -58,6 +66,10 @@
     "prof",
     "dividiti",
     "profiler",
+    "cjson",
     "vtrunk"
-  ]
+  ],
+  "use_scripts_from_another_entry": {
+    "data_uoa": "29e0ebd1d7c49e6b"
+  }
 }

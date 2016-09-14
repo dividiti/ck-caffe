@@ -52,8 +52,9 @@ fi
 echo ""
 echo "Building '${PACKAGE_NAME}' in '${BLD_DIR}' ..."
 echo "Logging into '${BLD_LOG}' ..."
+touch ${BLD_LOG}
 
-echo "** DATE **" > ${BLD_LOG}
+echo "** DATE **" >> ${BLD_LOG}
 date >> ${BLD_LOG}
 
 echo "** SET **" >> ${BLD_LOG}
@@ -65,8 +66,8 @@ cd ${BLD_DIR}
 echo "** CMAKE **" >> ${BLD_LOG}
 cmake \
   ${SRC_DIR} \
-  -DCMAKE_C_COMPILER=${CK_CC} \
   -DCMAKE_CXX_COMPILER=${CK_CXX} \
+  -DCMAKE_CXX_FLAGS=${TOOL_FLAGS} \
   >>${BLD_LOG} 2>&1
 
 echo "** MAKE **" >> ${BLD_LOG}
