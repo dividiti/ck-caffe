@@ -90,7 +90,7 @@ ck pull repo:ck-caffe-explore-batch-size-chromebook2 \
 Under development.
 
 
-# Installing CK-Caffe on Ubuntu
+# Installing CK-Caffe
 
 Before installing CK-Caffe on the target system, several libraries and programs
 should be installed. So far, instructions for the following Linux flavours are
@@ -98,6 +98,7 @@ available:
 
 - [Ubuntu](#ubuntu-installing-deps)
 - [Gentoo](#gentoo-installing-deps)
+- [Yocto](#yocto-installing-deps)
 
 ## Conventions
 
@@ -277,6 +278,144 @@ gollop](https://books.google.co.uk/books?isbn=0224046918) as follows:
 
 Please proceed to <a href="#installing-ck">installing CK</a>.
 
+
+<a name="yocto-installing-deps"></a>
+## [Yocto] Installing CK-Caffe dependencies
+
+**NB:** This section is work-in-progress.
+
+**NB:** Not all CK-Caffe dependencies can be automatically installed on Yocto.
+
+Add the following Bitbake layers to your `bblayers.conf` (e.g. `build/build/conf/bblayers.conf`):
+```
+BBLAYERS ?= " \
+  ${TOPDIR}/../poky/meta \
+  ${TOPDIR}/../poky/meta-yocto \
+  ${TOPDIR}/../poky/meta-yocto-bsp \
+  ...
+  ${TOPDIR}/../meta-linaro/meta-linaro-toolchain \
+  ${TOPDIR}/../meta-openembedded/meta-oe \
+  ${TOPDIR}/../meta-openembedded/meta-networking \
+  ${TOPDIR}/../meta-openembedded/meta-multimedia \
+  ${TOPDIR}/../meta-openembedded/meta-python \
+  "
+```
+
+### [Yocto] Installing core CK dependencies
+
+Collective Knowledge has only two dependencies: [Python](http://python.org)
+(2.x and 3.x) and [Git](https://git-scm.com).
+
+Add the following to your image recipes:
+```
+# Core CK dependencies.
+IMAGE_INSTALL_append... = " \
+    python \
+    git \
+"
+```
+
+### [Yocto] Installing common dependencies
+
+Some CK packages and Caffe require common Linux utilities (e.g.
+[make](https://www.gnu.org/software/make), [cmake](http://cmake.org),
+[wget](https://www.gnu.org/software/wget)).
+
+Add the following to your image recipes:
+
+```
+# Common CK-Caffe dependencies.
+IMAGE_INSTALL_append... = " \
+    gcc \
+    make \
+    cmake \
+    wget \
+    zlib \
+    python-setuptools \
+    python-pip \
+"
+```
+
+### [Yocto] Installing Caffe dependencies
+
+The BVLC Caffe framework has quite a few dependencies. If you've already run
+Caffe on your machine, it's likely that you've already satisfied all of them.
+If not, however, you may need to install some of them manually.
+
+#### [Yocto] Installing Caffe dependencies automatically
+
+You can install _some_ of the Caffe dependencies automatically by adding the
+following to your image recipes:
+
+```
+# Caffe dependencies.
+IMAGE_INSTALL_append... = " \
+    boost \
+    libunwind \
+    glog \
+    protobuf \
+    leveldb \
+    opencv \
+    opencv-samples \
+    libopencv-core \
+    libopencv-highgui \
+    libopencv-imgproc \
+    libopencv-features2d \
+    libopencv-calib3d \
+    libopencv-flann \
+    libopencv-ocl \
+"
+**NB:** This list probably overapproximates the real dependencies.
+
+Also, run:
+```
+# pip install \
+    protobuf
+```
+
+#### [Yocto] Installing Caffe dependencies manually
+
+##### [Yocto] hdf5
+
+**TODO**
+
+##### [Yocto] lmdb
+
+```
+$ cd tmp/
+$ wget https://github.com/LMDB/lmdb/archive/LMDB_0.9.18.tar.gz
+$ tar xvzf LMDB_0.9.18.tar.gz
+$ cd lmdf-LMDB-0.9.18/libraries/liblmdb
+$ make && make install
+```
+**NB:** Installs to `/usr/local/` by default.
+
+##### [Yocto] gflags
+```
+$ cd /tmp
+$ wget https://github.com/gflags/gflags/archive/v2.1.2.tar.gz
+$ cd gflags-2.1.2
+$ mkdir -p build && cd build
+$ cmake .. -DCMAKE_CXX_FLAGS=-fPIC
+```
+
+##### [Yocto] snappy
+```
+$ cd /tmp
+$ wget https://github.com/google/snappy/releases/download/1.1.3/snappy-1.1.3.tar.gz
+$ tar xvzf snappy-1.1.3.tar.gz
+$ cd snappy-1.1.3
+$ ./configure
+$ make -j4 && make install
+```
+
+**NB:** Installs to `/usr/local/` by default.
+
+
+### [Yocto] Installing CK
+
+Please proceed to <a href="#installing-ck">installing CK</a>.
+
 <a name="installing-ck"></a>
 ## Installing CK
 
@@ -303,9 +442,9 @@ $ cd $HOME/CK && sudo python setup.py install
 Test that both the command line and Python interfaces work:
 ```
 $ ck version
-V1.7.4dev
+V1.8.2dev
 $ python -c "import ck.kernel as ck; print (ck.__version__)"
-V1.7.4dev
+V1.8.2dev
 ```
 
 ## Installing CK Caffe
