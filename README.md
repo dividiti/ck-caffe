@@ -365,6 +365,7 @@ IMAGE_INSTALL_append... = " \
     libopencv-flann \
     libopencv-ocl \
 "
+```
 **NB:** This list probably overapproximates the real dependencies.
 
 Also, run:
