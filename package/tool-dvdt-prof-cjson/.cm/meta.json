@@ -42,7 +42,7 @@
     "lib-cjson": {
       "local": "yes",
       "name": "cJSON library",
-      "sort": 40,
+      "sort": 15,
       "tags": "lib,cjson"
     }
   },
