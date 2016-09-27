@@ -50,9 +50,8 @@ fi
 
 ################################################################################
 echo ""
-echo "Building '${PACKAGE_NAME}' in '${BLD_DIR}' ..."
 echo "Logging into '${BLD_LOG}' ..."
-touch ${BLD_LOG}
+rm -rf ${BLD_DIR} && mkdir ${BLD_DIR} && touch ${BLD_LOG}
 
 echo "** DATE **" >> ${BLD_LOG}
 date >> ${BLD_LOG}
@@ -60,21 +59,31 @@ date >> ${BLD_LOG}
 echo "** SET **" >> ${BLD_LOG}
 set >> ${BLD_LOG}
 
-mkdir -p ${BLD_DIR}
-cd ${BLD_DIR}
-
+################################################################################
+echo ""
+echo "Configuring '${PACKAGE_NAME}' in '${BLD_DIR}' ..."
 echo "** CMAKE **" >> ${BLD_LOG}
+
+cd ${BLD_DIR}
 cmake \
   ${SRC_DIR} \
   -DCMAKE_CXX_COMPILER=${CK_CXX} \
   -DCMAKE_CXX_FLAGS=${TOOL_FLAGS} \
   >>${BLD_LOG} 2>&1
+if [ "${?}" != "0" ] ; then
+  echo "Error: Configuring '${PACKAGE_NAME}' in '${BLD_DIR}' failed!"
+  exit 1
+fi
 
+################################################################################
+echo ""
+echo "Building '${PACKAGE_NAME}' in '${BLD_DIR}' ..."
 echo "** MAKE **" >> ${BLD_LOG}
+
+cd ${BLD_DIR}
 make \
   -j ${CK_HOST_CPU_NUMBER_OF_PROCESSORS} \
   >>${BLD_LOG} 2>&1  
-
 if [ "${?}" != "0" ] ; then
   echo "Error: Building '${PACKAGE_NAME}' in '${BLD_DIR}' failed!"
   exit 1
@@ -82,12 +91,15 @@ fi
 
 ################################################################################
 echo ""
-echo "Copying '${TOOL_NAME}.so' to '${LIB_DIR}' ..."
-
+echo "Installing '${TOOL_NAME}.so' to '${LIB_DIR}' ..."
 mkdir -p ${LIB_DIR}
 
 cp -f ${BLD_DIR}/lib/libprof.so ${LIB_DIR}/${TOOL_NAME}.so
 if [ "${?}" != "0" ] ; then
-  echo "Error: Copying '${TOOL_NAME}' to '${LIB_DIR}' failed!"
+  echo "Error: Installing '${TOOL_NAME}' to '${LIB_DIR}' failed!"
   exit 1
 fi
+
+################################################################################
+echo ""
+echo "Installed '${TOOL_NAME}.so' to '${LIB_DIR}'."
