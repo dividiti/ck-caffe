@@ -68,7 +68,10 @@ cd ${BLD_DIR}
 cmake \
   ${SRC_DIR} \
   -DCMAKE_CXX_COMPILER=${CK_CXX} \
-  -DCMAKE_CXX_FLAGS=${TOOL_FLAGS} \
+  -DCJSON_LIB_DIR:PATH=${CK_ENV_LIB_CJSON_LIB} \
+  -DCJSON_INCLUDE_DIR:PATH=${CK_ENV_LIB_CJSON_INCLUDE} \
+  -DCJSON_LIB_NAME:STRING=${CK_ENV_LIB_CJSON_STATIC_NAME} \
+  -DTOOL_FLAGS:STRING="${TOOL_FLAGS}" \
   >>${BLD_LOG} 2>&1
 if [ "${?}" != "0" ] ; then
   echo "Error: Configuring '${PACKAGE_NAME}' in '${BLD_DIR}' failed!"
