@@ -68,6 +68,7 @@ cd ${BLD_DIR}
 cmake \
   ${SRC_DIR} \
   -DCMAKE_CXX_COMPILER=${CK_CXX} \
+  -DCJSON_SET:BOOLEAN=${CK_ENV_LIB_CJSON_SET} \
   -DCJSON_LIB_DIR:PATH=${CK_ENV_LIB_CJSON_LIB} \
   -DCJSON_INCLUDE_DIR:PATH=${CK_ENV_LIB_CJSON_INCLUDE} \
   -DCJSON_LIB_NAME:STRING=${CK_ENV_LIB_CJSON_STATIC_NAME} \
@@ -86,7 +87,7 @@ echo "** MAKE **" >> ${BLD_LOG}
 cd ${BLD_DIR}
 make \
   -j ${CK_HOST_CPU_NUMBER_OF_PROCESSORS} \
-  >>${BLD_LOG} 2>&1  
+  >>${BLD_LOG} 2>&1
 if [ "${?}" != "0" ] ; then
   echo "Error: Building '${PACKAGE_NAME}' in '${BLD_DIR}' failed!"
   exit 1

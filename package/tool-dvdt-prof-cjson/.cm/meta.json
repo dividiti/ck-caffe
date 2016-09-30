@@ -5,8 +5,7 @@
       "PACKAGE_BRANCH": "master",
       "PACKAGE_URL": "git@github.com:dividiti/dvdt-prof",
       "PACKAGE_NAME": "dvdt-prof",
-      "TOOL_NAME": "tool-dvdt-prof",
-      "TOOL_FLAGS": "-DDVDT_PROF_CJSON=1"
+      "TOOL_NAME": "tool-dvdt-prof"
     },
     "version": "trunk"
   },
