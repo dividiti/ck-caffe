@@ -10,15 +10,17 @@
 import json
 import os
 import re
+import sys
 
 def ck_postprocess(i):
     ck=i['ck_kernel']
+    deps=i['deps']
 
     d={}
 
     env=i.get('env',{})
 
-    # Load output as list.
+    # Load stderr as list.
     # NB: This assumes that Caffe iterates only once (--iterations=1).
     # Otherwise, looping over the log would be required.
     r=ck.load_text_file({'text_file':'stderr.log','split_to_list':'yes'})
@@ -89,6 +91,29 @@ def ck_postprocess(i):
             d['time_total_s']=s
             d['time_total_s_kernel_0']=s
             d['post_processed']='yes'
+
+    # Process output of dividiti's OpenCL profiler.
+    dvdt_prof=deps.get('dvdt_prof',{})
+    if dvdt_prof!={}:
+        with open('tmp-dvdt-prof-deps.json', 'w') as f:
+            json.dump(dvdt_prof, f, indent=2)
+        # Load stdout.
+        r=ck.load_text_file({'text_file':'stdout.log','split_to_list':'no'})
+        if r['return']>0: return r
+        # Parse either cjson or ostream stdout.
+        dvdt_prof_cjson=dvdt_prof['dict']['deps'].get('lib-cjson',{})
+        if dvdt_prof_cjson!={}:
+            # FIXME: Fragile as assumes stdout only contains profiler
+            # output. Should extract it by pattern matching first.
+            d['dvdt_prof']=json.loads(r['string'])
+        else:
+            # Locate profiler parser.
+            dvdt_prof_dir=dvdt_prof['dict']['env']['CK_ENV_TOOL_DVDT_PROF']
+            dvdt_prof_src_python=os.path.join(dvdt_prof_dir,'src','python')
+            sys.path.append(dvdt_prof_src_python)
+            from prof_parser import prof_parse
+            # Parse profiler output.
+            d['dvdt_prof']=prof_parse(r['string'])
 
     rr={}
     rr['return']=0
