@@ -35,13 +35,17 @@ def ck_postprocess(i):
 
     for line in r['lst']:
         # Match layer info.
-        layer_regex = 'caffe\.cpp:\d{3,4}](\s+)' + \
+        layer_regex = \
+            'I(?P<timestamp>\d{4}(\s+)\d{2}:\d{2}:\d{2}\.\d{6})' + \
+            '(\s+)(?P<unknown_integer>\d+)(\s+)' + \
+            'caffe\.cpp:\d{3,4}](\s+)' + \
             '(?P<label>[\w/_]+)(\s+)'  + \
             '(?P<dir>forward|backward)(:\s+)' + \
             '(?P<ms>\d*\.*\d*(e\+\d+)*) ms\.'
         match = re.search(layer_regex, line)
         if match:
             info = {}
+            info['timestamp'] = match.group('timestamp')
             info['index'] = layer_index
             info['label'] = '%s: %s' % (str(layer_index).zfill(2), match.group('label'))
             info['direction'] = match.group('dir')
@@ -52,7 +56,8 @@ def ck_postprocess(i):
                 layer_index += 1
 
         # Match forward execution time.
-        fw_regex = 'caffe\.cpp:\d{3,4}](\s+)' + \
+        fw_regex = \
+            'caffe\.cpp:\d{3,4}](\s+)' + \
             'Average Forward pass:(\s+)' + \
             '(?P<ms>\d*\.*\d*(e\+\d+)*) ms\.'
         match = re.search(fw_regex, line)
@@ -61,7 +66,8 @@ def ck_postprocess(i):
             d['time_fw_s']= d['time_fw_ms']*1e-3
 
         # Match backward execution time.
-        bw_regex = 'caffe\.cpp:\d{3,4}](\s+)' + \
+        bw_regex = \
+            'caffe\.cpp:\d{3,4}](\s+)' + \
             'Average Backward pass:(\s+)' + \
             '(?P<ms>\d*\.*\d*(e\+\d+)*) ms\.'
         match = re.search(bw_regex, line)
@@ -69,8 +75,9 @@ def ck_postprocess(i):
             d['time_bw_ms'] = float(match.group('ms'))
             d['time_bw_s']= d['time_bw_ms']*1e-3
 
-        # Match forward-backward execution time.
-        fwbw_regex = 'caffe\.cpp:\d{3,4}](\s+)' + \
+        # Matchforward-backward execution time.
+        fwbw_regex = \
+            'caffe\.cpp:\d{3,4}](\s+)' + \
             'Average Forward-Backward:(\s+)' + \
             '(?P<ms>\d*\.*\d*(e\+\d+)*) ms\.'
         match = re.search(fwbw_regex, line)
