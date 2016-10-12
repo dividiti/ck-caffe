@@ -149,7 +149,6 @@
     }
   },
   "print_files_after_run": [
-    "stdout.log", 
     "stderr.log"
   ], 
   "run_vars": {
