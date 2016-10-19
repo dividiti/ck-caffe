@@ -433,6 +433,13 @@ def crowdsource(i):
         if o=='con':
             ck.out('Succesfully recorded results in remote repo (Entry UID='+rduid+')')
 
+            # Check host URL prefix and default module/action
+            url='http://cknowledge.org/repo/web.php?template=cknowledge&action=index&module_uoa=wfe&native_action=show&native_module_uoa=program.optimization&scenario=155b6fa5a4012a93&highlight_uid='+rduid
+            ck.out('')
+            ck.out('You can see your results at the following URL:')
+            ck.out('')
+            ck.out(url)
+
     return {'return':0}
 
 ##############################################################################
@@ -493,6 +500,8 @@ def show(i):
     conc=i.get('crowd_on_change','')
     if conc=='':
         conc=onchange
+
+    hi_uid=i.get('highlight_uid','')
 
     h='<hr>\n'
     h+='<center>\n'
@@ -592,6 +601,10 @@ def show(i):
 
         h+='<b>'+n+':</b> '+r['html'].strip()+'\n'
 
+    # Check hidden
+    if hi_uid!='':
+        h+='<input type="hidden" name="highlight_uid" value="'+hi_uid+'">\n'
+
     h+='<br><br>'
 
     # Prune list
@@ -651,7 +664,9 @@ def show(i):
     tm={}
 
     ix=0
-    bgraph={"0":[]} # Just for graph demo
+    bgraph={'0':[]} # Just for graph demo
+    if hi_uid!='':
+        bgraph['1']=[]
 
     # Sort
     splst=sorted(plst, key=lambda x: x.get('meta',{}).get('characteristics',{}).get('run',{}).get('time_fwbw_ms',0))
@@ -692,8 +707,11 @@ def show(i):
         fail_reason=d.get('state',{}).get('fail_reason','')
         if fail=='yes':
             if fail_reason=='': fail_reason='yes'
-
             bgc='ffafaf'
+        elif hi_uid!='' and duid==hi_uid:
+            bgc='9fff9f'
+            bgraph['0'].append([ix,None])
+            bgraph['1'].append([ix,x0])
 
         bg=' style="background-color:#'+bgc+';"'
 
@@ -728,8 +746,9 @@ def show(i):
 
         h+='   <td '+ha+'>'+x+'</td>\n'
 
-        if fail!='yes' and x0!=None:
+        if fail!='yes' and x0!=None and duid!=hi_uid:
             bgraph['0'].append([ix,x0])
+            if hi_uid!='': bgraph['1'].append([ix,None])
 
         x1=dstat.get("##characteristics#run#time_fw_ms#center",None)
         x2=dstat.get("##characteristics#run#time_fw_ms#halfrange",None)
