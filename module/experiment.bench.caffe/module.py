@@ -24,16 +24,20 @@ ffstat='ck-stat-flat-characteristics.json'
 form_name='wa_web_form'
 onchange='document.'+form_name+'.submit();'
 
-hextra='<br>\n<br>\n'
-hextra+='<center>\n'
-hextra+='[ Check <a href="https://github.com/dividiti/ck-caffe">CK-Caffe GitHub repo</a> to participate crowd-benchmarking and crowd-tuning ] '
-hextra+='</center>\n'
-hextra+='<br>\n<br>\n'
+hextra='<i><center>\n'
+hextra+='This is an on-going long-term project. Please check our vision [ '
+hextra+='<a href="http://doi.acm.org/10.1145/2909437.2909449">IWOCL\'16</a>, \n'
+hextra+='<a href="http://arxiv.org/abs/1506.06256">CPC\'15</a>, \n'
+hextra+='<a href="https://www.youtube.com/watch?v=Q94yWxXUMP0">YouTube</a>, \n'
+hextra+='<a href="http://ctuning.org/cm/wiki/index.php?title=CM:data:45741e3fbcf4024b:1db78910464c9d05">wiki</a> ] '
+hextra+=' and <a href="https://github.com/dividiti/ck-caffe">CK-Caffe GitHub repo</a> for more details!'
+hextra+='</center></i>\n'
+hextra+='<br>\n'
 
 selector=[{'name':'Type', 'key':'caffe_type'},
           {'name':'Network', 'key':'nn_type'},
           {'name':'Platform', 'key':'plat_name'},
-          {'name':'CPU', 'key':'cpu_name'},
+          {'name':'CPU', 'key':'cpu_name', 'new_line':'yes'},
           {'name':'OS', 'key':'os_name'},
           {'name':'GPGPU', 'key':'gpgpu_name'}]
 
@@ -494,7 +498,9 @@ def show(i):
     h+='<center>\n'
     h+='\n\n<script language="JavaScript">function copyToClipboard (text) {window.prompt ("Copy to clipboard: Ctrl+C, Enter", text);}</script>\n\n' 
 
-    h+='<h2>Aggregated results from Caffe crowd-bencharking (time, accuracy, energy, cost, ...)</h2>\n'
+    h+='<h2>Aggregated results from Caffe crowd-benchmarking (time, accuracy, energy, cost, ...)</h2>\n'
+
+    h+=hextra
 
     # Check host URL prefix and default module/action
     rx=ck.access({'action':'form_url_prefix',
@@ -564,6 +570,10 @@ def show(i):
         k=ckey+kk['key']
         n=kk['name']
 
+        nl=kk.get('new_line','')
+        if nl=='yes':
+            h+='<br>\n<div id="ck_entries_space8"></div>\n'
+
         v=''
         if i.get(k,'')!='':
             v=i[k]
@@ -606,10 +616,10 @@ def show(i):
     # Check if too many
     lplst=len(plst)
     if lplst==0:
-        h+='<b>No results found!</b>'+hextra
+        h+='<b>No results found!</b>'
         return {'return':0, 'html':h, 'style':st}
     elif lplst>50:
-        h+='<b>Too many entries to show ('+str(lplst)+') - please, prune list further!</b>'+hextra
+        h+='<b>Too many entries to show ('+str(lplst)+') - please, prune list further!</b>'
         return {'return':0, 'html':h, 'style':st}
 
     # Prepare table
@@ -618,7 +628,7 @@ def show(i):
     ha='align="center" valign="top"'
     hb='align="left" valign="top"'
 
-    h+='  <tr>\n'
+    h+='  <tr style="background-color:#dddddd">\n'
     h+='   <td '+ha+'><b>All raw files</b></td>\n'
     h+='   <td '+ha+'><b>Type</b></td>\n'
     h+='   <td '+ha+'><b>Network</b></td>\n'
@@ -632,8 +642,8 @@ def show(i):
     h+='   <td '+ha+'><b>GPGPU</b></td>\n'
     h+='   <td '+ha+'><b>OS</b></td>\n'
     h+='   <td '+ha+'><b>Fail?</b></td>\n'
-    h+='   <td '+hb+'><b>Choices</b></td>\n'
-    h+='   <td '+hb+'><b>User</b></td>\n'
+    h+='   <td '+ha+'><b>Choices</b></td>\n'
+    h+='   <td '+ha+'><b>User</b></td>\n'
     h+='   <td '+ha+'><b>Replay</b></td>\n'
     h+='  <tr>\n'
 
@@ -676,7 +686,8 @@ def show(i):
 
         te=d.get('characteristics',{}).get('run',{})
 
-        bgc='afffaf'
+#        bgc='afffaf'
+        bgc='dfffdf'
         fail=d.get('state',{}).get('fail','')
         fail_reason=d.get('state',{}).get('fail_reason','')
         if fail=='yes':
@@ -883,8 +894,6 @@ def show(i):
              h+=' </div>\n'
              h+='</div>\n'
              h+='</center>\n'
-
-    h+=hextra
 
     return {'return':0, 'html':h, 'style':st}
 
