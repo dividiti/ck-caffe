@@ -189,6 +189,7 @@ def crowdsource(i):
                      'host_os':hos,
                      'target_os':tos,
                      'device_id':tdid,
+                     'type':xtp,
                      'share':'yes',
                      'exchange_repo':er,
                      'exchange_subrepo':esr})
@@ -618,7 +619,10 @@ def show(i):
     ix=0
     bgraph={"0":[]} # Just for graph demo
 
-    for q in sorted(plst, key=lambda x: x.get('meta',{}).get('meta',{}).get('workload_name','')):
+    # Sort
+    splst=sorted(plst, key=lambda x: x.get('meta',{}).get('characteristics',{}).get('run',{}).get('time_fwbw_ms',0))
+
+    for q in splst:
         ix+=1
 
         duid=q['data_uid']
@@ -640,7 +644,6 @@ def show(i):
         user=meta.get('user','')
 
         te=d.get('characteristics',{}).get('run',{})
-        tet=te.get('total_execution_time',0)
 
         bgc='afffaf'
         fail=d.get('state',{}).get('fail','')
@@ -649,9 +652,6 @@ def show(i):
             if fail_reason=='': fail_reason='yes'
 
             bgc='ffafaf'
-        else:
-            if i.get(ckey+'workload_name','')!='' and i.get(ckey+'scenario','')!='':
-                bgraph['0'].append([ix,tet])
 
         bg=' style="background-color:#'+bgc+';"'
 
@@ -673,15 +673,19 @@ def show(i):
             dstat=r['dict']
 
         x=''
-        if tet>0: x=('%.1f'%tet)+' sec.'
 
         # Check if has stats
+        x0=dstat.get("##characteristics#run#time_fwbw_ms#min",None)
+        x0e=dstat.get("##characteristics#run#time_fwbw_ms#exp",None)
         x1=dstat.get("##characteristics#run#time_fwbw_ms#center",None)
         x2=dstat.get("##characteristics#run#time_fwbw_ms#halfrange",None)
         if x1!=None and x2!=None:
             x=('%.0f'%x1)+'&nbsp;&PlusMinus;&nbsp;'+('%.0f'%x2)+'&nbsp;ms.'
 
         h+='   <td '+ha+'>'+x+'</td>\n'
+
+        if fail!='yes' and x0!=None:
+            bgraph['0'].append([ix,x0])
 
         x1=dstat.get("##characteristics#run#time_fw_ms#center",None)
         x2=dstat.get("##characteristics#run#time_fw_ms#halfrange",None)
@@ -797,8 +801,8 @@ def show(i):
 
            "title":"Powered by Collective Knowledge",
 
-           "axis_x_desc":"Platform",
-           "axis_y_desc":"Execution time (sec.)",
+           "axis_x_desc":"Experiment",
+           "axis_y_desc":"Neural network total time (ms.)",
 
            "plot_grid":"yes",
 
