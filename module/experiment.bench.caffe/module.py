@@ -292,6 +292,9 @@ def crowdsource(i):
     mmeta=copy.deepcopy(meta)
 #    mmeta['user']=user
 
+
+
+
     # Check if already exists
     # tbd
 
@@ -597,7 +600,8 @@ def show(i):
 
     h+='  <tr>\n'
     h+='   <td '+ha+'><b>All raw files</b></td>\n'
-    h+='   <td '+ha+'><b>Type</b></td>\n'
+    h+='   <td '+ha+'><b>Target</b></td>\n'
+    h+='   <td '+ha+'><b>Network</b></td>\n'
     h+='   <td '+ha+'><b>FWBW</b></td>\n'
     h+='   <td '+ha+'><b>FW</b></td>\n'
     h+='   <td '+ha+'><b>BW</b></td>\n'
@@ -632,6 +636,9 @@ def show(i):
 
         meta=d.get('meta',{})
 
+        nn=meta.get('xdeps',{}).get('caffemodel',{}).get('data_name','')
+
+
         params=d.get('choices',{}).get('params',{}).get('params',{})
 
         tp=meta.get('caffe_type','')
@@ -662,6 +669,8 @@ def show(i):
         h+='   <td '+ha+'>'+str(ix)+')&nbsp;<a href="'+url0+'&wcid='+x+':'+duid+'">'+duid+'</a></td>\n'
 
         h+='   <td '+ha+'>'+tp+'</a></td>\n'
+
+        h+='   <td '+ha+'>'+nn+'</a></td>\n'
 
         # Characteristics
         # Check if has statistics
