@@ -625,8 +625,8 @@ def show(i):
     h+='   <td '+ha+'><b>FWBW</b></td>\n'
     h+='   <td '+ha+'><b>FW</b></td>\n'
     h+='   <td '+ha+'><b>BW</b></td>\n'
-    h+='   <td '+hb+'><b>Accuracy</b></td>\n'
-    h+='   <td '+hb+'><b>Chars</b></td>\n'
+    h+='   <td '+ha+'><b>Accuracy<br>(TP1 / TP5)</b></td>\n'
+    h+='   <td '+ha+'><b>Chars</b></td>\n'
     h+='   <td '+ha+'><b>Platform</b></td>\n'
     h+='   <td '+ha+'><b>CPU</b></td>\n'
     h+='   <td '+ha+'><b>GPGPU</b></td>\n'
@@ -660,11 +660,17 @@ def show(i):
 
         tp=meta.get('caffe_type','')
         nn=meta.get('nn_type','')
+
         plat_name=meta.get('plat_name','')
         cpu_name=meta.get('cpu_name','')
         os_name=meta.get('os_name','')
-        gpu_name=meta.get('gpu_name','')
         gpgpu_name=meta.get('gpgpu_name','')
+
+        plat_uid=meta.get('platform_uid','')
+        cpu_uid=meta.get('cpu_uid','')
+        os_uid=meta.get('os_uid','')
+        gpu_uid=meta.get('gpu_uid','')
+        gpgpu_uid=meta.get('gpgpu_uid','')
 
         user=meta.get('user','')
 
@@ -728,7 +734,17 @@ def show(i):
 
         h+='   <td '+ha+'>'+x+'</td>\n'
 
+        # Accuracy - for now hardwired - later should get directly from experiment description
         x=''
+        if nn=='bvlc, alexnet':
+            x='0.568279&nbsp;/&nbsp;0.799501'
+        elif nn=='bvlc, googlenet':
+            x='0.689299&nbsp;/&nbsp;0.891441'
+        elif nn=='deepscale, squeezenet, 1.1':
+            x='0.583880&nbsp;/&nbsp;0.810123'
+        elif nn=='deepscale, squeezenet, 1.0':
+            x='0.576801&nbsp;/&nbsp;0.803903'
+
         h+='   <td '+ha+'>'+x+'</td>\n'
 
         # Check all characteristics
@@ -760,17 +776,30 @@ def show(i):
 #        x5=x5.replace("'","\'").replace('"',"\\'").replace('\n','\\n')
         x5=x5.replace("\'","'").replace("'","\\'").replace('\"','"').replace('"',"\\'").replace('\n','\\n')
         if x5!='':
-            x+='<br><input type="button" class="ck_small_button" onClick="alert(\''+x5+'\');" value="All">'
+            x+='<input type="button" class="ck_small_button" onClick="alert(\''+x5+'\');" value="All">'
 
         h+='   <td '+ha+'>'+x+'</td>\n'
 
         # Platform, etc ...
         x=plat_name
+        if plat_uid!='':
+            x='<a href="'+url0+'&wcid='+cfg['module_deps']['platform']+':'+plat_uid+'">'+x+'</a>'
         h+='   <td '+ha+'>'+x+'</td>\n'
 
-        h+='   <td '+ha+'>'+cpu_name+'</td>\n'
-        h+='   <td '+ha+'>'+gpgpu_name+'</td>\n'
-        h+='   <td '+ha+'>'+os_name+'</td>\n'
+        x=cpu_name
+        if cpu_uid!='':
+            x='<a href="'+url0+'&wcid='+cfg['module_deps']['platform.cpu']+':'+cpu_uid+'">'+x+'</a>'
+        h+='   <td '+ha+'>'+x+'</td>\n'
+
+        x=gpgpu_name
+        if gpgpu_uid!='':
+            x='<a href="'+url0+'&wcid='+cfg['module_deps']['platform.gpgpu']+':'+gpgpu_uid+'">'+x+'</a>'
+        h+='   <td '+ha+'>'+x+'</td>\n'
+
+        x=os_name
+        if os_uid!='':
+            x='<a href="'+url0+'&wcid='+cfg['module_deps']['platform']+':'+os_uid+'">'+x+'</a>'
+        h+='   <td '+ha+'>'+x+'</td>\n'
 
         x=fail_reason
         if x=='': 
@@ -796,7 +825,7 @@ def show(i):
         if x!='':
             x1='<input type="button" class="ck_small_button" onClick="alert(\''+x+'\');" value="See">'
 
-        h+='   <td '+hb+'>'+x1+'</td>\n'
+        h+='   <td '+ha+'>'+x1+'</td>\n'
 
         h+='   <td '+ha+'><a href="'+url0+'&action=index&module_uoa=wfe&native_action=show&native_module_uoa=experiment.user">'+user+'</a></td>\n'
 
