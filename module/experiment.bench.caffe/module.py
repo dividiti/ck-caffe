@@ -31,6 +31,7 @@ hextra+='</center>\n'
 hextra+='<br>\n<br>\n'
 
 selector=[{'name':'Type', 'key':'caffe_type'},
+          {'name':'Network', 'key':'nn_type'},
           {'name':'Platform', 'key':'plat_name'},
           {'name':'CPU', 'key':'cpu_name'},
           {'name':'OS', 'key':'os_name'},
@@ -619,7 +620,7 @@ def show(i):
 
     h+='  <tr>\n'
     h+='   <td '+ha+'><b>All raw files</b></td>\n'
-    h+='   <td '+ha+'><b>Target</b></td>\n'
+    h+='   <td '+ha+'><b>Type</b></td>\n'
     h+='   <td '+ha+'><b>Network</b></td>\n'
     h+='   <td '+ha+'><b>FWBW</b></td>\n'
     h+='   <td '+ha+'><b>FW</b></td>\n'
@@ -655,12 +656,10 @@ def show(i):
 
         meta=d.get('meta',{})
 
-        nn=meta.get('xdeps',{}).get('caffemodel',{}).get('data_name','')
-
-
         params=d.get('choices',{}).get('params',{}).get('params',{})
 
         tp=meta.get('caffe_type','')
+        nn=meta.get('nn_type','')
         plat_name=meta.get('plat_name','')
         cpu_name=meta.get('cpu_name','')
         os_name=meta.get('os_name','')
