@@ -67,6 +67,8 @@ def crowdsource(i):
               (local)               - if 'yes', local crowd-benchmarking, instead of public
               (user)                - force different user ID/email for demos
 
+              (choices)             - force different choices to program pipeline
+
               (repetitions)         - statistical repetitions (default=1), for now statistical analysis is not used (TBD)
             }
 
@@ -104,6 +106,21 @@ def crowdsource(i):
     repetitions=int(repetitions)
 
     record='no'
+
+    # Check if any input has . and convert to dict
+    for k in list(i.keys()):
+        if k.find('.')>0:
+            v=i[k]
+
+            kk='##'+k.replace('.','#')
+
+            del(i[k])
+
+            r=ck.set_by_flat_key({'dict':i, 'key':kk, 'value':v})
+            if r['return']>0: return r
+
+    choices=i.get('choices',{})
+    xchoices=copy.deepcopy(choices)
 
     # Get user 
     user=''
@@ -245,6 +262,8 @@ def crowdsource(i):
 
         'prepare':'yes',
 
+        'env':i.get('env',{}),
+        'choices':choices,
         'dependencies':deps,
         'cmd_key':run_cmd,
         'no_state_check':'yes',
@@ -259,6 +278,7 @@ def crowdsource(i):
         'generate_rnd_tmp_dir':'no',
 
         'out':oo}
+
     rr=ck.access(ii)
     if rr['return']>0: return rr
 
@@ -324,6 +344,9 @@ def crowdsource(i):
 
     # Run CK pipeline *****************************************************
     pipeline=copy.deepcopy(rr)
+    if len(choices)>0:
+        r=ck.merge_dicts({'dict1':pipeline['choices'], 'dict2':xchoices})
+        if r['return']>0: return r
 
     ii={'action':'autotune',
         'module_uoa':cfg['module_deps']['pipeline'],
