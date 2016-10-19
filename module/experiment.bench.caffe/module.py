@@ -159,9 +159,12 @@ def crowdsource(i):
     fgpu=features.get('gpu',{})
 
     plat_name=fplat.get('name','')
+    plat_uid=features.get('platform_uid','')
     os_name=fos.get('name','')
+    os_uid=features.get('os_uid','')
     cpu_name=fcpu.get('name','')
     if cpu_name=='': cpu_name='unknown-'+fcpu.get('cpu_abi','')
+    cpu_uid=features.get('cpu_uid','')
     gpu_name=fgpu.get('name','')
     gpgpu_name=''
     sn=fos.get('serial_number','')
@@ -182,6 +185,7 @@ def crowdsource(i):
     run_cmd='time_cpu'
     tags='lib,caffe'
     ntags='vcuda,vopencl'
+    gpgpu_uid=''
     if xtp=='cuda' or xtp=='opencl':
         run_cmd='time_gpu'
         r=ck.access({'action':'detect',
@@ -199,6 +203,7 @@ def crowdsource(i):
 
         if len(gpgpus)>0:
             gpgpu_name=gpgpus[0].get('gpgpu',{}).get('name','')
+            gpgpu_uid=gpgpus[0].get('gpgpu_uoa','')
 
         ntags=''
         tags+=',v'+xtp
@@ -278,22 +283,36 @@ def crowdsource(i):
           'gpu_name':gpu_name,
           'caffe_type':xtp,
           'gpgpu_name':gpgpu_name,
-          'cmd_key':run_cmd,
-          'user':user} # in the future should move user out here 
+          'cmd_key':run_cmd}
 
     # Process deps
     xdeps={}
+    xnn=''
+    xblas=''
     for k in deps:
         dp=deps[k]
-        xdeps[k]={'name':dp.get('name',''), 'data_name':dp.get('dict',{}).get('data_name',''), 'ver':dp.get('ver','')}
+        dname=dp.get('dict',{}).get('data_name','')
+
+        if k=='caffemodel':
+            xnn=dname
+
+            j1=xnn.rfind('(')
+            if j1>0:
+                xnn=xnn[j1+1:-1]
+
+        xdeps[k]={'name':dp.get('name',''), 'data_name':dname, 'ver':dp.get('ver','')}
 
     meta['xdeps']=xdeps
+    meta['nn_type']=xnn
 
     mmeta=copy.deepcopy(meta)
-#    mmeta['user']=user
 
-
-
+    # Extra meta which is not used to search similar case ...
+    mmeta['platform_uid']=plat_uid
+    mmeta['os_uid']=os_uid
+    mmeta['cpu_uid']=cpu_uid
+    mmeta['gpgpu_uid']=gpgpu_uid
+    mmeta['user']=user
 
     # Check if already exists
     # tbd
