@@ -466,35 +466,6 @@ def crowdsource(i):
     return {'return':0}
 
 ##############################################################################
-# show table
-
-def show(i):
-    """
-    Input:  {
-            }
-
-    Output: {
-              return       - return code =  0, if successful
-                                         >  0, if error
-              (error)      - error text if return > 0
-            }
-
-    """
-
-    ck.out('show table')
-
-    ck.out('')
-    ck.out('Command line: ')
-    ck.out('')
-
-    import json
-    cmd=json.dumps(i, indent=2)
-
-    ck.out(cmd)
-
-    return {'return':0}
-
-##############################################################################
 # show results
 
 def show(i):
