@@ -962,3 +962,22 @@ def replay(i):
     i['module_uoa']=cfg['module_deps']['experiment.bench.caffe']
 
     return ck.access(i)
+
+##############################################################################
+# process raw results from mobile devices
+
+def process(i):
+    """
+    Input:  {
+            }
+
+    Output: {
+              return       - return code =  0, if successful
+                                         >  0, if error
+              (error)      - error text if return > 0
+            }
+
+    """
+
+
+    return {'return':1, 'error':'TBD'}
