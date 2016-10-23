@@ -12,6 +12,8 @@ work={} # Will be updated by CK (temporal data)
 ck=None # Will be updated by CK (initialized CK kernel) 
 
 # Local settings
+rrepo='upload' # TBD - get from cfg
+
 compiler_choices='#choices#compiler_flags#'
 
 line='================================================================'
@@ -980,5 +982,87 @@ def process(i):
 
     """
 
+    import copy
 
-    return {'return':1, 'error':'TBD'}
+    crowd_uid=i.get('crowd_uid','')
+    email=i.get('email','')
+    raw_results=i.get('raw_results',{})
+
+    features=i.get('platform_features',{})
+
+    fplat=features.get('platform',{})
+    fos=features.get('os',{})
+    fcpu=features.get('cpu',{})
+    fgpu=features.get('gpu',{})
+
+    plat_name=fplat.get('name','')
+    plat_uid=features.get('platform_uid','')
+    os_name=fos.get('name','')
+    os_uid=features.get('os_uid','')
+    cpu_name=fcpu.get('name','')
+    if cpu_name=='': cpu_name='unknown-'+fcpu.get('cpu_abi','')
+    cpu_uid=features.get('cpu_uid','')
+    gpu_name=fgpu.get('name','')
+    gpgpu_name=''
+    gpgpu_uid=''
+    sn=fos.get('serial_number','')
+
+    # Prepare high-level experiment meta
+    meta={'cpu_name':cpu_name,
+          'os_name':os_name,
+          'plat_name':plat_name,
+          'gpu_name':gpu_name,
+          'gpgpu_name':gpgpu_name,
+          'crowd_uid':crowd_uid}
+
+    mmeta=copy.deepcopy(meta)
+
+    # Extra meta which is not used to search similar case ...
+    mmeta['platform_uid']=plat_uid
+    mmeta['os_uid']=os_uid
+    mmeta['cpu_uid']=cpu_uid
+    mmeta['gpgpu_uid']=gpgpu_uid
+    mmeta['user']=email
+
+    # Check if already exists
+    duid=''
+    ddd={}
+
+    ii={'action':'search',
+        'module_uoa':work['self_module_uid'],
+        'repo_uoa':rrepo,
+        'search_dict':{'meta':meta},
+        'add_meta':'yes'}
+    rx=ck.access(ii)
+    if rx['return']>0: return rx
+
+    lst=rx['lst']
+
+    if len(lst)==1:
+        duid=lst[0]['data_uid']
+        ddd=lst[0]['meta']
+    else:
+        rx=ck.gen_uid({})
+        if rx['return']>0: return rx
+        duid=rx['data_uid']
+
+    # Process results
+    results=ddd.get('all_raw_results',[])
+    results.append(raw_results)
+    ddd['all_raw_results']=results
+
+    xmeta=ddd.get('meta',{})
+    xmeta.update(mmeta)
+    ddd['meta']=xmeta
+
+    # Update meta
+    rx=ck.access({'action':'update',
+                  'module_uoa':work['self_module_uid'],
+                  'data_uoa':duid,
+                  'repo_uoa':rrepo,
+                  'dict':ddd,
+                  'substitute':'yes',
+                  'sort_keys':'yes'})
+    if rx['return']>0: return rx
+
+    return {'return':0, 'status':'Results successfully added to Collective Knowledge (UID='+duid+')!'}
