@@ -3,6 +3,10 @@
     "crowdsource": {
       "desc": "crowdsource these experiments"
     },
+    "process": {
+      "desc": "process raw results from mobile devices",
+      "for_web": "yes"
+    },
     "replay": {
       "desc": "replay experiment (TBD)"
     },
