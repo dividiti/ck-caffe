@@ -460,6 +460,32 @@ $ ck run program:caffe
 
 **TBD**
 
+## Crowd-benchmarking
+It is now possible to participate in crowd-benchmarking of Caffe:
+```
+$ ck crowdbench caffe --user={your email or ID to acknowledge contributions} --env.CK_CAFFE_BATCH_SIZE=2
+```
+
+You can see continuously aggregated results in the 
+[public Collective Knowledge repository](http://cknowledge.org/repo)
+under 'crowd-benchmark Caffe library' scenario.
+
+Note, that this is an on-going, heavily evolving and long-term project
+to enable collaborative and systematic benchmarking
+and tuning of realistic workloads across diverse hardware 
+([ARM TechCon'16 talk](http://schedule.armtechcon.com/session/know-your-workloads-design-more-efficient-systems), 
+[ARM TechCon'16 demo](https://github.com/ctuning/ck/wiki/Demo-ARM-TechCon'16), 
+[DATE'16](http://tinyurl.com/zyupd5v), [CPC'15](http://arxiv.org/abs/1506.06256)).
+We also plan to add crowd-benchmarking and crowd-tuning of Caffe, TensorFlow 
+and other DNN frameworks to our 
+[Android application](https://play.google.com/store/apps/details?id=openscience.crowdsource.experiments) 
+at the end of October - please stay tuned!
+
+## Open R&D challenges
+
+We use crowd-benchmarking and crowd-tuning of such realistic workloads across diverse hardware for 
+[open academic and industrial R&D challenges](https://github.com/ctuning/ck/wiki/Research-and-development-challenges.mediawiki) - 
+join this community effort!
 
 ## Misc hints
 
@@ -483,6 +509,7 @@ To set environment variables for running the program, use e.g.:
 ```
 $ ck run program:caffe --env.CK_CAFFE_BATCH_SIZE=1 --env.CK_CAFFE_ITERATIONS=10
 ```
+
 ## Our publications related to this project and crowd-tuning
 
 - <a href="https://github.com/ctuning/ck/wiki/Publications">All references with BibTex</a>

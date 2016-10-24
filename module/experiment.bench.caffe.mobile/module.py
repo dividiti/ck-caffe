@@ -762,6 +762,7 @@ def show(i):
     h+='   <td '+ha+'><b>CPU</b></td>\n'
     h+='   <td '+ha+'><b>GPGPU</b></td>\n'
     h+='   <td '+ha+'><b>OS</b></td>\n'
+    h+='   <td '+ha+'><b>Mispredictions / unexpected behavior</b></td>\n'
     h+='   <td '+ha+'><b>User</b></td>\n'
     h+='  <tr>\n'
 
@@ -876,6 +877,8 @@ def show(i):
         if os_uid!='':
             x='<a href="'+url0+'&wcid='+cfg['module_deps']['platform']+':'+os_uid+'">'+x+'</a>'
         h+='   <td '+ha+'>'+x+'</td>\n'
+
+        h+='   <td '+ha+'></td>\n'
 
         h+='   <td '+ha+'><a href="'+url0+'&action=index&module_uoa=wfe&native_action=show&native_module_uoa=experiment.user">'+user+'</a></td>\n'
 

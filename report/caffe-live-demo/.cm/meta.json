@@ -1,0 +1,28 @@
+{
+  "affiliations": {
+    "1": {
+      "name": "cTuning Foundation, France"
+    },
+    "2": {
+      "name": "dividiti, UK"
+    }
+  },
+  "authors": [
+    {
+      "affiliation": "1,2",
+      "name": "Grigori Fursin",
+      "url": "http://fursin.net"
+    },
+    {
+      "affiliation": "2",
+      "name": "Anton Lokhmotov",
+      "url": "https://uk.linkedin.com/in/lokhmotov"
+    }
+  ],
+  "auto_refresh": "yes",
+  "auto_refresh_time": 2,
+  "live": "yes",
+  "template": "live.html",
+  "title": "Live demo for DNN recognition powered by Collective Knowledge",
+  "top": "no"
+}
