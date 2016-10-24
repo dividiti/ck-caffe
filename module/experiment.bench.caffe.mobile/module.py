@@ -706,23 +706,23 @@ def show(i):
                 # Check timing - currently temporal ugly hack
                 t=[]
 
-                t1=g.get('time1',0)
-                if t1!=0: 
-                    t.append(t1/1000)
-                    if it!=0:
-                        tt.append(t1/1000/it)
+                t1=g.get('time1',0.0)
+                if t1!=0.0: 
+                    t.append(t1/1000.0)
+                    if it!=0.0:
+                        tt.append(t1/1000.0/it)
 
-                t2=g.get('time2',0)
-                if t2!=0: 
-                    t.append(t2/1000)
-                    if it!=0:
-                        tt.append(t2/1000/it)
+                t2=g.get('time2',0.0)
+                if t2!=0.0: 
+                    t.append(t2/1000.0)
+                    if it!=0.0:
+                        tt.append(t2/1000.0/it)
 
-                t3=g.get('time3',0)
-                if t3!=0: 
-                    t.append(t3/1000)
-                    if it!=0:
-                        tt.append(t3/1000/it)
+                t3=g.get('time3',0.0)
+                if t3!=0.0: 
+                    t.append(t3/1000.0)
+                    if it!=0.0:
+                        tt.append(t3/1000.0/it)
 
                 if len(t)>0:
                     tmin=min(t)
@@ -844,7 +844,7 @@ def show(i):
                 xx+='<td valign="top">'+pred+'</td>\n'
                 xx+='</tr>\n'
  
-            xx+='</table>\n'
+        xx+='</table>\n'
 
         h+='   <td '+ha+'>'+xx+'</a></td>\n'
 
