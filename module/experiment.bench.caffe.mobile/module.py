@@ -36,8 +36,7 @@ hextra+=' and <a href="https://github.com/dividiti/ck-caffe">CK-Caffe GitHub rep
 hextra+='</center></i>\n'
 hextra+='<br>\n'
 
-selector=[{'name':'Type', 'key':'caffe_type'},
-          {'name':'Network', 'key':'nn_type'},
+selector=[{'name':'Scenario', 'key':'crowd_uid', 'module_uoa':'65477d547a49dd2c', 'module_key':'##dict#title'},
           {'name':'Platform', 'key':'plat_name'},
           {'name':'CPU', 'key':'cpu_name', 'new_line':'yes'},
           {'name':'OS', 'key':'os_name'},
@@ -570,6 +569,7 @@ def show(i):
 
     # Check unique entries
     choices={}
+    mchoices={} # cache of UID -> alias choices
     wchoices={}
 
     for q in lst:
@@ -586,9 +586,34 @@ def show(i):
 
             v=meta.get(kx,'')
             if v!='':
+
                 if v not in choices[k]: 
                     choices[k].append(v)
-                    wchoices[k].append({'name':v, 'value':v})
+
+                    muoa=kk.get('module_uoa','')
+                    vv=v
+                    if muoa!='':
+                        if k not in mchoices:
+                            mchoices[k]={}
+
+                        vv=mchoices[k].get(v,'')
+                        if vv=='':
+                            r=ck.access({'action':'load',
+                                         'module_uoa':muoa,
+                                         'data_uoa':v})
+                            if r['return']==0:
+                                mk=kk.get('module_key','')
+                                if mk=='': mk='##data_name'
+
+                                rx=ck.get_by_flat_key({'dict':r, 'key':mk})
+                                if rx['return']>0: return rx
+                                vv=rx['value']
+
+                        if vv=='' or vv==None: vv=v
+
+                        mchoices[k][v]=vv
+
+                    wchoices[k].append({'name':vv, 'value':v})
 
     # Prepare query div ***************************************************************
     if cmuoa=='':
@@ -634,6 +659,7 @@ def show(i):
 
     # Prune list
     plst=[]
+
     for q in lst:
         d=q['meta']
         meta=d.get('meta',{})
@@ -649,6 +675,67 @@ def show(i):
                 skip=True
 
         if not skip:
+            # Process raw results
+            img={}
+            tt=[] # per pixel
+
+            arr=d.get('all_raw_results',[])
+
+            for g in arr:
+                ih=g.get('image_height',0)
+                iw=g.get('image_width',0)
+
+                it=0
+                if ih!=0 and iw!=0:
+                    it=ih*iw
+
+                key=str(ih)+' x '+str(iw)
+
+                if key not in img:
+                    img[key]={}
+
+                prd=g.get('prediction','')
+                if prd!='':
+                    j1=prd.find('\n')
+                    if j1>0:
+                        j2=prd.find('\n',j1+1)
+                        if j2>0:
+                            prd=prd[j1:j2]
+                            img[key]['prediction']=prd
+
+                # Check timing - currently temporal ugly hack
+                t=[]
+
+                t1=g.get('time1',0)
+                if t1!=0: 
+                    t.append(t1/1000)
+                    if it!=0:
+                        tt.append(t1/1000/it)
+
+                t2=g.get('time2',0)
+                if t2!=0: 
+                    t.append(t2/1000)
+                    if it!=0:
+                        tt.append(t2/1000/it)
+
+                t3=g.get('time3',0)
+                if t3!=0: 
+                    t.append(t3/1000)
+                    if it!=0:
+                        tt.append(t3/1000/it)
+
+                if len(t)>0:
+                    tmin=min(t)
+                    tmax=max(t)
+
+                    img[key]['time_min']=tmin
+                    img[key]['time_max']=tmax
+
+            if len(tt)>0:
+                q['extra']={'img':img,
+                            'rel_time_min':min(tt),
+                            'rel_time_max':max(tt)}
+
             plst.append(q)
 
     # Check if too many
@@ -668,21 +755,14 @@ def show(i):
 
     h+='  <tr style="background-color:#dddddd">\n'
     h+='   <td '+ha+'><b>All raw files</b></td>\n'
-    h+='   <td '+ha+'><b>Type</b></td>\n'
-    h+='   <td '+ha+'><b>Network</b></td>\n'
-    h+='   <td '+ha+'><b>FWBW</b></td>\n'
-    h+='   <td '+ha+'><b>FW</b></td>\n'
-    h+='   <td '+ha+'><b>BW</b></td>\n'
-    h+='   <td '+ha+'><b>Accuracy<br>(TP1 / TP5)</b></td>\n'
-    h+='   <td '+ha+'><b>Chars</b></td>\n'
+    h+='   <td '+ha+'><b>Crowd scenario</b></td>\n'
+    h+='   <td '+ha+'><b>Min/Max recognition time (in microsecs. per pixel)</b></td>\n'
+    h+='   <td '+ha+'><b>Image features / results / predictions</b></td>\n'
     h+='   <td '+ha+'><b>Platform</b></td>\n'
     h+='   <td '+ha+'><b>CPU</b></td>\n'
     h+='   <td '+ha+'><b>GPGPU</b></td>\n'
     h+='   <td '+ha+'><b>OS</b></td>\n'
-    h+='   <td '+ha+'><b>Fail?</b></td>\n'
-    h+='   <td '+ha+'><b>Choices</b></td>\n'
     h+='   <td '+ha+'><b>User</b></td>\n'
-    h+='   <td '+ha+'><b>Replay</b></td>\n'
     h+='  <tr>\n'
 
     # Dictionary to hold target meta
@@ -694,7 +774,7 @@ def show(i):
         bgraph['1']=[]
 
     # Sort
-    splst=sorted(plst, key=lambda x: x.get('meta',{}).get('characteristics',{}).get('run',{}).get('time_fwbw_ms',0))
+    splst=sorted(plst, key=lambda x: x.get('extra',{}).get('rel_time_min',0))
 
     for q in splst:
         ix+=1
@@ -706,10 +786,14 @@ def show(i):
 
         meta=d.get('meta',{})
 
+        extra=q['extra']
+        img=extra.get('img',{})
+        tmin=extra.get('rel_time_min',0)*1E6
+        tmax=extra.get('rel_time_max',0)*1E6
+
         params=d.get('choices',{}).get('params',{}).get('params',{})
 
-        tp=meta.get('caffe_type','')
-        nn=meta.get('nn_type','')
+        scenario=meta.get('crowd_uid','')
 
         plat_name=meta.get('plat_name','')
         cpu_name=meta.get('cpu_name','')
@@ -728,16 +812,6 @@ def show(i):
 
 #        bgc='afffaf'
         bgc='dfffdf'
-        fail=d.get('state',{}).get('fail','')
-        fail_reason=d.get('state',{}).get('fail_reason','')
-        if fail=='yes':
-            if fail_reason=='': fail_reason='yes'
-            bgc='ffafaf'
-        elif hi_uid!='' and duid==hi_uid:
-            bgc='9fff9f'
-            bgraph['0'].append([ix,None])
-            bgraph['1'].append([ix,x0])
-
         bg=' style="background-color:#'+bgc+';"'
 
         h+='  <tr'+bg+'>\n'
@@ -746,94 +820,33 @@ def show(i):
         if cmuoa!='': x=cmuoa
         h+='   <td '+ha+'>'+str(ix)+')&nbsp;<a href="'+url0+'&wcid='+x+':'+duid+'">'+duid+'</a></td>\n'
 
-        h+='   <td '+ha+'>'+tp+'</a></td>\n'
+        x=scenario
+        xx=mchoices.get(ckey+'crowd_uid',{}).get(x,'')
+        h+='   <td '+ha+'>'+xx+'</a></td>\n'
 
-        h+='   <td '+ha+'>'+nn+'</a></td>\n'
+        # Check relative time
+        xx='<b>'+('%.3f'%tmin)+'</b>&nbsp;/&nbsp;'+('%.3f'%tmax)
 
-        # Characteristics
-        # Check if has statistics
-        dstat={}
-        fstat=os.path.join(path,'ck-stat-flat-characteristics.json')
-        if os.path.isfile(fstat):
-            r=ck.load_json_file({'json_file':fstat, 'dict':dstat})
-            if r['return']>0: return r
-            dstat=r['dict']
+        h+='   <td '+ha+'>'+xx+'</a></td>\n'
 
-        x=''
+        # All images
+        xx='<table border="1" cellpadding="5" cellspacing="0">\n'
 
-        # Check if has stats
-        x0=dstat.get("##characteristics#run#time_fwbw_ms#min",None)
-        x0e=dstat.get("##characteristics#run#time_fwbw_ms#exp",None)
-        x1=dstat.get("##characteristics#run#time_fwbw_ms#center",None)
-        x2=dstat.get("##characteristics#run#time_fwbw_ms#halfrange",None)
-        if x1!=None and x2!=None:
-            x=('%.0f'%x1)+'&nbsp;&PlusMinus;&nbsp;'+('%.0f'%x2)+'&nbsp;ms.'
+        for k in img:
+            tmin=img[k].get('time_min',0)
+            tmax=img[k].get('time_max',0)
+            pred=img[k].get('prediction','')
 
-        h+='   <td '+ha+'>'+x+'</td>\n'
+            if tmin!=0 and pred!='':
+                xx+='<tr>\n'
+                xx+='<td valign="top">'+k.replace(' ','&nbsp;')+'</td>\n'
+                xx+='<td valign="top">'+('%.3f'%(tmin))+'</td>\n'
+                xx+='<td valign="top">'+pred+'</td>\n'
+                xx+='</tr>\n'
+ 
+            xx+='</table>\n'
 
-        if fail!='yes' and x0!=None and duid!=hi_uid:
-            bgraph['0'].append([ix,x0])
-            if hi_uid!='': bgraph['1'].append([ix,None])
-
-        x1=dstat.get("##characteristics#run#time_fw_ms#center",None)
-        x2=dstat.get("##characteristics#run#time_fw_ms#halfrange",None)
-        if x1!=None and x2!=None:
-            x=('%.0f'%x1)+'&nbsp;&PlusMinus;&nbsp;'+('%.0f'%x2)+'&nbsp;ms.'
-
-        h+='   <td '+ha+'>'+x+'</td>\n'
-
-        x1=dstat.get("##characteristics#run#time_bw_ms#center",None)
-        x2=dstat.get("##characteristics#run#time_bw_ms#halfrange",None)
-        if x1!=None and x2!=None:
-            x=('%.0f'%x1)+'&nbsp;&PlusMinus;&nbsp;'+('%.0f'%x2)+'&nbsp;ms.'
-
-        h+='   <td '+ha+'>'+x+'</td>\n'
-
-        # Accuracy - for now hardwired - later should get directly from experiment description
-        x=''
-        if nn=='bvlc, alexnet':
-            x='0.568279&nbsp;/&nbsp;0.799501'
-        elif nn=='bvlc, googlenet':
-            x='0.689299&nbsp;/&nbsp;0.891441'
-        elif nn=='deepscale, squeezenet, 1.1':
-            x='0.583880&nbsp;/&nbsp;0.810123'
-        elif nn=='deepscale, squeezenet, 1.0':
-            x='0.576801&nbsp;/&nbsp;0.803903'
-
-        h+='   <td '+ha+'>'+x+'</td>\n'
-
-        # Check all characteristics
-        x=''
-        x5=''
-        for k in sorted(te):
-            v=te[k]
-
-            kx="##characteristics#run#"+k
-
-            kx1=dstat.get(kx+'#center',None)
-            kx2=dstat.get(kx+'#halfrange',None)
-
-            x6=''
-            if type(v)==int:
-                if kx1!=None and kx2!=None:
-                    x6=str(kx1)+' +- '+str(kx2)
-                else:
-                    x6=str(v)
-            elif type(v)==float:
-                if kx1!=None and kx2!=None:
-                    x6=('%.1f'%kx1)+' +- '+('%.1f'%kx2)
-                else:
-                    x6=('%.1f'%v)
-
-            if x6!='':
-                x5+=str(k)+'='+x6+'\n'
-
-#        x5=x5.replace("'","\'").replace('"',"\\'").replace('\n','\\n')
-        x5=x5.replace("\'","'").replace("'","\\'").replace('\"','"').replace('"',"\\'").replace('\n','\\n')
-        if x5!='':
-            x+='<input type="button" class="ck_small_button" onClick="alert(\''+x5+'\');" value="All">'
-
-        h+='   <td '+ha+'>'+x+'</td>\n'
+        h+='   <td '+ha+'>'+xx+'</a></td>\n'
 
         # Platform, etc ...
         x=plat_name
@@ -856,35 +869,7 @@ def show(i):
             x='<a href="'+url0+'&wcid='+cfg['module_deps']['platform']+':'+os_uid+'">'+x+'</a>'
         h+='   <td '+ha+'>'+x+'</td>\n'
 
-        x=fail_reason
-        if x=='': 
-            x='No'
-        else:
-            fail_reason=fail_reason.replace("\'","'").replace("'","\\'").replace('\"','"').replace('"',"\\'").replace('\n','\\n')
-            x='Yes <input type="button" class="ck_small_button" onClick="alert(\''+fail_reason+'\');" value="Log">'
-
-        h+='   <td '+ha+'>'+x+'</td>\n'
-
-        # Params
-#        x='<table border="0" cellpadding="0" cellspacing="2">\n'
-        x=''
-        for k in sorted(params):
-            v=params[k]
-            x+=str(k)+'='+str(v)+'\n'
-#            x+='<tr><td>'+str(k)+'=</td><td>'+str(v)+'</td></tr>\n'
-#        x+='</table>\n'
-#        x=x.replace("'","\'").replace('"',"\\'").replace('\n','\\n')
-        x=x.replace("\'","'").replace("'","\\'").replace('\"','"').replace('"',"\\'").replace('\n','\\n')
-
-        x1=''
-        if x!='':
-            x1='<input type="button" class="ck_small_button" onClick="alert(\''+x+'\');" value="See">'
-
-        h+='   <td '+ha+'>'+x1+'</td>\n'
-
         h+='   <td '+ha+'><a href="'+url0+'&action=index&module_uoa=wfe&native_action=show&native_module_uoa=experiment.user">'+user+'</a></td>\n'
-
-        h+='   <td '+ha+'><input type="button" class="ck_small_button" onClick="copyToClipboard(\'ck replay caffe\');" value="Replay"></td>\n'
 
         h+='  <tr>\n'
 
