@@ -827,6 +827,14 @@ def show(i):
         # Check relative time
         xx='<b>'+('%.3f'%tmin)+'</b>&nbsp;/&nbsp;'+('%.3f'%tmax)
 
+        if duid==hi_uid:
+            if hi_uid!='':
+                bgraph['0'].append([ix,None])
+                bgraph['1'].append([ix,tmin])
+        else:
+            bgraph['0'].append([ix,tmin])
+            if hi_uid!='': bgraph['1'].append([ix,None])
+
         h+='   <td '+ha+'>'+xx+'</a></td>\n'
 
         # All images
@@ -898,7 +906,7 @@ def show(i):
            "title":"Powered by Collective Knowledge",
 
            "axis_x_desc":"Experiment",
-           "axis_y_desc":"Neural network total time (ms.)",
+           "axis_y_desc":"Neural network recognition time per pixel (us)",
 
            "plot_grid":"yes",
 
