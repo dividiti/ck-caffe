@@ -1,0 +1,52 @@
+{
+  "backup_data_uid": "473c67d70ebe45a9",
+  "build_compiler_vars": {},
+  "compile_deps": {
+    "compiler": {
+      "local": "yes",
+      "name": "C++ compiler",
+      "sort": 10,
+      "tags": "compiler,lang-cpp"
+    },
+    "lib-caffe": {
+      "local": "yes",
+      "name": "Caffe library",
+      "sort": 20,
+      "tags": "lib,caffe"
+    }
+  },
+  "compiler_env": "CK_CXX",
+  "compiler_flags_as_env": "$<<CK_COMPILER_FLAG_CPP11>>$ $<<CK_OPT_UNWIND>>$ $<<CK_COMPILER_FLAG_PTHREAD_LIB>>$",
+  "data_name": "tiny-dnn-bench",
+  "extra_ld_vars": "$<<CK_EXTRA_LIB_M>>$ $<<CK_COMPILER_FLAG_PTHREAD_LIB>>$",
+  "main_language": "cpp",
+  "process_in_tmp": "yes",
+  "program": "yes",
+  "run_cmds": {
+    "default": {
+      "ignore_return_code": "no",
+      "run_time": {
+        "run_cmd_main": "$#BIN_FILE#$",
+        "run_cmd_out1": "tmp-output1.tmp",
+        "run_cmd_out2": "tmp-output2.tmp",
+        "run_correctness_output_files": [
+          "tmp-output.tmp",
+          "tmp-output2.tmp"
+        ],
+        "run_output_files": [
+          "tmp-output.tmp",
+          "tmp-ck-timer.json"
+        ]
+      }
+    }
+  },
+  "run_vars": {},
+  "source_files": [
+    "classification.cpp"
+  ],
+  "tags": [
+    "caffe-classification",
+    "demo"
+  ],
+  "target_file": "a"
+}

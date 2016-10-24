@@ -1,4 +1,5 @@
 2016.10.24 - added support for Caffe mobile crowd-tuning
+           - added caffe-classification program
 
 2016.10.21 - started preparing mobile Caffe crowd-tuning
 
