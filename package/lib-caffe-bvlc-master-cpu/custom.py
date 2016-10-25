@@ -96,6 +96,7 @@ def setup(i):
      "clblas_lib": sv1+'CK_ENV_LIB_CLBLAS_LIB'+sv2,
      "use_isaac": 0,
      "use_fft": 0,
+     "use_cudnn": 0,
      "cpu_only": 0,
      "use_openmp": 0,
      "use_opencv": 1,

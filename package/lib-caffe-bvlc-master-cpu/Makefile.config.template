@@ -46,7 +46,7 @@ USE_ISAAC := $#use_isaac#$
 USE_FFT := $#use_fft#$
 
 # cuDNN acceleration switch (uncomment to build with cuDNN).
-# USE_CUDNN := 1
+USE_CUDNN := $#use_cudnn#$
 
 # CPU-only switch (uncomment to build without GPU support).
 CPU_ONLY := $#cpu_only#$
@@ -134,8 +134,8 @@ PYTHON_LIB := /usr/lib
 # WITH_PYTHON_LAYER := 1
 
 # Whatever else you find you need goes here.
-INCLUDE_DIRS := $(PYTHON_INCLUDE) /usr/local/include  $(CK_ENV_LIB_HDF5_INCLUDE) $(CK_ENV_LIB_OPENCL_INCLUDE)
-LIBRARY_DIRS := $(PYTHON_LIB) /usr/local/lib /usr/lib $(CK_ENV_LIB_HDF5_LIB)     $(CK_ENV_LIB_OPENCL_LIB)
+INCLUDE_DIRS := $(PYTHON_INCLUDE) /usr/local/include  $(CK_ENV_LIB_HDF5_INCLUDE) $(CK_ENV_LIB_OPENCL_INCLUDE) $(CK_ENV_LIB_CUDNN_INCLUDE)
+LIBRARY_DIRS := $(PYTHON_LIB) /usr/local/lib /usr/lib $(CK_ENV_LIB_HDF5_LIB)     $(CK_ENV_LIB_OPENCL_LIB)     $(CK_ENV_LIB_CUDNN_LIB)
 
 # If Homebrew is installed at a non standard location (for example your home directory) and you use it for general dependencies
 # INCLUDE_DIRS += $(shell brew --prefix)/include
