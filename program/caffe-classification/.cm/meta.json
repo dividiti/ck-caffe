@@ -1,6 +1,13 @@
 {
   "backup_data_uid": "473c67d70ebe45a9",
-  "build_compiler_vars": {},
+  "build_compiler_vars": {
+    "USE_OPENCV":""
+  },
+  "compiler_add_include_as_env_from_deps": [
+    "CK_ENV_LIB_STDCPP_INCLUDE", 
+    "CK_ENV_LIB_STDCPP_INCLUDE_EXTRA",
+    "CK_ENV_LIB_CAFFE_EXTRA_INCLUDE"
+  ], 
   "compile_deps": {
     "compiler": {
       "local": "yes",
@@ -13,12 +20,25 @@
       "name": "Caffe library",
       "sort": 20,
       "tags": "lib,caffe"
+    },
+    "lib-opencv": {
+      "local": "yes",
+      "name": "OpenCV library",
+      "sort": 25,
+      "tags": "lib,opencv"
+    },
+    "boost": {
+      "local": "yes",
+      "name": "Boost C++ libraries",
+      "skip_from_bat": "yes",
+      "sort": 30,
+      "tags": "lib,boost"
     }
   },
   "compiler_env": "CK_CXX",
   "compiler_flags_as_env": "$<<CK_COMPILER_FLAG_CPP11>>$ $<<CK_OPT_UNWIND>>$ $<<CK_COMPILER_FLAG_PTHREAD_LIB>>$",
   "data_name": "tiny-dnn-bench",
-  "extra_ld_vars": "$<<CK_EXTRA_LIB_M>>$ $<<CK_COMPILER_FLAG_PTHREAD_LIB>>$",
+  "extra_ld_vars": "$<<CK_EXTRA_LIB_M>>$ $<<CK_COMPILER_FLAG_PTHREAD_LIB>>$ -lboost_system -lglog",
   "main_language": "cpp",
   "process_in_tmp": "yes",
   "program": "yes",

@@ -109,6 +109,8 @@ def setup(i):
     ep=cus.get('env_prefix','')
     env[ep]=pi
 
+    env[ep+'_EXTRA_INCLUDE']=os.path.join(pi,'.build_release','src')
+
     env['CAFFE_INSTALL_DIR']=pi
 
     return {'return':0, 'bat':s}
