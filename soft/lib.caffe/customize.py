@@ -63,6 +63,10 @@ def setup(i):
     hosd=i['host_os_dict']
     tosd=i['target_os_dict']
 
+    win=tosd.get('windows_base','')
+    remote=tosd.get('remote','')
+    mingw=tosd.get('mingw','')
+
     # Check platform
     hplat=hosd.get('ck_name','')
 
@@ -98,15 +102,33 @@ def setup(i):
        if not os.path.isdir(pl):
           return {'return':1, 'error':'can\'t find lib dir of the CAFFE installation'}
 
+    ep=cus.get('env_prefix','')
+
     cus['path_lib']=pl
     cus['path_include']=os.path.join(pi,'include')
+
+    if win=='yes':
+       if remote=='yes' or mingw=='yes': 
+          sext='.a'
+          dext='.so'
+       else:
+          sext='.lib'
+          dext='.dll'
+    else:
+       sext='.a'
+       dext='.so'
+
+    cus['static_lib']='libcaffe'+sext
+    cus['dynamic_lib']='libcaffe'+dext
+
+    env[ep+'_STATIC_NAME']=cus.get('static_lib','')
+    env[ep+'_DYNAMIC_NAME']=cus.get('dynamic_lib','')
 
     s+='export PATH='+cus['path_bin']+':$PATH\n'
     if cus.get('path_lib','')!='':
        s+='export LD_LIBRARY_PATH="'+cus['path_lib']+'":$LD_LIBRARY_PATH\n'
        s+='export LIBRARY_PATH="'+cus['path_lib']+'":$LIBRARY_PATH\n\n'
 
-    ep=cus.get('env_prefix','')
     env[ep]=pi
 
     env[ep+'_EXTRA_INCLUDE']=os.path.join(pi,'.build_release','src')

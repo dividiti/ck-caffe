@@ -21,12 +21,6 @@
       "sort": 20,
       "tags": "lib,caffe"
     },
-    "lib-opencv": {
-      "local": "yes",
-      "name": "OpenCV library",
-      "sort": 25,
-      "tags": "lib,opencv"
-    },
     "boost": {
       "local": "yes",
       "name": "Boost C++ libraries",
@@ -36,9 +30,10 @@
     }
   },
   "compiler_env": "CK_CXX",
-  "compiler_flags_as_env": "$<<CK_COMPILER_FLAG_CPP11>>$ $<<CK_OPT_UNWIND>>$ $<<CK_COMPILER_FLAG_PTHREAD_LIB>>$",
-  "data_name": "tiny-dnn-bench",
-  "extra_ld_vars": "$<<CK_EXTRA_LIB_M>>$ $<<CK_COMPILER_FLAG_PTHREAD_LIB>>$ -lboost_system -lglog",
+  "compiler_flags_as_env": "",
+  "extra_ld_vars": "-lglog",
+  "data_name": "caffe-classification",
+  "extra_ld_vars": "",
   "main_language": "cpp",
   "process_in_tmp": "yes",
   "program": "yes",
