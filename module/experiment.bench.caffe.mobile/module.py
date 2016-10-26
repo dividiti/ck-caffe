@@ -27,7 +27,7 @@ form_name='wa_web_form'
 onchange='document.'+form_name+'.submit();'
 
 hextra='<i><center>\n'
-hextra+='This is an on-going long-term project. Please check our vision [ '
+hextra+='This is an on-going long-term scenario. Please check our vision [ '
 hextra+='<a href="http://doi.acm.org/10.1145/2909437.2909449">IWOCL\'16</a>, \n'
 hextra+='<a href="http://arxiv.org/abs/1506.06256">CPC\'15</a>, \n'
 hextra+='<a href="https://www.youtube.com/watch?v=Q94yWxXUMP0">YouTube</a>, \n'
@@ -502,8 +502,6 @@ def show(i):
     h='<hr>\n'
     h+='<center>\n'
     h+='\n\n<script language="JavaScript">function copyToClipboard (text) {window.prompt ("Copy to clipboard: Ctrl+C, Enter", text);}</script>\n\n' 
-
-    h+='<h2>Aggregated results from Caffe crowd-benchmarking (time, accuracy, energy, cost, ...)</h2>\n'
 
     h+=hextra
 
