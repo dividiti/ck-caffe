@@ -836,6 +836,7 @@ def show(i):
                 if cmuoa!='': y=cmuoa
                 url=url0+'action=pull&common_action=yes&cid='+y+':'+duid+'&filename='+mi
 
+                if ca=='': ca='<i>unknown</i>'
                 xx='<a href="'+url+'">'+ca+'</a>'
 
             if x!='':
