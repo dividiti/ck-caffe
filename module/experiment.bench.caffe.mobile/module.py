@@ -722,7 +722,7 @@ def show(i):
         bgraph['1']=[]
 
     # Sort
-    splst=sorted(plst, key=lambda x: x.get('extra',{}).get('rel_time_min',0))
+    splst=sorted(plst, key=lambda x: x.get('extra',{}).get('time_min',0))
 
     for q in splst:
         ix+=1
