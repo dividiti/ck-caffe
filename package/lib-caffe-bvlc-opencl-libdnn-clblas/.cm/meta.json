@@ -84,7 +84,7 @@
   "package_extra_name": " (libdnn,clblas)",
   "process_script": "install",
   "soft_uoa": "04ab08137582bd03",
-  "suggested_path": "lib-caffe-bvlc-opencl-libdnn-clblas",
+  "suggested_path": "lib-caffe-bvlc-opencl-libdnn",
   "tags": [
     "lib",
     "caffe",
