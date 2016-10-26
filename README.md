@@ -466,6 +466,9 @@ It is now possible to participate in crowd-benchmarking of Caffe:
 $ ck crowdbench caffe --user={your email or ID to acknowledge contributions} --env.CK_CAFFE_BATCH_SIZE=2
 ```
 
+You can also use this [Android app](https://play.google.com/store/apps/details?id=openscience.crowdsource.video.experiments)
+to crowdsource benchmarking of ARM-based Caffe libraries for image recognition (beta version).
+
 You can see continuously aggregated results in the 
 [public Collective Knowledge repository](http://cknowledge.org/repo)
 under 'crowd-benchmark Caffe library' scenario.
