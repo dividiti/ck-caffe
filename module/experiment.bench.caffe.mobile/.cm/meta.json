@@ -7,6 +7,10 @@
       "desc": "process raw results from mobile devices",
       "for_web": "yes"
     },
+    "process_unexpected_behavior": {
+      "desc": "record unexpected behavior",
+      "for_web": "yes"
+    },
     "replay": {
       "desc": "replay experiment (TBD)"
     },
@@ -34,6 +38,7 @@
     "pipeline": "db25414b48b4ffb3",
     "platform": "707ccdfe444cafac",
     "platform.cpu": "aa6b542a420b8db9",
+    "platform.gpu": "55ec7775f4afaabd",
     "platform.gpgpu": "192ed4e0bbdbe743",
     "platform.os": "41e31cc4496b8a8e",
     "program": "b0ac08fe1d3c2615",
