@@ -780,6 +780,8 @@ def show(i):
         # Check relative time
         xx='<b>'+('%.3f'%tmin)+'</b>&nbsp;/&nbsp;'+('%.3f'%tmax)
 
+        if tmin==0: xx+='<br><b><center>bug?</center></b>\n'
+
         if duid==hi_uid:
             if hi_uid!='':
                 bgraph['0'].append([ix,None])
@@ -841,6 +843,8 @@ def show(i):
                 x+='<hr>\n'
 
             x+='<strike>'+mr+'</strike><br>'+xx+'<br>\n'
+
+        if tmin==0: x+='<br><b><center>Bug detected</center></b>\n'
 
         h+='   <td '+ha+'>'+x+'</td>\n'
 
