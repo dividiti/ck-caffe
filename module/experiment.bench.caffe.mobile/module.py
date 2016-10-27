@@ -1021,8 +1021,8 @@ def process(i):
         if rx['return']>0: return rx
         duid=rx['data_uid']
 
-    # Update timing in raw results (ugly temporal hack - move to list) ...
-    t=[]
+    # We keep time1,2,3 just for compatibility with the first beta version
+    t=raw_results.get('time',[])
     tx=raw_results.get('time1',None)
     if tx!=None: t.append(tx)
     tx=raw_results.get('time2',None)
