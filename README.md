@@ -183,7 +183,7 @@ gollop](https://books.google.co.uk/books?isbn=0224046918) as follows:
 
 ```
 # apt install \
-    libatlas-base-dev \
+    libatlas-base-dev
 # pip install \
     jupyter \
     pandas numpy scipy matplotlib \
