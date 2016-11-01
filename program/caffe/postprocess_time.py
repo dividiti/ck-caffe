@@ -55,6 +55,17 @@ def ck_postprocess(i):
             if info['direction'] == 'backward':
                 layer_index += 1
 
+        # Match memory required for data.
+        memory_regex = \
+            'net\.cpp:\d{3,4}](\s+)' + \
+            'Memory required for data:(\s+)' + \
+            '(?P<bytes>\d*)'
+        match = re.search(memory_regex, line)
+        if match:
+            d['memory_bytes'] = int(match.group('bytes'))
+            d['memory_kbytes'] = float(d['memory_bytes'])*1e-3
+            d['memory_mbytes'] = float(d['memory_bytes'])*1e-6
+
         # Match forward execution time.
         fw_regex = \
             'caffe\.cpp:\d{3,4}](\s+)' + \
