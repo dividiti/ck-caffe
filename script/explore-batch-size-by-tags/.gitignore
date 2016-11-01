@@ -1,4 +1,4 @@
-explore_batch_size_by_tags.py
+explore_batch_size_by_tags-benchmark.py
 pipeline.*.*.json
 pipeline.*.*.tmp.json
 pipeline.*.*.answers
