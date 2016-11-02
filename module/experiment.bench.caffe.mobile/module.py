@@ -27,7 +27,7 @@ form_name='wa_web_form'
 onchange='document.'+form_name+'.submit();'
 
 hextra='<i><center>\n'
-hextra+='This is an on-going long-term project. Please check our vision [ '
+hextra+='This is an on-going long-term scenario. Please check our vision [ '
 hextra+='<a href="http://doi.acm.org/10.1145/2909437.2909449">IWOCL\'16</a>, \n'
 hextra+='<a href="http://arxiv.org/abs/1506.06256">CPC\'15</a>, \n'
 hextra+='<a href="https://www.youtube.com/watch?v=Q94yWxXUMP0">YouTube</a>, \n'
@@ -40,7 +40,7 @@ selector=[{'name':'Scenario', 'key':'crowd_uid', 'module_uoa':'65477d547a49dd2c'
           {'name':'Platform', 'key':'plat_name'},
           {'name':'CPU', 'key':'cpu_name', 'new_line':'yes'},
           {'name':'OS', 'key':'os_name'},
-          {'name':'GPGPU', 'key':'gpgpu_name'}]
+          {'name':'GPU', 'key':'gpu_name'}]
 
 ##############################################################################
 # Initialize module
@@ -467,35 +467,6 @@ def crowdsource(i):
     return {'return':0}
 
 ##############################################################################
-# show table
-
-def show(i):
-    """
-    Input:  {
-            }
-
-    Output: {
-              return       - return code =  0, if successful
-                                         >  0, if error
-              (error)      - error text if return > 0
-            }
-
-    """
-
-    ck.out('show table')
-
-    ck.out('')
-    ck.out('Command line: ')
-    ck.out('')
-
-    import json
-    cmd=json.dumps(i, indent=2)
-
-    ck.out(cmd)
-
-    return {'return':0}
-
-##############################################################################
 # show results
 
 def show(i):
@@ -515,6 +486,7 @@ def show(i):
     """
 
     import os
+    import copy
 
     st=''
 
@@ -530,8 +502,6 @@ def show(i):
     h='<hr>\n'
     h+='<center>\n'
     h+='\n\n<script language="JavaScript">function copyToClipboard (text) {window.prompt ("Copy to clipboard: Ctrl+C, Enter", text);}</script>\n\n' 
-
-    h+='<h2>Aggregated results from Caffe crowd-benchmarking (time, accuracy, energy, cost, ...)</h2>\n'
 
     h+=hextra
 
@@ -657,7 +627,7 @@ def show(i):
 
     h+='<br><br>'
 
-    # Prune list
+    # Prune list ******************************************************************
     plst=[]
 
     for q in lst:
@@ -676,12 +646,11 @@ def show(i):
 
         if not skip:
             # Process raw results
-            img={}
-            tt=[] # per pixel
-
             arr=d.get('all_raw_results',[])
 
             for g in arr:
+                nn=copy.deepcopy(q)
+
                 ih=g.get('image_height',0)
                 iw=g.get('image_width',0)
 
@@ -691,9 +660,6 @@ def show(i):
 
                 key=str(ih)+' x '+str(iw)
 
-                if key not in img:
-                    img[key]={}
-
                 prd=g.get('prediction','')
                 if prd!='':
                     j1=prd.find('\n')
@@ -701,42 +667,20 @@ def show(i):
                         j2=prd.find('\n',j1+1)
                         if j2>0:
                             prd=prd[j1:j2]
-                            img[key]['prediction']=prd
 
                 # Check timing - currently temporal ugly hack
-                t=[]
+                t=g.get('time',[])
 
-                t1=g.get('time1',0.0)
-                if t1!=0.0: 
-                    t.append(t1/1000.0)
-                    if it!=0.0:
-                        tt.append(t1/1000.0/it)
-
-                t2=g.get('time2',0.0)
-                if t2!=0.0: 
-                    t.append(t2/1000.0)
-                    if it!=0.0:
-                        tt.append(t2/1000.0/it)
-
-                t3=g.get('time3',0.0)
-                if t3!=0.0: 
-                    t.append(t3/1000.0)
-                    if it!=0.0:
-                        tt.append(t3/1000.0/it)
+                tmin=0
+                tmax=0
 
                 if len(t)>0:
-                    tmin=min(t)
-                    tmax=max(t)
+                    tmin=min(t)/1E3
+                    tmax=max(t)/1E3
 
-                    img[key]['time_min']=tmin
-                    img[key]['time_max']=tmax
+                nn['extra']={'key':key, 'raw_results':g, 'time_min':tmin, 'time_max':tmax, 'prediction':prd}
 
-            if len(tt)>0:
-                q['extra']={'img':img,
-                            'rel_time_min':min(tt),
-                            'rel_time_max':max(tt)}
-
-            plst.append(q)
+                plst.append(nn)
 
     # Check if too many
     lplst=len(plst)
@@ -754,13 +698,14 @@ def show(i):
     hb='align="left" valign="top"'
 
     h+='  <tr style="background-color:#dddddd">\n'
-    h+='   <td '+ha+'><b>All raw files</b></td>\n'
+    h+='   <td '+ha+'><b>Data UID / Behavior UID</b></td>\n'
     h+='   <td '+ha+'><b>Crowd scenario</b></td>\n'
-    h+='   <td '+ha+'><b>Min/Max recognition time (in microsecs. per pixel)</b></td>\n'
-    h+='   <td '+ha+'><b>Image features / results / predictions</b></td>\n'
+    h+='   <td '+ha+'><b>Min/Max recognition time (sec.)</b></td>\n'
+    h+='   <td '+ha+'><b>Image features</b></td>\n'
+    h+='   <td '+ha+'><b>Predictions</b></td>\n'
     h+='   <td '+ha+'><b>Platform</b></td>\n'
     h+='   <td '+ha+'><b>CPU</b></td>\n'
-    h+='   <td '+ha+'><b>GPGPU</b></td>\n'
+    h+='   <td '+ha+'><b>GPU</b></td>\n'
     h+='   <td '+ha+'><b>OS</b></td>\n'
     h+='   <td '+ha+'><b>Mispredictions / unexpected behavior</b></td>\n'
     h+='   <td '+ha+'><b>User</b></td>\n'
@@ -775,7 +720,7 @@ def show(i):
         bgraph['1']=[]
 
     # Sort
-    splst=sorted(plst, key=lambda x: x.get('extra',{}).get('rel_time_min',0))
+    splst=sorted(plst, key=lambda x: x.get('extra',{}).get('time_min',0))
 
     for q in splst:
         ix+=1
@@ -789,16 +734,25 @@ def show(i):
 
         extra=q['extra']
         img=extra.get('img',{})
-        tmin=extra.get('rel_time_min',0)*1E6
-        tmax=extra.get('rel_time_max',0)*1E6
+        rres=extra.get('raw_results',{})
 
-        params=d.get('choices',{}).get('params',{}).get('params',{})
+        mp=rres.get('mispredictions',[])
+
+        key=extra.get('key','')
+
+        buid=rres.get('behavior_uid','')
+        pred=extra.get('prediction','').replace(' ','&nbsp;')
+        user=rres.get('user','')
+
+        tmin=extra.get('time_min',0)
+        tmax=extra.get('time_max',0)
 
         scenario=meta.get('crowd_uid','')
 
         plat_name=meta.get('plat_name','')
         cpu_name=meta.get('cpu_name','')
         os_name=meta.get('os_name','')
+        gpu_name=meta.get('gpu_name','')
         gpgpu_name=meta.get('gpgpu_name','')
 
         plat_uid=meta.get('platform_uid','')
@@ -806,8 +760,6 @@ def show(i):
         os_uid=meta.get('os_uid','')
         gpu_uid=meta.get('gpu_uid','')
         gpgpu_uid=meta.get('gpgpu_uid','')
-
-        user=meta.get('user','')
 
         te=d.get('characteristics',{}).get('run',{})
 
@@ -819,7 +771,7 @@ def show(i):
 
         x=work['self_module_uid']
         if cmuoa!='': x=cmuoa
-        h+='   <td '+ha+'>'+str(ix)+')&nbsp;<a href="'+url0+'&wcid='+x+':'+duid+'">'+duid+'</a></td>\n'
+        h+='   <td '+ha+'>'+str(ix)+')&nbsp;<a href="'+url0+'&wcid='+x+':'+duid+'">'+duid+' / '+buid+'</a></td>\n'
 
         x=scenario
         xx=mchoices.get(ckey+'crowd_uid',{}).get(x,'')
@@ -827,6 +779,8 @@ def show(i):
 
         # Check relative time
         xx='<b>'+('%.3f'%tmin)+'</b>&nbsp;/&nbsp;'+('%.3f'%tmax)
+
+        if tmin==0: xx+='<br><b><center>bug?</center></b>\n'
 
         if duid==hi_uid:
             if hi_uid!='':
@@ -839,23 +793,8 @@ def show(i):
         h+='   <td '+ha+'>'+xx+'</a></td>\n'
 
         # All images
-        xx='<table border="1" cellpadding="5" cellspacing="0">\n'
-
-        for k in img:
-            tmin=img[k].get('time_min',0)
-            tmax=img[k].get('time_max',0)
-            pred=img[k].get('prediction','')
-
-            if tmin!=0 and pred!='':
-                xx+='<tr>\n'
-                xx+='<td valign="top">'+k.replace(' ','&nbsp;')+'</td>\n'
-                xx+='<td valign="top">'+('%.3f'%(tmin))+'</td>\n'
-                xx+='<td valign="top">'+pred+'</td>\n'
-                xx+='</tr>\n'
- 
-        xx+='</table>\n'
-
-        h+='   <td '+ha+'>'+xx+'</a></td>\n'
+        h+='   <td '+ha+'>'+key.replace(' ','&nbsp;')+'</a></td>\n'
+        h+='   <td '+ha+'>'+pred+'</a></td>\n'
 
         # Platform, etc ...
         x=plat_name
@@ -868,9 +807,9 @@ def show(i):
             x='<a href="'+url0+'&wcid='+cfg['module_deps']['platform.cpu']+':'+cpu_uid+'">'+x+'</a>'
         h+='   <td '+ha+'>'+x+'</td>\n'
 
-        x=gpgpu_name
-        if gpgpu_uid!='':
-            x='<a href="'+url0+'&wcid='+cfg['module_deps']['platform.gpgpu']+':'+gpgpu_uid+'">'+x+'</a>'
+        x=gpu_name
+        if gpu_uid!='':
+            x='<a href="'+url0+'&wcid='+cfg['module_deps']['platform.gpu']+':'+gpu_uid+'">'+x+'</a>'
         h+='   <td '+ha+'>'+x+'</td>\n'
 
         x=os_name
@@ -878,7 +817,36 @@ def show(i):
             x='<a href="'+url0+'&wcid='+cfg['module_deps']['platform']+':'+os_uid+'">'+x+'</a>'
         h+='   <td '+ha+'>'+x+'</td>\n'
 
-        h+='   <td '+ha+'></td>\n'
+        x=''
+        for q in mp:
+            ca=q.get('correct_answer','')
+            mi=q.get('mispredicted_image','')
+            mr=q.get('misprediction_results','')
+
+            if mr!='':
+                j1=mr.find('\n')
+                if j1>0:
+                    j2=mr.find('\n',j1+1)
+                    if j2>0:
+                        mr=mr[j1:j2]
+
+            xx=ca
+            if mi!='':
+                y=work['self_module_uid']
+                if cmuoa!='': y=cmuoa
+                url=url0+'action=pull&common_action=yes&cid='+y+':'+duid+'&filename='+mi
+
+                if ca=='': ca='<i>unknown</i>'
+                xx='<a href="'+url+'">'+ca+'</a>'
+
+            if x!='':
+                x+='<hr>\n'
+
+            x+='<strike>'+mr+'</strike><br>'+xx+'<br>\n'
+
+        if tmin==0: x+='<br><b><center>Bug detected</center></b>\n'
+
+        h+='   <td '+ha+'>'+x+'</td>\n'
 
         h+='   <td '+ha+'><a href="'+url0+'&action=index&module_uoa=wfe&native_action=show&native_module_uoa=experiment.user">'+user+'</a></td>\n'
 
@@ -895,8 +863,6 @@ def show(i):
            'module_uoa':cfg['module_deps']['graph'],
 
            "table":bgraph,
-
-           "h_lines":[1.0],
 
            "ymin":0,
 
@@ -980,6 +946,8 @@ def process(i):
 
     import copy
 
+#    ck.save_json_to_file({'json_file':'/tmp/xyz1.json','dict':i})
+
     crowd_uid=i.get('crowd_uid','')
     email=i.get('email','')
     raw_results=i.get('raw_results',{})
@@ -995,8 +963,11 @@ def process(i):
     plat_uid=features.get('platform_uid','')
     os_name=fos.get('name','')
     os_uid=features.get('os_uid','')
+    gpu_uid=features.get('gpu_uid','')
     cpu_name=fcpu.get('name','')
-    if cpu_name=='': cpu_name='unknown-'+fcpu.get('cpu_abi','')
+    cpu_abi=fcpu.get('cpu_abi','')
+    if cpu_name=='' and cpu_abi!='': 
+        cpu_name='unknown-'+fcpu.get('cpu_abi','')
     cpu_uid=features.get('cpu_uid','')
     gpu_name=fgpu.get('name','')
     gpgpu_name=''
@@ -1017,8 +988,16 @@ def process(i):
     mmeta['platform_uid']=plat_uid
     mmeta['os_uid']=os_uid
     mmeta['cpu_uid']=cpu_uid
+    mmeta['gpu_uid']=gpu_uid
     mmeta['gpgpu_uid']=gpgpu_uid
-    mmeta['user']=email
+
+    # Generate behavior UID
+    rx=ck.gen_uid({})
+    if rx['return']>0: return rx
+    buid=rx['data_uid']
+
+    raw_results['user']=email
+    raw_results['behavior_uid']=buid
 
     # Check if already exists
     duid=''
@@ -1042,9 +1021,37 @@ def process(i):
         if rx['return']>0: return rx
         duid=rx['data_uid']
 
+    # We keep time1,2,3 just for compatibility with the first beta version
+    t=raw_results.get('time',[])
+    tx=raw_results.get('time1',None)
+    if tx!=None: t.append(tx)
+    tx=raw_results.get('time2',None)
+    if tx!=None: t.append(tx)
+    tx=raw_results.get('time3',None)
+    if tx!=None: t.append(tx)
+    raw_results['time']=t
+
     # Process results
     results=ddd.get('all_raw_results',[])
-    results.append(raw_results)
+
+    # Check if already exists with this image topology
+    found=False
+    for q in results:
+        if q.get('image_height',None)==raw_results.get('image_height',None) and \
+           q.get('image_width',None)==raw_results.get('image_width',None):
+            t=q.get('time',[])
+
+            for tx in raw_results.get('time',[]):
+                t.append(tx)
+            q['time']=t
+
+            buid=q.get('behavior_uid','')
+
+            found=True
+
+    if not found:
+        results.append(raw_results)
+
     ddd['all_raw_results']=results
 
     xmeta=ddd.get('meta',{})
@@ -1061,4 +1068,84 @@ def process(i):
                   'sort_keys':'yes'})
     if rx['return']>0: return rx
 
-    return {'return':0, 'status':'Results successfully added to Collective Knowledge (UID='+duid+')!'}
+    return {'return':0, 'status':'Results successfully added to Collective Knowledge (UID='+duid+')!', 'data_uid':duid, 'behavior_uid':buid}
+
+##############################################################################
+# record unexpected behavior
+
+def process_unexpected_behavior(i):
+    """
+    Input:  {
+            }
+
+    Output: {
+              return       - return code =  0, if successful
+                                         >  0, if error
+              (error)      - error text if return > 0
+            }
+
+    """
+
+    import os
+
+    duid=i.get('data_uid','')
+    buid=i.get('behavior_uid','')
+    cuid=i.get('crowd_uid','')
+    rres=i.get('raw_results','')
+    ca=i.get('correct_answer','')
+    file_base64=i.get('file_base64','')
+
+    # Find data
+    r=ck.access({'action':'load',
+                 'module_uoa':work['self_module_uid'],
+                 'data_uoa':duid})
+    if r['return']>0: return r
+    d=r['dict']
+    p=r['path']
+
+    # Find behavior
+    found=False
+    arr=d.get('all_raw_results',[])
+    for q in arr:
+        if q.get('behavior_uid','')==buid:
+            found=True
+            break
+
+    if not found:
+        return {'return':1, 'error':'can\'t find behavior '+buid+' in entry '+duid}
+
+    # Generate UID for the file with unexpected behavior
+    rx=ck.gen_uid({})
+    if rx['return']>0: return rx
+
+    ff='misprediction-image-'+rx['data_uid']+'.jpg'
+
+    pf=os.path.join(p,ff)
+
+    mp=q.get('mispredictions',[])
+
+    qq={}
+    qq['misprediction_results']=rres
+    qq['mispredicted_image']=ff
+    qq['correct_answer']=ca
+
+    mp.append(qq)
+
+    q['mispredictions']=mp
+
+    # Record file
+    rx=ck.convert_upload_string_to_file({'file_content_base64':file_base64,
+                                         'filename':pf})
+    if rx['return']>0: return rx
+
+    # Update entry (should add lock in the future for parallel processing)
+    r=ck.access({'action':'update',
+                 'module_uoa':work['self_module_uid'],
+                 'data_uoa':duid,
+                 'dict':d,
+                 'sort_keys':'yes',
+                 'substitute':'yes',
+                 'ignore_update':'yes'})
+    if r['return']>0: return r
+
+    return {'return':0}
