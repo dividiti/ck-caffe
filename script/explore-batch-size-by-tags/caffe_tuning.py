@@ -141,6 +141,9 @@ def do(i):
         else:
             cmd_key='time_gpu'
 
+        print (cmd_key)
+        raw_input('xyz')
+
         # For each Caffe model.
         for model_uoa in udepm:
             # Load Caffe model.
@@ -173,6 +176,8 @@ def do(i):
             cpipeline['dependencies']['lib-model']=copy.deepcopy(depm)
             cpipeline['dependencies']['lib-model']['uoa']=model_uoa
 
+            cpipeline['cmd_key']=cmd_key
+
             ii={'action':'autotune',
 
                 'module_uoa':'pipeline',
@@ -199,7 +204,6 @@ def do(i):
                 },
                 'record_repo':record_repo,
                 'record_uoa':record_uoa,
-                'cmd_key':cmd_key,
 
                 'tags':['explore-batch-size-by-tags', cmd_key, model_tags, lib_tags],
 
