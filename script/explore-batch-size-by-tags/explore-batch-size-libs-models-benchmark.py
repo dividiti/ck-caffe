@@ -213,7 +213,7 @@ def do(i):
                 'record_repo':record_repo,
                 'record_uoa':record_uoa,
 
-                'tags':['explore-batch-size-by-tags', cmd_key, model_tags, lib_tags],
+                'tags':['explore-batch-size-libs-models', cmd_key, model_tags, lib_tags],
 
                 'pipeline':cpipeline,
                 'out':'con'}
