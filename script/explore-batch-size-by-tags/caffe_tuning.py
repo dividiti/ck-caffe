@@ -167,11 +167,22 @@ def do(i):
             cpipeline=copy.deepcopy(pipeline)
 
             # Reset deps and change UOA.
-            cpipeline['dependencies']['lib-model']=copy.deepcopy(depl)
-            cpipeline['dependencies']['lib-model']['uoa']=lib_uoa
+            new_deps={'lib-caffe':copy.deepcopy(depl), 
+                      'caffemodel':copy.deepcopy(depm)}
 
-            cpipeline['dependencies']['lib-model']=copy.deepcopy(depm)
-            cpipeline['dependencies']['lib-model']['uoa']=model_uoa
+            new_deps['lib-caffe']['uoa']=lib_uoa
+            new_deps['caffemodel']['uoa']=model_uoa
+
+            jj={'action':'resolve',
+                'module_uoa':'env',
+                'host_os':hos,
+                'target_os':tos,
+                'device_id':tdid,
+                'deps':new_deps}
+            r=ck.access(jj)
+            if r['return']>0: return r
+
+            cpipeline['dependencies'].update(new_deps)
 
             cpipeline['cmd_key']=cmd_key
 
