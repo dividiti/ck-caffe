@@ -204,7 +204,7 @@ def do(i):
                 'tags':['explore-batch-size-by-tags', cmd_key, model_tags, lib_tags],
 
                 'pipeline':cpipeline,
-                'out':'out'}
+                'out':'con'}
 
             r=ck.access(ii)
             if r['return']>0: return r
