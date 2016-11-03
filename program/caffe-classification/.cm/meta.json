@@ -9,17 +9,18 @@
     "CK_ENV_LIB_CAFFE_EXTRA_INCLUDE"
   ], 
   "compile_deps": {
-    "compiler": {
-      "local": "yes",
-      "name": "C++ compiler",
-      "sort": 10,
-      "tags": "compiler,lang-cpp"
-    },
     "lib-caffe": {
       "local": "yes",
       "name": "Caffe library",
+      "sort": 10,
+      "tags": "lib,caffe",
+      "skip_pruning_by_other_deps":"yes"
+    },
+    "compiler": {
+      "local": "yes",
+      "name": "C++ compiler",
       "sort": 20,
-      "tags": "lib,caffe"
+      "tags": "compiler,lang-cpp"
     },
     "boost": {
       "local": "yes",
@@ -31,9 +32,8 @@
   },
   "compiler_env": "CK_CXX",
   "compiler_flags_as_env": "",
-  "extra_ld_vars": "-lglog",
+  "extra_ld_vars": "-lglog -lboost_system -lopencv_imgproc -lopencv_highgui -lopencv_core",
   "data_name": "caffe-classification",
-  "extra_ld_vars": "",
   "main_language": "cpp",
   "process_in_tmp": "yes",
   "program": "yes",
