@@ -141,9 +141,6 @@ def do(i):
         else:
             cmd_key='time_gpu'
 
-        print (cmd_key)
-        raw_input('xyz')
-
         # For each Caffe model.
         for model_uoa in udepm:
             # Load Caffe model.
