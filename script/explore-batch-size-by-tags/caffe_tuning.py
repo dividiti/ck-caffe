@@ -1,21 +1,23 @@
 import ck.kernel as ck
 import copy
+import re
 
-istart=1
-istep=1
-istop=4
-idefault=1
+# Batch size iteration parameters and number of repetitions.
+p={'start':2,
+   'step':1,
+   'stop':3,
+   'default':2,
+   'repeat':2}
 
-def start(i):
-
-    # Detect basic platform info
+def do(i):
+    # Detect basic platform info.
     ii={'action':'detect',
         'module_uoa':'platform',
         'out':'out'}
     r=ck.access(ii)
     if r['return']>0: return r
 
-    # Host and target OS params
+    # Host and target OS params.
     hos=r['host_os_uoa']
     hosd=r['host_os_dict']
 
@@ -23,17 +25,18 @@ def start(i):
     tosd=r['os_dict']
     tdid=r['device_id']
 
-    # Load Caffe program meta and desc to check deps
-    rx=ck.access({'action':'load',
-                  'module_uoa':'program',
-                  'data_uoa':'caffe'})
+    # Load Caffe program meta and desc to check deps.
+    ii={'action':'load',
+        'module_uoa':'program',
+        'data_uoa':'caffe'}
+    rx=ck.access(ii)
     if rx['return']>0: return rx
     mm=rx['dict']
 
-    # Update deps from GPGPU or ones remembered during autotuning
+    # Update deps from GPGPU or ones remembered during autotuning.
     cdeps=mm.get('compile_deps',{})
 
-    # Caffe libs
+    # Caffe libs.
     depl=copy.deepcopy(cdeps['lib-caffe'])
 
     ii={'action':'resolve',
@@ -41,18 +44,16 @@ def start(i):
         'host_os':hos,
         'target_os':tos,
         'device_id':tdid,
-        'deps':{
-           "lib-caffe": copy.deepcopy(depl)
-          }
-        }
+        'deps':{'lib-caffe':copy.deepcopy(depl)}
+    }
     r=ck.access(ii)
     if r['return']>0: return r
 
-    udepl=r['deps']['lib-caffe'].get('choices',[]) # All UOAs of env for Caffe lib
+    udepl=r['deps']['lib-caffe'].get('choices',[]) # All UOAs of env for Caffe libs.
     if len(udepl)==0:
         return {'return':1, 'error':'no installed Caffe libs'}
 
-    # Caffe models
+    # Caffe models.
     depm=copy.deepcopy(cdeps['caffemodel'])
 
     ii={'action':'resolve',
@@ -60,18 +61,16 @@ def start(i):
         'host_os':hos,
         'target_os':tos,
         'device_id':tdid,
-        'deps':{
-           "caffemodel": copy.deepcopy(depm)
-          }
-        }
+        'deps':{'caffemodel':copy.deepcopy(depm)}
+    }
     r=ck.access(ii)
     if r['return']>0: return r
 
-    udepm=r['deps']['caffemodel'].get('choices',[]) # All UOAs of env for Caffe models
+    udepm=r['deps']['caffemodel'].get('choices',[]) # All UOAs of env for Caffe models.
     if len(udepm)==0:
         return {'return':1, 'error':'no installed Caffe models'}
 
-    # Prepare pipeline
+    # Prepare pipeline.
     cdeps['lib-caffe']['uoa']=udepl[0]
     cdeps['caffemodel']['uoa']=udepm[0]
 
@@ -84,105 +83,137 @@ def start(i):
 
         'dependencies': cdeps,
 
-        'cmd_key':'time_gpu',
-
         'no_state_check':'yes',
         'no_compiler_description':'yes',
         'skip_calibration':'yes',
 
+        'cmd_key':'time_gpu',
+
         'cpu_freq':'max',
         'gpu_freq':'max',
-        'env_speed':'yes',
+
+        'speed':'yes',
         'energy':'no',
 
-        'skip_print_timers':'yes',
-
-        'out':'con'}
+        'out':'con',
+        'skip_print_timers':'yes'
+    }
 
     r=ck.access(ii)
     if r['return']>0: return r
 
     fail=r.get('fail','')
     if fail=='yes':
-       return {'return':10, 'error':'pipeline failed ('+r.get('fail_reason','')+')'}
+        return {'return':10, 'error':'pipeline failed ('+r.get('fail_reason','')+')'}
 
     ready=r.get('ready','')
     if ready!='yes':
-       return {'return':11, 'error':'couldn\'t prepare autotuning pipeline'}
+        return {'return':11, 'error':'pipeline not ready'}
 
     state=r['state']
     tmp_dir=state['tmp_dir']
 
-    # Remember resolved deps for this benchmarking session
+    # Remember resolved deps for this benchmarking session.
     xcdeps=r.get('dependencies',{})
 
-    # Clean pipeline
+    # Clean pipeline.
     if 'ready' in r: del(r['ready'])
     if 'fail' in r: del(r['fail'])
     if 'return' in r: del(r['return'])
 
     pipeline=copy.deepcopy(r)
 
-    # Loops
+    # For each Caffe lib.
     for lib_uoa in udepl:
+        # Load Caffe lib.
+        ii={'action':'load',
+            'module_uoa':'env',
+            'data_uoa':lib_uoa}
+        r=ck.access(ii)
+        if r['return']>0: return r
+        # Get the tags from e.g. 'BVLC Caffe framework (libdnn,viennacl)'
+        lib_name=r['data_name']
+        lib_tags=re.match('BVLC Caffe framework \((?P<tags>.*)\)', lib_name)
+        lib_tags=lib_tags.group('tags').replace(' ', '').replace(',', '-')
+        # Skip non-GPU libs.
+        if r['dict']['customize']['params']['cpu_only']==1:
+            cmd_key='time_cpu'
+        else:
+            cmd_key='time_gpu'
+
+        # For each Caffe model.
         for model_uoa in udepm:
-             # Prepare pipeline
-             ck.out('-------------------------------------------------------')
-             ck.out('Caffe lib env UOA: '+lib_uoa)
-             ck.out('Caffe model env UOA: '+model_uoa)
+            # Load Caffe model.
+            ii={'action':'load',
+                'module_uoa':'env',
+                'data_uoa':model_uoa}
+            r=ck.access(ii)
+            if r['return']>0: return r
+            # Get the tags from e.g. 'Caffe model (net and weights) (deepscale, squeezenet, 1.1)'
+            model_name=r['data_name']
+            model_tags = re.match('Caffe model \(net and weights\) \((?P<tags>.*)\)', model_name)
+            model_tags = model_tags.group('tags').replace(' ', '').replace(',', '-')
 
-             # Preparing autotuning input
-             cpipeline=copy.deepcopy(pipeline)
+            record_repo='local'
+            record_uoa=model_tags+'-'+lib_tags
 
-             # Reset deps and change UOA
-             cpipeline['dependencies']['lib-model']=copy.deepcopy(depl)
-             cpipeline['dependencies']['lib-model']['uoa']=lib_uoa
+            # Prepare pipeline.
+            ck.out('---------------------------------------------------------------------------------------')
+            ck.out('%s - %s' % (lib_name, lib_uoa))
+            ck.out('%s - %s' % (model_name, model_uoa))
+            ck.out('Experiment - %s:%s' % (record_repo, record_uoa))
 
-             cpipeline['dependencies']['lib-model']=copy.deepcopy(depm)
-             cpipeline['dependencies']['lib-model']['uoa']=model_uoa
+            # Prepare autotuning input.
+            cpipeline=copy.deepcopy(pipeline)
 
-             record_uoa='new-caffe-tuning-'+lib_uoa+'-'+model_uoa
+            # Reset deps and change UOA.
+            cpipeline['dependencies']['lib-model']=copy.deepcopy(depl)
+            cpipeline['dependencies']['lib-model']['uoa']=lib_uoa
 
-             ii={'action':'autotune',
+            cpipeline['dependencies']['lib-model']=copy.deepcopy(depm)
+            cpipeline['dependencies']['lib-model']['uoa']=model_uoa
 
-                 'module_uoa':'pipeline',
-                 'data_uoa':'program',
+            ii={'action':'autotune',
 
-                 "choices_order":[
-                     [
-                         "##env#CK_CAFFE_BATCH_SIZE"
-                     ]
-                 ],
-                 "choices_selection":[
-                     {"type":"loop", "start":istart, "stop":istop, "step":istep, "default":idefault}
-                 ],
+                'module_uoa':'pipeline',
+                'data_uoa':'program',
 
-                 "features_keys_to_process":["##choices#*"],
+                'choices_order':[
+                    [
+                        '##env#CK_CAFFE_BATCH_SIZE'
+                    ]
+                ],
+                'choices_selection':[
+                    {'type':'loop', 'start':p['start'], 'stop':p['stop'], 'step':p['step'], 'default':p['default']}
+                ],
 
-                 "iterations":-1,
-                 "repetitions":5,
+                'features_keys_to_process':['##choices#*'],
 
-                 "record":"yes",
-                 "record_failed":"yes",
-                 "record_params":{
-                     "search_point_by_features":"yes"
-                 },
-                 "record_repo":"local",
-                 "record_uoa":record_uoa,
+                'iterations':-1,
+                'repetitions':p['repeat'],
 
-                 "tags":["time_gpu", "$hostname", "$caffemodel_tags", "$caffe_tags"],
+                'record':'yes',
+                'record_failed':'yes',
+                'record_params':{
+                    'search_point_by_features':'yes'
+                },
+                'record_repo':record_repo,
+                'record_uoa':record_uoa,
+                'cmd_key':cmd_key,
 
-                 'pipeline':cpipeline,
-                 'out':'out'}
+                'tags':['explore-batch-size-by-tags', cmd_key, model_tags, lib_tags],
 
-             r=ck.access(ii)
-             if r['return']>0: return r
+                'pipeline':cpipeline,
+                'out':'out'}
 
-             fail=r.get('fail','')
-             if fail=='yes':
+            r=ck.access(ii)
+            if r['return']>0: return r
+
+            fail=r.get('fail','')
+            if fail=='yes':
                 return {'return':10, 'error':'pipeline failed ('+r.get('fail_reason','')+')'}
 
     return {'return':0}
 
-r=start({})
+r=do({})
 if r['return']>0: ck.err(r)
