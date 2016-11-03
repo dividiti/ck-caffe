@@ -28,6 +28,12 @@
       "skip_from_bat": "yes",
       "sort": 30,
       "tags": "lib,boost"
+    },
+    "caffemodel": {
+      "local": "yes",
+      "name": "Caffe model (net and weights)",
+      "sort": 40,
+      "tags": "caffemodel"
     }
   },
   "compiler_env": "CK_CXX",
@@ -41,7 +47,7 @@
     "default": {
       "ignore_return_code": "no",
       "run_time": {
-        "run_cmd_main": "$#BIN_FILE#$",
+        "run_cmd_main": "$#BIN_FILE#$ deploy.prototxt $<<CK_ENV_MODEL_CAFFE_WEIGHTS>>$ imagenet_mean.binaryproto synset_words.txt mouse.jpg",
         "run_cmd_out1": "tmp-output1.tmp",
         "run_cmd_out2": "tmp-output2.tmp",
         "run_correctness_output_files": [
@@ -59,6 +65,10 @@
   "source_files": [
     "classification.cpp"
   ],
+  "print_files_after_run": [
+    "tmp-output1.tmp",
+    "tmp-output2.tmp"
+  ], 
   "tags": [
     "caffe-classification",
     "demo"
