@@ -1,4 +1,4 @@
-2016.11.04 * making os.getcwd() more safe
+2016.11.04 - making os.getcwd() safer
 
 2016.10.24 - added support for Caffe mobile crowd-tuning
            - added caffe-classification program
