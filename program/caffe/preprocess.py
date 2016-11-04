@@ -45,7 +45,11 @@ def ck_preprocess(i):
 
     b=''
 
-    cur_dir=os.getcwd()
+    try:
+        cur_dir=os.getcwd()
+    except OSError:
+        os.chdir('..')
+        cur_dir=os.getcwd()
 
     # Generate tmp file
     rx=ck.gen_tmp_file({'prefix':'tmp-', 'suffix':'.prototxt', 'remove_dir':'yes'})
