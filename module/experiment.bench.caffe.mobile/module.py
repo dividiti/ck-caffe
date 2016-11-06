@@ -700,6 +700,7 @@ def show(i):
     h+='  <tr style="background-color:#dddddd">\n'
     h+='   <td '+ha+'><b>Data UID / Behavior UID</b></td>\n'
     h+='   <td '+ha+'><b>Crowd scenario</b></td>\n'
+    h+='   <td '+ha+'><b>Model weight size</b></td>\n'
     h+='   <td '+ha+'><b>Min/Max recognition time (sec.)</b></td>\n'
     h+='   <td '+ha+'><b>Image features</b></td>\n'
     h+='   <td '+ha+'><b>Predictions</b></td>\n'
@@ -721,6 +722,8 @@ def show(i):
 
     # Sort
     splst=sorted(plst, key=lambda x: x.get('extra',{}).get('time_min',0))
+
+    cache_meta={}
 
     for q in splst:
         ix+=1
@@ -773,9 +776,32 @@ def show(i):
         if cmuoa!='': x=cmuoa
         h+='   <td '+ha+'>'+str(ix)+')&nbsp;<a href="'+url0+'&wcid='+x+':'+duid+'">'+duid+' / '+buid+'</a></td>\n'
 
-        x=scenario
-        xx=mchoices.get(ckey+'crowd_uid',{}).get(x,'')
-        h+='   <td '+ha+'>'+xx+'</a></td>\n'
+        # Output scenario
+        xx=mchoices.get(ckey+'crowd_uid',{}).get(scenario,'')
+
+        kscenario=cfg['module_deps']['experiment.scenario.mobile']+':'+scenario
+        if kscenario not in cache_meta:
+            r=ck.access({'action':'load',
+                         'module_uoa':cfg['module_deps']['experiment.scenario.mobile'],
+                         'data_uoa':scenario})
+            if r['return']>0: return r
+            xd=r['dict']
+            cache_meta[kscenario]=xd
+
+            # Find model size
+            for q in xd.get('files',[]):
+                if q.get('model_weights','')=='yes':
+                    xd['model_weights_size']=int(q.get('file_size',0)/1E6)
+                    break
+
+        xd=cache_meta[kscenario]
+
+        xx=xd.get('title','')
+        xy=int(xd.get('model_weights_size',0))+1
+
+        h+='   <td '+ha+'><a href="'+url0+'&wcid='+kscenario+'">'+xx+'</a></td>\n'
+
+        h+='   <td '+ha+'>'+str(xy)+' MB</td>\n'
 
         # Check relative time
         xx='<b>'+('%.3f'%tmin)+'</b>&nbsp;/&nbsp;'+('%.3f'%tmax)
@@ -875,7 +901,7 @@ def show(i):
            "title":"Powered by Collective Knowledge",
 
            "axis_x_desc":"Experiment",
-           "axis_y_desc":"Neural network recognition time per pixel (us)",
+           "axis_y_desc":"Unoptimized Caffe CPU classification time (s)",
 
            "plot_grid":"yes",
 
