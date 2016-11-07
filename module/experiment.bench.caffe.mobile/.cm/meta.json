@@ -37,6 +37,7 @@
     "platform.os": "41e31cc4496b8a8e",
     "program": "b0ac08fe1d3c2615",
     "program.optimization": "27bc42ee449e880e",
+    "experiment.scenario.mobile":"65477d547a49dd2c",
     "soft": "5e1100048ab875d7",
     "wfe": "1e4e644996b7f2a0"
   },
@@ -51,3 +52,4 @@
     "caffe-mobile"
   ]
 }
+/
