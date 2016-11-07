@@ -4,10 +4,10 @@ import re
 
 # Batch size iteration parameters and number of repetitions.
 p={'start':2,
-   'step':1,
-   'stop':3,
+   'step':2,
+   'stop':16,
    'default':2,
-   'repeat':2}
+   'repeat':3}
 
 def do(i):
     # Detect basic platform info.
@@ -135,7 +135,7 @@ def do(i):
         lib_name=r['data_name']
         lib_tags=re.match('BVLC Caffe framework \((?P<tags>.*)\)', lib_name)
         lib_tags=lib_tags.group('tags').replace(' ', '').replace(',', '-')
-        # Skip non-GPU libs.
+        # Use the 'time_cpu' command for the CPU only lib, 'time_gpu' for all the rest.
         if r['dict']['customize']['params']['cpu_only']==1:
             cmd_key='time_cpu'
         else:
@@ -167,7 +167,7 @@ def do(i):
             cpipeline=copy.deepcopy(pipeline)
 
             # Reset deps and change UOA.
-            new_deps={'lib-caffe':copy.deepcopy(depl), 
+            new_deps={'lib-caffe':copy.deepcopy(depl),
                       'caffemodel':copy.deepcopy(depm)}
 
             new_deps['lib-caffe']['uoa']=lib_uoa
