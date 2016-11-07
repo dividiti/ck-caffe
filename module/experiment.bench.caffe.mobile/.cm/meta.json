@@ -1,8 +1,5 @@
 {
   "actions": {
-    "crowdsource": {
-      "desc": "crowdsource these experiments"
-    },
     "process": {
       "desc": "process raw results from mobile devices",
       "for_web": "yes"
@@ -10,9 +7,6 @@
     "process_unexpected_behavior": {
       "desc": "record unexpected behavior",
       "for_web": "yes"
-    },
-    "replay": {
-      "desc": "replay experiment (TBD)"
     },
     "show": {
       "desc": "show results"
@@ -48,6 +42,7 @@
   },
   "priority": 9,
   "program_tags": "crowd-benchmarking,caffe-mobile",
+  "skip_from_cmd":"yes",
   "tags": [
     "crowdsource",
     "experiments",
