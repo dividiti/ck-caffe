@@ -1,3 +1,8 @@
+2016.11.08 - major update to caffe-classification with the support
+             for CK jpeg datasets;
+           - added standard DNN demo datasets (cat, fish-bike) to ctuning-datasets-min repo
+           - can use different models in caffe-classification
+
 2016.11.04 - making os.getcwd() safer
 
 2016.10.24 - added support for Caffe mobile crowd-tuning

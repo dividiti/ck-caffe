@@ -19,14 +19,19 @@ def ck_preprocess(i):
     params=rt['params']
     cm_key=params['caffemodel_key']
 
+    classification=params.get('classification','')
+
     b='\n'
 
     # Get number of images
-    nim=deps.get('dataset-imagenet-lmdb',{}).get('dict',{}). \
-        get('customize',{}).get('features',{}).get('number_of_original_images','')
-    if nim=='':
-       return {'return':1, 'error':'can\'t find number of images in a dataset'}
-    nim=int(nim)
+    if classification=='yes':
+        nim=1
+    else:
+        nim=deps.get('dataset-imagenet-lmdb',{}).get('dict',{}). \
+            get('customize',{}).get('features',{}).get('number_of_original_images','')
+        if nim=='':
+           return {'return':1, 'error':'can\'t find number of images in a dataset'}
+        nim=int(nim)
 
     # Find template
     x=deps['caffemodel']
@@ -87,12 +92,14 @@ def ck_preprocess(i):
         st=st.replace('$#'+k+'#$',str(v))
 
     # Get path to imagenet aux
-    paux=deps['dataset-imagenet-aux']['dict']['env']['CK_ENV_DATASET_IMAGENET_AUX']+'/'
+    plmdb=''
+    paux=''
+
+    if classification!='yes':
+        paux=deps['dataset-imagenet-aux']['dict']['env']['CK_ENV_DATASET_IMAGENET_AUX']+'/'
+        plmdb=deps['dataset-imagenet-lmdb']['dict']['env']['CK_ENV_DATASET_IMAGENET_VAL_LMDB']
+
     st=st.replace('$#path_to_imagenet_aux#$', paux)
-
-    # add LMDB
-    plmdb=deps['dataset-imagenet-lmdb']['dict']['env']['CK_ENV_DATASET_IMAGENET_VAL_LMDB']
-
     st=st.replace('$#train_lmdb#$', plmdb)
     st=st.replace('$#val_lmdb#$', plmdb)
 
@@ -103,6 +110,10 @@ def ck_preprocess(i):
     # Prepare path to model
     b+='export CK_CAFFE_MODEL='+fn+'\n'
     env['CK_CAFFE_MODEL']=fn
+
+    fnx=os.path.basename(fn)
+    b+='export CK_CAFFE_MODEL_FILE='+fnx+'\n'
+    env['CK_CAFFE_MODEL_FILE']=fnx
 
     return {'return':0, 'bat':b}
 

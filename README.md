@@ -456,9 +456,21 @@ $ ck pull repo:ck-caffe --url=https://github.com/dividiti/ck-caffe
 $ ck run program:caffe
 ```
 
-## Sample run
+## Testing installation via image classification
 
-**TBD**
+```
+ $ ck compile program:caffe-classification --speed
+ $ ck run program:caffe-classification
+```
+
+Note, that you will be asked to select a jpeg image from available CK data sets.
+We added standard demo images (cat.jpg, catgrey.jpg, fish-bike.jpg, computer_mouse.jpg)
+to the ['ctuning-datasets-min' repository](https://github.com/ctuning/ctuning-datasets-min).
+You can list them via
+```
+ $ ck pull repo:ctuning-datasets-min
+ $ ck search dataset --tags=dnn
+```
 
 ## Crowd-benchmarking
 It is now possible to participate in crowd-benchmarking of Caffe:

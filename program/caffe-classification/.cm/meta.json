@@ -45,11 +45,24 @@
   "program": "yes",
   "run_cmds": {
     "default": {
+      "dataset_tags": [
+        "image", 
+        "jpeg", 
+        "dataset"
+      ], 
       "ignore_return_code": "no",
       "run_time": {
-        "run_cmd_main": "$#BIN_FILE#$ deploy.prototxt $<<CK_ENV_MODEL_CAFFE_WEIGHTS>>$ imagenet_mean.binaryproto synset_words.txt mouse.jpg",
+        "run_cmd_main": "$#BIN_FILE#$ $<<CK_CAFFE_MODEL_FILE>>$ $<<CK_ENV_MODEL_CAFFE_WEIGHTS>>$ ../imagenet_mean.binaryproto ../synset_words.txt $#dataset_path#$$#dataset_filename#$",
         "run_cmd_out1": "tmp-output1.tmp",
         "run_cmd_out2": "tmp-output2.tmp",
+        "params":{
+          "caffemodel_key":"deploy",
+          "classification":"yes"
+        },
+        "pre_process_via_ck": {
+          "script_name":"preprocess",
+          "data_uoa":"569404c41618603a"
+        },
         "run_correctness_output_files": [
           "tmp-output.tmp",
           "tmp-output2.tmp"
