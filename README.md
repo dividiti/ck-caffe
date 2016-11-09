@@ -473,7 +473,8 @@ You can list them via
 ```
 
 ## Crowd-benchmarking
-It is now possible to participate in crowd-benchmarking of Caffe:
+It is now possible to participate in crowd-benchmarking of Caffe
+(early prototype):
 ```
 $ ck crowdbench caffe --user={your email or ID to acknowledge contributions} --env.CK_CAFFE_BATCH_SIZE=2
 ```
@@ -494,8 +495,7 @@ and tuning of realistic workloads across diverse hardware
 We also plan to add crowd-benchmarking and crowd-tuning of Caffe, TensorFlow 
 and other DNN frameworks to our 
 [Android application](https://play.google.com/store/apps/details?id=openscience.crowdsource.experiments) 
-at the end of October - please stay tuned!
-
+soon - please stay tuned!
 
 ## Misc hints
 
