@@ -132,5 +132,5 @@ def replay(i):
 
     """
 
-    i['module_uoa']=cfg['module_deps']['experiment.bench.tensorflow']
+    i['module_uoa']=cfg['module_deps']['experiment.bench.caffe']
     return ck.access(i)
