@@ -52,7 +52,7 @@ def crowdbench(i):
     return ck.access(i)
 
 ##############################################################################
-# classification demo using webcam
+# TBD: classification demo using webcam + benchmarking/tuning via CK
 
 def demo(i):
     """
@@ -92,7 +92,7 @@ def demo(i):
     p=r['path']
 
     pf=os.path.join(p, image_name)
-         
+
     # Initialize web cam
     ci=int(i.get('camera_id',0))
     dl=int(i.get('delay',1))
@@ -111,7 +111,26 @@ def demo(i):
 #           destroyWindow("cam-test")
 
            cv2.imwrite(pf,img)
-    
+
        time.sleep(dl)
 
     return {'return':0}
+
+##############################################################################
+# replay experiment
+
+def replay(i):
+    """
+    Input:  {
+            }
+
+    Output: {
+              return       - return code =  0, if successful
+                                         >  0, if error
+              (error)      - error text if return > 0
+            }
+
+    """
+
+    i['module_uoa']=cfg['module_deps']['experiment.bench.tensorflow']
+    return ck.access(i)

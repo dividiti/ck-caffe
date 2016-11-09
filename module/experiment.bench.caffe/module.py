@@ -1,5 +1,5 @@
 #
-# Collective Knowledge: crowdbenchmarking using ARM's workload automation and CK
+# Collective Knowledge: CK-powered Caffe crowdbenchmarking (very early prototyping)
 #
 # See CK LICENSE.txt for licensing details
 # See CK COPYRIGHT.txt for copyright details
@@ -12,13 +12,9 @@ work={} # Will be updated by CK (temporal data)
 ck=None # Will be updated by CK (initialized CK kernel) 
 
 # Local settings
-compiler_choices='#choices#compiler_flags#'
 
 line='================================================================'
 
-fsummary='summary.json'
-fclassification='classification.json'
-fgraph='tmp-reactions-graph.json'
 ffstat='ck-stat-flat-characteristics.json'
 
 form_name='wa_web_form'

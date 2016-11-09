@@ -2,23 +2,26 @@
   "actions": {
     "crowdbench": {
       "desc": "crowd-benchmark caffe"
-    },
+    }, 
     "demo": {
       "desc": "classification demo using webcam"
+    }, 
+    "replay": {
+      "desc": "replay experiment"
     }
-  },
-  "copyright": "See CK COPYRIGHT.txt for copyright details",
+  }, 
+  "copyright": "See CK COPYRIGHT.txt for copyright details", 
   "demo": {
-     "data_uoa":"tmp-live-caffe-demo",
-     "image_name":"tmp-captured-image.jpg"
-  },
-  "desc": "caffe CK front-end",
-  "developer": "cTuning foundation",
-  "developer_email": "admin@cTuning.org",
-  "developer_webpage": "http://cTuning.org",
-  "license": "See CK LICENSE.txt for licensing details",
+    "data_uoa": "tmp-live-caffe-demo", 
+    "image_name": "tmp-captured-image.jpg"
+  }, 
+  "desc": "caffe CK front-end", 
+  "developer": "cTuning foundation", 
+  "developer_email": "admin@cTuning.org", 
+  "developer_webpage": "http://cTuning.org", 
+  "license": "See CK LICENSE.txt for licensing details", 
   "module_deps": {
-    "experiment.bench.caffe": "155b6fa5a4012a93",
-    "tmp":"bfc8fef73c233ce4"
+    "experiment.bench.caffe": "155b6fa5a4012a93", 
+    "tmp": "bfc8fef73c233ce4"
   }
 }
