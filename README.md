@@ -525,7 +525,7 @@ $ ck run program:caffe --env.CK_CAFFE_BATCH_SIZE=1 --env.CK_CAFFE_ITERATIONS=10
 We are working with the community to unify and crowdsource performance analysis 
 and tuning of various DNN frameworks (or any realistic workload) 
 using Collective Knowledge Technology:
-* [CK-Caffe](https://github.com/dividiti/ck-caffe)
+* [CK-TensorFlow](https://github.com/dividiti/ck-tensorflow)
 * [CK-TinyDNN](https://github.com/ctuning/ck-tiny-dnn)
 * [Android app for DNN crowd-benchmarking and crowd-tuning](https://play.google.com/store/apps/details?id=openscience.crowdsource.video.experiments)
 * [CK-powered ARM workload automation](https://github.com/ctuning/ck-wa)
