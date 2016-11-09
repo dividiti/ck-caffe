@@ -496,11 +496,6 @@ and other DNN frameworks to our
 [Android application](https://play.google.com/store/apps/details?id=openscience.crowdsource.experiments) 
 at the end of October - please stay tuned!
 
-## Open R&D challenges
-
-We use crowd-benchmarking and crowd-tuning of such realistic workloads across diverse hardware for 
-[open academic and industrial R&D challenges](https://github.com/ctuning/ck/wiki/Research-and-development-challenges.mediawiki) - 
-join this community effort!
 
 ## Misc hints
 
@@ -525,6 +520,22 @@ To set environment variables for running the program, use e.g.:
 $ ck run program:caffe --env.CK_CAFFE_BATCH_SIZE=1 --env.CK_CAFFE_ITERATIONS=10
 ```
 
-## Our publications related to this project and crowd-tuning
+## Related projects and initiatives
 
-- <a href="https://github.com/ctuning/ck/wiki/Publications">All references with BibTex</a>
+We are working with the community to unify and crowdsource performance analysis 
+and tuning of various DNN frameworks (or any realistic workload) 
+using Collective Knowledge Technology:
+* [CK-Caffe](https://github.com/dividiti/ck-caffe)
+* [CK-TinyDNN](https://github.com/ctuning/ck-tiny-dnn)
+* [Android app for DNN crowd-benchmarking and crowd-tuning](https://play.google.com/store/apps/details?id=openscience.crowdsource.video.experiments)
+* [CK-powered ARM workload automation](https://github.com/ctuning/ck-wa)
+
+## Open R&D challenges
+
+We use crowd-benchmarking and crowd-tuning of such realistic workloads across diverse hardware for 
+[open academic and industrial R&D challenges](https://github.com/ctuning/ck/wiki/Research-and-development-challenges.mediawiki) - 
+join this community effort!
+
+## Related Publications with long term vision
+
+* <a href="https://github.com/ctuning/ck/wiki/Publications">All references with BibTex</a>
