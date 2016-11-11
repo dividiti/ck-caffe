@@ -4,7 +4,7 @@
     "extra_dir": "",
     "git_src_dir": "src",
     "install_env": {
-      "PACKAGE_BRANCH":"cmake_android",
+      "PACKAGE_BRANCH": "cmake_android",
       "PACKAGE_URL": "https://github.com/sh1r0/caffe"
     },
     "use_git_revision": "yes",
@@ -17,10 +17,19 @@
       "sort": 10,
       "tags": "compiler,lang-cpp"
     },
+    "lib-blas": {
+      "add_to_path": "yes",
+      "local": "yes",
+      "name": "BLAS library",
+      "skip_default": "yes",
+      "sort": 30,
+      "tags": "lib,blas,openblas"
+    },
     "lib-gflags": {
       "add_to_path": "yes",
       "local": "yes",
       "name": "GFlags library",
+      "skip_default": "yes",
       "sort": 12,
       "tags": "lib,gflags"
     },
@@ -28,38 +37,36 @@
       "add_to_path": "yes",
       "local": "yes",
       "name": "GLog library",
+      "skip_default": "yes",
       "sort": 14,
       "tags": "lib,glog"
-    },
-    "lib-blas": {
-      "add_to_path": "yes",
-      "local": "yes",
-      "name": "BLAS library",
-      "sort": 30,
-      "tags": "lib,blas,openblas"
-    },
-    "lib-opencv": {
-      "local": "yes",
-      "name": "OpenCV library",
-      "sort": 20,
-      "tags": "lib,opencv"
     },
     "lib-lmdb": {
       "local": "yes",
       "name": "LMDB library",
+      "skip_default": "yes",
       "sort": 18,
       "tags": "lib,lmdb"
+    },
+    "lib-opencv": {
+      "local": "yes",
+      "name": "OpenCV library",
+      "skip_default": "yes",
+      "sort": 20,
+      "tags": "lib,opencv"
     },
     "lib-protobuf": {
       "local": "yes",
       "name": "ProtoBuf library",
+      "skip_default": "yes",
       "sort": 16,
       "tags": "lib,protobuf"
     },
     "lib-protobuf-host": {
+      "force_target_as_host": "yes",
       "local": "yes",
-      "force_target_as_host":"yes",
       "name": "ProtoBuf host compiler",
+      "skip_default": "yes",
       "sort": 19,
       "tags": "lib,protobuf-host"
     }
