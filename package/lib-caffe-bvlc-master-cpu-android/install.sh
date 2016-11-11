@@ -28,7 +28,14 @@ if [ "${?}" != "0" ] ; then
   exit 1
 fi
 
+cd src
 git checkout ${PACKAGE_BRANCH}
+
+############################################################
+echo ""
+echo "Patching package ..."
+
+patch -p1 < ${PACKAGE_DIR}/misc/android.fgg.patch
 
 ############################################################
 echo ""

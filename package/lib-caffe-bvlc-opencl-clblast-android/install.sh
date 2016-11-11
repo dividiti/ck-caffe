@@ -20,9 +20,9 @@ cd ${INSTALL_DIR}
 echo ""
 echo "Cloning package from '${PACKAGE_URL}' ..."
 
-rm -rf src
+#rm -rf src
 
-git clone ${PACKAGE_URL} src
+#git clone ${PACKAGE_URL} src
 if [ "${?}" != "0" ] ; then
   echo "Error: cloning package failed!"
   exit 1

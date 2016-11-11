@@ -11,6 +11,7 @@
   "compile_deps": {
     "lib-caffe": {
       "local": "yes",
+      "skip_default":"yes",
       "name": "Caffe library",
       "sort": 10,
       "tags": "lib,caffe",
@@ -24,6 +25,7 @@
     },
     "boost": {
       "local": "yes",
+      "skip_default":"yes",
       "name": "Boost C++ libraries",
       "skip_from_bat": "yes",
       "sort": 30,
