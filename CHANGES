@@ -1,3 +1,5 @@
+2016.11.11 - added Caffe CPU build for Android via CK
+
 2016.11.08 - major update to caffe-classification with the support
              for CK jpeg datasets;
            - added standard DNN demo datasets (cat, fish-bike) to ctuning-datasets-min repo

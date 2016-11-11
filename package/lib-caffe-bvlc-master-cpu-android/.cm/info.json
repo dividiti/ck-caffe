@@ -1,0 +1,21 @@
+{
+  "backup_data_uid": "4364843d31120476",
+  "backup_module_uid": "1dc07ee0f4742028",
+  "backup_module_uoa": "package",
+  "control": {
+    "author": "cTuning foundation",
+    "author_email": "admin@cTuning.org",
+    "author_webpage": "http://cTuning.org",
+    "copyright": "See CK COPYRIGHT.txt for copyright details",
+    "engine": "CK",
+    "iso_datetime": "2016-11-10T23:43:07.753945",
+    "license": "See CK LICENSE.txt for licensing details",
+    "version": [
+      "1",
+      "8",
+      "3",
+      "2"
+    ]
+  },
+  "data_name": "lib-caffe-bvlc-master-cpu-android"
+}
