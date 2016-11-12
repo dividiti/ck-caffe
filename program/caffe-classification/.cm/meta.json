@@ -16,7 +16,6 @@
   "compile_deps": {
     "lib-caffe": {
       "local": "yes",
-      "skip_default":"yes",
       "name": "Caffe library",
       "sort": 15,
       "tags": "lib,caffe",
@@ -30,7 +29,6 @@
     },
     "boost": {
       "local": "yes",
-      "skip_default":"yes",
       "name": "Boost C++ libraries",
       "skip_from_bat": "yes",
       "sort": 30,
@@ -39,7 +37,6 @@
     "lib-gflags": {
       "local": "yes",
       "name": "GFlags library",
-      "skip_default": "yes",
       "sort": 5,
       "tags": "lib,gflags"
     },
@@ -48,35 +45,30 @@
       "name": "GLog library",
       "sort": 7,
       "force_add_static_lib_path": "yes",
-      "skip_default": "yes",
       "tags": "lib,glog"
     },
     "lib-boost": {
       "local": "yes",
       "name": "Boost library",
       "force_add_static_lib_path": "yes",
-      "skip_default": "yes",
       "sort": 13,
       "tags": "lib,boost"
     },
     "lib-blas": {
       "local": "yes",
       "name": "BLAS library",
-      "skip_default": "yes",
       "sort": 8,
       "tags": "lib,blas,openblas"
     },
     "lib-protobuf": {
       "local": "yes",
       "name": "ProtoBuf library",
-      "skip_default": "yes",
       "sort": 9,
       "tags": "lib,protobuf"
     },
     "lib-opencv": {
       "local": "yes",
       "name": "OpenCV library",
-      "skip_default": "yes",
       "sort": 10,
       "tags": "lib,opencv"
     },
