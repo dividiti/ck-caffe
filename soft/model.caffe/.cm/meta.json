@@ -12,7 +12,6 @@
       "linux": "deploy.prototxt"
     }
   }, 
-  "deps": {}, 
   "soft_name": "Caffe model (net and weights)", 
   "tags": [
     "caffe",

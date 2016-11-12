@@ -17,6 +17,14 @@
       "sort": 10,
       "tags": "compiler,lang-cpp"
     },
+    "lib-boost": {
+      "add_to_path": "yes",
+      "local": "yes",
+      "name": "Boost library",
+      "skip_default": "yes",
+      "sort": 25,
+      "tags": "lib,boost"
+    },
     "lib-blas": {
       "add_to_path": "yes",
       "local": "yes",

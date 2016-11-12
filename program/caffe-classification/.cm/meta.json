@@ -1,7 +1,12 @@
 {
   "backup_data_uid": "473c67d70ebe45a9",
   "build_compiler_vars": {
-    "USE_OPENCV":""
+    "USE_OPENCV":"ON",
+    "ANDROID_USE_OPENMP":"ON",
+    "CPU_ONLY":"ON",
+    "USE_LMDB":"ON",
+    "BLAS":"Open",
+    "XOPENME": ""
   },
   "compiler_add_include_as_env_from_deps": [
     "CK_ENV_LIB_STDCPP_INCLUDE", 
@@ -13,7 +18,7 @@
       "local": "yes",
       "skip_default":"yes",
       "name": "Caffe library",
-      "sort": 10,
+      "sort": 15,
       "tags": "lib,caffe",
       "skip_pruning_by_other_deps":"yes"
     },
@@ -31,16 +36,67 @@
       "sort": 30,
       "tags": "lib,boost"
     },
+    "lib-gflags": {
+      "local": "yes",
+      "name": "GFlags library",
+      "skip_default": "yes",
+      "sort": 5,
+      "tags": "lib,gflags"
+    },
+    "lib-glog": {
+      "local": "yes",
+      "name": "GLog library",
+      "sort": 7,
+      "force_add_static_lib_path": "yes",
+      "skip_default": "yes",
+      "tags": "lib,glog"
+    },
+    "lib-boost": {
+      "local": "yes",
+      "name": "Boost library",
+      "force_add_static_lib_path": "yes",
+      "skip_default": "yes",
+      "sort": 13,
+      "tags": "lib,boost"
+    },
+    "lib-blas": {
+      "local": "yes",
+      "name": "BLAS library",
+      "skip_default": "yes",
+      "sort": 8,
+      "tags": "lib,blas,openblas"
+    },
+    "lib-protobuf": {
+      "local": "yes",
+      "name": "ProtoBuf library",
+      "skip_default": "yes",
+      "sort": 9,
+      "tags": "lib,protobuf"
+    },
+    "lib-opencv": {
+      "local": "yes",
+      "name": "OpenCV library",
+      "skip_default": "yes",
+      "sort": 10,
+      "tags": "lib,opencv"
+    },
     "caffemodel": {
       "local": "yes",
+      "force_target_as_host": "yes",
       "name": "Caffe model (net and weights)",
       "sort": 40,
       "tags": "caffemodel"
+    },
+    "xopenme": {
+      "local": "yes", 
+      "name": "xOpenME library", 
+      "sort": 100, 
+      "tags": "lib,xopenme"
     }
   },
   "compiler_env": "CK_CXX",
   "compiler_flags_as_env": "",
-  "extra_ld_vars": "-lglog -lboost_system -lopencv_imgproc -lopencv_highgui -lopencv_core",
+  "extra_ld_vars": "$<<CK_ENV_LIB_GLOG_LFLAG>>$ $<<CK_ENV_LIB_BOOST_LFLAG_SYSTEM>>$ $<<CK_ENV_LIB_OPENCV_LFLAG_IMGPROC>>$ $<<CK_ENV_LIB_OPENCV_LFLAG_HIGHGUI>>$ $<<CK_ENV_LIB_OPENCV_LFLAG_CORE>>$ $<<CK_EXTRA_LIB_Z>>$ $<<CK_EXTRA_LIB_LOG>>$ $<<CK_EXTRA_LIB_M>>$ $<<CK_ENV_LIB_STDCPP_STATIC>>$",
   "data_name": "caffe-classification",
   "main_language": "cpp",
   "process_in_tmp": "yes",
@@ -54,6 +110,7 @@
       ], 
       "ignore_return_code": "no",
       "run_time": {
+        "fine_grain_timer_file": "tmp-ck-timer.json", 
         "run_cmd_main": "$#BIN_FILE#$ $<<CK_CAFFE_MODEL_FILE>>$ $<<CK_ENV_MODEL_CAFFE_WEIGHTS>>$ ../imagenet_mean.binaryproto ../synset_words.txt $#dataset_path#$$#dataset_filename#$",
         "run_cmd_out1": "tmp-output1.tmp",
         "run_cmd_out2": "tmp-output2.tmp",
@@ -76,7 +133,9 @@
       }
     }
   },
-  "run_vars": {},
+  "run_vars": {
+    "XCT_REPEAT_MAIN": "1"
+  }, 
   "source_files": [
     "classification.cpp"
   ],

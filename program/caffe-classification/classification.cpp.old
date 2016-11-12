@@ -11,10 +11,6 @@
 #include <utility>
 #include <vector>
 
-#ifdef XOPENME
-#include <xopenme.h>
-#endif
-
 #ifdef USE_OPENCV
 using namespace caffe;  // NOLINT(build/namespaces)
 using std::string;
@@ -231,17 +227,6 @@ void Classifier::Preprocess(const cv::Mat& img,
 }
 
 int main(int argc, char** argv) {
-
-  long ct_repeat=0;
-  long ct_repeat_max=1;
-  int ct_return=0;
-
-#ifdef XOPENME
-  xopenme_init(3,0);
-#endif
-  if (getenv("CT_REPEAT_MAIN")!=NULL) ct_repeat_max=atol(getenv("CT_REPEAT_MAIN"));
-
-
   if (argc != 6) {
     std::cerr << "Usage: " << argv[0]
               << " deploy.prototxt network.caffemodel"
@@ -255,41 +240,16 @@ int main(int argc, char** argv) {
   string trained_file = argv[2];
   string mean_file    = argv[3];
   string label_file   = argv[4];
-
-#ifdef XOPENME
-  xopenme_clock_start(0);
-#endif
   Classifier classifier(model_file, trained_file, mean_file, label_file);
-#ifdef XOPENME
-  xopenme_clock_end(0);
-#endif
 
   string file = argv[5];
 
   std::cout << "---------- Prediction for "
             << file << " ----------" << std::endl;
 
-#ifdef XOPENME
-  xopenme_clock_start(1);
-#endif
   cv::Mat img = cv::imread(file, -1);
-#ifdef XOPENME
-  xopenme_clock_end(1);
-#endif
   CHECK(!img.empty()) << "Unable to decode image " << file;
-
-#ifdef XOPENME
-  xopenme_clock_start(2);
-#endif
-
-  std::vector<Prediction> predictions;
-
-  for (ct_repeat=0; ct_repeat<ct_repeat_max; ct_repeat++)
-    predictions = classifier.Classify(img);
-
-#ifdef XOPENME
-  xopenme_clock_end(2);
-#endif
+  std::vector<Prediction> predictions = classifier.Classify(img);
 
   /* Print the top N predictions. */
   for (size_t i = 0; i < predictions.size(); ++i) {
@@ -297,12 +257,6 @@ int main(int argc, char** argv) {
     std::cout << std::fixed << std::setprecision(4) << p.second << " - \""
               << p.first << "\"" << std::endl;
   }
-
-#ifdef XOPENME
-  xopenme_dump_state();
-  xopenme_finish();
-#endif
-
 }
 #else
 int main(int argc, char** argv) {

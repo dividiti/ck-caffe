@@ -2,6 +2,7 @@
            - force to use packages when compiling for Android
              (i.e. not to search for already installed soft
               for Android not to mix up with Linux versions)
+           - fixed classification for Android and added OpenME
 
 2016.11.08 - major update to caffe-classification with the support
              for CK jpeg datasets;
