@@ -4,8 +4,8 @@
     "extra_dir": "",
     "git_src_dir": "src",
     "install_env": {
-      "PACKAGE_BRANCH": "cmake_android",
-      "PACKAGE_URL": "https://github.com/sh1r0/caffe"
+      "PACKAGE_BRANCH": "opencl-work-android",
+      "PACKAGE_URL": "https://github.com/intelfx/caffe"
     },
     "use_git_revision": "yes",
     "version": "trunk"
@@ -90,7 +90,7 @@
   "package_extra_name": " (cpu)",
   "process_script": "install",
   "soft_uoa": "04ab08137582bd03",
-  "suggested_path": "lib-caffe-bvlc-master",
+  "suggested_path": "lib-caffe-bvlc-opencl",
   "tags": [
     "lib",
     "caffe",

@@ -20,9 +20,9 @@ cd ${INSTALL_DIR}
 echo ""
 echo "Cloning package from '${PACKAGE_URL}' ..."
 
-#rm -rf src
+rm -rf src
 
-#git clone ${PACKAGE_URL} src
+git clone ${PACKAGE_URL} src
 if [ "${?}" != "0" ] ; then
   echo "Error: cloning package failed!"
   exit 1
@@ -31,7 +31,7 @@ fi
 cd src
 git checkout ${PACKAGE_BRANCH}
 
-patch -p1 < ${PACKAGE_DIR}/misc/android.fgg.patch
+#patch -p1 < ${PACKAGE_DIR}/misc/android.fgg.patch
 
 ############################################################
 echo ""
@@ -55,7 +55,8 @@ cmake -DCMAKE_TOOLCHAIN_FILE="${PACKAGE_DIR}/misc/android.toolchain.cmake" \
       -DANDROID_USE_OPENMP=ON \
       -DBUILD_python=OFF \
       -DBUILD_docs=OFF \
-      -DCPU_ONLY=ON \
+      -DCPU_ONLY=OFF \
+      -DUSE_CLBLAST=ON \
       -DUSE_LMDB=ON \
       -DUSE_LEVELDB=OFF \
       -DUSE_HDF5=OFF \
