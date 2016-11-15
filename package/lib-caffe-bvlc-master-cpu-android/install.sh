@@ -51,7 +51,12 @@ cd obj
 echo ""
 echo "Executing cmake ..."
 
-cmake -DCMAKE_TOOLCHAIN_FILE="${PACKAGE_DIR}/misc/android.toolchain.cmake" \
+CK_TOOLCHAIN=android.toolchain.cmake
+if [ "${CK_ENV_LIB_CRYSTAX_LIB}" != "" ] ; then
+  CK_TOOLCHAIN=toolchain.cmake
+fi
+
+cmake -DCMAKE_TOOLCHAIN_FILE="${PACKAGE_DIR}/misc/${CK_TOOLCHAIN}" \
       -DANDROID_NDK="${CK_ANDROID_NDK_ROOT_DIR}" \
       -DCMAKE_BUILD_TYPE=Release \
       -DANDROID_ABI="${CK_ANDROID_ABI}" \
@@ -83,6 +88,8 @@ cmake -DCMAKE_TOOLCHAIN_FILE="${PACKAGE_DIR}/misc/android.toolchain.cmake" \
       -DPROTOBUF_INCLUDE_DIR="${CK_ENV_LIB_PROTOBUF_INCLUDE}" \
       -DPROTOBUF_LIBRARY="${CK_ENV_LIB_PROTOBUF_LIB}/libprotobuf.a" \
       -DPROTOBUF_PROTOC_EXECUTABLE="${CK_ENV_LIB_PROTOBUF_HOST}/bin/protoc" \
+      -DANDROID_STL=gnustl_static \
+      -DBoost_USE_STATIC_LIBS=ON \
       -DCMAKE_INSTALL_PREFIX="${INSTALL_DIR}/install" \
       ../src
 

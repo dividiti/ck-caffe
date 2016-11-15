@@ -75,6 +75,18 @@
       "name": "OpenCL stubs library",
       "sort": 30,
       "tags": "lib,opencl"
+    },
+    "lib-viennacl": {
+      "local": "yes",
+      "name": "ViennaCL library",
+      "sort": 35,
+      "tags": "lib,viennacl"
+    },
+    "lib-clblast": {
+      "local": "yes",
+      "name": "clBLAST library",
+      "sort": 40,
+      "tags": "lib,clblast"
     }
   },
   "end_full_path": {
@@ -87,7 +99,7 @@
   "only_for_target_os_tags": [
     "android"
   ],
-  "package_extra_name": " (cpu)",
+  "package_extra_name": " (OpenCL, clBLAST)",
   "process_script": "install",
   "soft_uoa": "04ab08137582bd03",
   "suggested_path": "lib-caffe-bvlc-opencl",

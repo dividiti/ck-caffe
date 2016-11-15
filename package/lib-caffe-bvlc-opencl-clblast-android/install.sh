@@ -20,9 +20,9 @@ cd ${INSTALL_DIR}
 echo ""
 echo "Cloning package from '${PACKAGE_URL}' ..."
 
-rm -rf src
+#rm -rf src
 
-git clone ${PACKAGE_URL} src
+#git clone ${PACKAGE_URL} src
 if [ "${?}" != "0" ] ; then
   echo "Error: cloning package failed!"
   exit 1
@@ -30,8 +30,6 @@ fi
 
 cd src
 git checkout ${PACKAGE_BRANCH}
-
-#patch -p1 < ${PACKAGE_DIR}/misc/android.fgg.patch
 
 ############################################################
 echo ""
@@ -47,7 +45,14 @@ cd obj
 echo ""
 echo "Executing cmake ..."
 
-cmake -DCMAKE_TOOLCHAIN_FILE="${PACKAGE_DIR}/misc/android.toolchain.cmake" \
+CK_TOOLCHAIN=android.toolchain.cmake
+if [ "${CK_ENV_LIB_CRYSTAX_LIB}" != "" ] ; then
+  CK_TOOLCHAIN=toolchain.cmake
+fi
+
+export VIENNACL_HOME=${CK_ENV_LIB_VIENNACL}
+
+cmake -DCMAKE_TOOLCHAIN_FILE="${PACKAGE_DIR}/misc/${CK_TOOLCHAIN}" \
       -DANDROID_NDK="${CK_ANDROID_NDK_ROOT_DIR}" \
       -DCMAKE_BUILD_TYPE=Release \
       -DANDROID_ABI="${CK_ANDROID_ABI}" \
@@ -56,6 +61,8 @@ cmake -DCMAKE_TOOLCHAIN_FILE="${PACKAGE_DIR}/misc/android.toolchain.cmake" \
       -DBUILD_python=OFF \
       -DBUILD_docs=OFF \
       -DCPU_ONLY=OFF \
+      -DUSE_CUDA=OFF \
+      -DUSE_GREENTEA=ON \
       -DUSE_CLBLAST=ON \
       -DUSE_LMDB=ON \
       -DUSE_LEVELDB=OFF \
@@ -72,6 +79,11 @@ cmake -DCMAKE_TOOLCHAIN_FILE="${PACKAGE_DIR}/misc/android.toolchain.cmake" \
       -DGFLAGS_LIBRARY="${CK_ENV_LIB_GFLAGS_LIB}/libgflags.a" \
       -DGLOG_INCLUDE_DIR="${CK_ENV_LIB_GLOG_INCLUDE}" \
       -DGLOG_LIBRARY="${CK_ENV_LIB_GLOG_LIB}/libglog.a" \
+      -DVIENNACL_HOME="${CK_ENV_LIB_VIENNACL}" \
+      -DVIENNACL_DIR="${CK_ENV_LIB_VIENNACL_INCLUDE}" \
+      -DViennaCL_INCLUDE_DIRS="${CK_ENV_LIB_VIENNACL_INCLUDE}" \
+      -DViennaCL_INCLUDE_DIR="${CK_ENV_LIB_VIENNACL_INCLUDE}" \
+      -DViennaCL_LIBRARIES="${CK_ENV_LIB_VIENNACL_LIB}" \
       -DOpenBLAS_INCLUDE_DIR="${CK_ENV_LIB_OPENBLAS_INCLUDE}" \
       -DOpenBLAS_LIB="${CK_ENV_LIB_OPENBLAS_LIB}/libopenblas.a" \
       -DLMDB_INCLUDE_DIR="${CK_ENV_LIB_LMDB_INCLUDE}" \
@@ -80,6 +92,14 @@ cmake -DCMAKE_TOOLCHAIN_FILE="${PACKAGE_DIR}/misc/android.toolchain.cmake" \
       -DPROTOBUF_INCLUDE_DIR="${CK_ENV_LIB_PROTOBUF_INCLUDE}" \
       -DPROTOBUF_LIBRARY="${CK_ENV_LIB_PROTOBUF_LIB}/libprotobuf.a" \
       -DPROTOBUF_PROTOC_EXECUTABLE="${CK_ENV_LIB_PROTOBUF_HOST}/bin/protoc" \
+      -DOPENCL_ROOT="${CK_ENV_LIB_OPENCL}" \
+      -DOPENCL_LIBRARIES="${CK_ENV_LIB_OPENCL_LIB}/libOpenCL.so" \
+      -DOPENCL_INCLUDE_DIRS="${CK_ENV_LIB_OPENCL_INCLUDE}" \
+      -DCLBlast_DIR="${CK_ENV_LIB_CLBLAST}" \
+      -DCLBLAST_LIB="${CK_ENV_LIB_CLBLAST_LIB}" \
+      -DCLBLAST_INCLUDE="${CK_ENV_LIB_CLBLAST_INCLUDE}" \
+      -DANDROID_STL=gnustl_static \
+      -DBoost_USE_STATIC_LIBS=ON \
       -DCMAKE_INSTALL_PREFIX="${INSTALL_DIR}/install" \
       ../src
 
