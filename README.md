@@ -90,7 +90,7 @@ ck pull repo:ck-caffe-explore-batch-size-chromebook2 \
 Under development.
 
 
-# Installing CK-Caffe
+# Installing CK-Caffe (on desktop)
 
 Before installing CK-Caffe on the target system, several libraries and programs
 should be installed. So far, instructions for the following Linux flavours are
@@ -468,7 +468,8 @@ We added standard demo images (cat.jpg, catgrey.jpg, fish-bike.jpg, computer_mou
 to the ['ctuning-datasets-min' repository](https://github.com/ctuning/ctuning-datasets-min).
 You can list them via
 ```
- $ ck pull repo:ctuning-datasets-min
+ $ ck pull repo:ctuning-datasets
+-min
  $ ck search dataset --tags=dnn
 ```
 
@@ -496,6 +497,49 @@ We also plan to add crowd-benchmarking and crowd-tuning of Caffe, TensorFlow
 and other DNN frameworks to our 
 [Android application](https://play.google.com/store/apps/details?id=openscience.crowdsource.experiments) 
 soon - please stay tuned!
+
+## Building Caffe for Android
+
+CK automates building of workflows and packages 
+(high-level version of CMake but in Python and with JSON API).
+We provided all packages needed to build Caffe for Android
+(used in our above Android application to crowd-benchmark
+and crowd-tune Caffe across diverse hardware).
+
+CK supports both Google or CrystaX Android NDK which you need 
+to download and unzip in your home directory 
+to be able to compile Caffe for Android:
+
+* https://developer.android.com/ndk/index.html
+* https://www.crystax.net/en/android/ndk
+
+Normally, you should be able to build CPU-version of Caffe via CK 
+targeting ARM64 in one click:
+```
+$ ck install package:lib-caffe-bvlc-master-cpu-android --target_os=android21-arm64
+```
+
+You can target older version of ARM or other micro-architecture by
+changing --target_os (see "ck list os"):
+```
+$ ck install package:lib-caffe-bvlc-master-cpu-android --target_os=android21-arm
+```
+
+CK should detect available Android NDK and start building all dependencies
+including Caffe itself.
+
+If build finished successfully, you can then try to compile image classification
+example as following:
+```
+$ ck compile --speed program:caffe-classification --target_os=android21-arm64
+```
+
+TODO: we need to be able to run classification on Android via CK 
+     (for now you need to manually copy all files to /data/local/tmp via adb).
+
+TODO: we need to add selection of different ABI to CK pipeline, not just default ones (via OS module)!
+
+Please, send your feedback (problems or success) to http://groups.google.com/group/collective-knowledge .
 
 ## Misc hints
 
