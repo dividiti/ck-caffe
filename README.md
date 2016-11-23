@@ -1,5 +1,7 @@
 # Collective Knowledge repository for optimising Caffe-based designs
 
+## Introduction
+
 [CK-Caffe](https://github.com/dividiti/ck-caffe) is an open framework for
 collaborative and reproducible optimisation of convolutional neural networks.
 It's based on the [Caffe](http://caffe.berkeleyvision.org) framework from the
@@ -18,6 +20,117 @@ experimentation across diverse platforms, CNN designs, optimization
 options, and so on; exchange experimental data in a flexible JSON-based format;
 and apply leading-edge predictive analytics to extract valuable insights from
 the experimental data.
+
+## License
+* [BSD](https://github.com/dividiti/ck-caffe/blob/master/LICENSE) (3 clause)
+
+## Authors/contributors
+
+* Anton Lokhmotov, [dividiti](http://dividiti.com)
+* Grigori Fursin, [dividiti](http://dividiti.com) / [cTuning foundation](http://ctuning.org)
+* Unmesh Bordoloi, [General Motors](http://gm.com)
+
+## Quick/minimal installation (Ubuntu)
+
+### General dependencies
+Installing dependencies via apt:
+
+```
+$ sudo apt install coreutils \
+                   build-essential \
+                   make \
+                   cmake \
+                   wget \
+                   python \
+                   python-pip
+```
+
+### Caffe dependencies
+```
+$ sudo apt install libboost-all-dev \
+                   libgflags-dev \
+                   libgoogle-glog-dev \
+                   libhdf5-serial-dev \
+                   liblmdb-dev \
+                   libleveldb-dev \
+                   libprotobuf-dev \
+                   protobuf-compiler \
+                   libsnappy-dev \
+                   libopencv-dev
+$ sudo pip install protobuf
+```
+
+### CK installation
+
+```
+$ sudo pip install ck
+$ ck version
+```
+
+### Installing CK-Caffe repository
+
+```
+$ ck pull repo:ck-caffe --url=https://github.com/dividiti/ck-caffe
+```
+
+### Installing Caffe and all dependencies
+
+The first time you run caffe benchmark, CK will 
+build and install all missing dependencies for your machine,
+download required data sets and will start benchmark:
+
+
+```
+$ ck run program:caffe
+```
+
+### Testing installation via image classification
+
+```
+ $ ck compile program:caffe-classification --speed
+ $ ck run program:caffe-classification
+```
+
+Note, that you will be asked to select a jpeg image from available CK data sets.
+We added standard demo images (cat.jpg, catgrey.jpg, fish-bike.jpg, computer_mouse.jpg)
+to the ['ctuning-datasets-min' repository](https://github.com/ctuning/ctuning-datasets-min).
+
+You can list them via
+```
+ $ ck pull repo:ctuning-datasets-min
+ $ ck search dataset --tags=dnn
+```
+
+### Testing beta crowd-benchmarking
+It is now possible to participate in crowd-benchmarking of Caffe
+(early prototype):
+```
+$ ck crowdbench caffe --user={your email or ID to acknowledge contributions} --env.CK_CAFFE_BATCH_SIZE=2
+```
+
+You can also use this [Android app](https://play.google.com/store/apps/details?id=openscience.crowdsource.video.experiments)
+to crowdsource benchmarking of ARM-based Caffe libraries for image recognition (beta version).
+
+You can see continuously aggregated results in the 
+[public Collective Knowledge repository](http://cknowledge.org/repo)
+under 'crowd-benchmark Caffe library' scenario.
+
+Note, that this is an on-going, heavily evolving and long-term project
+to enable collaborative and systematic benchmarking
+and tuning of realistic workloads across diverse hardware 
+([ARM TechCon'16 talk](http://schedule.armtechcon.com/session/know-your-workloads-design-more-efficient-systems), 
+[ARM TechCon'16 demo](https://github.com/ctuning/ck/wiki/Demo-ARM-TechCon'16), 
+[DATE'16](http://tinyurl.com/zyupd5v), [CPC'15](http://arxiv.org/abs/1506.06256)).
+We also plan to add crowd-benchmarking and crowd-tuning of Caffe, TensorFlow 
+and other DNN frameworks to our 
+[Android application](https://play.google.com/store/apps/details?id=openscience.crowdsource.experiments) 
+soon - please stay tuned!
+
+```
+
+### Advanced Installation
+
+You can read about advanced CK-Caffe installation (for example, for Android) [here](http://github.com/dividiti/ck-caffe/wiki/Installation)
 
 ## Examples
 
@@ -77,17 +190,6 @@ ck pull repo:ck-caffe-explore-batch-size-chromebook2 \
     --url=https://github.com/dividiti/ck-caffe-explore-batch-size-chromebook2.git
 ```
  
-## Contributors
-
-* Anton Lokhmotov, [dividiti](http://dividiti.com)
-* Grigori Fursin, [dividiti](http://dividiti.com) / [cTuning foundation](http://ctuning.org)
-* Unmesh Bordoloi, [General Motors](http://gm.com)
-
-## License
-* [BSD](https://github.com/dividiti/ck-caffe/blob/master/LICENSE) (3 clause)
-
-## Status
-Under development.
 
 
 # Installing CK-Caffe (on desktop)
