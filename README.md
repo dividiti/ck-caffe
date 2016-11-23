@@ -31,8 +31,7 @@ the experimental data.
 
 ## Quick/minimal installation (Ubuntu)
 
-### General dependencies
-Installing dependencies via apt:
+### Installing general dependencies
 
 ```
 $ sudo apt install coreutils \
@@ -44,7 +43,7 @@ $ sudo apt install coreutils \
                    python-pip
 ```
 
-### Caffe dependencies
+### Installing Caffe dependencies
 ```
 $ sudo apt install libboost-all-dev \
                    libgflags-dev \
@@ -59,7 +58,7 @@ $ sudo apt install libboost-all-dev \
 $ sudo pip install protobuf
 ```
 
-### CK installation
+### Installing CK
 
 ```
 $ sudo pip install ck
@@ -72,12 +71,11 @@ $ ck version
 $ ck pull repo:ck-caffe --url=https://github.com/dividiti/ck-caffe
 ```
 
-### Installing Caffe and all dependencies
+### Building Caffe and all dependencies via CK
 
 The first time you run caffe benchmark, CK will 
 build and install all missing dependencies for your machine,
 download required data sets and will start benchmark:
-
 
 ```
 $ ck run program:caffe
