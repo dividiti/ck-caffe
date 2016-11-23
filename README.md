@@ -135,7 +135,7 @@ $ ck run program:caffe --env.CK_CAFFE_BATCH_SIZE=1 --env.CK_CAFFE_ITERATIONS=10
 
 ### Advanced Installation
 
-You can read about advanced CK-Caffe installation (for example, for Android) [here](http://github.com/dividiti/ck-caffe/wiki/Installation).
+You can read about advanced CK-Caffe installation (for example, for Android or other OS) [here](http://github.com/dividiti/ck-caffe/wiki/Installation).
 
 ## Preliminary results
 
