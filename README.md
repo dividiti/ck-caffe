@@ -1,4 +1,6 @@
-# Collective Knowledge repository for optimising Caffe-based designs
+# Collective Knowledge repository for collaboratively optimising Caffe-based designs
+
+[![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
 
 ## Introduction
 
@@ -125,8 +127,6 @@ We also plan to add crowd-benchmarking and crowd-tuning of Caffe, TensorFlow
 and other DNN frameworks to our 
 [Android application](https://play.google.com/store/apps/details?id=openscience.crowdsource.experiments) 
 soon - please stay tuned!
-
-```
 
 ### Advanced Installation
 
