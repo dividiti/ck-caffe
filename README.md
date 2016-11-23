@@ -39,6 +39,7 @@ $ sudo apt install coreutils \
                    make \
                    cmake \
                    wget \
+                   git \
                    python \
                    python-pip
 ```
