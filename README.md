@@ -203,10 +203,10 @@ and tuning of realistic workloads across diverse hardware
 ([ARM TechCon'16 talk](http://schedule.armtechcon.com/session/know-your-workloads-design-more-efficient-systems), 
 [ARM TechCon'16 demo](https://github.com/ctuning/ck/wiki/Demo-ARM-TechCon'16), 
 [DATE'16](http://tinyurl.com/zyupd5v), [CPC'15](http://arxiv.org/abs/1506.06256)).
-We also plan to add crowd-benchmarking and crowd-tuning of Caffe, TensorFlow 
-and other DNN frameworks to our 
-[Android application](https://play.google.com/store/apps/details?id=openscience.crowdsource.experiments) 
-soon - please stay tuned!
+We also continuously add more crowd-benchmarking and crowd-tuning scenarios 
+for Caffe, TensorFlow and other DNN frameworks to our 
+[Android application](https://play.google.com/store/apps/details?id=openscience.crowdsource.video.experiments) 
+- please stay tuned!
 
 ## Related projects and initiatives
 
