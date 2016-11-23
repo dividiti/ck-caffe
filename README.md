@@ -23,9 +23,6 @@ options, and so on; exchange experimental data in a flexible JSON-based format;
 and apply leading-edge predictive analytics to extract valuable insights from
 the experimental data.
 
-## License
-* [BSD](https://github.com/dividiti/ck-caffe/blob/master/LICENSE) (3 clause)
-
 ## Authors/contributors
 
 * Anton Lokhmotov, [dividiti](http://dividiti.com)
