@@ -82,7 +82,7 @@
   "soft_uoa": "04ab08137582bd03",
   "end_full_path": {
     "linux": "src/build/tools/caffe.bin"
-  }, 
+  },
   "suggested_path": "lib-caffe-bvlc-opencl",
   "tags": [
     "lib",

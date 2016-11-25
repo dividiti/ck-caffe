@@ -25,9 +25,9 @@
   },
   "deps": {
     "compiler": {
-      "local": "yes", 
-      "name": "CUDA compiler >=7.0", 
-      "sort": 10, 
+      "local": "yes",
+      "name": "CUDA compiler >=7.0",
+      "sort": 10,
       "tags": "compiler,lang-c-cuda"
     },
     "compiler-extra": {
