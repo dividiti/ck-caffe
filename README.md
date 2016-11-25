@@ -29,7 +29,9 @@ the experimental data.
 * Grigori Fursin, [dividiti](http://dividiti.com) / [cTuning foundation](http://ctuning.org)
 * Unmesh Bordoloi, [General Motors](http://gm.com)
 
-## Quick/minimal installation (Ubuntu)
+## Quick installation on Ubuntu
+
+**NB:** Please refer to our [Installation Guide](https://github.com/dividiti/ck-caffe/wiki/Installation) for detailed instructions for Ubuntu, Gentoo, Yocto and Android.
 
 ### Installing general dependencies
 
@@ -198,16 +200,15 @@ ck pull repo:ck-caffe-explore-batch-size-chromebook2 \
  
 ## Next steps
 
-Note, that this is an on-going, heavily evolving and long-term project
+CK-Caffe is part of an ambitious long-term project
 to enable collaborative and systematic benchmarking
 and tuning of realistic workloads across diverse hardware 
 ([ARM TechCon'16 talk](http://schedule.armtechcon.com/session/know-your-workloads-design-more-efficient-systems), 
 [ARM TechCon'16 demo](https://github.com/ctuning/ck/wiki/Demo-ARM-TechCon'16), 
 [DATE'16](http://tinyurl.com/zyupd5v), [CPC'15](http://arxiv.org/abs/1506.06256)).
-We also continuously add more crowd-benchmarking and crowd-tuning scenarios 
-for Caffe, TensorFlow and other DNN frameworks to our 
-[Android application](https://play.google.com/store/apps/details?id=openscience.crowdsource.video.experiments) 
-- please stay tuned!
+We are gradually adding more crowd-benchmarking and crowd-tuning scenarios
+for Caffe, TensorFlow and other DNN frameworks to our
+[Android application](https://play.google.com/store/apps/details?id=openscience.crowdsource.video.experiments) - please stay tuned!
 
 ## Related projects and initiatives
 
