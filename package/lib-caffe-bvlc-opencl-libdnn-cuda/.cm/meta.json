@@ -14,7 +14,7 @@
       "use_clblas": 0,
       "use_clblast": 0,
       "use_cuda": 1,
-      "use_greentea": 1,
+      "use_greentea": 0,
       "use_leveldb": 1,
       "use_libdnn": 1,
       "use_lmdb": 1,
@@ -51,24 +51,11 @@
       "sort": 25,
       "tags": "lib,hdf5"
     },
-    "lib-opencl": {
-      "local": "yes",
-      "name": "OpenCL library",
-      "sort": 35,
-      "tags": "lib,opencl"
-    },
     "lib-opencv": {
       "local": "yes",
       "name": "OpenCV library",
       "sort": 20,
       "tags": "lib,opencv"
-    },
-    "lib-viennacl": {
-      "add_to_path": "yes",
-      "local": "yes",
-      "name": "ViennaCL library",
-      "sort": 40,
-      "tags": "lib,viennacl,src"
     }
   },
   "end_full_path": {
