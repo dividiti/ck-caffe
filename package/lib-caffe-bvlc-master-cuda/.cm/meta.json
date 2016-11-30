@@ -5,7 +5,7 @@
     "install_env": {
       "CAFFE_BRANCH": "master",
       "CAFFE_URL": "https://github.com/BVLC/caffe",
-      "NVCCFLAGS": "-D_FORCE_INLINES"
+      "NVCCFLAGS": "-D_FORCE_INLINES -Wno-deprecated-gpu-targets"
     },
     "params": {
       "cpu_only": 0,

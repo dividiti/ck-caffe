@@ -6,7 +6,7 @@
     "install_env": {
       "CAFFE_BRANCH": "caffe-0.15",
       "CAFFE_URL": "https://github.com/NVIDIA/caffe",
-      "NVCCFLAGS": "-D_FORCE_INLINES"
+      "NVCCFLAGS": "-D_FORCE_INLINES -Wno-deprecated-gpu-targets"
     },
     "params": {
       "cpu_only": 0,
