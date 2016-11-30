@@ -108,6 +108,9 @@ def ck_postprocess(i):
             s=ms*1e-3
             d['time_total_s']=s
             d['time_total_s_kernel_0']=s
+
+            d['execution_time']=s  # internal CK keys to show overall time
+
             d['post_processed']='yes'
 
     rr={}

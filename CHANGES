@@ -1,3 +1,6 @@
+2016.11.30 - added 'no_compile' to caffe meta
+           - fixed total execution time in CK
+
 2016.11.11 - added Caffe CPU build for Android via CK
            - force to use packages when compiling for Android
              (i.e. not to search for already installed soft
