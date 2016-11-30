@@ -44,6 +44,10 @@ echo ""
 echo "Copying automatically generated 'Makefile.config' to '${CAFFE_BLD_DIR}' ..."
 
 cp ${CAFFE_PKG_DIR}/Makefile.config ${CAFFE_BLD_DIR}
+if [ "${?}" != "0" ] ; then
+  echo "Error: Copying automatically generated 'Makefile.config' to '${CAFFE_BLD_DIR}' failed!"
+  exit 1
+fi
 
 ################################################################################
 if [ "${CK_ENV_LIB_CLBLAST_DYNAMIC_NAME}" == "libclblast_mali.so" ] ; then
