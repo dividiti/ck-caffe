@@ -28,7 +28,7 @@
     "compiler": {
       "local": "yes",
       "name": "C++ compiler",
-      "sort": 20,
+      "sort": 0,
       "tags": "compiler,lang-cpp"
     },
     "lib-blas": {
