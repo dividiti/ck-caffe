@@ -31,8 +31,10 @@ def ck_postprocess(i):
     # Match accuracy and loss info.
     d={}
     for accuracy_layer in cus['accuracy_layers']:
-        accuracy_regex = 'caffe\.cpp:\d{3,4}](\s+)' + accuracy_layer + \
-                         '(\s+)=(\s+)(?P<number>\d*\.?\d*)'
+        accuracy_regex = \
+            'caffe(\w*)\.cpp:\d{3,4}](\s+)' + \
+             accuracy_layer + \
+             '(\s+)=(\s+)(?P<number>\d*\.?\d*)'
         for line in r['lst']:
             match = re.search(accuracy_regex, line)
             if match:
