@@ -38,7 +38,7 @@ def ck_postprocess(i):
         layer_regex = \
             'I(?P<timestamp>\d{4}(\s+)\d{2}:\d{2}:\d{2}\.\d{6})' + \
             '(\s+)(?P<unknown_integer>\d+)(\s+)' + \
-            'caffe\.cpp:\d{3,4}](\s+)' + \
+            'caffe(\w*)\.cpp:\d{3,4}](\s+)' + \
             '(?P<label>[\w/_]+)(\s+)'  + \
             '(?P<dir>forward|backward)(:\s+)' + \
             '(?P<ms>\d*\.*\d*(e\+\d+)*) ms\.'
@@ -68,7 +68,7 @@ def ck_postprocess(i):
 
         # Match forward execution time.
         fw_regex = \
-            'caffe\.cpp:\d{3,4}](\s+)' + \
+            'caffe(\w*)\.cpp:\d{3,4}](\s+)' + \
             'Average Forward pass:(\s+)' + \
             '(?P<ms>\d*\.*\d*(e\+\d+)*) ms\.'
         match = re.search(fw_regex, line)
@@ -78,7 +78,7 @@ def ck_postprocess(i):
 
         # Match backward execution time.
         bw_regex = \
-            'caffe\.cpp:\d{3,4}](\s+)' + \
+            'caffe(\w*)\.cpp:\d{3,4}](\s+)' + \
             'Average Backward pass:(\s+)' + \
             '(?P<ms>\d*\.*\d*(e\+\d+)*) ms\.'
         match = re.search(bw_regex, line)
@@ -88,7 +88,7 @@ def ck_postprocess(i):
 
         # Matchforward-backward execution time.
         fwbw_regex = \
-            'caffe\.cpp:\d{3,4}](\s+)' + \
+            'caffe(\w*)\.cpp:\d{3,4}](\s+)' + \
             'Average Forward-Backward:(\s+)' + \
             '(?P<ms>\d*\.*\d*(e\+\d+)*) ms\.'
         match = re.search(fwbw_regex, line)
@@ -97,7 +97,8 @@ def ck_postprocess(i):
             d['time_fwbw_s']= d['time_fwbw_ms']*1e-3
 
         # Match total execution time.
-        total_regex = 'caffe\.cpp:\d{3,4}](\s+)' + \
+        total_regex = \
+            'caffe(\w*)\.cpp:\d{3,4}](\s+)' + \
             'Total Time:(\s+)' + \
             '(?P<ms>\d*\.*\d*(e\+\d+)*) ms\.'
         match = re.search(total_regex, line)
