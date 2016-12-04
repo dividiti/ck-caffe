@@ -10,14 +10,6 @@
     "XOPENME": ""
   },
   "compile_deps": {
-    "boost": {
-      "local": "yes",
-      "name": "Boost C++ libraries",
-      "skip_default": "yes",
-      "skip_from_bat": "yes",
-      "sort": 30,
-      "tags": "lib,boost"
-    },
     "caffemodel": {
       "force_target_as_host": "yes",
       "local": "yes",
@@ -146,7 +138,8 @@
   ],
   "tags": [
     "caffe-classification",
-    "demo"
+    "demo",
+    "android"
   ],
-  "target_file": "a"
+  "target_file": "classification"
 }

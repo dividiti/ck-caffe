@@ -139,5 +139,5 @@
     "caffe-classification",
     "demo"
   ],
-  "target_file": "a"
+  "target_file": "classification"
 }
