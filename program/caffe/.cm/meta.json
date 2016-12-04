@@ -148,6 +148,54 @@
           "tmp-ck-timer.json"
         ]
       }
+    },
+    "test_gpu_fp16": {
+      "ignore_return_code": "no", 
+      "run_time": {
+        "fine_grain_timer_file": "tmp-ck-timer.json", 
+        "params": {
+          "caffemodel_key": "val"
+        }, 
+        "post_process_cmds": [
+          "python $#src_path_local#$postprocess_accuracy.py"
+        ], 
+        "post_process_via_ck": "yes", 
+        "pre_process_via_ck": {
+          "script_name": "preprocess"
+        }, 
+        "run_cmd_main": "caffe_fp16.bin test --model=$<<CK_CAFFE_MODEL>>$ --weights=$<<CK_ENV_MODEL_CAFFE_WEIGHTS>>$ --iterations=$<<CK_CAFFE_ITERATIONS>>$ --gpu=$<<CK_CAFFE_GPU_ID>>$", 
+        "run_cmd_out1": "stdout.log", 
+        "run_cmd_out2": "stderr.log", 
+        "run_correctness_output_files": [], 
+        "run_input_files": [], 
+        "run_output_files": [
+          "tmp-ck-timer.json"
+        ]
+      }
+    }, 
+    "time_gpu_fp16": {
+      "ignore_return_code": "no", 
+      "run_time": {
+        "fine_grain_timer_file": "tmp-ck-timer.json", 
+        "params": {
+          "caffemodel_key": "deploy"
+        }, 
+        "post_process_cmds": [
+          "python $#src_path_local#$postprocess_time.py"
+        ], 
+        "post_process_via_ck": "yes", 
+        "pre_process_via_ck": {
+          "script_name": "preprocess"
+        }, 
+        "run_cmd_main": "caffe_fp16.bin time --model=$<<CK_CAFFE_MODEL>>$ --gpu=$<<CK_CAFFE_GPU_ID>>$ --iterations=1", 
+        "run_cmd_out1": "stdout.log", 
+        "run_cmd_out2": "stderr.log", 
+        "run_correctness_output_files": [], 
+        "run_input_files": [], 
+        "run_output_files": [
+          "tmp-ck-timer.json"
+        ]
+      }
     }
   }, 
   "run_vars": {
