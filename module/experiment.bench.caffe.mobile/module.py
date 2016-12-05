@@ -42,6 +42,11 @@ selector=[{'name':'Scenario', 'key':'crowd_uid', 'module_uoa':'65477d547a49dd2c'
           {'name':'OS', 'key':'os_name'},
           {'name':'GPU', 'key':'gpu_name'}]
 
+abis=[{'abi':'arm64-v8a',
+       'os_uoa':'android21-arm64'},
+      {'abi':'armeabi-v7a',
+       'os_uoa':'android21-arm-v7a'}]
+
 ##############################################################################
 # Initialize module
 
@@ -741,5 +746,302 @@ def process_unexpected_behavior(i):
                  'substitute':'yes',
                  'ignore_update':'yes'})
     if r['return']>0: return r
+
+    return {'return':0}
+
+##############################################################################
+# generate scenario to crowdsource benchmarking/optimization of Caffe on Android devices
+
+def generate(i):
+    """
+    Input:  {
+            }
+
+    Output: {
+              return       - return code =  0, if successful
+                                         >  0, if error
+              (error)      - error text if return > 0
+            }
+
+    """
+
+    import os
+    import copy
+    import shutil
+
+    o=i.get('out','')
+
+    # Get platform params
+    ck.out('Detecting host platform info ...')
+    ck.out('')
+
+    i['action']='detect'
+    i['module_uoa']=cfg['module_deps']['platform']
+    i['out']=''
+    rpp=ck.access(i)
+    if rpp['return']>0: return rpp
+
+    hos=rpp['host_os_uoa']
+    hosd=rpp['host_os_dict']
+
+    # Search all scenarios
+    r=ck.access({'action':'search',
+                 'module_uoa':cfg['module_deps']['experiment.scenario.mobile'],
+                 'add_meta':'yes'})
+    if r['return']>0: return r
+
+    lst=r['lst']
+    if len(lst)==0:
+       return {'return':1, 'error':'no pre-recorded Caffe crowd-scenarios found ...'}
+
+    uids={}
+    found=False
+
+    engine_meta={}
+
+    # Go through required ABIs and compile classification and libcaffe.so
+    for b in abis:
+        abi=b['abi']
+        os_uoa=b['os_uoa']
+
+        ck.out(line)
+        ck.out('Preparing Caffe with ABI "'+abi+'" for crowd-benchmarking and crowd-tuning ...')
+
+        # Compile classification (should compile all deps)
+        ck.out('')
+        ck.out('Compiling classification and Caffe ...')
+
+        ii={'action':'compile',
+            'module_uoa':cfg['module_deps']['program'],
+            'data_uoa':cfg['data_deps']['caffe-classification-android'],
+            'host_os':hos,
+            'target_os':os_uoa,
+            'speed':'yes',
+            'out':o}
+        r=ck.access(ii)
+        if r['return']>0: return r
+
+        # Get various info
+        cc=r.get('characteristics',{})
+
+        cs=cc.get('compilation_success','')
+        if cs!='yes':
+           return {'return':1, 'error':'compilation failed'}
+
+        md5=cc.get('md5_sum','')
+        bs=cc.get('binary_size',0)
+
+        misc=r.get('misc',{})
+
+        pf=misc.get('path','')
+        td=misc.get('tmp_dir','')
+        of=misc.get('target_exe','')
+        pv=misc.get('program_version','')
+
+        pp=os.path.join(pf,td,of)
+        if not os.path.isfile(pp):
+           return {'return':1, 'error':'target binary not found ('+pp+')'}
+
+        deps=r.get('deps',{})
+        cdeps=deps.get('lib-caffe',{})
+
+        cfp=cdeps.get('cus',{}).get('full_path','')
+        if not os.path.isfile(cfp):
+           return {'return':1, 'error':'Caffe lib not found ('+cfp+')'}
+
+        r=ck.run_and_get_stdout({'cmd':hosd['md5sum']+' '+cfp, 
+                                 'shell':'no'})
+        if r['return']>0: return r
+        sto=r['stdout'].split(' ')
+
+        if len(sto)==0:
+           return {'return':1, 'error':'can\'t get MD5 of libcaffe.so'}
+
+        lmd5=sto[0] # MD5 of caffe lib
+
+        ls=os.path.getsize(cfp)
+
+        dv={} # Deps versions
+        for x in deps:
+            dv[x]={}
+            cx=deps[x].get('cus',{})
+
+            dv[x]['version']=cx.get('version','')
+            dv[x]['revision']=cx.get('git_info',{}).get('revision','')
+            dv[x]['iso_datetime_cut_revision']=cx.get('git_info',{}).get('iso_datetime_cut_revision','')
+            dv[x]['tags']=deps[x].get('tags',[])
+
+        # Prepare info pack about this experiment
+        meta={'classification_version':pv,
+              'deps':dv,
+              'host_os':hos,
+              'target_os':os_uoa}
+
+        # Search caffe original code with a given ABI
+        ck.out('')
+        ck.out('Checking / updating scenario files ...')
+
+        changed_files=[] # Which libs were substituted
+
+        for q in lst:
+           duid=q['data_uid']
+           duoa=q['data_uoa']
+           ruoa=q['repo_uid']
+
+           d=q['meta']
+
+           if d.get('outdated','')=='yes': # skip archived entries
+              continue
+
+           pe=q['path'] # Path to entry
+
+           files=d.get('files',[])
+
+           for ff in files:
+               fduoa=ff.get('from_data_uoa','')
+               if fduoa=='':
+                  sabi=ff.get('supported_abi',[])
+                  if abi in sabi:
+                     fn=ff.get('filename','')
+                     p=ff.get('path','')
+
+                     xfs=ff.get('file_size',0)
+                     xmd5=ff.get('md5','')
+
+                     if (fn=='libcaffe.so' and (xmd5!=lmd5 and xfs!=ls)) or \
+                        (fn=='classification' and (xmd5!=md5 and xfs!=bs)):
+
+                        if not found:
+                           # If first time, tell that old scenario will be removed!
+                           ck.out('')
+                           ck.out('WARNING: we found old files and will be removing them.')
+                           ck.out('         Make sure that you archived them!')
+
+                           ck.out('')
+                           r=ck.inp({'text':'Would you like to proceed and remove old files (y/N): '})
+                           if r['return']>0: return r
+
+                           s=r['string'].strip().lower()
+
+                           if s!='y' and s!='yes':
+                              return {'return':0}
+
+                           found=True
+
+                        ck.out('')
+                        ck.out('Updating '+fn+' in '+duoa+' ('+p+')')
+
+                        oduid=p.split('/')[1]
+
+                        nduid=uids.get(oduid,'')
+
+                        # Generate new UID
+                        if nduid=='':
+                           r=ck.gen_uid({})
+                           if r['return']>0: return r
+                           nduid=r['data_uid']
+
+                           uids[oduid]=nduid
+
+                           ck.out('  * New code UID for '+oduid+' : '+nduid)
+
+                        np=os.path.join(pe,'code',nduid,abi)
+                        ck.out('  * New path: '+np)
+
+                        # Create new dir and copy file
+                        if not os.path.isdir(np):
+                           os.makedirs(np)
+
+                        fnp=os.path.join(np,fn)
+
+                        if fn=='libcaffe.so':
+                           shutil.copy(cfp, fnp)
+                        else:
+                           shutil.copy(pp, fnp)
+
+                        # Remove old path
+                        px=os.path.join(pe,p)
+                        if os.path.isdir(px):
+                           ck.out('  * Removing dir: '+px)
+                           shutil.rmtree(px)
+
+                        # If whole directory is empty, remove it too
+                        px=os.path.join(pe,'code',oduid)
+                        if os.path.isdir(px) and len(os.listdir(px))==0:
+                           ck.out('  * Removing dir: '+px)
+                           shutil.rmtree(px)
+
+                        # Changing meta
+                        changed_before={'filename':fn,
+                                        'from_data_uoa':duid,
+                                        'path':p,
+                                        'file_size':xfs,
+                                        'md5':xmd5}
+
+                        changed_after={'filename':fn,
+                                       'from_data_uoa':duid,
+                                       'path':np,}
+
+                        if fn=='libcaffe.so':
+                           changed_after['file_size']=ls
+                           changed_after['md5']=lmd5
+                        else:
+                           changed_after['file_size']=bs
+                           changed_after['md5']=md5
+
+                        ff.update(changed_after)
+
+                        # Updating global meta of engine
+                        engine_meta[abi]={'program_version':pv, 'deps_versions':dv}
+
+                        d['engine_meta']=engine_meta
+
+                        # Add to changed
+                        changed_files.append({'before':changed_before,
+                                              'after':changed_after})
+
+        # If changed original files, change them in all other meta
+        if len(changed_files)>0:
+
+           for q in lst:
+               duid=q['data_uid']
+               duoa=q['data_uoa']
+               muid=q['module_uid']
+               ruoa=q['repo_uid']
+
+               d=q['meta']
+
+               if d.get('outdated','')=='yes': # skip archived entries
+                  continue
+
+               d['engine_meta']=engine_meta
+
+               pp=q['path'] # Path to entry
+
+               files=d.get('files',[])
+
+               for ff in files:
+                   fduoa=ff.get('from_data_uoa','')
+                   if fduoa!='':
+                      # Check if needs to be changed ...
+                      for c in changed_files:
+                          before=c['before']
+                          after=c['after']
+
+                          rx=ck.compare_dicts({'dict1':ff, 'dict2':before})
+                          if rx['return']>0: return rx
+                          if rx['equal']=='yes':
+                             ff.update(after)
+
+               # Update entry now (aggregating all above changes)
+               r=ck.access({'action':'update',
+                            'module_uoa':muid,
+                            'data_uoa':duid,
+                            'repo_uoa':ruoa,
+                            'dict':d,
+                            'substitute':'yes',
+                            'ignore_update':'yes',
+                            'sort_keys':'yes'})
+               if r['return']>0: return r
 
     return {'return':0}

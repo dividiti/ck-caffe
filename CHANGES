@@ -1,3 +1,6 @@
+2016.12.05 - improved Caffe and Classification meta (including version)
+           - added automatic generation and recording of libcaffe.so and cliassification via CK
+
 2016.11.30 - added 'no_compile' to caffe meta
            - fixed total execution time in CK
 
