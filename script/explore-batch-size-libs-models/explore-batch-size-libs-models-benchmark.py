@@ -136,12 +136,15 @@ def do(i):
         lib_tags=re.match('BVLC Caffe framework \((?P<tags>.*)\)', lib_name)
         lib_tags=lib_tags.group('tags').replace(' ', '').replace(',', '-')
         # # Can perform experiments only for selected libs. Uncomment and modify.
-        # if lib_tags not in ['cudnn']: continue
+        if lib_tags not in ['nvidia-fp16-cudnn','nvidia-fp16-cuda']: continue
         # Use the 'time_cpu' command for the CPU only lib, 'time_gpu' for all the rest.
         if r['dict']['customize']['params']['cpu_only']==1:
             cmd_key='time_cpu'
         else:
             cmd_key='time_gpu'
+        # FIXME: Temporarily customise cmd for NVIDIA's experimental fp16 branch.
+        if lib_tags in ['nvidia-fp16-cudnn','nvidia-fp16-cuda']:
+            cmd_key='time_gpu_fp16'
 
         # For each Caffe model.
         for model_uoa in udepm:
