@@ -133,6 +133,7 @@
   "run_vars": {
     "XCT_REPEAT_MAIN": "1"
   },
+  "skip_bin_ext": "yes",
   "source_files": [
     "classification.cpp"
   ],
