@@ -11,6 +11,7 @@
     "params": {
       "cpu_only": 0,
       "debug": 0,
+      "native_fp16": 1,
       "use_clblas": 0,
       "use_clblast": 0,
       "use_cuda": 1,

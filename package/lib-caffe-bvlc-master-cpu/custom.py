@@ -84,6 +84,7 @@ def setup(i):
     # Set default parameters
     params={
      "use_index_64": 0,
+     "native_fp16": 0,
      "use_cuda": 0,
      "use_greentea": 0,
      "use_libdnn": 0,
