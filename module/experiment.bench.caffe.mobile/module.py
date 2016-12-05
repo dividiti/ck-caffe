@@ -842,7 +842,10 @@ def generate(i):
         if not os.path.isfile(pp):
            return {'return':1, 'error':'target binary not found ('+pp+')'}
 
+        # Get info about deps
         deps=r.get('deps',{})
+
+        # libcaffe
         cdeps=deps.get('lib-caffe',{})
 
         cfp=cdeps.get('cus',{}).get('full_path','')
@@ -861,7 +864,27 @@ def generate(i):
 
         ls=os.path.getsize(cfp)
 
-        dv={} # Deps versions
+        # xopenme
+        odeps=deps.get('xopenme',{})
+
+        ofp=odeps.get('cus',{}).get('full_path','')
+        if not os.path.isfile(ofp):
+           return {'return':1, 'error':'xopenme plugin not found ('+ofp+')'}
+
+        r=ck.run_and_get_stdout({'cmd':hosd['md5sum']+' '+ofp, 
+                                 'shell':'no'})
+        if r['return']>0: return r
+        sto=r['stdout'].split(' ')
+
+        if len(sto)==0:
+           return {'return':1, 'error':'can\'t get MD5 of librtlxopenme.so'}
+
+        omd5=sto[0] # MD5 of caffe lib
+
+        ops=os.path.getsize(ofp)
+
+        # Get versions of all deps
+        dv={}
         for x in deps:
             dv[x]={}
             cx=deps[x].get('cus',{})
@@ -909,7 +932,8 @@ def generate(i):
                      xmd5=ff.get('md5','')
 
                      if (fn=='libcaffe.so' and (xmd5!=lmd5 and xfs!=ls)) or \
-                        (fn=='classification' and (xmd5!=md5 and xfs!=bs)):
+                        (fn=='classification' and (xmd5!=md5 and xfs!=bs)) or \
+                        (fn=='librtlxopenme.so' and (xmd5!=omd5 and xfs!=ops)):
 
                         if not found:
                            # If first time, tell that old scenario will be removed!
@@ -956,8 +980,10 @@ def generate(i):
 
                         if fn=='libcaffe.so':
                            shutil.copy(cfp, fnp)
-                        else:
+                        elif fn=='classification':
                            shutil.copy(pp, fnp)
+                        else:
+                           shutil.copy(ofp, fnp)
 
                         # Remove old path
                         px=os.path.join(pe,p)
@@ -985,11 +1011,15 @@ def generate(i):
                         if fn=='libcaffe.so':
                            changed_after['file_size']=ls
                            changed_after['md5']=lmd5
-                        else:
+                        elif fn=='classification':
                            changed_after['file_size']=bs
                            changed_after['md5']=md5
+                        else:
+                           changed_after['file_size']=ops
+                           changed_after['md5']=omd5
 
                         ff.update(changed_after)
+                        del(ff['from_data_uoa'])
 
                         # Updating global meta of engine
                         engine_meta[abi]={'program_version':pv, 'deps_versions':dv}
@@ -1022,6 +1052,7 @@ def generate(i):
 
                for ff in files:
                    fduoa=ff.get('from_data_uoa','')
+
                    if fduoa!='':
                       # Check if needs to be changed ...
                       for c in changed_files:
