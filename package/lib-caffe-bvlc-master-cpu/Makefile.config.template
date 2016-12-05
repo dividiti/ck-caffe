@@ -11,6 +11,9 @@
 # 32 bit / 64 bit indexing
 USE_INDEX_64 := $#use_index_64#$
 
+# Inspired by NVIDIA's experimental/fp16 branch.
+NATIVE_FP16 := $#native_fp16#$
+
 # GreenTea (ViennaCL/OpenCL) backend switch
 
 # Enable the CUDA backend
