@@ -142,5 +142,6 @@
     "demo",
     "android"
   ],
-  "target_file": "classification"
+  "target_file": "classification",
+  "version": "1.0.0"
 }
