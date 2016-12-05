@@ -998,6 +998,14 @@ def generate(i):
                            shutil.rmtree(px)
 
                         # Changing meta
+                        zp=np
+                        if not zp.startswith('code') and not zp.startswith('data'):
+                           j1=zp.find('code/')
+                           if j1<0:
+                              j1=zp.find('data/')
+                           if j1>0:
+                              zp=zp[j1:]
+
                         changed_before={'filename':fn,
                                         'from_data_uoa':duid,
                                         'path':p,
@@ -1006,7 +1014,7 @@ def generate(i):
 
                         changed_after={'filename':fn,
                                        'from_data_uoa':duid,
-                                       'path':np,}
+                                       'path':zp}
 
                         if fn=='libcaffe.so':
                            changed_after['file_size']=ls
