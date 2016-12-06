@@ -135,15 +135,16 @@ def do(i):
         lib_name=r['data_name']
         lib_tags=re.match('BVLC Caffe framework \((?P<tags>.*)\)', lib_name)
         lib_tags=lib_tags.group('tags').replace(' ', '').replace(',', '-')
-        # # Can perform experiments only for selected libs. Uncomment and modify.
-        if lib_tags not in ['nvidia-fp16-cudnn','nvidia-fp16-cuda']: continue
+        # Skip some libs with "in [..]" or "not in [..]".
+        if lib_tags in []: continue
+
         # Use the 'time_cpu' command for the CPU only lib, 'time_gpu' for all the rest.
         if r['dict']['customize']['params']['cpu_only']==1:
             cmd_key='time_cpu'
         else:
             cmd_key='time_gpu'
-        # FIXME: Temporarily customise cmd for NVIDIA's experimental fp16 branch.
-        if lib_tags in ['nvidia-fp16-cudnn','nvidia-fp16-cuda']:
+        # FIXME: Customise cmd for NVIDIA's experimental fp16 branch.
+        if lib_tags in ['nvidia-fp16-cuda','nvidia-fp16-emu-cuda','nvidia-fp16-cudnn','nvidia-fp16-emu-cudnn']:
             cmd_key='time_gpu_fp16'
 
         # For each Caffe model.
@@ -158,6 +159,8 @@ def do(i):
             model_name=r['data_name']
             model_tags = re.match('Caffe model \(net and weights\) \((?P<tags>.*)\)', model_name)
             model_tags = model_tags.group('tags').replace(' ', '').replace(',', '-')
+            # Skip some models with "in [..]" or "not in [..]".
+            if model_tags in []: continue
 
             record_repo='local'
             record_uoa=model_tags+'-'+lib_tags
