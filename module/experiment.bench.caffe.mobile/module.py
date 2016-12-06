@@ -47,6 +47,9 @@ abis=[{'abi':'arm64-v8a',
       {'abi':'armeabi-v7a',
        'os_uoa':'android21-arm-v7a'}]
 
+libcaffe='libcaffe.so'
+libxopenme='librtlxopenme.so'
+
 ##############################################################################
 # Initialize module
 
@@ -849,6 +852,10 @@ def generate(i):
         cdeps=deps.get('lib-caffe',{})
 
         cfp=cdeps.get('cus',{}).get('full_path','')
+
+        # Force .so (sometimes points to .a)
+        cfp=os.path.join(os.path.dirname(cfp),libcaffe)
+
         if not os.path.isfile(cfp):
            return {'return':1, 'error':'Caffe lib not found ('+cfp+')'}
 
@@ -868,6 +875,10 @@ def generate(i):
         odeps=deps.get('xopenme',{})
 
         ofp=odeps.get('cus',{}).get('full_path','')
+
+        # Force .so (sometimes points to .a)
+        ofp=os.path.join(os.path.dirname(ofp),libxopenme)
+
         if not os.path.isfile(ofp):
            return {'return':1, 'error':'xopenme plugin not found ('+ofp+')'}
 
@@ -931,9 +942,9 @@ def generate(i):
                      xfs=ff.get('file_size',0)
                      xmd5=ff.get('md5','')
 
-                     if (fn=='libcaffe.so' and (xmd5!=lmd5 and xfs!=ls)) or \
+                     if (fn==libcaffe and (xmd5!=lmd5 and xfs!=ls)) or \
                         (fn=='classification' and (xmd5!=md5 and xfs!=bs)) or \
-                        (fn=='librtlxopenme.so' and (xmd5!=omd5 and xfs!=ops)):
+                        (fn==libxopenme and (xmd5!=omd5 and xfs!=ops)):
 
                         if not found:
                            # If first time, tell that old scenario will be removed!
@@ -978,7 +989,7 @@ def generate(i):
 
                         fnp=os.path.join(np,fn)
 
-                        if fn=='libcaffe.so':
+                        if fn==libcaffe:
                            shutil.copy(cfp, fnp)
                         elif fn=='classification':
                            shutil.copy(pp, fnp)
@@ -1016,7 +1027,7 @@ def generate(i):
                                        'from_data_uoa':duid,
                                        'path':zp}
 
-                        if fn=='libcaffe.so':
+                        if fn==libcaffe:
                            changed_after['file_size']=ls
                            changed_after['md5']=lmd5
                         elif fn=='classification':
