@@ -33,9 +33,9 @@ def ck_postprocess(i):
     # with stale branches (notably, with NVIDIA's fp16) we converted
     # the AlexNet, GoogleNet and SqueezeNet 1.1 models to the old
     # prototxt format. For compatibility with experimental data obtained
-    # before this conversion (e.g. for the GTX 1080), we can emulate the
-    # presence of the data layer.
-    emulate_data_layer = True
+    # before this conversion (e.g. on the GTX 1080), we can emulate the
+    # presence of the data layer. It shouldn't be needed for new experiments.
+    emulate_data_layer = False
     if emulate_data_layer:
         for direction in ['forward','backward']:
             data_layer_info = {}
