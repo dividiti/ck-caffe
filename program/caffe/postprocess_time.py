@@ -29,6 +29,25 @@ def ck_postprocess(i):
     d['per_layer_info']=[]
     layer_index = 0
 
+    # The new prototxt format includes data layer but for compatibility
+    # with stale branches (notably, with NVIDIA's fp16) we converted
+    # the AlexNet, GoogleNet and SqueezeNet 1.1 models to the old
+    # prototxt format. For compatibility with experimental data obtained
+    # before this conversion (e.g. for the GTX 1080), we can emulate the
+    # presence of the data layer.
+    emulate_data_layer = True
+    if emulate_data_layer:
+        for direction in ['forward','backward']:
+            data_layer_info = {}
+            data_layer_info['direction'] = direction
+            data_layer_info['index'] = layer_index
+            data_layer_info['label'] = "00: data"
+            data_layer_info['time_ms'] = 0.0
+            data_layer_info['time_s'] = 0.0
+            data_layer_info['timestamp'] = "0101 00:00:00.000000"
+            d['per_layer_info'].append(data_layer_info)
+        layer_index = 1
+
     d['REAL_ENV_CK_CAFFE_BATCH_SIZE']=env.get('CK_CAFFE_BATCH_SIZE','')
     d['REAL_ENV_CK_CAFFE_ITERATIONS']=env.get('CK_CAFFE_ITERATIONS','')
     d['REAL_ENV_CK_CAFFE_MODEL']=env.get('CK_CAFFE_MODEL','')
@@ -45,15 +64,15 @@ def ck_postprocess(i):
         match = re.search(layer_regex, line)
         if match:
             info = {}
-            info['timestamp'] = match.group('timestamp')
-            info['index'] = layer_index
-            info['label'] = '%s: %s' % (str(layer_index).zfill(2), match.group('label'))
             info['direction'] = match.group('dir')
+            if info['direction'] == 'forward':
+                layer_index += 1
+            info['index'] = layer_index - 1
+            info['label'] = '%s: %s' % (str(info['index']).zfill(2), match.group('label'))
             info['time_ms'] = float(match.group('ms'))
             info['time_s'] = info['time_ms']*1e-3
+            info['timestamp'] = match.group('timestamp')
             d['per_layer_info'].append(info)
-            if info['direction'] == 'backward':
-                layer_index += 1
 
         # Match memory required for data.
         memory_regex = \
@@ -109,10 +128,9 @@ def ck_postprocess(i):
             s=ms*1e-3
             d['time_total_s']=s
             d['time_total_s_kernel_0']=s
-
-            d['execution_time']=s  # internal CK keys to show overall time
-
             d['post_processed']='yes'
+            # Internal CK key to show overall time.
+            d['execution_time']=s
 
     rr={}
     rr['return']=0
