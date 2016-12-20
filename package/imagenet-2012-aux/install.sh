@@ -2,10 +2,10 @@
 
 #
 # Installation script for the 2012 ImageNet Large Scale Visual Recognition
-# Challenge (ILSVRC'12) validation dataset.
+# Challenge (ILSVRC'12) auxiliary dataset.
 #
-# See CK LICENSE for licensing details.
-# See CK COPYRIGHT for copyright details.
+# See CK LICENSE.txt for licensing details.
+# See CK COPYRIGHT.txt for copyright details.
 #
 # Developer(s):
 # - Anton Lokhmotov, anton@dividiti.com, 2016
@@ -66,7 +66,10 @@ if [ "${?}" != "0" ] ; then
   exit 1
 fi
 
-chmod 755 imagenet*
+# Delete weird MacOS X files.
+rm -rf ${INSTALL_DIR}/._*
+# Set as executable.
+chmod 755 ${INSTALL_DIR}/imagenet*
 
 #####################################################################
 echo ""

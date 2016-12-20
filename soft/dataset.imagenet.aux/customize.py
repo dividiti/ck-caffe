@@ -85,8 +85,13 @@ def setup(i):
     ep=cus.get('env_prefix','')
     env[ep]=pi
 
+    env['CK_CAFFE_IMAGENET_TEST_TXT']=pi+sdirs+'test.txt'
+    env['CK_CAFFE_IMAGENET_TRAIN_TXT']=pi+sdirs+'train.txt'
     env['CK_CAFFE_IMAGENET_VAL_TXT']=pi+sdirs+'val.txt'
-    env['CK_CAFFE_IMAGENET_VAL_TRAIN']=pi+sdirs+'train.txt'
+
+    env['CK_CAFFE_IMAGENET_DET_SYNSET_WORDS_TXT']=pi+sdirs+'det_synset_words.txt'
+    env['CK_CAFFE_IMAGENET_SYNSET_WORDS_TXT']=pi+sdirs+'synset_words.txt'
+    env['CK_CAFFE_IMAGENET_SYNSETS_TXT']=pi+sdirs+'synsets.txt'
 
     env['CK_CAFFE_IMAGENET_MEAN_BIN']=pi+sdirs+'imagenet_mean.binaryproto'
     env['CK_CAFFE_IMAGENET_BET_BIN']=pi+sdirs+'imagenet.bet.pickle'
