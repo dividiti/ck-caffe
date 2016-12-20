@@ -63,6 +63,7 @@
     "lib",
     "caffe",
     "bvlc",
-    "vmaster"
+    "vmaster",
+    "vcpu"
   ]
 }
