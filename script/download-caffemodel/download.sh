@@ -38,7 +38,7 @@ fi
 #####################################################################
 echo ""
 echo "Downloading the weights from '${MODEL_URL}' ..."
-wget -c ${MODEL_URL} -O ${MODEL_PATH}
+wget -c ${MODEL_URL} -O ${MODEL_PATH} --no-check-certificate
 if [ "${?}" != "0" ] ; then
   echo "Error: Downloading the weights from '${MODEL_URL}' failed!"
   exit 1
