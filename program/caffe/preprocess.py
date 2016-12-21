@@ -26,12 +26,14 @@ def ck_preprocess(i):
     # Get number of images
     if classification=='yes':
         nim=1
-    else:
+    elif 'dataset-imagenet-lmdb' in deps:
         nim=deps.get('dataset-imagenet-lmdb',{}).get('dict',{}). \
             get('customize',{}).get('features',{}).get('number_of_original_images','')
         if nim=='':
            return {'return':1, 'error':'can\'t find number of images in a dataset'}
         nim=int(nim)
+    else:
+        nim=-1
 
     # Find template
     x=deps['caffemodel']
@@ -80,7 +82,7 @@ def ck_preprocess(i):
     if iters=='':
        if bs=='':
           iters=1
-       else:
+       elif nim!=-1:
           bs=int(bs)
           iters=nim/bs
 
@@ -95,7 +97,7 @@ def ck_preprocess(i):
     plmdb=''
     paux=''
 
-    if classification!='yes':
+    if classification!='yes' and nim!=-1:
         paux=deps['dataset-imagenet-aux']['dict']['env']['CK_ENV_DATASET_IMAGENET_AUX']+'/'
         plmdb=deps['dataset-imagenet-lmdb']['dict']['env']['CK_ENV_DATASET_IMAGENET_VAL_LMDB']
 

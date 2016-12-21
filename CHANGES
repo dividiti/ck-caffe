@@ -1,3 +1,5 @@
+2016.12.21 - major update (added new run-time SW deps handling)
+
 2016.12.20 - major update of pruning command lines by deps and vice versa ...
 
 2016.12.05 - improved Caffe and Classification meta (including version)

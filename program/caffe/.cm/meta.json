@@ -1,34 +1,5 @@
 {
   "backup_data_uid": "569404c41618603a", 
-  "compile_deps": {
-    "caffemodel": {
-      "force_target_as_host": "yes", 
-      "local": "yes", 
-      "name": "Caffe model (net and weights)", 
-      "sort": 40, 
-      "tags": "caffemodel"
-    }, 
-    "dataset-imagenet-aux": {
-      "force_target_as_host": "yes", 
-      "local": "yes", 
-      "name": "ImageNet dataset (aux)", 
-      "sort": 10, 
-      "tags": "dataset,imagenet,aux"
-    }, 
-    "dataset-imagenet-lmdb": {
-      "force_target_as_host": "yes", 
-      "local": "yes", 
-      "name": "ImageNet dataset (lmdb)", 
-      "sort": 20, 
-      "tags": "dataset,imagenet,val-lmdb"
-    }, 
-    "lib-caffe": {
-      "local": "yes", 
-      "name": "Caffe framework", 
-      "sort": 30, 
-      "tags": "lib,caffe"
-    }
-  }, 
   "data_name": "caffe", 
   "no_compile": "yes", 
   "no_target_file": "yes", 
@@ -39,17 +10,11 @@
   "program": "yes", 
   "run_cmds": {
     "query_gpu_cuda": {
-      "add_only_if_deps_tags": [
-        [
-          "lib", 
-          "caffe", 
-          "vcuda"
-        ]
-      ], 
       "ignore_return_code": "no", 
       "run_time": {
+        "need_compute_device": "cuda", 
         "post_process_via_ck": "no", 
-        "run_cmd_main": "caffe.bin device_query --gpu=$<<CK_CAFFE_GPU_ID>>$", 
+        "run_cmd_main": "caffe.bin device_query --gpu=$<<CK_COMPUTE_DEVICE_ID>>$", 
         "run_cmd_out1": "stdout.log", 
         "run_cmd_out2": "stderr.log"
       }, 
@@ -60,13 +25,6 @@
       }
     }, 
     "query_gpu_greentea": {
-      "add_only_if_deps_tags": [
-        [
-          "lib", 
-          "caffe", 
-          "vopencl"
-        ]
-      ], 
       "ignore_return_code": "no", 
       "run_time": {
         "post_process_via_ck": "no", 
@@ -103,40 +61,17 @@
           "tmp-ck-timer.json"
         ]
       }, 
-      "skip_if_deps_tags": [
-        [
-          "lib", 
-          "caffe", 
-          "vcuda"
-        ], 
-        [
-          "lib", 
-          "caffe", 
-          "vopencl"
-        ]
-      ], 
       "update_deps": {
         "lib-caffe": {
-          "no_tags": "vopencl,vcuda"
+          "tags": "vcpu"
         }
       }
     }, 
     "test_gpu": {
-      "add_only_if_deps_tags": [
-        [
-          "lib", 
-          "caffe", 
-          "vcuda"
-        ], 
-        [
-          "lib", 
-          "caffe", 
-          "vopencl"
-        ]
-      ], 
       "ignore_return_code": "no", 
       "run_time": {
         "fine_grain_timer_file": "tmp-ck-timer.json", 
+        "need_compute_device": "cuda", 
         "params": {
           "caffemodel_key": "val"
         }, 
@@ -147,7 +82,7 @@
         "pre_process_via_ck": {
           "script_name": "preprocess"
         }, 
-        "run_cmd_main": "caffe.bin test --model=$<<CK_CAFFE_MODEL>>$ --weights=$<<CK_ENV_MODEL_CAFFE_WEIGHTS>>$ --iterations=$<<CK_CAFFE_ITERATIONS>>$ --gpu=$<<CK_CAFFE_GPU_ID>>$", 
+        "run_cmd_main": "caffe.bin test --model=$<<CK_CAFFE_MODEL>>$ --weights=$<<CK_ENV_MODEL_CAFFE_WEIGHTS>>$ --iterations=$<<CK_CAFFE_ITERATIONS>>$ --gpu=$<<CK_COMPUTE_DEVICE_ID>>$", 
         "run_cmd_out1": "stdout.log", 
         "run_cmd_out2": "stderr.log", 
         "run_correctness_output_files": [], 
@@ -156,13 +91,6 @@
           "tmp-ck-timer.json"
         ]
       }, 
-      "skip_if_deps_tags": [
-        [
-          "lib", 
-          "caffe", 
-          "vfp16"
-        ]
-      ], 
       "update_deps": {
         "lib-caffe": {
           "no_tags": "vcpu"
@@ -170,17 +98,10 @@
       }
     }, 
     "test_gpu_fp16": {
-      "add_only_if_deps_tags": [
-        [
-          "lib", 
-          "caffe", 
-          "vcuda", 
-          "vfp16"
-        ]
-      ], 
       "ignore_return_code": "no", 
       "run_time": {
         "fine_grain_timer_file": "tmp-ck-timer.json", 
+        "need_compute_device": "cuda", 
         "params": {
           "caffemodel_key": "val"
         }, 
@@ -191,7 +112,7 @@
         "pre_process_via_ck": {
           "script_name": "preprocess"
         }, 
-        "run_cmd_main": "caffe_fp16.bin test --model=$<<CK_CAFFE_MODEL>>$ --weights=$<<CK_ENV_MODEL_CAFFE_WEIGHTS>>$ --iterations=$<<CK_CAFFE_ITERATIONS>>$ --gpu=$<<CK_CAFFE_GPU_ID>>$", 
+        "run_cmd_main": "caffe_fp16.bin test --model=$<<CK_CAFFE_MODEL>>$ --weights=$<<CK_ENV_MODEL_CAFFE_WEIGHTS>>$ --iterations=$<<CK_CAFFE_ITERATIONS>>$ --gpu=$<<CK_COMPUTE_DEVICE_ID>>$", 
         "run_cmd_out1": "stdout.log", 
         "run_cmd_out2": "stderr.log", 
         "run_correctness_output_files": [], 
@@ -230,18 +151,6 @@
           "tmp-ck-timer.json"
         ]
       }, 
-      "skip_if_deps_tags": [
-        [
-          "lib", 
-          "caffe", 
-          "vcuda"
-        ], 
-        [
-          "lib", 
-          "caffe", 
-          "vopencl"
-        ]
-      ], 
       "update_deps": {
         "lib-caffe": {
           "tags": "vcpu"
@@ -249,21 +158,10 @@
       }
     }, 
     "time_gpu": {
-      "add_only_if_deps_tags": [
-        [
-          "lib", 
-          "caffe", 
-          "vcuda"
-        ], 
-        [
-          "lib", 
-          "caffe", 
-          "vopencl"
-        ]
-      ], 
       "ignore_return_code": "no", 
       "run_time": {
         "fine_grain_timer_file": "tmp-ck-timer.json", 
+        "need_compute_device": "cuda", 
         "params": {
           "caffemodel_key": "deploy"
         }, 
@@ -274,7 +172,7 @@
         "pre_process_via_ck": {
           "script_name": "preprocess"
         }, 
-        "run_cmd_main": "caffe.bin time --model=$<<CK_CAFFE_MODEL>>$ --gpu=$<<CK_CAFFE_GPU_ID>>$ --iterations=1", 
+        "run_cmd_main": "caffe.bin time --model=$<<CK_CAFFE_MODEL>>$ --gpu=$<<CK_COMPUTE_DEVICE_ID>>$ --iterations=1", 
         "run_cmd_out1": "stdout.log", 
         "run_cmd_out2": "stderr.log", 
         "run_correctness_output_files": [], 
@@ -283,13 +181,6 @@
           "tmp-ck-timer.json"
         ]
       }, 
-      "skip_if_deps_tags": [
-        [
-          "lib", 
-          "caffe", 
-          "vfp16"
-        ]
-      ], 
       "update_deps": {
         "lib-caffe": {
           "no_tags": "vcpu"
@@ -297,17 +188,10 @@
       }
     }, 
     "time_gpu_fp16": {
-      "add_only_if_deps_tags": [
-        [
-          "lib", 
-          "caffe", 
-          "vcuda", 
-          "vfp16"
-        ]
-      ], 
       "ignore_return_code": "no", 
       "run_time": {
         "fine_grain_timer_file": "tmp-ck-timer.json", 
+        "need_compute_device": "cuda", 
         "params": {
           "caffemodel_key": "deploy"
         }, 
@@ -318,7 +202,7 @@
         "pre_process_via_ck": {
           "script_name": "preprocess"
         }, 
-        "run_cmd_main": "caffe_fp16.bin time --model=$<<CK_CAFFE_MODEL>>$ --gpu=$<<CK_CAFFE_GPU_ID>>$ --iterations=1", 
+        "run_cmd_main": "caffe_fp16.bin time --model=$<<CK_CAFFE_MODEL>>$ --gpu=$<<CK_COMPUTE_DEVICE_ID>>$ --iterations=1", 
         "run_cmd_out1": "stdout.log", 
         "run_cmd_out2": "stderr.log", 
         "run_correctness_output_files": [], 
@@ -335,8 +219,54 @@
       }
     }
   }, 
+  "run_deps": {
+    "caffemodel": {
+      "force_target_as_host": "yes", 
+      "local": "yes", 
+      "name": "Caffe model (net and weights)", 
+      "only_for_cmd": [
+        "test_cpu", 
+        "test_gpu", 
+        "test_gpu_fp16", 
+        "time_cpu", 
+        "time_gpu", 
+        "time_gpu_fp16"
+      ], 
+      "sort": 40, 
+      "tags": "caffemodel"
+    }, 
+    "dataset-imagenet-aux": {
+      "force_target_as_host": "yes", 
+      "local": "yes", 
+      "name": "ImageNet dataset (aux)", 
+      "only_for_cmd": [
+        "test_cpu", 
+        "test_gpu", 
+        "test_gpu_fp16"
+      ], 
+      "sort": 10, 
+      "tags": "dataset,imagenet,aux"
+    }, 
+    "dataset-imagenet-lmdb": {
+      "force_target_as_host": "yes", 
+      "local": "yes", 
+      "name": "ImageNet dataset (lmdb)", 
+      "only_for_cmd": [
+        "test_cpu", 
+        "test_gpu", 
+        "test_gpu_fp16"
+      ], 
+      "sort": 20, 
+      "tags": "dataset,imagenet,val-lmdb"
+    }, 
+    "lib-caffe": {
+      "local": "yes", 
+      "name": "Caffe framework", 
+      "sort": 30, 
+      "tags": "lib,caffe"
+    }
+  }, 
   "run_vars": {
-    "CK_CAFFE_GPU_ID": 0
   }, 
   "skip_tmp_deps": "yes", 
   "tags": [
