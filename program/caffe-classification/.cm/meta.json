@@ -16,13 +16,6 @@
       "sort": 30,
       "tags": "lib,boost"
     },
-    "caffemodel": {
-      "force_target_as_host": "yes",
-      "local": "yes",
-      "name": "Caffe model (net and weights)",
-      "sort": 40,
-      "tags": "caffemodel"
-    },
     "compiler": {
       "local": "yes",
       "name": "C++ compiler",
@@ -125,6 +118,15 @@
           "tmp-ck-timer.json"
         ]
       }
+    }
+  },
+  "run_deps": {
+    "caffemodel": {
+      "force_target_as_host": "yes",
+      "local": "yes",
+      "name": "Caffe model (net and weights)",
+      "sort": 40,
+      "tags": "caffemodel"
     }
   },
   "run_vars": {
