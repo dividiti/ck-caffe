@@ -21,7 +21,7 @@
       "local": "yes",
       "name": "C++ compiler",
       "sort": 0,
-      "tags": "compiler,lang-cpp"
+      "tags": "compiler,lang-cpp,gcc"
     },
     "lib-blas": {
       "local": "yes",
@@ -51,7 +51,7 @@
       "name": "GFlags library",
       "skip_default": "yes",
       "sort": 5,
-      "tags": "lib,gflags"
+      "tags": "lib,gflags,v2.1.2"
     },
     "lib-glog": {
       "force_add_static_lib_path": "yes",
@@ -73,7 +73,7 @@
       "name": "ProtoBuf library",
       "skip_default": "yes",
       "sort": 9,
-      "tags": "lib,protobuf"
+      "tags": "lib,protobuf,v3.0.0"
     },
     "xopenme": {
       "local": "yes",
