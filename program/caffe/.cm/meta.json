@@ -4,6 +4,7 @@
   "no_compile": "yes",
   "no_target_file": "yes",
   "only_for_target_os_tags": [
+    "windows",
     "linux"
   ],
   "print_files_after_run": [
@@ -17,7 +18,7 @@
       "run_time": {
         "need_compute_device": "cuda",
         "post_process_via_ck": "no",
-        "run_cmd_main": "caffe.bin device_query --gpu=$<<CK_COMPUTE_DEVICE_ID>>$",
+        "run_cmd_main": "$<<CK_CAFFE_BIN>>$ device_query --gpu=$<<CK_COMPUTE_DEVICE_ID>>$",
         "run_cmd_out1": "stdout.log",
         "run_cmd_out2": "stderr.log"
       },
@@ -31,7 +32,7 @@
       "ignore_return_code": "no",
       "run_time": {
         "post_process_via_ck": "no",
-        "run_cmd_main": "caffe.bin device_query",
+        "run_cmd_main": "$<<CK_CAFFE_BIN>>$ device_query",
         "run_cmd_out1": "stdout.log",
         "run_cmd_out2": "stderr.log"
       },
@@ -55,7 +56,7 @@
         "pre_process_via_ck": {
           "script_name": "preprocess"
         },
-        "run_cmd_main": "caffe.bin test --model=$<<CK_CAFFE_MODEL>>$ --weights=$<<CK_ENV_MODEL_CAFFE_WEIGHTS>>$ --iterations=$<<CK_CAFFE_ITERATIONS>>$",
+        "run_cmd_main": "$<<CK_CAFFE_BIN>>$ test --model=$<<CK_CAFFE_MODEL>>$ --weights=$<<CK_ENV_MODEL_CAFFE_WEIGHTS>>$ --iterations=$<<CK_CAFFE_ITERATIONS>>$",
         "run_cmd_out1": "stdout.log",
         "run_cmd_out2": "stderr.log",
         "run_correctness_output_files": [],
@@ -85,7 +86,7 @@
         "pre_process_via_ck": {
           "script_name": "preprocess"
         },
-        "run_cmd_main": "caffe.bin test --model=$<<CK_CAFFE_MODEL>>$ --weights=$<<CK_ENV_MODEL_CAFFE_WEIGHTS>>$ --iterations=$<<CK_CAFFE_ITERATIONS>>$ --gpu=$<<CK_COMPUTE_DEVICE_ID>>$",
+        "run_cmd_main": "$<<CK_CAFFE_BIN>>$ test --model=$<<CK_CAFFE_MODEL>>$ --weights=$<<CK_ENV_MODEL_CAFFE_WEIGHTS>>$ --iterations=$<<CK_CAFFE_ITERATIONS>>$ --gpu=$<<CK_COMPUTE_DEVICE_ID>>$",
         "run_cmd_out1": "stdout.log",
         "run_cmd_out2": "stderr.log",
         "run_correctness_output_files": [],
@@ -145,7 +146,7 @@
         "pre_process_via_ck": {
           "script_name": "preprocess"
         },
-        "run_cmd_main": "caffe.bin time --model=$<<CK_CAFFE_MODEL>>$ --iterations=1",
+        "run_cmd_main": "$<<CK_CAFFE_BIN>>$ time --model=$<<CK_CAFFE_MODEL>>$ --iterations=1",
         "run_cmd_out1": "stdout.log",
         "run_cmd_out2": "stderr.log",
         "run_correctness_output_files": [],
@@ -175,7 +176,7 @@
         "pre_process_via_ck": {
           "script_name": "preprocess"
         },
-        "run_cmd_main": "caffe.bin time --model=$<<CK_CAFFE_MODEL>>$ --gpu=$<<CK_COMPUTE_DEVICE_ID>>$ --iterations=1",
+        "run_cmd_main": "$<<CK_CAFFE_BIN>>$ time --model=$<<CK_CAFFE_MODEL>>$ --gpu=$<<CK_COMPUTE_DEVICE_ID>>$ --iterations=1",
         "run_cmd_out1": "stdout.log",
         "run_cmd_out2": "stderr.log",
         "run_correctness_output_files": [],

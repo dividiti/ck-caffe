@@ -198,6 +198,21 @@ ck pull repo:ck-caffe-explore-batch-size-chromebook2 \
     --url=https://github.com/dividiti/ck-caffe-explore-batch-size-chromebook2.git
 ```
  
+## Quick installation on Windows
+
+We converted Caffe builder from https://github.com/willyd/caffe-builder
+to compile Caffe lib on Windows via CK:
+
+```
+$ ck install package:lib-caffe-bvlc-master-cpu-win
+$ ck run program:caffe
+(select test_cpu)
+```
+
+It's the first step (we support CPU version for now), 
+and we would like to support CUDA as well as compile 
+all dependencies via CK too (to simplify and automate this process)...
+
 ## Next steps
 
 CK-Caffe is part of an ambitious long-term and community-driven 

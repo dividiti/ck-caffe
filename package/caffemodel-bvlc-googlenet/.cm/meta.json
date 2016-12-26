@@ -43,15 +43,18 @@
     "version": "trunk"
   },
   "only_for_host_os_tags": [
+    "windows",
     "linux"
   ],
   "only_for_target_os_tags": [
+    "windows",
     "linux"
   ],
   "package_extra_name":" (bvlc, googlenet)",
   "process_script": "download",
   "soft_uoa": "e2400aabc11d6cd1",
   "end_full_path": {
+    "win": "bvlc_googlenet.caffemodel",
     "linux": "bvlc_googlenet.caffemodel"
   },
   "suggested_path": "caffemodel-bvlc-googlenet",

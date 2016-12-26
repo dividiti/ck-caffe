@@ -1,3 +1,6 @@
+2016.12.26 - added support to compile Caffe lib for Windows (can be improved)
+           - added support to compile Caffe lib for Android (official benchmarking)
+
 2016.12.21 - major update (added new run-time SW deps handling)
 
 2016.12.20 - major update of pruning command lines by deps and vice versa ...

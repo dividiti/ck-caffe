@@ -78,6 +78,16 @@ def setup(i):
 
     env=i['env']
 
+    fpr=''
+    fp0=os.path.basename(fp)
+    fp1=os.path.dirname(fp)
+    fp2=os.path.basename(fp1)
+
+    if fp2=='Release' or fp2=='Debug':
+       fpr=fp2
+
+    env['CK_CAFFE_BIN']=fp0
+
     pi=fp
     found=False
     while True:
@@ -96,11 +106,13 @@ def setup(i):
 
     cus['path_bin']=p1
 
-    pl=os.path.join(pi,'lib')
+    pl=os.path.join(pi,'lib', fpr)
     if not os.path.isdir(pl):
-       pl=os.path.join(pi,'.build_release','lib')
+       pl=os.path.join(pi,'lib')
        if not os.path.isdir(pl):
-          return {'return':1, 'error':'can\'t find lib dir of the CAFFE installation'}
+          pl=os.path.join(pi,'.build_release','lib')
+          if not os.path.isdir(pl):
+             return {'return':1, 'error':'can\'t find lib dir of the CAFFE installation'}
 
     ep=cus.get('env_prefix','')
 
@@ -108,26 +120,38 @@ def setup(i):
     cus['path_include']=os.path.join(pi,'include')
 
     if win=='yes':
+       fp5=os.path.dirname(pi)
+       fp6=os.path.join(fp5,'libraries','libraries')
+       fp7=os.path.join(fp6,'bin')
+       fp7l=os.path.join(fp6,'lib')
+       fp7l1=os.path.join(fp6,'x64','vc14','bin')
+       fp8=''
+       if os.path.isdir(fp7):
+          fp8=';'+fp7+';'+fp7l+';'+fp7l1
+
        if remote=='yes' or mingw=='yes': 
           sext='.a'
           dext='.so'
        else:
           sext='.lib'
           dext='.dll'
+
+       s+='set PATH='+cus['path_bin']+fp8+';%PATH%\n'
+
     else:
        sext='.a'
        dext='.so'
+
+       s+='export PATH='+cus['path_bin']+':$PATH\n'
+       if cus.get('path_lib','')!='':
+          s+='export LD_LIBRARY_PATH="'+cus['path_lib']+'":$LD_LIBRARY_PATH\n'
+          s+='export LIBRARY_PATH="'+cus['path_lib']+'":$LIBRARY_PATH\n\n'
 
     cus['static_lib']='libcaffe'+sext
     cus['dynamic_lib']='libcaffe'+dext
 
     env[ep+'_STATIC_NAME']=cus.get('static_lib','')
     env[ep+'_DYNAMIC_NAME']=cus.get('dynamic_lib','')
-
-    s+='export PATH='+cus['path_bin']+':$PATH\n'
-    if cus.get('path_lib','')!='':
-       s+='export LD_LIBRARY_PATH="'+cus['path_lib']+'":$LD_LIBRARY_PATH\n'
-       s+='export LIBRARY_PATH="'+cus['path_lib']+'":$LIBRARY_PATH\n\n'
 
     env[ep]=pi
 

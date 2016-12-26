@@ -39,15 +39,18 @@
     "version": "1.0"
   },
   "only_for_host_os_tags": [
+    "windows",
     "linux"
   ],
   "only_for_target_os_tags": [
+    "windows",
     "linux"
   ],
   "package_extra_name":" (deepscale, squeezenet, 1.0)",
   "process_script": "download",
   "soft_uoa": "e2400aabc11d6cd1",
   "end_full_path": {
+    "win": "squeezenet_v1.0.caffemodel",
     "linux": "squeezenet_v1.0.caffemodel"
   },
   "suggested_path": "caffemodel-deepscale-squeezenet_v1.0",

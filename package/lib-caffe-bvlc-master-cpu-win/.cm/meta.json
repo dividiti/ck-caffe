@@ -1,0 +1,59 @@
+{
+  "check_exit_status": "yes",
+  "customize": {
+    "extra_dir": "",
+    "git_src_dir": "src",
+    "install_env": {
+      "CAFFE_BRANCH": "windows",
+      "CAFFE_URL": "https://github.com/BVLC/caffe",
+      "WITH_NINJA":0,
+      "CPU_ONLY":1,
+      "CMAKE_CONFIG":"Release",
+      "CMAKE_BUILD_SHARED_LIBS":0,
+      "BUILD_PYTHON":0,
+      "BUILD_PYTHON_LAYER":0,
+      "BUILD_MATLAB":0,
+      "PYTHON_EXE":"python",
+      "RUN_TESTS":0,
+      "RUN_LINT":0,
+      "RUN_INSTALL":0
+     },
+    "use_git_revision": "yes",
+    "version": "trunk"
+  },
+  "deps": {
+    "cmake": {
+      "local": "yes",
+      "name": "CMake tool",
+      "sort": 10,
+      "tags": "tool,cmake"
+    },
+    "compiler": {
+      "local": "yes",
+      "name": "C++ compiler",
+      "sort": 20,
+      "tags": "compiler,lang-cpp,mcl"
+    }
+  },
+  "end_full_path": {
+    "win": "build/tools/Release/caffe.exe"
+  },
+  "need_cpu_info": "yes",
+  "only_for_host_os_tags": [
+    "windows"
+  ],
+  "only_for_target_os_tags": [
+    "windows"
+  ],
+  "package_extra_name": " (cpu)",
+  "process_script": "install",
+  "soft_uoa": "04ab08137582bd03",
+  "suggested_path": "lib-caffe-bvlc-master",
+  "tags": [
+    "lib",
+    "caffe",
+    "bvlc",
+    "vmaster",
+    "vcpu"
+  ]
+}

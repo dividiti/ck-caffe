@@ -16,6 +16,9 @@ def ck_preprocess(i):
 
     env=i['env']
 
+    hosd=i['host_os_dict']
+    es=hosd['env_set'] # set or export
+
     params=rt['params']
     cm_key=params['caffemodel_key']
 
@@ -87,7 +90,7 @@ def ck_preprocess(i):
           iters=nim/bs
 
        env['CK_CAFFE_ITERATIONS']=iters
-       b+='export CK_CAFFE_ITERATIONS='+str(iters)+'\n'
+       b+=es+' CK_CAFFE_ITERATIONS='+str(iters)+'\n'
 
     for k in sub:
         v=sub[k]
@@ -110,11 +113,11 @@ def ck_preprocess(i):
     if r['return']>0: return r
 
     # Prepare path to model
-    b+='export CK_CAFFE_MODEL='+fn+'\n'
+    b+=es+' CK_CAFFE_MODEL='+fn+'\n'
     env['CK_CAFFE_MODEL']=fn
 
     fnx=os.path.basename(fn)
-    b+='export CK_CAFFE_MODEL_FILE='+fnx+'\n'
+    b+=es+' CK_CAFFE_MODEL_FILE='+fnx+'\n'
     env['CK_CAFFE_MODEL_FILE']=fnx
 
     return {'return':0, 'bat':b}
