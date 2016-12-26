@@ -198,7 +198,7 @@ ck pull repo:ck-caffe-explore-batch-size-chromebook2 \
     --url=https://github.com/dividiti/ck-caffe-explore-batch-size-chromebook2.git
 ```
  
-## Related projects and initiatives
+## Next steps
 
 CK-Caffe is part of an ambitious long-term and community-driven 
 project to enable collaborative and systematic benchmarking
@@ -216,6 +216,9 @@ using Collective Knowledge Technology:
 * [CK-TinyDNN](https://github.com/ctuning/ck-tiny-dnn)
 * [Android app for DNN crowd-benchmarking and crowd-tuning](https://play.google.com/store/apps/details?id=openscience.crowdsource.video.experiments)
 * [CK-powered ARM workload automation](https://github.com/ctuning/ck-wa)
+
+We continue gradually exposing various design and optimization
+choices including full parameterization of existing models.
 
 ## Open R&D challenges
 
