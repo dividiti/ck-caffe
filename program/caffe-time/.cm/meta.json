@@ -5,8 +5,7 @@
     "BLAS": "Open", 
     "CPU_ONLY": "ON", 
     "USE_LMDB": "ON", 
-    "USE_OPENCV": "ON", 
-    "XOPENME": ""
+    "USE_OPENCV": "ON" 
   }, 
   "compile_deps": {
     "boost": {
@@ -65,14 +64,8 @@
       "local": "yes", 
       "name": "ProtoBuf library", 
       "sort": 9, 
-      "tags": "lib,protobuf"
-    }, 
-    "xopenme": {
-      "local": "yes", 
-      "name": "xOpenME library", 
-      "sort": 100, 
-      "tags": "lib,xopenme"
-    }
+      "tags": "lib,protobuf,v3.1.0"
+    } 
   }, 
   "compiler_add_include_as_env_from_deps": [
     "CK_ENV_LIB_STDCPP_INCLUDE", 
@@ -80,29 +73,25 @@
     "CK_ENV_LIB_CAFFE_EXTRA_INCLUDE"
   ], 
   "compiler_env": "CK_CXX", 
-  "compiler_flags_as_env": "", 
+  "compiler_flags_as_env": "$<<CK_CXX_FLAGS_FOR_CMAKE>>$",
   "data_name": "caffe-time",
-  "extra_ld_vars": "$<<CK_ENV_LIB_GLOG_LFLAG>>$ $<<CK_ENV_LIB_BOOST_LFLAG_SYSTEM>>$ $<<CK_ENV_LIB_OPENCV_LFLAG_IMGPROC>>$ $<<CK_ENV_LIB_OPENCV_LFLAG_HIGHGUI>>$ $<<CK_ENV_LIB_OPENCV_LFLAG_CORE>>$ $<<CK_EXTRA_LIB_Z>>$ $<<CK_EXTRA_LIB_LOG>>$ $<<CK_EXTRA_LIB_M>>$ $<<CK_ENV_LIB_STDCPP_STATIC>>$",
+  "extra_ld_vars": "$<<CK_CXX_FLAGS_FOR_CMAKE>>$ $<<CK_ENV_LIB_GLOG_LFLAG>>$ $<<CK_ENV_LIB_BOOST_LFLAG_SYSTEM>>$ $<<CK_ENV_LIB_OPENCV_LFLAG_IMGPROC>>$ $<<CK_ENV_LIB_OPENCV_LFLAG_HIGHGUI>>$ $<<CK_ENV_LIB_OPENCV_LFLAG_CORE>>$ $<<CK_EXTRA_LIB_Z>>$ $<<CK_EXTRA_LIB_LOG>>$ $<<CK_EXTRA_LIB_M>>$ $<<CK_ENV_LIB_STDCPP_STATIC>>$",
   "main_language": "cpp", 
   "only_for_target_os_tags": [
-    "linux"
+    "linux",
+    "android"
   ], 
   "print_files_after_run": [
-    "tmp-output1.tmp", 
-    "tmp-output2.tmp"
+     "stderr.log",
+     "stderr1.log"
   ], 
   "process_in_tmp": "yes", 
   "program": "yes", 
   "run_cmds": {
     "default": {
-      "dataset_tags": [
-        "image", 
-        "jpeg", 
-        "dataset"
-      ], 
       "ignore_return_code": "no", 
       "run_time": {
-        "fine_grain_timer_file": "tmp-ck-timer.json", 
+        "fine_grain_timer_file": "tmp-ck-timer.json",
         "params": {
           "caffemodel_key": "deploy", 
           "classification": "yes"
@@ -111,13 +100,18 @@
           "data_uoa": "569404c41618603a", 
           "script_name": "preprocess"
         }, 
+        "post_process_cmds": [
+          "python $#ck_take_from_{569404c41618603a}#$postprocess_time.py"
+        ],
+        "post_process_via_ck": "yes",
         "run_cmd_main": "$#BIN_FILE#$ $<<CK_CAFFE_MODEL_FILE>>$ $<<CK_CAFFE_ITERATIONS>>$",
-        "run_cmd_out1": "tmp-output1.tmp", 
-        "run_cmd_out2": "tmp-output2.tmp", 
+        "run_cmd_out1": "stderr.log",
+        "run_cmd_out2": "stderr1.log",
         "run_correctness_output_files": [], 
+        "run_input_files": [
+          "$<<CK_CAFFE_MODEL_FILE>>$"
+        ],
         "run_output_files": [
-          "tmp-output.tmp", 
-          "tmp-ck-timer.json"
         ]
       }
     }
@@ -132,16 +126,19 @@
     }
   }, 
   "run_vars": {
-    "XCT_REPEAT_MAIN": "1"
   }, 
   "skip_bin_ext": "yes", 
   "source_files": [
-    "caffe-time.cpp"
+    "caffe.cpp"
   ], 
   "tags": [
     "caffe-time",
     "demo"
   ], 
   "target_file": "classification", 
-  "version": "1.0.0"
+  "version": "1.0.0",
+  "use_preprocess_compilation_scripts": {
+    "data_uoa": "fd44428fbc77f77f",
+    "module_uoa": "84e27ad9dd12e734"
+  }
 }

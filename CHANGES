@@ -1,3 +1,5 @@
+2016.12.30 - cleaning up classification and caffe-time for Android
+
 2016.12.29 - major update to compile Caffe for Android via CK 
            - proper support for various ARM features (fpsoft/fphard/neon)
 

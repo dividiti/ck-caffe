@@ -15,8 +15,12 @@ def ck_preprocess(i):
     deps=i['deps']
 
     env=i['env']
+    nenv={} # new environment to be added to the run script
 
     hosd=i['host_os_dict']
+    tosd=i['target_os_dict']
+    remote=tosd.get('remote','')
+
     es=hosd['env_set'] # set or export
 
     params=rt['params']
@@ -41,6 +45,17 @@ def ck_preprocess(i):
     # Find template
     x=deps['caffemodel']
     cm_path=x['dict']['env']['CK_ENV_MODEL_CAFFE']
+
+    cmw_path_full=x['dict']['env']['CK_ENV_MODEL_CAFFE_WEIGHTS']
+    nenv['CK_ENV_MODEL_CAFFE_WEIGHTS']=cmw_path_full
+
+    if remote=='yes':
+       # For Android we need only filename without full path
+       cmw_path=os.path.basename(cmw_path_full)
+    else:
+       cmw_path=cmw_path_full
+
+    nenv['CK_CAFFE_MODEL_WEIGHTS']=cmw_path
 
     cus=x['cus']['params'][cm_key]
 
@@ -120,6 +135,6 @@ def ck_preprocess(i):
     b+=es+' CK_CAFFE_MODEL_FILE='+fnx+'\n'
     env['CK_CAFFE_MODEL_FILE']=fnx
 
-    return {'return':0, 'bat':b}
+    return {'return':0, 'bat':b, 'new_env':nenv}
 
 # Do not add anything here!
