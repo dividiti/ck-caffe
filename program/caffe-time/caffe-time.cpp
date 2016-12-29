@@ -12,6 +12,10 @@ namespace bp = boost::python;
 #include "caffe/caffe.hpp"
 #include "caffe/util/signal_handler.h"
 
+#ifdef XOPENME
+#include <xopenme.h>
+#endif
+
 using caffe::Blob;
 using caffe::Caffe;
 using caffe::Net;
@@ -29,6 +33,9 @@ int time(string modelFilePath, int iterations ) {
   caffe::Phase phase = caffe::TRAIN;
 
   vector<string> stages(0);
+
+  LOG(INFO) << "Start caffe time with modelFilePath: " << modelFilePath;
+  LOG(INFO) << "                      iterations:  " << iterations;
 
   // Set device id and mode
   LOG(INFO) << "Use CPU.";
@@ -58,6 +65,11 @@ int time(string modelFilePath, int iterations ) {
   Timer forward_timer;
   Timer backward_timer;
   Timer timer;
+
+  #ifdef XOPENME
+    xopenme_clock_start(0);
+  #endif
+
   std::vector<double> forward_time_per_layer(layers.size(), 0.0);
   std::vector<double> backward_time_per_layer(layers.size(), 0.0);
   double forward_time = 0.0;
@@ -102,10 +114,20 @@ int time(string modelFilePath, int iterations ) {
     iterations << " ms.";
   LOG(INFO) << "Total Time: " << total_timer.MilliSeconds() << " ms.";
   LOG(INFO) << "*** Benchmark ends ***";
+
+  #ifdef XOPENME
+    xopenme_clock_end(0);
+  #endif
+
   return 0;
 }
 
 int main(int argc, char** argv) {
+
+   #ifdef XOPENME
+     xopenme_init(1,0);
+   #endif
+
    if (argc != 3) {
      LOG(INFO) << "usage: <model file> <iterations>";
      return 1;
@@ -115,7 +137,12 @@ int main(int argc, char** argv) {
          return 1;
    }
 
-   string modelFilePath = argv[1]; //"/data/local/tmp/caffe1/model/ba4eb06e64795b0d/topology/deploy.prototxt"
-   int iterations = 1; //argv[2];
+   string modelFilePath = argv[1];
+   int iterations = atoi(argv[2]);
    time(modelFilePath, iterations);
+
+   #ifdef XOPENME
+     xopenme_dump_state();
+     xopenme_finish();
+   #endif
 }
