@@ -1,4 +1,5 @@
 2016.12.29 - major update to compile Caffe for Android via CK 
+           - proper support for various ARM features (fpsoft/fphard/neon)
 
 2016.12.26 - added support to compile Caffe lib for Windows (can be improved)
            - added support to compile Caffe lib for Android (official benchmarking)
