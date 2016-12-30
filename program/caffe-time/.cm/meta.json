@@ -38,7 +38,7 @@
       "local": "yes", 
       "name": "Caffe library", 
       "skip_pruning_by_other_deps": "yes", 
-      "sort": 15, 
+      "sort": 1, 
       "tags": "lib,caffe"
     },
     "lib-gflags": {
