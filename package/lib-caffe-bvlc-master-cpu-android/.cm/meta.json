@@ -5,7 +5,7 @@
     "git_src_dir": "src",
     "install_env": {
       "PACKAGE_BRANCH": "cmake_android",
-      "PACKAGE_URL": "https://github.com/sh1r0/caffe"
+      "PACKAGE_URL": "https://github.com/DVEfremov/caffe"
     },
     "use_git_revision": "yes",
     "version": "trunk"
