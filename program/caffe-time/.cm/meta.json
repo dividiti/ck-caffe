@@ -64,7 +64,7 @@
       "local": "yes", 
       "name": "ProtoBuf library", 
       "sort": 9, 
-      "tags": "lib,protobuf,v3.1.0"
+      "tags": "lib,protobuf"
     } 
   }, 
   "compiler_add_include_as_env_from_deps": [
