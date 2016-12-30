@@ -126,6 +126,8 @@
     }
   }, 
   "run_vars": {
+     "XCT_REPEAT_MAIN": "1",
+     "CK_CAFFE_ITERATIONS":"2"
   }, 
   "skip_bin_ext": "yes", 
   "source_files": [
