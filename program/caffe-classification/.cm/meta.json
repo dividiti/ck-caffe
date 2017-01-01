@@ -62,10 +62,22 @@
       "tags": "lib,opencv"
     },
     "lib-protobuf": {
-      "local": "yes",
-      "name": "ProtoBuf library",
-      "sort": 9,
+      "local": "yes", 
+      "name": "ProtoBuf library", 
+      "only_for_target_os_tags": [
+        "android"
+      ], 
+      "sort": 9, 
       "tags": "lib,protobuf"
+    }, 
+    "lib-protobuf-host": {
+      "local": "yes", 
+      "name": "ProtoBuf HOST library", 
+      "only_for_target_os_tags": [
+        "linux"
+      ], 
+      "sort": 9, 
+      "tags": "lib,protobuf-host"
     },
     "xopenme": {
       "local": "yes",
