@@ -61,6 +61,28 @@
       "name": "ViennaCL library",
       "sort": 40,
       "tags": "lib,viennacl,src"
+    },
+    "lib-gflags": {
+      "local": "yes",
+      "name": "GFlags library",
+      "skip_default": "yes",
+      "sort": 12,
+      "tags": "lib,gflags,v2.2.0"
+    },
+    "lib-glog": {
+      "local": "yes",
+      "name": "GLog library",
+      "skip_default": "yes",
+      "sort": 14,
+      "tags": "lib,glog"
+    },
+    "lib-protobuf-host": {
+      "force_target_as_host": "yes",
+      "local": "yes",
+      "name": "ProtoBuf host compiler",
+      "skip_default": "yes",
+      "sort": 19,
+      "tags": "lib,protobuf-host,v3.1.0"
     }
   },
   "end_full_path": {

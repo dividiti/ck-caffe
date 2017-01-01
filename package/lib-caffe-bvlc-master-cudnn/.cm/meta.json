@@ -85,7 +85,6 @@
       "sort": 19,
       "tags": "lib,protobuf-host,v3.1.0"
     }
-
   },
   "end_full_path": {
     "linux": "src/build/tools/caffe.bin"
