@@ -94,8 +94,8 @@
     "android"
   ], 
   "print_files_after_run": [
-    "stderr.log", 
-    "stderr1.log"
+    "stdout.log", 
+    "stderr.log"
   ], 
   "process_in_tmp": "yes", 
   "program": "yes", 
@@ -117,8 +117,8 @@
           "script_name": "preprocess"
         }, 
         "run_cmd_main": "$#BIN_FILE#$ $<<CK_CAFFE_MODEL_FILE>>$ $<<CK_CAFFE_ITERATIONS>>$", 
-        "run_cmd_out1": "stderr.log", 
-        "run_cmd_out2": "stderr1.log", 
+        "run_cmd_out1": "stdout.log",
+        "run_cmd_out2": "stderr.log",
         "run_correctness_output_files": [], 
         "run_input_files": [
           "$<<CK_CAFFE_MODEL_FILE>>$"

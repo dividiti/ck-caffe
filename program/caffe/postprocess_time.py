@@ -14,6 +14,7 @@ import sys
 
 def ck_postprocess(i):
     ck=i['ck_kernel']
+    rt=i['run_time']
     deps=i['deps']
 
     d={}
@@ -23,8 +24,19 @@ def ck_postprocess(i):
     # Load stderr as list.
     # NB: This assumes that Caffe iterates only once (--iterations=1).
     # Otherwise, looping over the log would be required.
-    r=ck.load_text_file({'text_file':'stderr.log','split_to_list':'yes'})
-    if r['return']>0: return r
+    rf1=rt['run_cmd_out1']
+    rf2=rt['run_cmd_out2']
+
+    lst=[]
+
+    if os.path.isfile(rf1):
+       r=ck.load_text_file({'text_file':rf1,'split_to_list':'yes'})
+       if r['return']>0: return r
+       lst+=r['lst']
+    if os.path.isfile(rf2):
+       r=ck.load_text_file({'text_file':rf2,'split_to_list':'yes'})
+       if r['return']>0: return r
+       lst+=r['lst']
 
     d['per_layer_info']=[]
     layer_index = 0
@@ -52,7 +64,7 @@ def ck_postprocess(i):
     d['REAL_ENV_CK_CAFFE_ITERATIONS']=env.get('CK_CAFFE_ITERATIONS','')
     d['REAL_ENV_CK_CAFFE_MODEL']=env.get('CK_CAFFE_MODEL','')
 
-    for line in r['lst']:
+    for line in lst:
         # Match layer info.
         layer_regex = \
             'I(?P<timestamp>\d{4}(\s+)\d{2}:\d{2}:\d{2}\.\d{6})' + \

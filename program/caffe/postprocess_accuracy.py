@@ -25,8 +25,19 @@ def ck_postprocess(i):
     cus=deps['caffemodel']['cus']['params'][cm_key]
 
     # Load output as list.
-    r=ck.load_text_file({'text_file':'stderr.log','split_to_list':'yes'})
-    if r['return']>0: return r
+    rf1=rt['run_cmd_out1']
+    rf2=rt['run_cmd_out2']
+
+    lst=[]
+
+    if os.path.isfile(rf1):
+       r=ck.load_text_file({'text_file':rf1,'split_to_list':'yes'})
+       if r['return']>0: return r
+       lst+=r['lst']
+    if os.path.isfile(rf2):
+       r=ck.load_text_file({'text_file':rf2,'split_to_list':'yes'})
+       if r['return']>0: return r
+       lst+=r['lst']
 
     # Match accuracy and loss info.
     d={}
@@ -35,7 +46,7 @@ def ck_postprocess(i):
             'caffe(\w*)\.cpp:\d{3,4}](\s+)' + \
              accuracy_layer + \
              '(\s+)=(\s+)(?P<number>\d*\.?\d*)'
-        for line in r['lst']:
+        for line in lst:
             match = re.search(accuracy_regex, line)
             if match:
                 d[accuracy_layer] = float(match.group('number'))
