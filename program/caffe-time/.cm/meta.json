@@ -86,7 +86,7 @@
   ], 
   "compiler_env": "CK_CXX", 
   "compiler_flags_as_env": "$<<CK_CXX_FLAGS_FOR_CMAKE>>$", 
-  "data_name": "caffe-time", 
+  "data_name": "caffe-time",
   "extra_ld_vars": "$<<CK_CXX_FLAGS_FOR_CMAKE>>$ $<<CK_ENV_LIB_GLOG_LFLAG>>$ $<<CK_ENV_LIB_BOOST_LFLAG_SYSTEM>>$ $<<CK_ENV_LIB_OPENCV_LFLAG_IMGPROC>>$ $<<CK_ENV_LIB_OPENCV_LFLAG_HIGHGUI>>$ $<<CK_ENV_LIB_OPENCV_LFLAG_CORE>>$ $<<CK_EXTRA_LIB_Z>>$ $<<CK_EXTRA_LIB_LOG>>$ $<<CK_EXTRA_LIB_M>>$ $<<CK_ENV_LIB_STDCPP_STATIC>>$", 
   "main_language": "cpp", 
   "only_for_target_os_tags": [
@@ -137,7 +137,7 @@
     }
   }, 
   "run_vars": {
-    "CK_CAFFE_ITERATIONS": "2", 
+    "CK_CAFFE_ITERATIONS": "1",
     "XCT_REPEAT_MAIN": "1"
   }, 
   "skip_bin_ext": "yes", 
@@ -145,10 +145,10 @@
     "caffe.cpp"
   ], 
   "tags": [
-    "caffe-time", 
+    "caffe-time",
     "demo"
   ], 
-  "target_file": "classification", 
+  "target_file": "caffe-time",
   "use_preprocess_compilation_scripts": {
     "data_uoa": "fd44428fbc77f77f", 
     "module_uoa": "84e27ad9dd12e734"

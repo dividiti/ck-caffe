@@ -1,0 +1,98 @@
+{
+  "backup_data_uid": "24bf0aa6ec90aa2a",
+  "build_compiler_vars": {
+    "ANDROID_USE_OPENMP": "ON",
+    "BLAS": "Open",
+    "CPU_ONLY": "ON",
+    "USE_LMDB": "ON",
+    "USE_OPENCV": "ON"
+  },
+  "compile_deps": {
+    "compiler": {
+      "local": "yes",
+      "name": "C++ compiler",
+      "sort": 0,
+      "tags": "compiler,lang-cpp"
+    },
+    "lib-caffe": {
+      "local": "yes",
+      "name": "Caffe library",
+      "skip_pruning_by_other_deps": "yes",
+      "sort": 1,
+      "tags": "lib,caffe"
+    }
+  },
+  "include_dirs": [
+    "D:\\!FGG\\Installations\\lib-caffe-bvlc-master-trunk-mcl-19.00.23918-windows-64\\src\\include",
+    "D:\\!FGG\\Installations\\lib-caffe-bvlc-master-trunk-mcl-19.00.23918-windows-64\\libraries\\libraries\\include",
+    "D:\\!FGG\\Installations\\lib-caffe-bvlc-master-trunk-mcl-19.00.23918-windows-64\\libraries\\libraries\\include\\boost-1_61"
+  ],
+  "compiler_env": "CK_CXX",
+  "compiler_flags_as_env": "",
+  "data_name": "caffe-time",
+  "extra_ld_vars": "",
+  "main_language": "cpp",
+  "only_for_host_os_tags": [
+    "windows"
+  ],
+  "only_for_target_os_tags": [
+    "windows"
+  ],
+  "print_files_after_run": [
+    "stderr.log",
+    "stderr1.log"
+  ],
+  "process_in_tmp": "yes",
+  "program": "yes",
+  "run_cmds": {
+    "default": {
+      "ignore_return_code": "no",
+      "run_time": {
+        "fine_grain_timer_file": "tmp-ck-timer.json",
+        "params": {
+          "caffemodel_key": "deploy",
+          "classification": "yes"
+        },
+        "post_process_cmds": [
+          "python $#ck_take_from_{569404c41618603a}#$postprocess_time.py"
+        ],
+        "post_process_via_ck": "yes",
+        "pre_process_via_ck": {
+          "data_uoa": "569404c41618603a",
+          "script_name": "preprocess"
+        },
+        "run_cmd_main": "$#BIN_FILE#$ $<<CK_CAFFE_MODEL_FILE>>$ $<<CK_CAFFE_ITERATIONS>>$",
+        "run_cmd_out1": "stderr.log",
+        "run_cmd_out2": "stderr1.log",
+        "run_correctness_output_files": [],
+        "run_input_files": [
+          "$<<CK_CAFFE_MODEL_FILE>>$"
+        ],
+        "run_output_files": []
+      }
+    }
+  },
+  "run_deps": {
+    "caffemodel": {
+      "force_target_as_host": "yes",
+      "local": "yes",
+      "name": "Caffe model (net and weights)",
+      "sort": 40,
+      "tags": "caffemodel"
+    }
+  },
+  "run_vars": {
+    "CK_CAFFE_ITERATIONS": "2",
+    "XCT_REPEAT_MAIN": "1"
+  },
+  "skip_bin_ext": "yes",
+  "source_files": [
+    "caffe.cpp"
+  ],
+  "tags": [
+    "caffe-time",
+    "demo"
+  ],
+  "target_file": "classification",
+  "version": "1.0.0"
+}

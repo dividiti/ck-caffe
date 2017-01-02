@@ -3,8 +3,8 @@
 # to the CK timing format.
 #
 # Developers:
-#   - Grigori Fursin, cTuning foundation, 2016
-#   - Anton Lokhmotov, dividiti, 2016
+#   - Grigori Fursin, cTuning foundation / dividiti, 2016
+#   - Anton Lokhmotov, dividiti, 2016-2017
 #
 
 import json
@@ -147,12 +147,13 @@ def ck_postprocess(i):
     rr={}
     rr['return']=0
     if d.get('post_processed','')=='yes':
-       # Save to file.
-       r=ck.save_json_to_file({'json_file':'tmp-ck-timer.json', 'dict':d})
-       if r['return']>0: return r
+        # Save to file.
+        r=ck.save_json_to_file({'json_file':'tmp-ck-timer.json', 'dict':d})
+        if r['return']>0: return r
     else:
-       rr['return']=1
-       rr['error']='failed to find the \'Total Time\' string in Caffe output'
+        rr['return']=1
+        rr['error']='failed to find the \'Total Time\' string in Caffe output'
+        print (d)
 
     return rr
 
