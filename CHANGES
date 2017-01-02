@@ -1,3 +1,6 @@
+2017.01.02 - fixed parsing of output for Linux/Android/Windows
+           - skip downloading and installing glog,gflags,protobuf if already installed
+
 2016.12.30 - cleaning up classification and caffe-time for Android
 
 2016.12.29 - major update to compile Caffe for Android via CK 
