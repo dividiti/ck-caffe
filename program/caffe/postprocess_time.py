@@ -21,7 +21,7 @@ def ck_postprocess(i):
 
     env=i.get('env',{})
 
-    # Load stderr as list.
+    # Load both stderr and stdout. Concatenate into one list.
     # NB: This assumes that Caffe iterates only once (--iterations=1).
     # Otherwise, looping over the log would be required.
     rf1=rt['run_cmd_out1']
