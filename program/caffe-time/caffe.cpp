@@ -28,8 +28,11 @@ using caffe::vector;
 using std::ostringstream;
 
 // Time: benchmark the execution time of a model.
-int time(string modelFilePath, int iterations ) {
-//  int iterations = 1;
+int time(string modelFilePath, int iterations) {
+  const bool skip_fw = getenv("CK_CAFFE_SKIP_FORWARD")  ? true : false;
+  const bool skip_bw = getenv("CK_CAFFE_SKIP_BACKWARD") ? true : false;
+
+  // FIXME: What should it be for deployment?
   caffe::Phase phase = caffe::TRAIN;
 
   vector<string> stages(0);
@@ -44,14 +47,18 @@ int time(string modelFilePath, int iterations ) {
 
   // Do a clean forward and backward pass, so that memory allocation are done
   // and future iterations will be more stable.
-  LOG(INFO) << "Performing Forward";
   // Note that for the speed benchmark, we will assume that the network does
   // not take any input blobs.
-  float initial_loss;
-  caffe_net.Forward(&initial_loss);
+  float initial_loss = 0.0f;
+  if (!skip_fw) {
+    LOG(INFO) << "Performing Forward";
+    caffe_net.Forward(&initial_loss);
+  }
   LOG(INFO) << "Initial loss: " << initial_loss;
-  LOG(INFO) << "Performing Backward";
-  caffe_net.Backward();
+  if (!skip_bw) {
+    LOG(INFO) << "Performing Backward";
+    caffe_net.Backward();
+  }
 
   const vector<shared_ptr<Layer<float> > >& layers = caffe_net.layers();
   const vector<vector<Blob<float>*> >& bottom_vecs = caffe_net.bottom_vecs();
@@ -77,21 +84,25 @@ int time(string modelFilePath, int iterations ) {
   for (int j = 0; j < iterations; ++j) {
     Timer iter_timer;
     iter_timer.Start();
-    forward_timer.Start();
-    for (int i = 0; i < layers.size(); ++i) {
-      timer.Start();
-      layers[i]->Forward(bottom_vecs[i], top_vecs[i]);
-      forward_time_per_layer[i] += timer.MicroSeconds();
+    if (!skip_fw) {
+      forward_timer.Start();
+      for (int i = 0; i < layers.size(); ++i) {
+        timer.Start();
+        layers[i]->Forward(bottom_vecs[i], top_vecs[i]);
+        forward_time_per_layer[i] += timer.MicroSeconds();
+      }
+      forward_time += forward_timer.MicroSeconds();
     }
-    forward_time += forward_timer.MicroSeconds();
-    backward_timer.Start();
-    for (int i = layers.size() - 1; i >= 0; --i) {
-      timer.Start();
-      layers[i]->Backward(top_vecs[i], bottom_need_backward[i],
-                          bottom_vecs[i]);
-      backward_time_per_layer[i] += timer.MicroSeconds();
+    if (!skip_bw) {
+      backward_timer.Start();
+      for (int i = layers.size() - 1; i >= 0; --i) {
+        timer.Start();
+        layers[i]->Backward(top_vecs[i], bottom_need_backward[i],
+                            bottom_vecs[i]);
+        backward_time_per_layer[i] += timer.MicroSeconds();
+      }
+      backward_time += backward_timer.MicroSeconds();
     }
-    backward_time += backward_timer.MicroSeconds();
     LOG(INFO) << "Iteration: " << j + 1 << " forward-backward time: "
       << iter_timer.MilliSeconds() << " ms.";
   }
