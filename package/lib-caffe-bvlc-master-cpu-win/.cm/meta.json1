@@ -1,0 +1,106 @@
+{
+  "check_exit_status": "yes",
+  "customize": {
+    "extra_dir": "",
+    "git_src_dir": "src",
+    "install_env": {
+      "CAFFE_BRANCH": "windows",
+      "CAFFE_URL": "https://github.com/BVLC/caffe",
+      "WITH_NINJA":0,
+      "CPU_ONLY":1,
+      "CMAKE_CONFIG":"Release",
+      "CMAKE_BUILD_SHARED_LIBS":0,
+      "BUILD_PYTHON":0,
+      "BUILD_PYTHON_LAYER":0,
+      "BUILD_MATLAB":0,
+      "PYTHON_EXE":"python",
+      "RUN_TESTS":0,
+      "RUN_LINT":0,
+      "RUN_INSTALL":0
+     },
+    "use_git_revision": "yes",
+    "version": "trunk"
+  },
+  "deps": {
+    "cmake": {
+      "local": "yes",
+      "name": "CMake tool",
+      "sort": 10,
+      "tags": "tool,cmake"
+    },
+    "compiler": {
+      "local": "yes",
+      "name": "C++ compiler",
+      "sort": 1,
+      "tags": "compiler,lang-cpp,mcl"
+    },
+    "lib-gflags": {
+      "local": "yes",
+      "name": "GFlags library",
+      "sort": 12,
+      "tags": "lib,gflags"
+    },
+    "lib-glog": {
+      "local": "yes",
+      "name": "GLog library",
+      "sort": 14,
+      "tags": "lib,glog"
+    },
+    "lib-protobuf-host": {
+      "local": "yes",
+      "name": "ProtoBuf host compiler",
+      "sort": 19,
+      "tags": "lib,protobuf-host,v3.1.0"
+    },
+    "lib-opencv": {
+      "local": "yes",
+      "name": "OpenCV library",
+      "sort": 20,
+      "tags": "lib,opencv"
+    },
+    "lib-boost": {
+      "local": "yes",
+      "name": "Boost library",
+      "sort": 25,
+      "tags": "lib,boost"
+    },
+    "lib-blas": {
+      "local": "yes",
+      "name": "BLAS library",
+      "skip_default": "yes",
+      "sort": 30,
+      "tags": "lib,blas,openblas"
+    },
+    "lib-hdf5": {
+      "local": "yes",
+      "name": "HDF5 library",
+      "sort": 30,
+      "tags": "lib,hdf5"
+    }
+  },
+  "end_full_path": {
+    "win": "build/tools/Release/caffe.exe"
+  },
+  "need_cpu_info": "yes",
+  "only_for_host_os_tags": [
+    "windows"
+  ],
+  "only_for_target_os_tags": [
+    "windows"
+  ],
+  "package_extra_name": " (cpu)",
+  "process_script": "install",
+  "soft_uoa": "04ab08137582bd03",
+  "suggested_path": "lib-caffe-bvlc-master",
+  "tags": [
+    "lib",
+    "caffe",
+    "bvlc",
+    "vmaster",
+    "vcpu"
+  ],
+  "use_preprocess_scripts_from_another_entry": {
+    "data_uoa": "fd44428fbc77f77f",
+    "module_uoa": "84e27ad9dd12e734"
+  }
+}

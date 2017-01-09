@@ -4,9 +4,9 @@
     "ANDROID_USE_OPENMP": "ON",
     "BLAS": "Open",
     "CPU_ONLY": "ON",
-    "USE_LMDB": "OFF",
+    "USE_LMDB": "ON",
     "USE_OPENCV": "ON",
-    "XOPENME":""
+    "XOPENME": ""
   },
   "compile_deps": {
     "boost": {
@@ -74,8 +74,7 @@
       "local": "yes", 
       "name": "ProtoBuf HOST library", 
       "only_for_target_os_tags": [
-        "linux",
-        "windows"
+        "linux"
       ], 
       "sort": 9, 
       "tags": "lib,protobuf-host"
@@ -93,12 +92,11 @@
     "CK_ENV_LIB_CAFFE_EXTRA_INCLUDE"
   ],
   "compiler_env": "CK_CXX",
-  "compiler_flags_as_env": "$<<CK_CXX_FLAGS_FOR_CMAKE>>$ $<<CK_OPT_UNWIND>>$ $<<CK_ENV_LIB_CAFFE_CXXFLAGS>>$",
+  "compiler_flags_as_env": "$<<CK_CXX_FLAGS_FOR_CMAKE>>$",
   "data_name": "caffe-classification",
-  "extra_ld_vars": "$<<CK_CXX_FLAGS_FOR_CMAKE>>$ $<<CK_ENV_LIB_HDF5_LFLAG>>$ $<<CK_ENV_LIB_HDF5_LFLAG_HL>>$ $<<CK_ENV_LIB_GLOG_LFLAG>>$ $<<CK_ENV_LIB_BOOST_LFLAG_THREAD>>$ $<<CK_ENV_LIB_BOOST_LFLAG_DATE_TIME>>$ $<<CK_ENV_LIB_BOOST_LFLAG_FILESYSTEM>>$ $<<CK_ENV_LIB_BOOST_LFLAG_SYSTEM>>$ $<<CK_ENV_LIB_OPENCV_LFLAG_IMGPROC>>$ $<<CK_ENV_LIB_OPENCV_LFLAG_HIGHGUI>>$ $<<CK_ENV_LIB_OPENCV_LFLAG_CORE>>$ $<<CK_ENV_LIB_OPENCV_LFLAG_IMGCODECS>>$ $<<CK_EXTRA_LIB_Z>>$ $<<CK_EXTRA_LIB_LOG>>$ $<<CK_EXTRA_LIB_M>>$ $<<CK_ENV_LIB_STDCPP_STATIC>>$  $<<CK_ENV_LIB_CAFFE_LFLAG_PROTO>>$ $<<CK_ENV_LIB_CAFFE_LINK_FLAGS>>$", 
+  "extra_ld_vars": "$<<CK_CXX_FLAGS_FOR_CMAKE>>$ $<<CK_ENV_LIB_GLOG_LFLAG>>$ $<<CK_ENV_LIB_BOOST_LFLAG_SYSTEM>>$ $<<CK_ENV_LIB_OPENCV_LFLAG_IMGPROC>>$ $<<CK_ENV_LIB_OPENCV_LFLAG_HIGHGUI>>$ $<<CK_ENV_LIB_OPENCV_LFLAG_CORE>>$ $<<CK_EXTRA_LIB_Z>>$ $<<CK_EXTRA_LIB_LOG>>$ $<<CK_EXTRA_LIB_M>>$ $<<CK_ENV_LIB_STDCPP_STATIC>>$",
   "main_language": "cpp",
   "only_for_target_os_tags": [
-    "windows",
     "linux",
     "android"
   ],

@@ -68,6 +68,7 @@ def setup(i):
     mingw=tosd.get('mingw','')
 
     # Check platform
+    tplat=tosd.get('ck_name','')
     hplat=hosd.get('ck_name','')
 
     hproc=hosd.get('processor','')
@@ -147,8 +148,11 @@ def setup(i):
           s+='export LD_LIBRARY_PATH="'+cus['path_lib']+'":$LD_LIBRARY_PATH\n'
           s+='export LIBRARY_PATH="'+cus['path_lib']+'":$LIBRARY_PATH\n\n'
 
-    cus['static_lib']='libcaffe'+sext
-    cus['dynamic_lib']='libcaffe'+dext
+    x=''
+    if win!='yes': x='lib'
+
+    cus['static_lib']=x+'caffe'+sext
+    cus['dynamic_lib']=x+'caffe'+dext
 
     env[ep+'_STATIC_NAME']=cus.get('static_lib','')
     env[ep+'_DYNAMIC_NAME']=cus.get('dynamic_lib','')
@@ -158,5 +162,15 @@ def setup(i):
     env[ep+'_EXTRA_INCLUDE']=os.path.join(pi,'.build_release','src')
 
     env['CAFFE_INSTALL_DIR']=pi
+
+    if tplat=='win':
+       env[ep+'_CFLAGS']='/D CMAKE_WINDOWS_BUILD'
+       env[ep+'_CXXFLAGS']='/D CMAKE_WINDOWS_BUILD'
+
+       env[ep+'_LFLAG']=os.path.join(pl,'caffe.lib')
+       env[ep+'_LFLAG_PROTO']=os.path.join(pl,'proto.lib')
+
+       # HACK - need to check BOOST version and vc ...
+       env[ep+'_LINK_FLAGS']='/link /NODEFAULTLIB:libboost_date_time-vc140-mt-1_62.lib /NODEFAULTLIB:libboost_filesystem-vc140-mt-1_62.lib /NODEFAULTLIB:libboost_system-vc140-mt-1_62.lib'
 
     return {'return':0, 'bat':s}

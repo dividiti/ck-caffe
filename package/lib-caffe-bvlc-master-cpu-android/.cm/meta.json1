@@ -20,11 +20,11 @@
       "PACKAGE_GIT": "YES",
       "PACKAGE_SKIP_CLEAN_INSTALL": "NO",
       "PACKAGE_SKIP_CLEAN_OBJ": "NO",
-      "PACKAGE_SKIP_CLEAN_SRC_DIR": "NO",
+      "PACKAGE_SKIP_CLEAN_SRC_DIR": "YES",
       "PACKAGE_SUB_DIR": "src",
       "PACKAGE_SUB_DIR1": "src",
-      "PACKAGE_URL": "https://github.com/BVLC/caffe",
-      "PACKAGE_GIT_CHECKOUT":"windows",
+      "PACKAGE_URL": "https://github.com/DVEfremov/caffe",
+      "PACKAGE_GIT_CHECKOUT":"cmake_android",
       "PYTHON_EXE": "python",
       "RUN_INSTALL": 0,
       "RUN_LINT": 0,
@@ -37,71 +37,86 @@
     "version": "trunk"
   },
   "deps": {
-    "cmake": {
-      "local": "yes",
-      "name": "CMake tool",
-      "sort": 10,
-      "tags": "tool,cmake"
-    },
     "compiler": {
       "local": "yes",
       "name": "C++ compiler",
-      "sort": 1,
-      "tags": "compiler,lang-cpp,mcl"
+      "sort": 10,
+      "tags": "compiler,lang-cpp"
+    },
+    "lib-boost": {
+      "add_to_path": "yes",
+      "local": "yes",
+      "name": "Boost library",
+      "skip_default": "yes",
+      "sort": 25,
+      "tags": "lib,boost"
     },
     "lib-blas": {
+      "add_to_path": "yes",
       "local": "yes",
       "name": "BLAS library",
       "skip_default": "yes",
       "sort": 30,
       "tags": "lib,blas,openblas"
     },
-    "lib-boost": {
-      "local": "yes",
-      "name": "Boost library",
-      "sort": 25,
-      "tags": "lib,boost"
-    },
     "lib-gflags": {
+      "add_to_path": "yes",
       "local": "yes",
       "name": "GFlags library",
+      "skip_default": "yes",
       "sort": 12,
-      "tags": "lib,gflags"
+      "tags": "lib,gflags,v2.2.0"
     },
     "lib-glog": {
+      "add_to_path": "yes",
       "local": "yes",
       "name": "GLog library",
+      "skip_default": "yes",
       "sort": 14,
       "tags": "lib,glog"
     },
-    "lib-hdf5": {
+    "lib-lmdb": {
       "local": "yes",
-      "name": "HDF5 library",
-      "sort": 30,
-      "tags": "lib,hdf5"
+      "name": "LMDB library",
+  "only_for_host_os_tags": [
+    "linux"
+  ],
+      "skip_default": "yes",
+      "sort": 18,
+      "tags": "lib,lmdb"
     },
     "lib-opencv": {
       "local": "yes",
       "name": "OpenCV library",
+      "skip_default": "yes",
       "sort": 20,
       "tags": "lib,opencv"
     },
+    "lib-protobuf": {
+      "local": "yes",
+      "name": "ProtoBuf library",
+      "skip_default": "yes",
+      "sort": 16,
+      "tags": "lib,protobuf,v3.1.0"
+    },
     "lib-protobuf-host": {
+      "force_target_as_host": "yes",
       "local": "yes",
       "name": "ProtoBuf host compiler",
+      "skip_default": "yes",
       "sort": 19,
       "tags": "lib,protobuf-host,v3.1.0"
     }
   },
   "end_full_path": {
-    "win": "install/bin/caffe.exe"
+    "android": "install/lib/libcaffe.so"
   },
   "need_cpu_info": "yes",
   "only_for_host_os_tags": [
-    "windows"
+    "windows",
+    "linux"
   ],
   "only_for_target_os_tags": [
-    "windows",
     "android"
   ],
   "package_extra_name": " (cpu)",

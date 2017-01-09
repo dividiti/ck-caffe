@@ -16,7 +16,7 @@ N: Grigori Fursin
 E: grigori@dividiti.com
 H: http://fursin.net/research
 O: dividiti / cTuning foundation
-C: Implementation, CK support.
+C: Implementation, CK support, improved compilation on Windows and Android.
 W:
 
 ================================================================================

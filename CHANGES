@@ -1,3 +1,5 @@
+2017.01.08 - major update to support Windows + Android
+
 2017.01.02 - fixed parsing of output for Linux/Android/Windows
            - skip downloading and installing glog,gflags,protobuf if already installed
 

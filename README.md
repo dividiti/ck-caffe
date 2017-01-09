@@ -200,8 +200,9 @@ ck pull repo:ck-caffe-explore-batch-size-chromebook2 \
  
 ## Quick installation on Windows
 
-We converted Caffe builder from https://github.com/willyd/caffe-builder
-to compile Caffe lib on Windows via CK:
+We added main Caffe dependencies to CK (motivated by Caffe builder 
+from https://github.com/willyd/caffe-builder) and it is now possible
+to compile and run Caffe on Windows in a unified way via CK:
 
 ```
 $ ck install package:lib-caffe-bvlc-master-cpu-win
@@ -212,6 +213,10 @@ $ ck run program:caffe
 It's the first step (we support CPU version for now), 
 and we would like to support CUDA as well as compile 
 all dependencies via CK too (to simplify and automate this process)...
+
+However, it an important step to help researchers compile and run
+Caffe (and similar DNN frameworks) on Linux, Windows and Android
+in a unified way via CK with JSON API!
 
 ## Next steps
 
