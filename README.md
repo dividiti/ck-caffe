@@ -210,6 +210,19 @@ $ ck run program:caffe
 (select test_cpu)
 ```
 
+You can also test (benchmark) NN or perform classification of images 
+via CK as following:
+
+```
+$ ck compile --speed program:caffe-time
+$ ck run program:caffe-time
+```
+
+```
+$ ck compile --speed program:caffe-classification
+$ ck run program:caffe-classification
+```
+
 It's the first step (we support CPU version for now), 
 and we would like to support CUDA as well as compile 
 all dependencies via CK too (to simplify and automate this process)...
