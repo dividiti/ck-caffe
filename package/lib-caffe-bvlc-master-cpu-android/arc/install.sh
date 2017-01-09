@@ -141,8 +141,8 @@ echo ""
 echo "Building package ..."
 
 # If want to see all commands
-#make VERBOSE=1
-make -j ${CK_HOST_CPU_NUMBER_OF_PROCESSORS} 
+make VERBOSE=1
+#make -j ${CK_HOST_CPU_NUMBER_OF_PROCESSORS} 
 if [ "${?}" != "0" ] ; then
   echo "Error: build failed!"
   exit 1
