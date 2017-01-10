@@ -21,7 +21,10 @@ def ck_preprocess(i):
     tosd=i['target_os_dict']
     remote=tosd.get('remote','')
 
-    es=hosd['env_set'] # set or export
+    if remote=='yes':
+       es=tosd['env_set']
+    else:
+       es=hosd['env_set'] # set or export
 
     params=rt['params']
     cm_key=params['caffemodel_key']

@@ -13,6 +13,12 @@ rem PACKAGE_DIR
 rem INSTALL_DIR
 
 echo **************************************************************
+echo Extra patching on Windows host ...
+
+cd %INSTALL_DIR%\%PACKAGE_SUB_DIR%
+patch -p1 < %ORIGINAL_PACKAGE_DIR%\scripts.android\patch-host-win
+
+echo **************************************************************
 echo Preparing vars for Caffe ...
 
 set CK_OPENMP=-fopenmp
@@ -66,14 +72,11 @@ set CK_CMAKE_EXTRA=%CK_CMAKE_EXTRA% -DCPU_ONLY:BOOL=%CPU_ONLY% ^
  -DANDROID=ON ^
  -DANDROID_NATIVE_API_LEVEL=%CK_ANDROID_API_LEVEL% ^
  -DANDROID_NDK_ABI_NAME=%CK_ANDROID_ABI% ^
- -DOpenCV_DIR="%CK_ENV_LIB_OPENCV_JNI%" 
+ -DOpenCV_DIR="%CK_ENV_LIB_OPENCV_JNI%" ^
+ -DCMAKE_SYSTEM_NAME="Android" 
 
 rem -DCMAKE_SYSTEM="%CK_ANDROID_NDK_PLATFORM%" ^
-rem -DCMAKE_SYSTEM_NAME="Android" ^
-rem -DCMAKE_SYSTEM_PROCESSOR="%CK_CMAKE_SYSTEM_PROCESSOR%" ^
+rem -DCMAKE_SYSTEM_PROCESSOR="%CK_CMAKE_SYSTEM_PROCESSOR%" 
 rem -DCMAKE_CROSSCOMPILING=TRUE ^
-rem -DCMAKE_RC_COMPILER="%CK_CXX%" ^
-
-
 
 exit /b 0

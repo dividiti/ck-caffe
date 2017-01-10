@@ -198,11 +198,43 @@ ck pull repo:ck-caffe-explore-batch-size-chromebook2 \
     --url=https://github.com/dividiti/ck-caffe-explore-batch-size-chromebook2.git
 ```
  
+## Quick installation on Raspberry Pi (32-bit ARM)
+
+We tested installation of Caffe on Raspberry Pi via CK.
+
+You will need to install the following software dependencies:
+
+$ sudo apt install coreutils \
+                   build-essential \
+                   make \
+                   cmake \
+                   wget \
+                   git \
+                   python \
+                   python-pip \
+                   libboost-all-dev \
+                   liblmdb-dev \
+                   libleveldb-dev \
+                   libsnappy-dev \
+                   libopencv-dev
+
+You can then install Caffe for CPU simply as following:
+
+```
+$ ck install package:lib-caffe-bvlc-master-cpu-win
+$ ck run program:caffe
+(select test_cpu)
+```
+
 ## Quick installation on Windows
 
 We added main Caffe dependencies to CK (motivated by Caffe builder 
-from https://github.com/willyd/caffe-builder) and it is now possible
-to compile and run Caffe on Windows in a unified way via CK:
+from https://github.com/willyd/caffe-builder). You just need to
+have two tools: a) Microsoft Visual Studio and Microsoft SDK
+(we checked Visual Studio 2015) and b) MinGW W64 GCC (to compile
+OpenBLAS - you can get it from https://sourceforge.net/projects/mingw-w64)
+It is then possible to compile and run Caffe on Windows in a unified way via CK
+(above tools will be automatically detected by CK):
 
 ```
 $ ck install package:lib-caffe-bvlc-master-cpu-win
@@ -230,6 +262,34 @@ all dependencies via CK too (to simplify and automate this process)...
 However, it an important step to help researchers compile and run
 Caffe (and similar DNN frameworks) on Linux, Windows and Android
 in a unified way via CK with JSON API!
+
+## Quick installation on Windows or Linux targeting Android devices
+
+It is possible to compile and run Caffe timing and classification
+via CK on Android devices. You just need to have Android NDK
+installed on your host. It is available at https://developer.android.com/ndk/index.html .
+
+You can then compile Caffe for Android using GCC (LLVM support is planned) 
+as following (Android NDK will be automatically detected by CK):
+
+```
+$ ck install package:lib-caffe-bvlc-master-cpu-android --target_os=android21-arm64
+```
+
+You can then test (benchmark) NN or perform classification of images 
+via CK on your Android device connected via ADB to your host as following:
+
+```
+$ ck compile --speed program:caffe-time --target_os=android21-arm64
+$ ck run program:caffe-time --target_os=android21-arm64
+```
+
+```
+$ ck compile --speed program:caffe-classification --target_os=android21-arm64
+$ ck run program:caffe-classification --target_os=android21-arm64
+```
+
+We plan to add support for OpenCL version in the future.
 
 ## Next steps
 

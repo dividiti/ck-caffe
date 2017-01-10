@@ -87,7 +87,10 @@ def setup(i):
     if fp2=='Release' or fp2=='Debug':
        fpr=fp2
 
-    env['CK_CAFFE_BIN']=fp0
+    # When targeting Android, we do not create tools via Caffe, but later via CK
+    # In such case, we reference .so file instead of bin when registering soft ...
+    if not fp0.endswith('.so'): 
+       env['CK_CAFFE_BIN']=fp0
 
     pi=fp
     found=False
@@ -107,7 +110,9 @@ def setup(i):
 
     cus['path_bin']=p1
 
-    pl=os.path.join(pi,'lib', fpr)
+    pl=os.path.join(pi,'lib')
+    if fpr!='': pl=os.path.join(pl,fpr)
+
     if not os.path.isdir(pl):
        pl=os.path.join(pi,'lib')
        if not os.path.isdir(pl):
@@ -120,7 +125,7 @@ def setup(i):
     cus['path_lib']=pl
     cus['path_include']=os.path.join(pi,'include')
 
-    if win=='yes':
+    if hplat=='win':
        fp5=os.path.dirname(pi)
        fp6=os.path.join(fp5,'libraries','libraries')
        fp7=os.path.join(fp6,'bin')
@@ -133,6 +138,9 @@ def setup(i):
        if remote=='yes' or mingw=='yes': 
           sext='.a'
           dext='.so'
+
+          s+='set LD_LIBRARY_PATH="'+cus['path_lib']+'":$LD_LIBRARY_PATH\n'
+
        else:
           sext='.lib'
           dext='.dll'
