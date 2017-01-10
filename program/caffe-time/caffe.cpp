@@ -256,7 +256,7 @@ int time(string FLAGS_stage, string FLAGS_model, string FLAGS_weights, int FLAGS
   const bool skip_fw = getenv("CK_CAFFE_SKIP_FORWARD")  ? true : false;
   const bool skip_bw = getenv("CK_CAFFE_SKIP_BACKWARD") ? true : false;
 
-//  caffe::Phase phase = get_phase_from_flags(caffe::TRAIN);
+//  caffe::Phase phase = get_phase_from_flags(caffe::TRAIN); todo will fix later based on command line options
   caffe::Phase phase = caffe::TRAIN;
   vector<string> stages = get_stages_from_flags(FLAGS_stage);
 
@@ -276,7 +276,6 @@ int time(string FLAGS_stage, string FLAGS_model, string FLAGS_weights, int FLAGS
 
   // Do a clean forward and backward pass, so that memory allocation are done
   // and future iterations will be more stable.
-  LOG(INFO) << "Performing Forward";
   // Note that for the speed benchmark, we will assume that the network does
   // not take any input blobs.
   float initial_loss = 0.0f;
@@ -284,10 +283,7 @@ int time(string FLAGS_stage, string FLAGS_model, string FLAGS_weights, int FLAGS
     LOG(INFO) << "Performing Forward";
     caffe_net.Forward(&initial_loss);
   }
-
   LOG(INFO) << "Initial loss: " << initial_loss;
-  LOG(INFO) << "Performing Backward";
-
   if (!skip_bw) {
     LOG(INFO) << "Performing Backward";
     caffe_net.Backward();
