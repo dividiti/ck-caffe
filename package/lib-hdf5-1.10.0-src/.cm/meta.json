@@ -6,7 +6,7 @@
       "CMAKE_CONFIG": "Release",
       "PACKAGE_CMAKE_TARGET":"INSTALL",
       "PACKAGE_BUILD_TYPE": "cmake",
-      "PACKAGE_CONFIGURE_FLAGS": " -DHDF5_BUILD_EXAMPLES=OFF -DHDF5_BUILD_TOOLS=OFF -DBUILD_TESTING=OFF",
+      "PACKAGE_CONFIGURE_FLAGS": "-DHDF5_BUILD_EXAMPLES=OFF -DHDF5_BUILD_TOOLS=OFF -DBUILD_TESTING=OFF",
       "PACKAGE_CONFIGURE_FLAGS_LINUX": "",
       "PACKAGE_CONFIGURE_FLAGS_WINDOWS": "",
       "PACKAGE_SKIP_CLEAN_SRC_DIR": "YES",
@@ -20,11 +20,11 @@
       "PACKAGE_SUB_DIR": "hdf5-1.10.0-patch1",
       "PACKAGE_SUB_DIR1": "hdf5-1.10.0-patch1",
       "PACKAGE_UNGZIP": "NO",
-      "PACKAGE_UNBZIP": "NO",
-      "PACKAGE_UNTAR": "NO",
+      "PACKAGE_UNBZIP": "YES",
+      "PACKAGE_UNTAR": "YES",
       "PACKAGE_UNTAR_SKIP_ERROR_WIN": "YES",
       "PACKAGE_URL": "https://support.hdfgroup.org/ftp/HDF5/releases/hdf5-1.10/hdf5-1.10.0-patch1/src",
-      "PACKAGE_WGET": "NO"
+      "PACKAGE_WGET": "YES"
     },
     "version": "1.10.0"
   },
