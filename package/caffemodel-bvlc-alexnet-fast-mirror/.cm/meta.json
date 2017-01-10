@@ -1,0 +1,78 @@
+{
+  "check_exit_status": "yes",
+  "customize": {
+    "extra_dir": "",
+    "file_with_weights": "bvlc_alexnet.caffemodel",
+    "force_ask_path": "yes",
+    "install_env": {
+      "MODEL_FILE": "bvlc_alexnet.caffemodel",
+      "MODEL_HASH_CALCULATOR": "sha1sum",
+      "MODEL_HASH_REF": "9116a64c0fbe4459d18f4bb6b56d647b63920377",
+      "MODEL_URL": "https://nvidia.box.com/shared/static/5j264j7mky11q8emy4q14w3r8hl5v6zh.caffemodel"
+    },
+    "no_os_in_suggested_path": "yes",
+    "no_ver_in_suggested_path": "yes",
+    "params": {
+      "deploy": {
+        "substitute": {
+          "batch_size": 10
+        },
+        "template": "deploy.prototxt"
+      },
+      "train": {
+        "substitute": {
+          "train_batch_size": 256,
+          "train_mean": "$#path_to_imagenet_aux#$imagenet_mean.binaryproto",
+          "val_batch_size": 50,
+          "val_mean": "$#path_to_imagenet_aux#$imagenet_mean.binaryproto"
+        },
+        "template": "train_val.prototxt"
+      },
+      "val": {
+        "accuracy_layers": [
+          "accuracy",
+          "accuracy_top5",
+          "loss"
+        ],
+        "substitute": {
+          "train_batch_size": 256,
+          "train_mean": "$#path_to_imagenet_aux#$imagenet_mean.binaryproto",
+          "val_batch_size": 50,
+          "val_mean": "$#path_to_imagenet_aux#$imagenet_mean.binaryproto"
+        },
+        "template": "train_val.prototxt"
+      }
+    },
+    "skip_file_check": "yes",
+    "version": "trunk"
+  },
+  "end_full_path": {
+    "linux": "bvlc_alexnet.caffemodel",
+    "win": "bvlc_alexnet.caffemodel"
+  },
+  "only_for_host_os_tags": [
+    "windows",
+    "linux"
+  ],
+  "only_for_target_os_tags": [
+    "windows",
+    "linux"
+  ],
+  "package_extra_name": " (bvlc, alexnet)",
+  "process_script": "download",
+  "soft_uoa": "e2400aabc11d6cd1",
+  "suggested_path": "caffemodel-bvlc-alexnet-fast-mirror",
+  "tags": [
+    "caffe",
+    "weights",
+    "caffemodel",
+    "bvlc",
+    "alexnet",
+    "mirror"
+  ],
+  "use_scripts_from_another_entry": {
+    "data_uoa": "download-caffemodel",
+    "module_uoa": "script",
+    "repo_uoa": "ck-caffe"
+  }
+}
