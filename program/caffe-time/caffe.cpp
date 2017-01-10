@@ -457,9 +457,9 @@ int main(int argc, char** argv) {
         return 1;
     }
     string FLAGS_model = getArgumentValue(argc, argv, _model);
-    string FLAGS_weights =  getArgumentValue(argc, argv, _weights);
+    string FLAGS_weights = getArgumentValue(argc, argv, _weights);
     int FLAGS_level = atoi(getArgumentValue(argc, argv, _level).c_str());
-    string FLAGS_stage = argv[5];
+    string FLAGS_stage = getArgumentValue(argc, argv, _stage);
     int FLAGS_iterations = atoi(getArgumentValue(argc, argv, _iterations).c_str());
     string gpu = getArgumentValue(argc, argv, _gpu);
     test(FLAGS_model, FLAGS_weights, FLAGS_level, FLAGS_stage, FLAGS_iterations, gpu);
