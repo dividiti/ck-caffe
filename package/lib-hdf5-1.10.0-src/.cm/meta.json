@@ -44,7 +44,7 @@
     }
   },
   "end_full_path": {
-    "linux": "install/lib/libhdf5.a",
+    "linux": "install/lib/libhdf5-static.a",
     "win": "install\\lib\\libhdf5.lib"
   },
   "need_cpu_info": "yes",
