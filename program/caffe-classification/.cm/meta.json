@@ -160,7 +160,8 @@
   ],
   "tags": [
     "caffe-classification",
-    "demo"
+    "demo",
+    "vcpu"
   ],
   "target_file": "classification",
   "version": "1.0.0",

@@ -1,9 +1,8 @@
 {
-  "backup_data_uid": "4d01855945175f57", 
+  "backup_data_uid": "7d0ee244bd8b0b1a", 
   "build_compiler_vars": {
     "ANDROID_USE_OPENMP": "ON", 
     "BLAS": "Open", 
-    "CPU_ONLY": "ON", 
     "USE_LMDB": "OFF", 
     "USE_OPENCV": "ON"
   }, 
@@ -16,11 +15,11 @@
       "tags": "lib,boost"
     }, 
     "compiler": {
-      "local": "yes", 
-      "name": "C++ compiler", 
-      "sort": 0, 
-      "tags": "compiler,lang-cpp"
-    }, 
+      "local": "yes",
+      "name": "CUDA compiler >=7.0",
+      "sort": 0,
+      "tags": "compiler,lang-c-cuda"
+    },
     "lib-blas": {
       "local": "yes", 
       "name": "BLAS library", 
@@ -39,7 +38,7 @@
       "name": "Caffe library", 
       "skip_pruning_by_other_deps": "yes", 
       "sort": 1, 
-      "tags": "lib,caffe"
+      "tags": "lib,caffe,vcuda"
     }, 
     "lib-gflags": {
       "local": "yes", 
@@ -73,7 +72,7 @@
       "local": "yes", 
       "name": "ProtoBuf HOST library", 
       "only_for_target_os_tags": [
-        "windows",
+        "windows", 
         "linux"
       ], 
       "sort": 9, 
@@ -82,12 +81,12 @@
   }, 
   "compiler_add_include_as_env_from_deps": [
     "CK_ENV_LIB_STDCPP_INCLUDE", 
-    "CK_ENV_LIB_STDCPP_INCLUDE_EXTRA",
+    "CK_ENV_LIB_STDCPP_INCLUDE_EXTRA", 
     "CK_ENV_LIB_CAFFE_EXTRA_INCLUDE"
   ], 
-  "compiler_env": "CK_CXX", 
-  "compiler_flags_as_env": "$<<CK_OPT_UNWIND>>$ $<<CK_ENV_LIB_CAFFE_CXXFLAGS>>$",
-  "data_name": "caffe-time",
+  "compiler_env": "CK_NVCXX", 
+  "compiler_flags_as_env": "$<<CK_OPT_UNWIND>>$ $<<CK_ENV_LIB_CAFFE_CXXFLAGS>>$", 
+  "data_name": "caffe-time", 
   "extra_ld_vars": "$<<CK_ENV_LIB_HDF5_LFLAG>>$ $<<CK_ENV_LIB_HDF5_LFLAG_HL>>$ $<<CK_ENV_LIB_GLOG_LFLAG>>$ $<<CK_ENV_LIB_BOOST_LFLAG_THREAD>>$ $<<CK_ENV_LIB_BOOST_LFLAG_DATE_TIME>>$ $<<CK_ENV_LIB_BOOST_LFLAG_FILESYSTEM>>$ $<<CK_ENV_LIB_BOOST_LFLAG_SYSTEM>>$ $<<CK_ENV_LIB_OPENCV_LFLAG_IMGPROC>>$ $<<CK_ENV_LIB_OPENCV_LFLAG_HIGHGUI>>$ $<<CK_ENV_LIB_OPENCV_LFLAG_CORE>>$ $<<CK_ENV_LIB_OPENCV_LFLAG_IMGCODECS>>$ $<<CK_EXTRA_LIB_Z>>$ $<<CK_EXTRA_LIB_LOG>>$ $<<CK_EXTRA_LIB_M>>$  $<<CK_ENV_LIB_CAFFE_LFLAG_PROTO>>$ $<<CK_ENV_LIB_CAFFE_LINK_FLAGS>>$ $<<CK_ENV_LIB_STDCPP_STATIC>>$", 
   "main_language": "cpp", 
   "only_for_target_os_tags": [
@@ -117,10 +116,10 @@
         "pre_process_via_ck": {
           "data_uoa": "569404c41618603a", 
           "script_name": "preprocess"
-        },
-        "run_cmd_main": "$#BIN_FILE#$ time --model=$<<CK_CAFFE_MODEL_FILE>>$ --iterations=$<<CK_CAFFE_ITERATIONS>>$ --gpu=$<<CK_COMPUTE_DEVICE_ID>>$",
-        "run_cmd_out1": "stdout.log",
-        "run_cmd_out2": "stderr.log",
+        }, 
+        "run_cmd_main": "$#BIN_FILE#$ time --model=$<<CK_CAFFE_MODEL_FILE>>$ --iterations=$<<CK_CAFFE_ITERATIONS>>$ --gpu=$<<CK_COMPUTE_DEVICE_ID>>$", 
+        "run_cmd_out1": "stdout.log", 
+        "run_cmd_out2": "stderr.log", 
         "run_correctness_output_files": [], 
         "run_input_files": [
           "$<<CK_CAFFE_MODEL_FILE>>$"
@@ -139,7 +138,7 @@
     }
   }, 
   "run_vars": {
-    "CK_CAFFE_ITERATIONS": "1",
+    "CK_CAFFE_ITERATIONS": "1", 
     "XCT_REPEAT_MAIN": "1"
   }, 
   "skip_bin_ext": "yes", 
@@ -147,14 +146,10 @@
     "caffe.cpp"
   ], 
   "tags": [
-    "caffe-time",
+    "caffe-time", 
     "demo",
-    "vcpu"
+    "vcuda"
   ], 
-  "target_file": "caffe-time",
-  "use_preprocess_compilation_scripts": {
-    "data_uoa": "fd44428fbc77f77f", 
-    "module_uoa": "84e27ad9dd12e734"
-  }, 
+  "target_file": "caffe-time", 
   "version": "1.0.0"
 }
