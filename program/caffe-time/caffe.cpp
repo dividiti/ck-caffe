@@ -379,43 +379,47 @@ string getArgumentValue(int argc, char** argv, string param_key) {
   return "";
 }
 
+void printUsage() {
+  std::cerr << "command line brew\n"
+          "usage: caffe <command> <args>\n\n"
+          "commands:\n"
+          "  train           train or finetune a model\n"
+          "  test            score a model\n"
+          "  device_query    show GPU diagnostic information\n"
+          "  time            benchmark model execution time" << std::endl;
+
+  std::cerr << "\nArgs:  \n"
+          "    -gpu (Optional; run in GPU mode on given device IDs separated by ','.Use\n"
+          "      '-gpu all' to run on all available GPUs. The effective training batch\n"
+          "      size is multiplied by the number of devices.) type: string default: \"\"\n"
+          "    -iterations (The number of iterations to run.) type: int32 default: 50\n"
+          "    -level (Optional; network level.) type: int32 default: 0\n"
+          "    -model (The model definition protocol buffer text file.) type: string\n"
+          "      default: \"\"\n"
+          "    -phase (Optional; network phase (TRAIN or TEST). Only used for 'time'.)\n"
+          "      type: string default: \"\"\n"
+          "    -sighup_effect (Optional; action to take when a SIGHUP signal is received:\n"
+          "      snapshot, stop or none.) type: string default: \"snapshot\"\n"
+          "    -sigint_effect (Optional; action to take when a SIGINT signal is received:\n"
+          "      snapshot, stop or none.) type: string default: \"stop\"\n"
+          "    -snapshot (Optional; the snapshot solver state to resume training.)\n"
+          "      type: string default: \"\"\n"
+          "    -solver (The solver definition protocol buffer text file.) type: string\n"
+          "      default: \"\"\n"
+          "    -stage (Optional; network stages (not to be confused with phase), separated\n"
+          "      by ','.) type: string default: \"\"\n"
+          "    -weights (Optional; the pretrained weights to initialize finetuning,\n"
+          "      separated by ','. Cannot be set simultaneously with snapshot.)\n"
+          "      type: string default: \"\"" << std::endl;
+}
+
 int main(int argc, char** argv) {
   #ifdef XOPENME
     xopenme_init(1,0);
   #endif
 
   if (argc < 2) {
-    std::cerr << "command line brew\n"
-                   "usage: caffe <command> <args>\n\n"
-                   "commands:\n"
-                   "  train           train or finetune a model\n"
-                   "  test            score a model\n"
-                   "  device_query    show GPU diagnostic information\n"
-                   "  time            benchmark model execution time" << std::endl;
-
-    std::cerr << "\nArgs:  \n"
-                   "    -gpu (Optional; run in GPU mode on given device IDs separated by ','.Use\n"
-                   "      '-gpu all' to run on all available GPUs. The effective training batch\n"
-                   "      size is multiplied by the number of devices.) type: string default: \"\"\n"
-                   "    -iterations (The number of iterations to run.) type: int32 default: 50\n"
-                   "    -level (Optional; network level.) type: int32 default: 0\n"
-                   "    -model (The model definition protocol buffer text file.) type: string\n"
-                   "      default: \"\"\n"
-                   "    -phase (Optional; network phase (TRAIN or TEST). Only used for 'time'.)\n"
-                   "      type: string default: \"\"\n"
-                   "    -sighup_effect (Optional; action to take when a SIGHUP signal is received:\n"
-                   "      snapshot, stop or none.) type: string default: \"snapshot\"\n"
-                   "    -sigint_effect (Optional; action to take when a SIGINT signal is received:\n"
-                   "      snapshot, stop or none.) type: string default: \"stop\"\n"
-                   "    -snapshot (Optional; the snapshot solver state to resume training.)\n"
-                   "      type: string default: \"\"\n"
-                   "    -solver (The solver definition protocol buffer text file.) type: string\n"
-                   "      default: \"\"\n"
-                   "    -stage (Optional; network stages (not to be confused with phase), separated\n"
-                   "      by ','.) type: string default: \"\"\n"
-                   "    -weights (Optional; the pretrained weights to initialize finetuning,\n"
-                   "      separated by ','. Cannot be set simultaneously with snapshot.)\n"
-                   "      type: string default: \"\"" << std::endl;
+    printUsage();
     return 1;
   }
 
@@ -423,8 +427,7 @@ int main(int argc, char** argv) {
   LOG(INFO) << "Start with command: " << command;
   if (command == "time") {
     if (argc < 5) {
-      std::cerr << "invalid arguments for command time\n"
-                     "usage: caffe time <model file> <weight file> <iterations>\n\n" << std::endl;
+      std::cerr << "invalid argument number for command time" << std::endl;
       return 1;
     }
     string modelFilePath = getArgumentValue(argc, argv, _model);
@@ -433,15 +436,11 @@ int main(int argc, char** argv) {
     int level = atoi(getArgumentValue(argc, argv, _level).c_str());
     string stages = getArgumentValue(argc, argv, _stage);
     string gpu = getArgumentValue(argc, argv, _gpu);
-
-    //      string modelFilePath = "/data/local/tmp/tmp/bvlc_alexnet_deploy.prototxt";
-    //      string weightFilePath = "/data/local/tmp/tmp/bvlc_alexnet.caffemodel";
     time(stages, modelFilePath, weightFilePath, level, iterations, gpu);
   } else if (command == "train") {
     if (argc < 9) {
-        std::cerr << "invalid arguments for command train\n"
-                        "usage: caffe train <model file> <weight file> <iterations>\n\n" << std::endl;
-        return 1;
+      std::cerr << "invalid argument number for command train" << std::endl;
+      return 1;
     }
     string FLAGS_solver = getArgumentValue(argc, argv, _solver);
     string FLAGS_snapshot = getArgumentValue(argc, argv, _snapshot);
@@ -454,8 +453,7 @@ int main(int argc, char** argv) {
     train(FLAGS_solver, FLAGS_snapshot, FLAGS_weights, FLAGS_stage, FLAGS_level, FLAGS_sigint_effect, FLAGS_sighup_effect, gpu);
   } else if (command == "test") {
     if (argc < 7) {
-        std::cerr << "invalid arguments for command test\n"
-                        "usage: caffe test <model file> <weight file> <iterations>\n\n" << std::endl;
+        std::cerr << "invalid argument number for command test" << std::endl;
         return 1;
     }
     string FLAGS_model = getArgumentValue(argc, argv, _model);
@@ -467,20 +465,14 @@ int main(int argc, char** argv) {
     test(FLAGS_model, FLAGS_weights, FLAGS_level, FLAGS_stage, FLAGS_iterations, gpu);
   } else if (command == "device_query") {
     if (argc < 3) {
-        std::cerr << "invalid arguments for command device_query\n"
-                        "usage: caffe device_query <gpu>\n\n" << std::endl;
+        std::cerr << "invalid argument number for command device_query" << std::endl;
         return 1;
     }
     string gpu = getArgumentValue(argc, argv, _gpu);
     device_query(gpu);
   } else {
-    std::cerr << "provided command not found\n"
-                     "usage: caffe <command> <args>\n\n"
-                     "commands:\n"
-                     "  train           train or finetune a model\n"
-                     "  test            score a model\n"
-                     "  device_query    show GPU diagnostic information\n"
-                     "  time            benchmark model execution time" << std::endl;
+    std::cerr << "provided command not found\n" << std::endl;
+    printUsage();
     return 1;
   }
 
