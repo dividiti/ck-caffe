@@ -101,8 +101,7 @@
     "windows"
   ],
   "only_for_target_os_tags": [
-    "windows",
-    "android"
+    "windows"
   ],
   "package_extra_name": " (cpu)",
   "process_script": "install",
