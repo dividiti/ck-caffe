@@ -33,8 +33,15 @@ def do(i):
     if rx['return']>0: return rx
     mm=rx['dict']
 
-    # Update deps from GPGPU or ones remembered during autotuning.
+    # Get compile-time and run-time deps.
     cdeps=mm.get('compile_deps',{})
+    rdeps=mm.get('run_deps',{})
+
+    # Merge rdeps with cdeps for setting up the pipeline (which uses
+    # common deps), but tag them as "for_run_time".
+    for k in rdeps:
+        cdeps[k]=rdeps[k]
+        cdeps[k]['for_run_time']='yes'
 
     # Caffe libs.
     depl=copy.deepcopy(cdeps['lib-caffe'])
@@ -92,7 +99,9 @@ def do(i):
         'cpu_freq':'max',
         'gpu_freq':'max',
 
-        'speed':'yes',
+        'flags':'-O3',
+
+        'speed':'no',
         'energy':'no',
 
         'out':'con',
@@ -144,7 +153,7 @@ def do(i):
         else:
             cmd_key='time_gpu'
         # FIXME: Customise cmd for NVIDIA's experimental fp16 branch.
-        if lib_tags in ['nvidia-fp16-cuda','nvidia-fp16-emu-cuda','nvidia-fp16-cudnn','nvidia-fp16-emu-cudnn']:
+        if lib_tags in [ 'nvidia-fp16-cuda', 'nvidia-fp16-cudnn' ]:
             cmd_key='time_gpu_fp16'
 
         # For each Caffe model.
@@ -221,7 +230,7 @@ def do(i):
                 'record_repo':record_repo,
                 'record_uoa':record_uoa,
 
-                'tags':['explore-batch-size-libs-models', cmd_key, model_tags, lib_tags],
+                'tags':[ 'explore-batch-size-libs-models', cmd_key, model_tags, lib_tags ],
 
                 'pipeline':cpipeline,
                 'out':'con'}
