@@ -2,12 +2,15 @@ import ck.kernel as ck
 import copy
 import re
 
-# Batch size iteration parameters and number of repetitions.
-p={'start':2,
-   'step':2,
-   'stop':16,
-   'default':2,
-   'repeat':3}
+# Batch size iteration parameters.
+bs={
+  'start':2,
+  'stop':16,
+  'step':2,
+  'default':2
+}
+# Number of statistical repetitions.
+num_repetitions=3
 
 def do(i):
     # Detect basic platform info.
@@ -214,13 +217,13 @@ def do(i):
                     ]
                 ],
                 'choices_selection':[
-                    {'type':'loop', 'start':p['start'], 'stop':p['stop'], 'step':p['step'], 'default':p['default']}
+                    {'type':'loop', 'start':bs['start'], 'stop':bs['stop'], 'step':bs['step'], 'default':bs['default']}
                 ],
 
                 'features_keys_to_process':['##choices#*'],
 
                 'iterations':-1,
-                'repetitions':p['repeat'],
+                'repetitions':num_repetitions,
 
                 'record':'yes',
                 'record_failed':'yes',
