@@ -29,7 +29,7 @@ if [ "${?}" != "0" ] ; then
 fi
 
 cd src
-#git checkout ${PACKAGE_BRANCH}
+git checkout ${PACKAGE_BRANCH}
 
 ############################################################
 echo ""
