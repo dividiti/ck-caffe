@@ -57,6 +57,10 @@
     "win": "bvlc_googlenet.caffemodel",
     "linux": "bvlc_googlenet.caffemodel"
   },
+  "features":{
+    "accuracy":0.689299,
+    "accuracy_top5":0.891441
+  },
   "suggested_path": "caffemodel-bvlc-googlenet",
   "tags": [
     "caffe",

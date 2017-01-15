@@ -62,6 +62,10 @@
   "process_script": "download",
   "soft_uoa": "e2400aabc11d6cd1",
   "suggested_path": "caffemodel-bvlc-alexnet-fast-mirror",
+  "features":{
+    "accuracy":0.568279,
+    "accuracy_top5":0.799501
+  },
   "tags": [
     "caffe",
     "weights",
