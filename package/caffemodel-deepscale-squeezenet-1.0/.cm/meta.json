@@ -57,7 +57,7 @@
     "accuracy":0.576801,
     "accuracy_top5":0.803903
   },
-  "suggested_path": "caffemodel-deepscale-squeezenet_v1.0",
+  "suggested_path": "caffemodel-deepscale-squeezenet-1.0",
   "tags": [
     "caffe",
     "weights",

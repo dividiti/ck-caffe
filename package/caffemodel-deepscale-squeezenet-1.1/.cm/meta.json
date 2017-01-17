@@ -52,7 +52,7 @@
     "win": "squeezenet_v1.1.caffemodel",
     "linux": "squeezenet_v1.1.caffemodel"
   },
-  "suggested_path": "caffemodel-deepscale-squeezenet_v1.1",
+  "suggested_path": "caffemodel-deepscale-squeezenet-1.1",
   "features":{
     "accuracy":0.58388,
     "accuracy_top5":0.810123
