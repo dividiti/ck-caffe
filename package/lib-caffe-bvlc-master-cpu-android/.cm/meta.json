@@ -26,7 +26,7 @@
       "PACKAGE_SKIP_CLEAN_SRC_DIR": "YES",
       "PACKAGE_SUB_DIR": "src",
       "PACKAGE_SUB_DIR1": "src",
-      "PACKAGE_URL": "https://github.com/DVEfremov/caffe",
+      "PACKAGE_URL": "https://github.com/BVLC/caffe",
       "PYTHON_EXE": "python",
       "RUN_INSTALL": 0,
       "RUN_LINT": 0,
