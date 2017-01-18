@@ -1,3 +1,5 @@
+2017.01.18 - added Caffe OpenCL package for windows (lib-caffe-bvlc-opencl-viennacl-win)
+
 2017.01.10 - added caffe-time-cuda and caffe-classification-cuda
 
 2017.01.08 - major update to support Windows + Android

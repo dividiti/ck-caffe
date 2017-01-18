@@ -1,0 +1,128 @@
+@echo off
+
+rem
+rem Installation script for CK packages.
+rem
+rem See CK LICENSE.txt for licensing details.
+rem See CK Copyright.txt for copyright details.
+rem
+rem Developer(s): Grigori Fursin, 2016-2017
+rem
+
+rem PACKAGE_DIR
+rem INSTALL_DIR
+
+rem echo **************************************************************
+rem echo Downloading extra libs ...
+rem For now use fixed download - then should compile via CK
+rem set EXTRA_URL=https://github.com/willyd/caffe-builder/releases/download/v1.0.1/libraries_v140_x64_py35_1.0.1.tar.bz2
+
+rem rmdir /s /q libraries
+rem rmdir libraries
+rem mkdir libraries
+rem cd libraries
+rem wget --no-check-certificate %EXTRA_URL% -O libraries_v140_x64_py35_1.0.1.tar.bz2
+
+rem bzip2 -d libraries_v140_x64_py35_1.0.1.tar.bz2
+rem tar xvf libraries_v140_x64_py35_1.0.1.tar
+rem del /S /Q libraries_v140_x64_py35_1.0.1.tar
+
+echo **************************************************************
+echo Obtaining latest Caffe from GitHub ...
+echo.
+
+cd %INSTALL_DIR%
+
+rmdir /s /q src
+
+rmdir src
+
+git clone %CAFFE_URL% src
+
+cd src
+git checkout %CAFFE_BRANCH%
+
+echo **************************************************************
+echo Configuring Caffe for Windows
+
+cd %INSTALL_DIR%
+
+rmdir /s /q build
+rmdir build
+mkdir build
+cd build
+
+set CK_CXX_FLAGS_FOR_CMAKE=
+set CK_CXX_FLAGS_ANDROID_TYPICAL=
+
+rem        -DCMAKE_CXX_FLAGS="%CK_CXX_FLAGS_FOR_CMAKE% %CK_CXX_FLAGS_ANDROID_TYPICAL%" ^
+   
+cmake -DCMAKE_INSTALL_PREFIX="%INSTALL_DIR%\install" ^
+      -DBLAS=Open ^
+      -DBUILD_SHARED_LIBS:BOOL=%CMAKE_BUILD_SHARED_LIBS% ^
+      -DBUILD_python:BOOL=%BUILD_PYTHON% ^
+      -DBUILD_matlab:BOOL=%BUILD_MATLAB% ^
+      -DGFLAGS_INCLUDE_DIR="%CK_ENV_LIB_GFLAGS_INCLUDE%" ^
+      -DGFLAGS_LIBRARY="%CK_ENV_LIB_GFLAGS_LIB%\gflags.lib" ^
+      -DGLOG_INCLUDE_DIR="%CK_ENV_LIB_GLOG_INCLUDE%" ^
+      -DGLOG_LIBRARY="%CK_ENV_LIB_GLOG_LIB%\glog.lib" ^
+      -DCMAKE_BUILD_TYPE:STRING=%CMAKE_CONFIG% ^
+      -DPROTOBUF_DIR="%CK_ENV_LIB_PROTOBUF_HOST%\cmake" ^
+      -DHDF5_DIR="%CK_ENV_LIB_HDF5%\cmake" ^
+      -DHDF5_ROOT_DIR="%CK_ENV_LIB_HDF5%\cmake" ^
+      -DHDF5_INCLUDE_DIRS="%CK_ENV_LIB_HDF5_INCLUDE%" ^
+      -DUSE_LMDB=OFF ^
+      -DUSE_LEVELDB=OFF ^
+      -DBLAS=open ^
+      -DOpenBLAS_INCLUDE_DIR="%CK_ENV_LIB_OPENBLAS_INCLUDE%" ^
+      -DOpenBLAS_LIB="%CK_ENV_LIB_OPENBLAS_LIB%\%CK_ENV_LIB_OPENBLAS_DYNAMIC_NAME%" ^
+      -DBoost_ADDITIONAL_VERSIONS="1.62" ^
+      -DBoost_NO_SYSTEM_PATHS=ON ^
+      -DBOOST_ROOT=%CK_ENV_LIB_BOOST% ^
+      -DBOOST_INCLUDEDIR="%CK_ENV_LIB_BOOST_INCLUDE%" ^
+      -DBOOST_LIBRARYDIR="%CK_ENV_LIB_BOOST_LIB%" ^
+      -DBoost_INCLUDE_DIR="%CK_ENV_LIB_BOOST_INCLUDE%" ^
+      -DBoost_LIBRARY_DIR="%CK_ENV_LIB_BOOST_LIB%" ^
+      -DOpenCV_DIR="%CK_ENV_LIB_OPENCV%" ^
+      -DOpenCV_LIB_PATH="%CK_ENV_LIB_OPENCV_LIB%" ^
+      -DCPU_ONLY:BOOL=%CPU_ONLY% ^
+        %PACKAGE_CONFIGURE_FLAGS% ^
+        -DCMAKE_CXX_FLAGS="" ^
+        -DCMAKE_C_COMPILER="%CK_CC_PATH_FOR_CMAKE%" ^
+        -DCMAKE_C_FLAGS="%CK_CC_FLAGS_FOR_CMAKE% %CK_CC_FLAGS_ANDROID_TYPICAL%" ^
+        -DCMAKE_CXX_COMPILER="%CK_CXX_PATH_FOR_CMAKE%" ^
+        -DCMAKE_AR="%CK_AR_PATH_FOR_CMAKE%" ^
+        -DCMAKE_LINKER="%CK_LD_PATH_FOR_CMAKE%" ^
+      -G"Visual Studio 14 2015 Win64" ^
+      %CK_CMAKE_EXTRA% ^
+      "%INSTALL_DIR%\src"
+
+if %errorlevel% neq 0 (
+ echo.
+ echo Problem building CK package!
+ goto err
+)
+
+exit /b 1
+
+rem         -DCMAKE_CXX_FLAGS="%CK_CXX_FLAGS_FOR_CMAKE% %CK_CXX_FLAGS_ANDROID_TYPICAL%" ^
+
+rem        %XCMAKE_AR% ^
+rem        %XCMAKE_LD% ^
+
+echo **************************************************************
+echo.
+echo Building using Visual Studio ...
+
+cmake --build . --config %CMAKE_CONFIG% --target install
+
+rem if %errorlevel% neq 0 (
+rem echo.
+rem echo Problem building CK package!
+rem goto err
+rem )
+
+exit /b 0
+
+:err
+exit /b 1

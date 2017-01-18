@@ -1,0 +1,148 @@
+{
+  "check_exit_status": "yes",
+  "customize": {
+    "extra_dir": "",
+    "git_src_dir": "src",
+    "install_env": {
+      "BLAS_TYPE": "Open",
+      "CPU_ONLY": 0,
+      "USE_OPENMP":0,
+      "USE_FFT":0,
+      "USE_GREENTEA":1,
+      "USE_CUDA":0,
+      "USE_CUDNN":0,
+      "USE_LIBDNN":1,
+      "USE_CLBLAS":0,
+      "USE_CLBLAST":0,
+      "USE_NCCL":0,
+      "USE_ISAAC":0,
+      "USE_INTEL_SPATIAL":0,
+      "PACKAGE_BUILD_TYPE": "cmake",
+      "PACKAGE_CONFIGURE_FLAGS": "",
+      "PACKAGE_CONFIGURE_FLAGS_ANDROID": "",
+      "PACKAGE_CONFIGURE_FLAGS_LINUX": "",
+      "PACKAGE_CONFIGURE_FLAGS_WINDOWS": "",
+      "PACKAGE_COPY": "NO",
+      "PACKAGE_GIT": "YES",
+      "PACKAGE_GIT_CHECKOUT": "opencl",
+      "PACKAGE_SKIP_CLEAN_INSTALL": "NO",
+      "PACKAGE_SKIP_CLEAN_OBJ": "NO",
+      "PACKAGE_SKIP_CLEAN_SRC_DIR": "YES",
+      "PACKAGE_SUB_DIR": "src",
+      "PACKAGE_SUB_DIR1": "src",
+      "PACKAGE_URL": " https://github.com/BVLC/caffe",
+      "PYTHON_EXE": "python",
+      "RUN_INSTALL": 0,
+      "RUN_LINT": 0,
+      "RUN_TESTS": 0,
+      "USE_LEVELDB": "OFF",
+      "USE_LMDB": "OFF",
+      "WITH_NINJA": 0,
+      "BUILD_MATLAB": 0,
+      "BUILD_PYTHON": 0,
+      "BUILD_PYTHON_LAYER": 0,
+      "CMAKE_BUILD_SHARED_LIBS": 0,
+      "CMAKE_CONFIG": "Release"
+    },
+    "use_git_revision": "yes",
+    "version": "master"
+  },
+  "deps": {
+    "cmake": {
+      "local": "yes",
+      "name": "CMake tool",
+      "sort": 10,
+      "tags": "tool,cmake"
+    },
+    "compiler": {
+      "local": "yes",
+      "name": "C++ compiler",
+      "sort": 1,
+      "tags": "compiler,lang-cpp,mcl"
+    },
+    "lib-blas": {
+      "local": "yes",
+      "name": "BLAS library",
+      "skip_default": "yes",
+      "sort": 30,
+      "tags": "lib,blas,openblas"
+    },
+    "lib-boost": {
+      "local": "yes",
+      "name": "Boost library",
+      "sort": 25,
+      "tags": "lib,boost"
+    },
+    "lib-gflags": {
+      "local": "yes",
+      "name": "GFlags library",
+      "sort": 12,
+      "tags": "lib,gflags"
+    },
+    "lib-glog": {
+      "local": "yes",
+      "name": "GLog library",
+      "sort": 14,
+      "tags": "lib,glog"
+    },
+    "lib-hdf5": {
+      "local": "yes",
+      "name": "HDF5 library",
+      "sort": 30,
+      "tags": "lib,hdf5"
+    },
+    "lib-opencv": {
+      "local": "yes",
+      "name": "OpenCV library",
+      "sort": 20,
+      "tags": "lib,opencv"
+    },
+    "lib-protobuf-host": {
+      "local": "yes",
+      "name": "ProtoBuf host compiler",
+      "sort": 19,
+      "tags": "lib,protobuf-host,v3.1.0"
+    },
+    "opencl": {
+      "local": "yes", 
+      "name": "OpenCL library", 
+      "sort": 40, 
+      "tags": "lib,opencl"
+    },
+    "viennalcl": {
+      "local": "yes", 
+      "name": "ViennaCL library (with OpenCL)", 
+      "sort": 50, 
+      "tags": "lib,viennacl,vopencl"
+    }
+  },
+  "end_full_path": {
+    "win": "install/bin/caffe.exe"
+  },
+  "need_cpu_info": "yes",
+  "only_for_host_os_tags": [
+    "windows"
+  ],
+  "only_for_target_os_tags": [
+    "windows"
+  ],
+  "package_extra_name": " (viennacl, opencl)",
+  "process_script": "install",
+  "soft_uoa": "04ab08137582bd03",
+  "suggested_path": "lib-caffe-bvlc-opencl",
+  "tags": [
+    "lib",
+    "caffe",
+    "bvlc",
+    "vopencl",
+    "vmaster"
+  ],
+  "use_preprocess_scripts_from_another_entry": {
+    "data_uoa": "fd44428fbc77f77f",
+    "module_uoa": "84e27ad9dd12e734"
+  },
+  "use_scripts_from_another_entry": {
+    "data_uoa": "cd9ccc74060b3d18",
+    "module_uoa": "script"
+  }
+}
