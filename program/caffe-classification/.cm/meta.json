@@ -40,7 +40,7 @@
       "name": "Caffe library",
       "skip_pruning_by_other_deps": "yes",
       "sort": 1,
-      "tags": "lib,caffe"
+      "tags": "lib,caffe,vcpu"
     },
     "lib-gflags": {
       "local": "yes",

@@ -145,13 +145,18 @@ def setup(i):
           sext='.lib'
           dext='.dll'
 
+          env['CK_CAFFE_CLASSIFICATION_BIN']='classification.exe'
+
        s+='set PATH='+cus['path_bin']+fp8+';%PATH%\n'
 
     else:
        sext='.a'
        dext='.so'
 
-       s+='export PATH='+cus['path_bin']+':$PATH\n'
+       path_example_classification=os.path.join(os.path.dirname(cus['path_bin']),'examples','cpp_classification')
+       env['CK_CAFFE_CLASSIFICATION_BIN']='classification.bin'
+
+       s+='export PATH='+cus['path_bin']+':'+path_example_classification+':$PATH\n'
        if cus.get('path_lib','')!='':
           s+='export LD_LIBRARY_PATH="'+cus['path_lib']+'":$LD_LIBRARY_PATH\n'
           s+='export LIBRARY_PATH="'+cus['path_lib']+'":$LIBRARY_PATH\n\n'

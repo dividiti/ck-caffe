@@ -117,7 +117,7 @@
           "data_uoa": "569404c41618603a", 
           "script_name": "preprocess"
         }, 
-        "run_cmd_main": "$#BIN_FILE#$ time --model=$<<CK_CAFFE_MODEL_FILE>>$ --iterations=$<<CK_CAFFE_ITERATIONS>>$ --gpu=$<<CK_COMPUTE_DEVICE_ID>>$", 
+        "run_cmd_main": "$#BIN_FILE#$ time --model=$<<CK_CAFFE_MODEL_FILE>>$ --iterations=$<<CK_CAFFE_ITERATIONS>>$ --gpu=$<<CAFFE_COMPUTE_DEVICE_ID>>$", 
         "run_cmd_out1": "stdout.log", 
         "run_cmd_out2": "stderr.log", 
         "run_correctness_output_files": [], 
@@ -139,6 +139,7 @@
   }, 
   "run_vars": {
     "CK_CAFFE_ITERATIONS": "1", 
+    "CAFFE_COMPUTE_DEVICE_ID":0,
     "XCT_REPEAT_MAIN": "1"
   }, 
   "skip_bin_ext": "yes", 

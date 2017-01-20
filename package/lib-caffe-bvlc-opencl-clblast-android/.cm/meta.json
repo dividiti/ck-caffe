@@ -137,6 +137,8 @@
     "lib",
     "caffe",
     "bvlc",
-    "vmaster"
+    "vmaster",
+    "vclblast",
+    "vopencl"
   ]
 }

@@ -1,3 +1,5 @@
+2017.01.19 - cleaned up various packages 
+
 2017.01.18 - added Caffe OpenCL package for windows (lib-caffe-bvlc-opencl-viennacl-win)
 
 2017.01.10 - added caffe-time-cuda and caffe-classification-cuda
