@@ -75,6 +75,16 @@
       "sort": 14,
       "tags": "lib,glog"
     },
+    "lib-lmdb": {
+      "local": "yes",
+      "name": "LMDB library",
+      "only_for_target_os_tags": [
+        "android"
+      ],
+      "skip_default": "yes",
+      "sort": 18,
+      "tags": "lib,lmdb"
+    },
     "lib-opencv": {
       "local": "yes",
       "name": "OpenCV library",
@@ -87,6 +97,9 @@
       "name": "ProtoBuf library",
       "skip_default": "yes",
       "sort": 16,
+      "only_for_target_os_tags": [
+        "android"
+      ],
       "tags": "lib,protobuf,v3.1.0"
     },
     "lib-protobuf-host": {
@@ -108,6 +121,7 @@
     "windows"
   ],
   "only_for_target_os_tags": [
+    "linux",
     "windows",
     "android"
   ],

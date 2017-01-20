@@ -90,7 +90,8 @@
       "local": "yes",
       "name": "ViennaCL library",
       "skip_default": "yes",
-      "sort": 17,
+      "skip_linking": "yes",
+      "sort": 35,
       "tags": "lib,viennacl,vcpu"
     }
   }, 
