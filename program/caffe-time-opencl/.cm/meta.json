@@ -3,8 +3,8 @@
   "build_compiler_vars": {
     "ANDROID_USE_OPENMP": "ON", 
     "BLAS": "Open", 
-    "CPU_ONLY": "ON", 
     "USE_LMDB": "OFF", 
+    "USE_GREENTEA": "ON", 
     "USE_OPENCV": "ON"
   }, 
   "compile_deps": {
@@ -78,6 +78,20 @@
       ], 
       "sort": 9, 
       "tags": "lib,protobuf-host"
+    },
+    "lib-opencl": {
+      "local": "yes",
+      "name": "OpenCL stubs library",
+      "skip_default": "yes",
+      "sort": 15,
+      "tags": "lib,opencl"
+    },
+    "lib-viennacl": {
+      "local": "yes",
+      "name": "ViennaCL library",
+      "skip_default": "yes",
+      "sort": 17,
+      "tags": "lib,viennacl,vcpu"
     }
   }, 
   "compiler_add_include_as_env_from_deps": [
