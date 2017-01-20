@@ -90,7 +90,7 @@
       "name": "ViennaCL library",
       "skip_default": "yes",
       "sort": 35,
-      "tags": "lib,viennacl"
+      "tags": "lib,viennacl,vcpu"
     },
     "lib-clblast": {
       "local": "yes",

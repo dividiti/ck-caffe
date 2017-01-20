@@ -1,0 +1,27 @@
+From 9e24ee744fb8aea02e9edfdb57f02597c1910117 Mon Sep 17 00:00:00 2001
+From: Grigori Fursin <Grigori.Fursin@cTuning.org>
+Date: Fri, 11 Nov 2016 19:45:52 +0100
+Subject: [PATCH] removing vars
+
+---
+ android/caffe_jni.cpp | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/android/caffe_jni.cpp b/android/caffe_jni.cpp
+index efda01a..8a928d6 100644
+--- a/android/caffe_jni.cpp
++++ b/android/caffe_jni.cpp
+@@ -176,8 +176,8 @@ JNIEXPORT jint JNICALL JNI_OnLoad(JavaVM *vm, void *reserved) {
+     return result;
+   }
+ 
+-  FLAGS_redirecttologcat = true;
+-  FLAGS_android_logcat_tag = "caffe_jni";
++//  FLAGS_redirecttologcat = true;
++//  FLAGS_android_logcat_tag = "caffe_jni";
+ 
+   return JNI_VERSION_1_6;
+ }
+-- 
+2.7.4
+
