@@ -70,6 +70,7 @@
       "name": "GFlags library", 
       "skip_installed": {
         "android": "yes", 
+        "linux": "yes",
         "win": "yes"
       }, 
       "sort": 12, 
@@ -80,6 +81,7 @@
       "name": "GLog library", 
       "skip_installed": {
         "android": "yes", 
+        "linux": "yes",
         "win": "yes"
       }, 
       "sort": 14, 
@@ -143,6 +145,7 @@
     }
   }, 
   "end_full_path": {
+    "linux": "install/bin/caffe",
     "android": "install/lib/libcaffe.so", 
     "win": "install/bin/caffe.exe"
   }, 

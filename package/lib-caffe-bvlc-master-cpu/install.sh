@@ -78,7 +78,7 @@ else
 fi
 
 # Have various problems with parallel compilation ...
-make
+make V=1
 # -j $JOBS
 if [ "${?}" != "0" ] ; then
   echo "Error: Building Caffe in '${CAFFE_BLD_DIR}' failed!"
