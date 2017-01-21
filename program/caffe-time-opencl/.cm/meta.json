@@ -5,7 +5,8 @@
     "BLAS": "Open", 
     "USE_LMDB": "OFF", 
     "USE_GREENTEA": "ON", 
-    "USE_OPENCV": "ON"
+    "USE_OPENCV": "ON",
+    "XOPENME": "ON"
   }, 
   "compile_deps": {
     "boost": {
@@ -91,8 +92,15 @@
       "name": "ViennaCL library",
       "skip_default": "yes",
       "skip_linking": "yes",
+      "skip_copy_to_remote": "yes",
       "sort": 35,
       "tags": "lib,viennacl,vcpu"
+    },
+    "xopenme": {
+      "local": "yes",
+      "name": "xOpenME library",
+      "sort": 100,
+      "tags": "lib,xopenme"
     }
   }, 
   "compiler_add_include_as_env_from_deps": [
@@ -165,7 +173,7 @@
   "tags": [
     "caffe-time", 
     "demo", 
-    "vcpu"
+    "vopencl"
   ], 
   "target_file": "caffe", 
   "use_preprocess_compilation_scripts": {

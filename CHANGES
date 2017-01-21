@@ -1,3 +1,5 @@
+2017.01.20 - unifying compilation of Caffe OpenCL for Android on Windows and Linux
+
 2017.01.19 - cleaned up various packages 
 
 2017.01.18 - added Caffe OpenCL package for windows (lib-caffe-bvlc-opencl-viennacl-win)
