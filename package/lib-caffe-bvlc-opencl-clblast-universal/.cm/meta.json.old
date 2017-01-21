@@ -1,0 +1,120 @@
+{
+  "check_exit_status": "yes",
+  "customize": {
+    "extra_dir": "",
+    "git_src_dir": "src",
+    "install_env": {
+      "PACKAGE_BRANCH": "opencl-work-android",
+      "PACKAGE_URL": "https://github.com/intelfx/caffe"
+    },
+    "use_git_revision": "yes",
+    "version": "trunk"
+  },
+  "deps": {
+    "compiler": {
+      "local": "yes",
+      "name": "C++ compiler",
+      "sort": 10,
+      "tags": "compiler,lang-cpp"
+    },
+    "lib-blas": {
+      "add_to_path": "yes",
+      "local": "yes",
+      "name": "BLAS library",
+      "skip_default": "yes",
+      "sort": 30,
+      "tags": "lib,blas,openblas"
+    },
+    "lib-boost": {
+      "add_to_path": "yes",
+      "local": "yes",
+      "name": "Boost library",
+      "skip_default": "yes",
+      "sort": 25,
+      "tags": "lib,boost"
+    },
+    "lib-clblast": {
+      "local": "yes",
+      "name": "clBLAST library",
+      "skip_default": "yes",
+      "sort": 40,
+      "tags": "lib,clblast"
+    },
+    "lib-gflags": {
+      "local": "yes",
+      "name": "GFlags library",
+      "sort": 12,
+      "tags": "lib,gflags"
+    },
+    "lib-glog": {
+      "local": "yes",
+      "name": "GLog library",
+      "sort": 14,
+      "tags": "lib,glog"
+    },
+    "lib-lmdb": {
+      "local": "yes",
+      "name": "LMDB library",
+      "skip_default": "yes",
+      "sort": 18,
+      "tags": "lib,lmdb"
+    },
+    "lib-opencl": {
+      "local": "yes",
+      "name": "OpenCL stubs library",
+      "skip_default": "yes",
+      "sort": 11,
+      "tags": "lib,opencl"
+    },
+    "lib-opencv": {
+      "local": "yes",
+      "name": "OpenCV library",
+      "skip_default": "yes",
+      "sort": 20,
+      "tags": "lib,opencv"
+    },
+    "lib-protobuf": {
+      "local": "yes",
+      "name": "ProtoBuf library",
+      "skip_default": "yes",
+      "sort": 16,
+      "tags": "lib,protobuf,v3.1.0"
+    },
+    "lib-protobuf-host": {
+      "force_target_as_host": "yes",
+      "local": "yes",
+      "name": "ProtoBuf host compiler",
+      "sort": 19,
+      "tags": "lib,protobuf-host"
+    },
+    "lib-viennacl": {
+      "local": "yes",
+      "name": "ViennaCL library",
+      "skip_default": "yes",
+      "sort": 35,
+      "tags": "lib,viennacl,vcpu"
+    }
+  },
+  "end_full_path": {
+    "android": "install/lib/libcaffe.so"
+  },
+  "need_cpu_info": "yes",
+  "only_for_host_os_tags": [
+    "linux"
+  ],
+  "only_for_target_os_tags": [
+    "android"
+  ],
+  "package_extra_name": " (OpenCL, clBLAST)",
+  "process_script": "install",
+  "soft_uoa": "04ab08137582bd03",
+  "suggested_path": "lib-caffe-bvlc-opencl-clblast-android",
+  "tags": [
+    "lib",
+    "caffe",
+    "bvlc",
+    "vmaster",
+    "vclblast",
+    "vopencl"
+  ]
+}
