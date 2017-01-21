@@ -126,7 +126,16 @@
         ], 
         "run_output_files": []
       }
-    }
+    },
+    "query_all_gpu_devices": {
+      "ignore_return_code": "no", 
+      "run_time": {
+        "post_process_via_ck": "no", 
+        "run_cmd_main": "$#BIN_FILE#$ device_query", 
+        "run_cmd_out1": "stdout.log", 
+        "run_cmd_out2": "stderr.log"
+      } 
+    } 
   }, 
   "run_deps": {
     "caffemodel": {
