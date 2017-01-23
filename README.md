@@ -9,9 +9,10 @@ collaborative and reproducible optimisation of convolutional neural networks.
 It's based on the [Caffe](http://caffe.berkeleyvision.org) framework from the
 Berkeley Vision and Learning Center ([BVLC](http://bvlc.eecs.berkeley.edu)) and
 the [Collective Knowledge](http://cknowledge.org) framework from the [cTuning
-Foundation](http://ctuning.org). In essence, CK-Caffe is simply a suite of
-convenient wrappers for building, evaluating and optimising performance of
-Caffe.
+Foundation](http://ctuning.org) (see CK intro for more details: [1](https://arxiv.org/abs/1506.06256),
+[2](https://www.researchgate.net/publication/304010295_Collective_Knowledge_Towards_RD_Sustainability). 
+In essence, CK-Caffe is simply a suite of convenient wrappers with unified 
+JSON API for customized building, evaluation and multi-objective optimisation of Caffe.
 
 As outlined in our [vision](http://dx.doi.org/10.1145/2909437.2909449), we
 invite the community to collaboratively design and optimize convolutional
@@ -198,6 +199,84 @@ ck pull repo:ck-caffe-explore-batch-size-chromebook2 \
     --url=https://github.com/dividiti/ck-caffe-explore-batch-size-chromebook2.git
 ```
  
+## Quick installation on Windows
+
+We added main Caffe dependencies to CK (motivated by Caffe builder 
+from https://github.com/willyd/caffe-builder). You just need to
+have the following deps installed:
+
+* Microsoft Visual Studio and Microsoft SDK (we checked Visual Studio 2015 x64) 
+
+* MinGW W64 GCC (to compile OpenBLAS - you can get it from https://sourceforge.net/projects/mingw-w64)
+
+* CMake (https://cmake.org/download)
+
+It is then possible to compile and run Caffe on Windows in a unified way via CK
+(above tools will be automatically detected by CK):
+
+```
+$ ck install package:lib-caffe-bvlc-master-cpu-universal
+$ ck run program:caffe
+(select test_cpu)
+```
+
+You can also test (benchmark) NN or perform classification of images 
+via CK as following:
+
+```
+$ ck compile --speed program:caffe-time
+$ ck run program:caffe-time
+```
+
+```
+$ ck compile --speed program:caffe-classification
+$ ck run program:caffe-classification
+```
+
+You can also compile and run OpenCL version of Caffe on Windows via:
+
+```
+$ ck install package:lib-caffe-bvlc-opencl-viennacl-win
+$ ck run program:caffe --cmd_key=query_gpu_greentea
+$ ck run program:caffe
+```
+
+It's the first step (we support minimal CPU and OpenCL versions for now), 
+and we would like to support CUDA as well as compile 
+all dependencies via CK too (to simplify and automate this process)...
+
+However, it an important step to help researchers compile and run
+Caffe (and similar DNN frameworks) on Linux, Windows and Android
+in a unified way via CK with JSON API!
+
+## Quick installation of Caffe for Android devices (on Windows or Linux)
+
+It is possible to compile and run Caffe timing and classification
+via CK on Android devices. You just need to have Android NDK
+installed on your host. It is available at https://developer.android.com/ndk/index.html .
+
+You can then compile Caffe for Android using GCC (LLVM support is planned) 
+as following (Android NDK will be automatically detected by CK):
+
+```
+$ ck install package:lib-caffe-bvlc-master-cpu-universal --target_os=android21-arm64
+```
+
+You can then test (benchmark) NN or perform classification of images 
+via CK on your Android device connected via ADB to your host as following:
+
+```
+$ ck compile --speed program:caffe-time --target_os=android21-arm64
+$ ck run program:caffe-time --target_os=android21-arm64
+```
+
+```
+$ ck compile --speed program:caffe-classification --target_os=android21-arm64
+$ ck run program:caffe-classification --target_os=android21-arm64
+```
+
+We plan to add support for OpenCL version of Caffe for Android in the future.
+
 ## Quick installation on Raspberry Pi (32-bit ARM)
 
 We tested installation of Caffe on Raspberry Pi via CK.
@@ -221,75 +300,10 @@ $ sudo apt install coreutils \
 You can then install Caffe for CPU simply as following:
 
 ```
-$ ck install package:lib-caffe-bvlc-master-cpu-win
+$ ck install package:lib-caffe-bvlc-master-cpu
 $ ck run program:caffe
 (select test_cpu)
 ```
-
-## Quick installation on Windows
-
-We added main Caffe dependencies to CK (motivated by Caffe builder 
-from https://github.com/willyd/caffe-builder). You just need to
-have two tools: a) Microsoft Visual Studio and Microsoft SDK
-(we checked Visual Studio 2015) and b) MinGW W64 GCC (to compile
-OpenBLAS - you can get it from https://sourceforge.net/projects/mingw-w64)
-It is then possible to compile and run Caffe on Windows in a unified way via CK
-(above tools will be automatically detected by CK):
-
-```
-$ ck install package:lib-caffe-bvlc-master-cpu-win
-$ ck run program:caffe
-(select test_cpu)
-```
-
-You can also test (benchmark) NN or perform classification of images 
-via CK as following:
-
-```
-$ ck compile --speed program:caffe-time
-$ ck run program:caffe-time
-```
-
-```
-$ ck compile --speed program:caffe-classification
-$ ck run program:caffe-classification
-```
-
-It's the first step (we support CPU version for now), 
-and we would like to support CUDA as well as compile 
-all dependencies via CK too (to simplify and automate this process)...
-
-However, it an important step to help researchers compile and run
-Caffe (and similar DNN frameworks) on Linux, Windows and Android
-in a unified way via CK with JSON API!
-
-## Quick installation on Windows or Linux targeting Android devices
-
-It is possible to compile and run Caffe timing and classification
-via CK on Android devices. You just need to have Android NDK
-installed on your host. It is available at https://developer.android.com/ndk/index.html .
-
-You can then compile Caffe for Android using GCC (LLVM support is planned) 
-as following (Android NDK will be automatically detected by CK):
-
-```
-$ ck install package:lib-caffe-bvlc-master-cpu-android --target_os=android21-arm64
-```
-
-You can then test (benchmark) NN or perform classification of images 
-via CK on your Android device connected via ADB to your host as following:
-
-```
-$ ck compile --speed program:caffe-time --target_os=android21-arm64
-$ ck run program:caffe-time --target_os=android21-arm64
-```
-
-```
-$ ck compile --speed program:caffe-classification --target_os=android21-arm64
-$ ck run program:caffe-classification --target_os=android21-arm64
-```
-
-We plan to add support for OpenCL version in the future.
 
 ## Next steps
 
