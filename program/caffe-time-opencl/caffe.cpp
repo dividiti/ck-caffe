@@ -4,8 +4,8 @@
 namespace bp = boost::python;
 #endif
 
-#include <gflags/gflags.h>
-#include <glog/logging.h>
+//#include <gflags/gflags.h>
+//#include <glog/logging.h>
 
 #include <cstring>
 #include <map>
@@ -21,6 +21,10 @@ namespace bp = boost::python;
 #include "caffe/layers/libdnn_conv_layer.hpp"
 #endif
 
+#ifdef XOPENME
+#include <xopenme.h>
+#endif
+
 using caffe::Blob;
 using caffe::Caffe;
 using caffe::Net;
@@ -33,64 +37,78 @@ using caffe::vector;
 using caffe::device;
 using std::ostringstream;
 
-DEFINE_string(gpu, "",
-    "Optional; run in GPU mode on given device IDs separated by ','."
-    "Use '-gpu all' to run on all available GPUs. The effective training "
-    "batch size is multiplied by the number of devices.");
-DEFINE_string(solver, "",
-    "The solver definition protocol buffer text file.");
-DEFINE_string(model, "",
-    "The model definition protocol buffer text file.");
-DEFINE_string(phase, "",
-    "Optional; network phase (TRAIN or TEST). Only used for 'time'.");
-DEFINE_int32(level, 0,
-    "Optional; network level.");
-DEFINE_string(stage, "",
-    "Optional; network stages (not to be confused with phase), "
-    "separated by ','.");
-DEFINE_string(snapshot, "",
-    "Optional; the snapshot solver state to resume training.");
-DEFINE_string(weights, "",
-    "Optional; the pretrained weights to initialize finetuning, "
-    "separated by ','. Cannot be set simultaneously with snapshot.");
-DEFINE_int32(iterations, 50,
-    "The number of iterations to run.");
-DEFINE_string(sigint_effect, "stop",
-             "Optional; action to take when a SIGINT signal is received: "
-              "snapshot, stop or none.");
-DEFINE_string(sighup_effect, "snapshot",
-             "Optional; action to take when a SIGHUP signal is received: "
-             "snapshot, stop or none.");
+string FLAGS_solver = "";
+string FLAGS_snapshot = "";
+string FLAGS_weights = "";
+string FLAGS_stage = "";
+int FLAGS_level = 0;
+string FLAGS_sigint_effect = "";
+string FLAGS_sighup_effect = "";
+string FLAGS_gpu = "";
+int FLAGS_iterations = 1;
+string FLAGS_phase = "";
+string FLAGS_model = "";
+
+//DEFINE_string(gpu, "",
+//    "Optional; run in GPU mode on given device IDs separated by ','."
+//    "Use '-gpu all' to run on all available GPUs. The effective training "
+//    "batch size is multiplied by the number of devices.");
+//DEFINE_string(solver, "",
+//    "The solver definition protocol buffer text file.");
+//DEFINE_string(model, "",
+//    "The model definition protocol buffer text file.");
+//DEFINE_string(phase, "",
+//    "Optional; network phase (TRAIN or TEST). Only used for 'time'.");
+//DEFINE_int32(level, 0,
+//    "Optional; network level.");
+//DEFINE_string(stage, "",
+//    "Optional; network stages (not to be confused with phase), "
+//    "separated by ','.");
+//DEFINE_string(snapshot, "",
+//    "Optional; the snapshot solver state to resume training.");
+//DEFINE_string(weights, "",
+//    "Optional; the pretrained weights to initialize finetuning, "
+//    "separated by ','. Cannot be set simultaneously with snapshot.");
+//DEFINE_int32(iterations, 50,
+//    "The number of iterations to run.");
+//DEFINE_string(sigint_effect, "stop",
+//             "Optional; action to take when a SIGINT signal is received: "
+//              "snapshot, stop or none.");
+//DEFINE_string(sighup_effect, "snapshot",
+//             "Optional; action to take when a SIGHUP signal is received: "
+//             "snapshot, stop or none.");
+
+
 
 // A simple registry for caffe commands.
-typedef int (*BrewFunction)();
-typedef std::map<caffe::string, BrewFunction> BrewMap;
-BrewMap g_brew_map;
+//typedef int (*BrewFunction)();
+//typedef std::map<caffe::string, BrewFunction> BrewMap;
+//BrewMap g_brew_map;
+//
+//#define RegisterBrewFunction(func) \
+//namespace { \
+//class __Registerer_##func { \
+// public: /* NOLINT */ \
+//  __Registerer_##func() { \
+//    g_brew_map[#func] = &func; \
+//  } \
+//}; \
+//__Registerer_##func g_registerer_##func; \
+//}
 
-#define RegisterBrewFunction(func) \
-namespace { \
-class __Registerer_##func { \
- public: /* NOLINT */ \
-  __Registerer_##func() { \
-    g_brew_map[#func] = &func; \
-  } \
-}; \
-__Registerer_##func g_registerer_##func; \
-}
-
-static BrewFunction GetBrewFunction(const caffe::string& name) {
-  if (g_brew_map.count(name)) {
-    return g_brew_map[name];
-  } else {
-    LOG(ERROR) << "Available caffe actions:";
-    for (BrewMap::iterator it = g_brew_map.begin();
-         it != g_brew_map.end(); ++it) {
-      LOG(ERROR) << "\t" << it->first;
-    }
-    LOG(FATAL) << "Unknown action: " << name;
-    return NULL;  // not reachable, just to suppress old compiler warnings.
-  }
-}
+//static BrewFunction GetBrewFunction(const caffe::string& name) {
+//  if (g_brew_map.count(name)) {
+//    return g_brew_map[name];
+//  } else {
+//    LOG(ERROR) << "Available caffe actions:";
+//    for (BrewMap::iterator it = g_brew_map.begin();
+//         it != g_brew_map.end(); ++it) {
+//      LOG(ERROR) << "\t" << it->first;
+//    }
+//    LOG(FATAL) << "Unknown action: " << name;
+//    return NULL;  // not reachable, just to suppress old compiler warnings.
+//  }
+//}
 
 // Parse GPU ids or use all available devices
 static void get_gpus(vector<int>* gpus) {
@@ -168,7 +186,7 @@ int device_query() {
   }
   return 0;
 }
-RegisterBrewFunction(device_query);
+//RegisterBrewFunction(device_query);
 
 // Load the weights from the specified caffemodel(s) into the train and
 // test nets.
@@ -268,12 +286,12 @@ int train() {
   }
 
   if (gpus.size() > 1) {
-    caffe::P2PSync<float> sync(solver, NULL, solver->param());
-    std::vector<device*> devices;
-    for (int_tp i = 0; i < gpus.size(); ++i) {
-      devices.push_back(Caffe::Get().GetDevice(i, true));
-    }
-    sync.Run(devices);
+//    caffe::P2PSync<float> sync(solver, NULL, solver->param());
+//    std::vector<device*> devices;
+//    for (int_tp i = 0; i < gpus.size(); ++i) {
+//      devices.push_back(Caffe::Get().GetDevice(i, true));
+//    }
+//    sync.Run(devices);
   } else {
     LOG(INFO) << "Starting Optimization";
     solver->Solve();
@@ -290,7 +308,7 @@ int train() {
 #endif
   return 0;
 }
-RegisterBrewFunction(train);
+//RegisterBrewFunction(train);
 
 
 // Test: score a model.
@@ -370,7 +388,7 @@ int test() {
 
   return 0;
 }
-RegisterBrewFunction(test);
+//RegisterBrewFunction(test);
 
 
 // Time: benchmark the execution time of a model.
@@ -477,7 +495,7 @@ int time() {
 #endif
   return 0;
 }
-RegisterBrewFunction(time);
+//RegisterBrewFunction(time);
 
 
 int autotune() {
@@ -528,39 +546,149 @@ int autotune() {
   }
   return 0;
 }
-RegisterBrewFunction(autotune);
+//RegisterBrewFunction(autotune);
 
 
 
+
+//int main_gflags(int argc, char** argv) {
+//  // Print output to stderr (while still logging).
+//  FLAGS_alsologtostderr = 1;
+//  // Set version
+//  gflags::SetVersionString(AS_STRING(CAFFE_VERSION));
+//  // Usage message.
+//  gflags::SetUsageMessage("command line brew\n"
+//      "usage: caffe <command> <args>\n\n"
+//      "commands:\n"
+//      "  train           train or finetune a model\n"
+//      "  test            score a model\n"
+//      "  device_query    show GPU diagnostic information\n"
+//      "  time            benchmark model execution time"
+//      "  autotune        autotune a model");
+//  // Run tool or show usage.
+//  caffe::GlobalInit(&argc, &argv);
+//  if (argc == 2) {
+//#ifdef WITH_PYTHON_LAYER
+//    try {
+//#endif
+//      return GetBrewFunction(caffe::string(argv[1]))();
+//#ifdef WITH_PYTHON_LAYER
+//    } catch (bp::error_already_set) {
+//      PyErr_Print();
+//      return 1;
+//    }
+//#endif
+//  } else {
+//    gflags::ShowUsageWithFlagsRestrict(argv[0], "tools/caffe");
+//  }
+//}
+
+const string _gpu = "--gpu=";
+const string _iterations = "--iterations=";
+const string _level = "--level=";
+const string _model = "--model=";
+const string _phase = "--phase=";
+const string _sighup_effect = "--sighup_effect=";
+const string _sigint_effect = "--sigint_effect=";
+const string _snapshot  = "--snapshot=";
+const string _solver  = "--solver=";
+const string _stage  = "--stage=";
+const string _weights  = "--weights=";
+
+const int arg_num = 11;
+const string arguments[arg_num]  = {_gpu, _iterations, _level, _model, _phase, _sighup_effect, _sigint_effect, _snapshot, _solver, _stage, _weights};
+
+string getArgumentValue(int argc, char** argv, string param_key) {
+  for (int argi = 2; argi < argc; argi ++) {
+      string param = argv[argi];
+      std::size_t found = param.find(param_key);
+      if (found!=std::string::npos) {
+        string param_value = param.substr(param_key.length(),param.length() - 1);
+        LOG(INFO) << "found param key: " << param_key;
+        LOG(INFO) << "found param value: " << param_value << std::endl;
+        return param_value;
+      }
+  }
+  return "";
+}
+
+void obtainArguments(int argc, char** argv) {
+    FLAGS_solver = getArgumentValue(argc, argv, _solver);
+    FLAGS_snapshot = getArgumentValue(argc, argv, _snapshot);
+    FLAGS_weights = getArgumentValue(argc, argv, _weights);
+    FLAGS_stage = getArgumentValue(argc, argv, _stage);
+    FLAGS_level = atoi(getArgumentValue(argc, argv, _level).c_str());
+    FLAGS_sigint_effect = getArgumentValue(argc, argv, _sigint_effect);
+    FLAGS_sighup_effect = getArgumentValue(argc, argv, _sighup_effect);
+    FLAGS_gpu = getArgumentValue(argc, argv, _gpu);
+    FLAGS_iterations = atoi(getArgumentValue(argc, argv, _iterations).c_str());
+    FLAGS_model = getArgumentValue(argc, argv, _model);
+}
+
+
+void printUsage() {
+  std::cerr << "command line brew\n"
+          "usage: caffe <command> <args>\n\n"
+          "commands:\n"
+          "  train           train or finetune a model\n"
+          "  test            score a model\n"
+          "  device_query    show GPU diagnostic information\n"
+          "  time            benchmark model execution time" << std::endl;
+
+  std::cerr << "\nArgs:  \n"
+          "    -gpu (Optional; run in GPU mode on given device IDs separated by ','.Use\n"
+          "      '-gpu all' to run on all available GPUs. The effective training batch\n"
+          "      size is multiplied by the number of devices.) type: string default: \"\"\n"
+          "    -iterations (The number of iterations to run.) type: int32 default: 50\n"
+          "    -level (Optional; network level.) type: int32 default: 0\n"
+          "    -model (The model definition protocol buffer text file.) type: string\n"
+          "      default: \"\"\n"
+          "    -phase (Optional; network phase (TRAIN or TEST). Only used for 'time'.)\n"
+          "      type: string default: \"\"\n"
+          "    -sighup_effect (Optional; action to take when a SIGHUP signal is received:\n"
+          "      snapshot, stop or none.) type: string default: \"snapshot\"\n"
+          "    -sigint_effect (Optional; action to take when a SIGINT signal is received:\n"
+          "      snapshot, stop or none.) type: string default: \"stop\"\n"
+          "    -snapshot (Optional; the snapshot solver state to resume training.)\n"
+          "      type: string default: \"\"\n"
+          "    -solver (The solver definition protocol buffer text file.) type: string\n"
+          "      default: \"\"\n"
+          "    -stage (Optional; network stages (not to be confused with phase), separated\n"
+          "      by ','.) type: string default: \"\"\n"
+          "    -weights (Optional; the pretrained weights to initialize finetuning,\n"
+          "      separated by ','. Cannot be set simultaneously with snapshot.)\n"
+          "      type: string default: \"\"" << std::endl;
+}
 
 int main(int argc, char** argv) {
-  // Print output to stderr (while still logging).
-  FLAGS_alsologtostderr = 1;
-  // Set version
-  gflags::SetVersionString(AS_STRING(CAFFE_VERSION));
-  // Usage message.
-  gflags::SetUsageMessage("command line brew\n"
-      "usage: caffe <command> <args>\n\n"
-      "commands:\n"
-      "  train           train or finetune a model\n"
-      "  test            score a model\n"
-      "  device_query    show GPU diagnostic information\n"
-      "  time            benchmark model execution time"
-      "  autotune        autotune a model");
-  // Run tool or show usage.
-  caffe::GlobalInit(&argc, &argv);
-  if (argc == 2) {
-#ifdef WITH_PYTHON_LAYER
-    try {
-#endif
-      return GetBrewFunction(caffe::string(argv[1]))();
-#ifdef WITH_PYTHON_LAYER
-    } catch (bp::error_already_set) {
-      PyErr_Print();
-      return 1;
-    }
-#endif
-  } else {
-    gflags::ShowUsageWithFlagsRestrict(argv[0], "tools/caffe");
+  #ifdef XOPENME
+    xopenme_init(1,0);
+  #endif
+
+  if (argc < 2) {
+    printUsage();
+    return 1;
   }
+
+  string command = argv[1];
+  LOG(INFO) << "Start with command: " << command;
+  obtainArguments(argc, argv);
+  if (command == "time") {
+     time();
+  } else if (command == "train") {
+    train();
+  } else if (command == "test") {
+    test();
+  } else if (command == "device_query") {
+    device_query();
+  } else {
+    std::cerr << "provided command not found\n" << std::endl;
+    printUsage();
+    return 1;
+  }
+
+  #ifdef XOPENME
+   xopenme_dump_state();
+   xopenme_finish();
+  #endif
 }

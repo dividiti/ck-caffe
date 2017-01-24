@@ -6,6 +6,7 @@
     "USE_LMDB": "OFF", 
     "USE_GREENTEA": "ON", 
     "USE_OPENCV": "ON",
+    "USE_INTEL_SPATIAL": "OFF",
     "XOPENME": "ON"
   }, 
   "compile_deps": {
