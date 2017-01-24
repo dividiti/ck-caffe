@@ -4,8 +4,8 @@
     "extra_dir": "",
     "git_src_dir": "src",
     "install_env": {
-      "PACKAGE_BRANCH": "opencl-work-android",
-      "PACKAGE_URL": "https://github.com/intelfx/caffe"
+      "PACKAGE_BRANCH": "opencl_cmake_android",
+      "PACKAGE_URL": "https://github.com/DVEfremov/caffe"
     },
     "use_git_revision": "yes",
     "version": "trunk"
