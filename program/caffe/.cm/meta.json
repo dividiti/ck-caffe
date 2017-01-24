@@ -68,7 +68,7 @@
         }
       }
     }, 
-    "query_gpu_greentea": {
+    "query_gpu_opencl": {
       "ignore_return_code": "no", 
       "run_time": {
         "post_process_via_ck": "no", 
