@@ -176,7 +176,7 @@
   "package_extra_name": " (viennacl, opencl)",
   "process_script": "install",
   "soft_uoa": "04ab08137582bd03",
-  "suggested_path": "lib-caffe-bvlc-opencl",
+  "suggested_path": "lib-caffe-bvlc-opencl-viennacl",
   "tags": [
     "lib",
     "caffe",

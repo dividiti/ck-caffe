@@ -102,7 +102,7 @@
   "end_full_path": {
     "linux": "src/build/tools/caffe.bin"
   },
-  "suggested_path": "lib-caffe-bvlc-opencl",
+  "suggested_path": "lib-caffe-bvlc-opencl-clblast",
   "tags": [
     "lib",
     "caffe",

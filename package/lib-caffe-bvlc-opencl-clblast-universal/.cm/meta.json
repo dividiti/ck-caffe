@@ -192,7 +192,7 @@
   "package_extra_name": " (OpenCL, clBLAST)",
   "process_script": "install",
   "soft_uoa": "04ab08137582bd03",
-  "suggested_path": "lib-caffe-bvlc-opencl-clblast-android",
+  "suggested_path": "lib-caffe-bvlc-opencl-clblast",
   "tags": [
     "lib",
     "caffe",

@@ -173,10 +173,10 @@
     "windows",
     "linux"
   ],
-  "package_extra_name": " (viennacl, opencl)",
+  "package_extra_name": " (libdnn,viennacl)",
   "process_script": "install",
   "soft_uoa": "04ab08137582bd03",
-  "suggested_path": "lib-caffe-bvlc-opencl",
+  "suggested_path": "lib-caffe-bvlc-opencl-libdnn-viennacl",
   "tags": [
     "lib",
     "caffe",

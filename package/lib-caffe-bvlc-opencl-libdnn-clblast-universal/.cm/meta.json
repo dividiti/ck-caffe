@@ -189,10 +189,10 @@
     "windows",
     "android"
   ],
-  "package_extra_name": " (OpenCL, clBLAST)",
+  "package_extra_name": " (libdnn,clblast)",
   "process_script": "install",
   "soft_uoa": "04ab08137582bd03",
-  "suggested_path": "lib-caffe-bvlc-opencl-clblast-android",
+  "suggested_path": "lib-caffe-bvlc-opencl-libdnn-clblast",
   "tags": [
     "lib",
     "caffe",
