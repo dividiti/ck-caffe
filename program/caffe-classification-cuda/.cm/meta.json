@@ -151,7 +151,9 @@
       "tags": "caffemodel"
     }
   }, 
-  "run_vars": {}, 
+  "run_vars": {
+    "CK_CAFFE_BATCH_SIZE":"1"
+  }, 
   "skip_bin_ext": "yes", 
   "source_files": [
     "classification.cpp"
