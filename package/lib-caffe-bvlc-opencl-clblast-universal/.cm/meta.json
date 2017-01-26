@@ -55,7 +55,10 @@
       "add_to_path": "yes",
       "local": "yes",
       "name": "Boost library",
-      "skip_default": "yes",
+      "skip_installed": {
+        "android": "yes", 
+        "win": "yes"
+      }, 
       "sort": 25,
       "tags": "lib,boost"
     },
@@ -69,39 +72,61 @@
     "lib-gflags": {
       "local": "yes",
       "name": "GFlags library",
+      "skip_installed": {
+        "android": "yes", 
+        "linux": "yes",
+        "win": "yes"
+      }, 
       "sort": 12,
       "tags": "lib,gflags"
     },
     "lib-glog": {
       "local": "yes",
       "name": "GLog library",
+      "skip_installed": {
+        "android": "yes", 
+        "linux": "yes",
+        "win": "yes"
+      }, 
       "sort": 14,
       "tags": "lib,glog"
     },
     "lib-opencl": {
       "local": "yes",
       "name": "OpenCL stubs library",
-      "skip_default": "yes",
+      "skip_installed": {
+        "android": "yes"
+      }, 
       "sort": 11,
       "tags": "lib,opencl"
     },
     "lib-opencv": {
       "local": "yes",
       "name": "OpenCV library",
-      "skip_default": "yes",
+      "skip_installed": {
+        "android": "yes", 
+        "win": "yes"
+      }, 
       "sort": 20,
       "tags": "lib,opencv"
     },
     "lib-protobuf": {
       "local": "yes",
       "name": "ProtoBuf library",
-      "skip_default": "yes",
+      "skip_installed": {
+        "android": "yes", 
+        "win": "yes"
+      }, 
       "sort": 16,
       "tags": "lib,protobuf,v3.1.0"
     },
     "lib-protobuf-host": {
       "force_target_as_host": "yes",
       "local": "yes",
+      "skip_installed": {
+        "android": "yes", 
+        "win": "yes"
+      }, 
       "name": "ProtoBuf host compiler",
       "sort": 19,
       "tags": "lib,protobuf-host"
