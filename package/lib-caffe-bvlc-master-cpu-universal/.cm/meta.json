@@ -35,6 +35,7 @@
       "RUN_LINT": 0, 
       "RUN_TESTS": 0, 
       "USE_LEVELDB": "OFF", 
+      "USE_OPENMP": 0,
       "USE_LMDB": "OFF", 
       "WITH_NINJA": 0
     }, 

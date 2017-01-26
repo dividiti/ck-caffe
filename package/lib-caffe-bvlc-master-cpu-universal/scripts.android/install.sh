@@ -49,6 +49,7 @@ cmake -DCMAKE_BUILD_TYPE=${CK_ENV_CMAKE_BUILD_TYPE:-Release} \
       -DBUILD_python=OFF \
       -DBUILD_docs=OFF \
       -DCPU_ONLY=ON \
+      -DUSE_OPENMP:BOOL=${USE_OPENMP} \
       -DUSE_GREENTEA=OFF \
       -DUSE_LMDB=OFF \
       -DUSE_LEVELDB=OFF \
