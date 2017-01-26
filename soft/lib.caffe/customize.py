@@ -154,7 +154,12 @@ def setup(i):
        dext='.so'
 
        path_example_classification=os.path.join(os.path.dirname(cus['path_bin']),'examples','cpp_classification')
-       env['CK_CAFFE_CLASSIFICATION_BIN']='classification.bin'
+
+       for ppx in ['classification.bin', 'classification']:
+           ppy=os.path.join(cus['path_bin'],ppx)
+           if os.path.isfile(ppy):
+              env['CK_CAFFE_CLASSIFICATION_BIN']=ppx
+              break
 
        s+='export PATH='+cus['path_bin']+':'+path_example_classification+':$PATH\n'
        if cus.get('path_lib','')!='':
