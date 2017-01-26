@@ -41,7 +41,7 @@
       "USE_GREENTEA": 1,
       "USE_INTEL_SPATIAL": "OFF",
       "USE_ISAAC": 0,
-      "USE_LIBDNN": 1,
+      "USE_LIBDNN": 0,
       "USE_NCCL": 0,
       "WITH_NINJA": 0
     },

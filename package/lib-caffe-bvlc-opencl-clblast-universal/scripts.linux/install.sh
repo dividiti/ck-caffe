@@ -45,6 +45,7 @@ cmake -DCMAKE_BUILD_TYPE=${CK_ENV_CMAKE_BUILD_TYPE:-Release} \
       -DBUILD_docs=OFF \
       -DCPU_ONLY=OFF \
       -DUSE_CUDA=OFF \
+      -DUSE_LIBDNN:BOOL=${USE_LIBDNN} \
       -DUSE_GREENTEA=ON \
       -DUSE_CLBLAST=ON \
       -DUSE_LMDB=ON \
