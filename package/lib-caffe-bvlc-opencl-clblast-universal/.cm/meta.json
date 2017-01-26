@@ -56,7 +56,6 @@
       "tags": "compiler,lang-cpp"
     },
     "lib-blas": {
-      "add_to_path": "yes",
       "local": "yes",
       "name": "BLAS library",
       "skip_default": "yes",
