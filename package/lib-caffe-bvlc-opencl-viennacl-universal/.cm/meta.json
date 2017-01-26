@@ -71,7 +71,6 @@
       "tags": "lib,blas,openblas"
     },
     "lib-boost": {
-      "add_to_path": "yes", 
       "local": "yes", 
       "name": "Boost library", 
       "skip_installed": {
