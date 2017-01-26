@@ -27,8 +27,20 @@ using caffe::Timer;
 using caffe::vector;
 using std::ostringstream;
 
+string FLAGS_solver = "";
+string FLAGS_snapshot = "";
+string FLAGS_weights = "";
+string FLAGS_stage = "";
+int FLAGS_level = 0;
+string FLAGS_sigint_effect = "";
+string FLAGS_sighup_effect = "";
+string FLAGS_gpu = "";
+int FLAGS_iterations = 1;
+string FLAGS_phase = "";
+string FLAGS_model = "";
+
 // Parse GPU ids or use all available devices
-static void get_gpus(vector<int>* gpus, string FLAGS_gpu) {
+static void get_gpus(vector<int>* gpus) {
   if (FLAGS_gpu == "all") {
     int count = 0;
 #ifndef CPU_ONLY
@@ -50,18 +62,36 @@ static void get_gpus(vector<int>* gpus, string FLAGS_gpu) {
   }
 }
 
+// Parse phase from flags
+caffe::Phase get_phase_from_flags(caffe::Phase default_value) {
+  if (FLAGS_phase == "")
+    return default_value;
+  if (FLAGS_phase == "TRAIN")
+    return caffe::TRAIN;
+  if (FLAGS_phase == "TEST")
+    return caffe::TEST;
+  LOG(FATAL) << "phase must be \"TRAIN\" or \"TEST\"";
+  return caffe::TRAIN;  // Avoid warning
+}
+
 // Parse stages from flags
-vector<string> get_stages_from_flags(string FLAGS_stage) {
+vector<string> get_stages_from_flags() {
   vector<string> stages;
   boost::split(stages, FLAGS_stage, boost::is_any_of(","));
   return stages;
 }
 
+// caffe commands to call by
+//     caffe <command> <args>
+//
+// To add a command, define a function "int command()" and register it with
+// RegisterBrewFunction(action);
+
 // Device Query: show diagnostic information for a GPU device.
-int device_query(string FLAGS_gpu) {
+int device_query() {
   LOG(INFO) << "Querying GPUs " << FLAGS_gpu;
   vector<int> gpus;
-  get_gpus(&gpus, FLAGS_gpu);
+  get_gpus(&gpus);
   for (int i = 0; i < gpus.size(); ++i) {
     caffe::Caffe::SetDevice(gpus[i]);
     caffe::Caffe::DeviceQuery();
@@ -100,12 +130,12 @@ caffe::SolverAction::Enum GetRequestedAction(
 }
 
 // Train / Finetune a model.
-int train(string FLAGS_solver, string FLAGS_snapshot, string FLAGS_weights, string FLAGS_stage, int FLAGS_level, string FLAGS_sigint_effect, string  FLAGS_sighup_effect, string FLAGS_gpu) {
+int train() {
   CHECK_GT(FLAGS_solver.size(), 0) << "Need a solver definition to train.";
   CHECK(!FLAGS_snapshot.size() || !FLAGS_weights.size())
       << "Give a snapshot to resume training or weights to finetune "
       "but not both.";
-  vector<string> stages = get_stages_from_flags(FLAGS_stage);
+  vector<string> stages = get_stages_from_flags();
 
   caffe::SolverParameter solver_param;
   caffe::ReadSolverParamsFromTextFileOrDie(FLAGS_solver, &solver_param);
@@ -118,6 +148,7 @@ int train(string FLAGS_solver, string FLAGS_snapshot, string FLAGS_weights, stri
   // If the gpus flag is not provided, allow the mode and device to be set
   // in the solver prototxt.
   if (FLAGS_gpu.size() == 0
+      && solver_param.has_solver_mode()
       && solver_param.solver_mode() == caffe::SolverParameter_SolverMode_GPU) {
       if (solver_param.has_device_id()) {
           FLAGS_gpu = "" +
@@ -128,7 +159,7 @@ int train(string FLAGS_solver, string FLAGS_snapshot, string FLAGS_weights, stri
   }
 
   vector<int> gpus;
-  get_gpus(&gpus, FLAGS_gpu);
+  get_gpus(&gpus);
   if (gpus.size() == 0) {
     LOG(INFO) << "Use CPU.";
     Caffe::set_mode(Caffe::CPU);
@@ -167,11 +198,15 @@ int train(string FLAGS_solver, string FLAGS_snapshot, string FLAGS_weights, stri
     CopyLayers(solver.get(), FLAGS_weights);
   }
 
+  LOG(INFO) << "Starting Optimization";
   if (gpus.size() > 1) {
-    caffe::P2PSync<float> sync(solver, NULL, solver->param());
-    sync.Run(gpus);
+#ifdef USE_NCCL
+    caffe::NCCL<float> nccl(solver);
+    nccl.Run(gpus, FLAGS_snapshot.size() > 0 ? FLAGS_snapshot.c_str() : NULL);
+#else
+    LOG(FATAL) << "Multi-GPU execution not available - rebuild with USE_NCCL";
+#endif
   } else {
-    LOG(INFO) << "Starting Optimization";
     solver->Solve();
   }
   LOG(INFO) << "Optimization Done.";
@@ -179,14 +214,14 @@ int train(string FLAGS_solver, string FLAGS_snapshot, string FLAGS_weights, stri
 }
 
 // Test: score a model.
-int test(string FLAGS_model, string FLAGS_weights, int FLAGS_level, string FLAGS_stage, int FLAGS_iterations, string FLAGS_gpu) {
+int test() {
   CHECK_GT(FLAGS_model.size(), 0) << "Need a model definition to score.";
   CHECK_GT(FLAGS_weights.size(), 0) << "Need model weights to score.";
-  vector<string> stages = get_stages_from_flags(FLAGS_stage);
+  vector<string> stages = get_stages_from_flags();
 
   // Set device id and mode
   vector<int> gpus;
-  get_gpus(&gpus, FLAGS_gpu);
+  get_gpus(&gpus);
   if (gpus.size() != 0) {
     LOG(INFO) << "Use GPU with device ID " << gpus[0];
 #ifndef CPU_ONLY
@@ -250,7 +285,7 @@ int test(string FLAGS_model, string FLAGS_weights, int FLAGS_level, string FLAGS
 }
 
 // Time: benchmark the execution time of a model.
-int time(string FLAGS_stage, string FLAGS_model, string FLAGS_weights, int FLAGS_level, int FLAGS_iterations, string FLAGS_gpu) {
+int time() {
   CHECK_GT(FLAGS_model.size(), 0) << "Need a model definition to time.";
 
   const bool skip_fw = getenv("CK_CAFFE_SKIP_FORWARD")  ? true : false;
@@ -258,11 +293,11 @@ int time(string FLAGS_stage, string FLAGS_model, string FLAGS_weights, int FLAGS
 
 //  caffe::Phase phase = get_phase_from_flags(caffe::TRAIN); todo will fix later based on command line options
   caffe::Phase phase = caffe::TRAIN;
-  vector<string> stages = get_stages_from_flags(FLAGS_stage);
+  vector<string> stages = get_stages_from_flags();
 
   // Set device id and mode
   vector<int> gpus;
-  get_gpus(&gpus, FLAGS_gpu);
+  get_gpus(&gpus);
   if (gpus.size() != 0) {
     LOG(INFO) << "Use GPU with device ID " << gpus[0];
     Caffe::SetDevice(gpus[0]);
@@ -394,6 +429,19 @@ string getArgumentValue(int argc, char** argv, string param_key) {
   return "";
 }
 
+void obtainArguments(int argc, char** argv) {
+    FLAGS_solver = getArgumentValue(argc, argv, _solver);
+    FLAGS_snapshot = getArgumentValue(argc, argv, _snapshot);
+    FLAGS_weights = getArgumentValue(argc, argv, _weights);
+    FLAGS_stage = getArgumentValue(argc, argv, _stage);
+    FLAGS_level = atoi(getArgumentValue(argc, argv, _level).c_str());
+    FLAGS_sigint_effect = getArgumentValue(argc, argv, _sigint_effect);
+    FLAGS_sighup_effect = getArgumentValue(argc, argv, _sighup_effect);
+    FLAGS_gpu = getArgumentValue(argc, argv, _gpu);
+    FLAGS_iterations = atoi(getArgumentValue(argc, argv, _iterations).c_str());
+    FLAGS_model = getArgumentValue(argc, argv, _model);
+}
+
 void printUsage() {
   std::cerr << "command line brew\n"
           "usage: caffe <command> <args>\n\n"
@@ -440,51 +488,15 @@ int main(int argc, char** argv) {
 
   string command = argv[1];
   LOG(INFO) << "Start with command: " << command;
+  obtainArguments(argc, argv);
   if (command == "time") {
-    if (argc < 5) {
-      std::cerr << "invalid argument number for command time" << std::endl;
-      return 1;
-    }
-    string modelFilePath = getArgumentValue(argc, argv, _model);
-    string weightFilePath = getArgumentValue(argc, argv, _weights);
-    int iterations = atoi(getArgumentValue(argc, argv, _iterations).c_str());
-    int level = atoi(getArgumentValue(argc, argv, _level).c_str());
-    string stages = getArgumentValue(argc, argv, _stage);
-    string gpu = getArgumentValue(argc, argv, _gpu);
-    time(stages, modelFilePath, weightFilePath, level, iterations, gpu);
+     time();
   } else if (command == "train") {
-    if (argc < 9) {
-      std::cerr << "invalid argument number for command train" << std::endl;
-      return 1;
-    }
-    string FLAGS_solver = getArgumentValue(argc, argv, _solver);
-    string FLAGS_snapshot = getArgumentValue(argc, argv, _snapshot);
-    string FLAGS_weights = getArgumentValue(argc, argv, _weights);
-    string FLAGS_stage = getArgumentValue(argc, argv, _stage);
-    int FLAGS_level = atoi(getArgumentValue(argc, argv, _level).c_str());
-    string FLAGS_sigint_effect = getArgumentValue(argc, argv, _sigint_effect);
-    string  FLAGS_sighup_effect = getArgumentValue(argc, argv, _sighup_effect);
-    string gpu = getArgumentValue(argc, argv, _gpu);
-    train(FLAGS_solver, FLAGS_snapshot, FLAGS_weights, FLAGS_stage, FLAGS_level, FLAGS_sigint_effect, FLAGS_sighup_effect, gpu);
+    train();
   } else if (command == "test") {
-    if (argc < 7) {
-        std::cerr << "invalid argument number for command test" << std::endl;
-        return 1;
-    }
-    string FLAGS_model = getArgumentValue(argc, argv, _model);
-    string FLAGS_weights = getArgumentValue(argc, argv, _weights);
-    int FLAGS_level = atoi(getArgumentValue(argc, argv, _level).c_str());
-    string FLAGS_stage = getArgumentValue(argc, argv, _stage);
-    int FLAGS_iterations = atoi(getArgumentValue(argc, argv, _iterations).c_str());
-    string gpu = getArgumentValue(argc, argv, _gpu);
-    test(FLAGS_model, FLAGS_weights, FLAGS_level, FLAGS_stage, FLAGS_iterations, gpu);
+    test();
   } else if (command == "device_query") {
-    if (argc < 3) {
-        std::cerr << "invalid argument number for command device_query" << std::endl;
-        return 1;
-    }
-    string gpu = getArgumentValue(argc, argv, _gpu);
-    device_query(gpu);
+    device_query();
   } else {
     std::cerr << "provided command not found\n" << std::endl;
     printUsage();
