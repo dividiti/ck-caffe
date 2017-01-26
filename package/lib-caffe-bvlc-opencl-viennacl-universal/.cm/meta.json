@@ -24,13 +24,15 @@
       "PACKAGE_CONFIGURE_FLAGS_WINDOWS": "",
       "PACKAGE_COPY": "NO",
       "PACKAGE_GIT": "YES",
-      "PACKAGE_GIT_CHECKOUT": "opencl",
+      "PACKAGE_GIT_CHECKOUT_LINUX": "opencl",
+      "PACKAGE_GIT_CHECKOUT_WINDOWS": "opencl", 
       "PACKAGE_SKIP_CLEAN_INSTALL": "NO",
       "PACKAGE_SKIP_CLEAN_OBJ": "NO",
       "PACKAGE_SKIP_CLEAN_SRC_DIR": "YES",
       "PACKAGE_SUB_DIR": "src",
       "PACKAGE_SUB_DIR1": "src",
-      "PACKAGE_URL": " https://github.com/BVLC/caffe",
+      "PACKAGE_URL_LINUX": "https://github.com/BVLC/caffe",
+      "PACKAGE_URL_WINDOWS": "https://github.com/BVLC/caffe",
       "PYTHON_EXE": "python",
       "RUN_INSTALL": 0,
       "RUN_LINT": 0,
@@ -51,16 +53,17 @@
     "cmake": {
       "local": "yes",
       "name": "CMake tool",
-      "sort": 10,
+      "sort": 5,
       "tags": "tool,cmake"
     },
     "compiler": {
       "local": "yes",
       "name": "C++ compiler",
-      "sort": 1,
-      "tags": "compiler,lang-cpp,mcl"
+      "sort": 10,
+      "tags": "compiler,lang-cpp"
     },
     "lib-blas": {
+      "add_to_path": "yes", 
       "local": "yes",
       "name": "BLAS library",
       "skip_default": "yes",
@@ -68,63 +71,110 @@
       "tags": "lib,blas,openblas"
     },
     "lib-boost": {
-      "local": "yes",
-      "name": "Boost library",
-      "sort": 25,
+      "add_to_path": "yes", 
+      "local": "yes", 
+      "name": "Boost library", 
+      "skip_installed": {
+        "android": "yes", 
+        "win": "yes"
+      }, 
+      "sort": 25, 
       "tags": "lib,boost"
-    },
+    }, 
     "lib-gflags": {
-      "local": "yes",
-      "name": "GFlags library",
-      "sort": 12,
+      "local": "yes", 
+      "name": "GFlags library", 
+      "skip_installed": {
+        "android": "yes", 
+        "linux": "yes", 
+        "win": "yes"
+      }, 
+      "sort": 12, 
       "tags": "lib,gflags"
-    },
+    }, 
     "lib-glog": {
-      "local": "yes",
-      "name": "GLog library",
-      "sort": 14,
+      "local": "yes", 
+      "name": "GLog library", 
+      "skip_installed": {
+        "android": "yes", 
+        "linux": "yes", 
+        "win": "yes"
+      }, 
+      "sort": 14, 
       "tags": "lib,glog"
-    },
+    }, 
     "lib-hdf5": {
-      "local": "yes",
-      "name": "HDF5 library",
-      "sort": 30,
+      "local": "yes", 
+      "name": "HDF5 library", 
+      "only_for_target_os_tags": [
+        "linux", 
+        "windows"
+      ], 
+      "skip_installed": {
+        "win": "yes"
+      }, 
+      "sort": 19, 
       "tags": "lib,hdf5"
-    },
-    "lib-opencv": {
-      "local": "yes",
-      "name": "OpenCV library",
-      "sort": 20,
-      "tags": "lib,opencv"
-    },
-    "lib-protobuf-host": {
-      "local": "yes",
-      "name": "ProtoBuf host compiler",
-      "sort": 19,
-      "tags": "lib,protobuf-host,v3.1.0"
-    },
-    "opencl": {
+    }, 
+    "lib-lmdb": {
       "local": "yes", 
-      "name": "OpenCL library", 
-      "sort": 40, 
+      "name": "LMDB library", 
+      "only_for_target_os_tags": [
+        "linux"
+      ], 
+      "sort": 18, 
+      "tags": "lib,lmdb"
+    }, 
+    "lib-opencl": {
+      "local": "yes", 
+      "name": "OpenCL stubs library", 
+      "skip_installed": {
+        "android": "yes"
+      }, 
+      "sort": 11, 
       "tags": "lib,opencl"
-    },
-    "viennalcl": {
+    }, 
+    "lib-opencv": {
       "local": "yes", 
-      "name": "ViennaCL library (with OpenCL)", 
-      "sort": 50, 
-      "tags": "lib,viennacl,vopencl"
+      "name": "OpenCV library", 
+      "skip_installed": {
+        "android": "yes", 
+        "win": "yes"
+      }, 
+      "sort": 20, 
+      "tags": "lib,opencv"
+    }, 
+    "lib-protobuf-host": {
+      "force_target_as_host": "yes", 
+      "local": "yes", 
+      "name": "ProtoBuf host compiler", 
+      "skip_installed": {
+        "android": "yes", 
+        "win": "yes"
+      }, 
+      "sort": 19, 
+      "tags": "lib,protobuf-host"
+    }, 
+    "lib-viennacl": {
+      "local": "yes", 
+      "name": "ViennaCL library", 
+      "skip_default": "yes", 
+      "sort": 35, 
+      "tags": "lib,viennacl,vcpu"
     }
   },
   "end_full_path": {
+    "linux": "install/bin/caffe",
     "win": "install/bin/caffe.exe"
   },
   "need_cpu_info": "yes",
   "only_for_host_os_tags": [
-    "windows"
+    "windows",
+    "linux"
   ],
   "only_for_target_os_tags": [
-    "windows"
+    "windows",
+    "linux"
   ],
   "package_extra_name": " (viennacl, opencl)",
   "process_script": "install",
