@@ -147,6 +147,7 @@
     }
   }, 
   "run_vars": {
+    "CK_CAFFE_BATCH_SIZE":"1",
     "CK_CAFFE_ITERATIONS": "1", 
     "CAFFE_COMPUTE_DEVICE_ID":0,
     "XCT_REPEAT_MAIN": "1"
