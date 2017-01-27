@@ -85,6 +85,7 @@ cmake -DCMAKE_BUILD_TYPE=${CK_ENV_CMAKE_BUILD_TYPE:-Release} \
       -DCLBLAST_LIB="${CK_ENV_LIB_CLBLAST_LIB}" \
       -DCLBLAST_INCLUDE="${CK_ENV_LIB_CLBLAST_INCLUDE}" \
       -DCMAKE_INSTALL_PREFIX="${INSTALL_DIR}/install" \
+      ${CK_CMAKE_EXTRA} \
       ../src
 
 if [ "${?}" != "0" ] ; then
