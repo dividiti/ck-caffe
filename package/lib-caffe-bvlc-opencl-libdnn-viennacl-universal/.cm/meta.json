@@ -181,6 +181,7 @@
     "caffe",
     "bvlc",
     "vopencl",
+    "vlibdnn",
     "vmaster"
   ],
   "use_preprocess_scripts_from_another_entry": {

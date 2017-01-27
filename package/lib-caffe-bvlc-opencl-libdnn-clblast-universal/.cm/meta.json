@@ -197,6 +197,7 @@
     "caffe",
     "bvlc",
     "vmaster",
+    "vlibdnn",
     "vclblast",
     "vopencl"
   ],
