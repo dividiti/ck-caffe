@@ -96,7 +96,7 @@
   "only_for_target_os_tags": [
     "linux"
   ],
-  "package_extra_name":" (clblast)",
+  "package_extra_name":" (opencl,clblast)",
   "process_script": "install",
   "soft_uoa": "04ab08137582bd03",
   "end_full_path": {

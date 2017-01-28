@@ -87,7 +87,7 @@
   "only_for_target_os_tags": [
     "linux"
   ],
-  "package_extra_name": " (libdnn,cuda)",
+  "package_extra_name": " (opencl,libdnn,cuda)",
   "process_script": "install",
   "soft_uoa": "04ab08137582bd03",
   "suggested_path": "lib-caffe-bvlc-opencl-libdnn-cuda",
