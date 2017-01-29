@@ -14,7 +14,7 @@
 # PACKAGE_DIR
 # INSTALL_DIR
 
-echo **************************************************************
+echo "**************************************************************"
 echo "Preparing vars for Caffe ..."
 
 CK_OPENMP="-fopenmp"
