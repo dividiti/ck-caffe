@@ -22,6 +22,8 @@ using std::string;
 /* Pair (label, confidence) representing a prediction. */
 typedef std::pair<string, float> Prediction;
 
+int FLAGS_gpu = 0;
+
 class Classifier {
  public:
   Classifier(const string& model_file,
@@ -71,10 +73,17 @@ Classifier::Classifier(const string& model_file,
   get_gpus(&gpus);
   if (gpus.size() != 0) {
 #ifndef CPU_ONLY
-    std::cout << "Use GPU with device ID " << gpus[0] << std::endl;
     Caffe::SetDevices(gpus);
     Caffe::set_mode(Caffe::GPU);
-    Caffe::SetDevice(gpus[0]);
+
+    if (FLAGS_gpu < 0 || FLAGS_gpu > gpus.size()) {
+       std::cerr << "gpu_id value must be positive and less or eq " << gpus.size() << std::endl;
+       std::cerr << "gpu_id value selected to default 0" << std::endl;
+       FLAGS_gpu = 0;
+    }
+    std::cout << "Use GPU with device ID " << gpus[FLAGS_gpu] << std::endl;
+    Caffe::SetDevice(gpus[FLAGS_gpu]);
+
 #endif  // !CPU_ONLY
   } else {
     std::cout << "Use CPU" << std::endl;
@@ -265,10 +274,10 @@ int main(int argc, char** argv) {
   if (getenv("CT_REPEAT_MAIN")!=NULL) ct_repeat_max=atol(getenv("CT_REPEAT_MAIN"));
 
 
-  if (argc != 6) {
+  if (argc < 6) {
     std::cerr << "Usage: " << argv[0]
               << " deploy.prototxt network.caffemodel"
-              << " mean.binaryproto labels.txt img.jpg" << std::endl;
+              << " mean.binaryproto labels.txt img.jpg [gpu_id]" << std::endl;
     return 1;
   }
 
@@ -288,6 +297,10 @@ int main(int argc, char** argv) {
 #endif
 
   string file = argv[5];
+
+  if (argc == 7) {
+    FLAGS_gpu = atoi(argv[6]);
+  }
 
   std::cout << "---------- Prediction for "
             << file << " ----------" << std::endl;
