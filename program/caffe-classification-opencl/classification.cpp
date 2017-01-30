@@ -77,8 +77,8 @@ Classifier::Classifier(const string& model_file,
     Caffe::set_mode(Caffe::GPU);
 
     if (FLAGS_gpu < 0 || FLAGS_gpu > gpus.size()) {
-       std::cerr << "gpu_id value must be positive and less or eq " << gpus.size() << std::endl;
-       std::cerr << "gpu_id value selected to default 0" << std::endl;
+       std::cerr << "gpu_id value must be positive and less or eq " << gpus.size() - 1 << std::endl;
+       std::cout << "gpu_id value selected to default 0" << std::endl;
        FLAGS_gpu = 0;
     }
     std::cout << "Use GPU with device ID " << gpus[FLAGS_gpu] << std::endl;
@@ -291,16 +291,17 @@ int main(int argc, char** argv) {
 #ifdef XOPENME
   xopenme_clock_start(0);
 #endif
+
+  if (argc == 7) {
+    FLAGS_gpu = atoi(argv[6]);
+  }
+
   Classifier classifier(model_file, trained_file, mean_file, label_file);
 #ifdef XOPENME
   xopenme_clock_end(0);
 #endif
 
   string file = argv[5];
-
-  if (argc == 7) {
-    FLAGS_gpu = atoi(argv[6]);
-  }
 
   std::cout << "---------- Prediction for "
             << file << " ----------" << std::endl;

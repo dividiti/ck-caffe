@@ -142,7 +142,7 @@
           "data_uoa": "569404c41618603a",
           "script_name": "preprocess"
         },
-        "run_cmd_main": "$#BIN_FILE#$ $<<CK_CAFFE_MODEL_FILE>>$ $<<CK_CAFFE_MODEL_WEIGHTS>>$ $#up_dir#$imagenet_mean.binaryproto $#up_dir#$synset_words.txt $#dataset_path#$$#dataset_filename#$",
+        "run_cmd_main": "$#BIN_FILE#$ $<<CK_CAFFE_MODEL_FILE>>$ $<<CK_CAFFE_MODEL_WEIGHTS>>$ $#up_dir#$imagenet_mean.binaryproto $#up_dir#$synset_words.txt $#dataset_path#$$#dataset_filename#$ $<<CAFFE_COMPUTE_DEVICE_ID>>$",
         "run_cmd_out1": "tmp-output1.tmp",
         "run_cmd_out2": "tmp-output2.tmp",
         "run_correctness_output_files": [],
