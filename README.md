@@ -137,7 +137,7 @@ You can customize various Caffe parameters such as batch size and iterations via
 $ ck run program:caffe --env.CK_CAFFE_BATCH_SIZE=1 --env.CK_CAFFE_ITERATIONS=10
 ```
 
-### Advanced Installation
+### Installing CK on Windows, Android and various flavours of Linux
 
 You can find details about CK-Caffe installation for Windows, various flavours 
 of Linux and Android [here](http://github.com/dividiti/ck-caffe/wiki/Installation).
