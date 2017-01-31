@@ -139,7 +139,8 @@ $ ck run program:caffe --env.CK_CAFFE_BATCH_SIZE=1 --env.CK_CAFFE_ITERATIONS=10
 
 ### Advanced Installation
 
-You can read about advanced CK-Caffe installation (for example, for Android or other OS) [here](http://github.com/dividiti/ck-caffe/wiki/Installation).
+You can find details about CK-Caffe installation for Windows, various flavours 
+of Linux and Android [here](http://github.com/dividiti/ck-caffe/wiki/Installation).
 
 ## Preliminary results
 
@@ -198,123 +199,18 @@ repository which can be obtained as follows:
 ck pull repo:ck-caffe-explore-batch-size-chromebook2 \
     --url=https://github.com/dividiti/ck-caffe-explore-batch-size-chromebook2.git
 ```
- 
-## Quick installation on Windows
-
-We added main Caffe dependencies to CK (motivated by Caffe builder 
-from https://github.com/willyd/caffe-builder). You just need to
-have the following deps installed:
-
-* Microsoft Visual Studio and Microsoft SDK (we checked Visual Studio 2015 x64) 
-
-* MinGW W64 GCC (to compile OpenBLAS - you can get it from https://sourceforge.net/projects/mingw-w64)
-
-* CMake (https://cmake.org/download)
-
-It is then possible to compile and run Caffe on Windows in a unified way via CK
-(above tools will be automatically detected by CK):
-
-```
-$ ck install package:lib-caffe-bvlc-master-cpu-universal
-$ ck run program:caffe
-(select test_cpu)
-```
-
-You can also test (benchmark) NN or perform classification of images 
-via CK as following:
-
-```
-$ ck compile --speed program:caffe-time
-$ ck run program:caffe-time
-```
-
-```
-$ ck compile --speed program:caffe-classification
-$ ck run program:caffe-classification
-```
-
-You can also compile and run OpenCL version of Caffe on Windows via:
-
-```
-$ ck install package:lib-caffe-bvlc-opencl-viennacl-win
-$ ck run program:caffe --cmd_key=query_gpu_greentea
-$ ck run program:caffe
-```
-
-It's the first step (we support minimal CPU and OpenCL versions for now), 
-and we would like to support CUDA as well as compile 
-all dependencies via CK too (to simplify and automate this process)...
-
-However, it an important step to help researchers compile and run
-Caffe (and similar DNN frameworks) on Linux, Windows and Android
-in a unified way via CK with JSON API!
-
-## Quick installation of Caffe for Android devices (on Windows or Linux)
-
-It is possible to compile and run Caffe timing and classification
-via CK on Android devices. You just need to have Android NDK
-installed on your host. It is available at https://developer.android.com/ndk/index.html .
-
-You can then compile Caffe for Android using GCC (LLVM support is planned) 
-as following (Android NDK will be automatically detected by CK):
-
-```
-$ ck install package:lib-caffe-bvlc-master-cpu-universal --target_os=android21-arm64
-```
-
-You can then test (benchmark) NN or perform classification of images 
-via CK on your Android device connected via ADB to your host as following:
-
-```
-$ ck compile --speed program:caffe-time --target_os=android21-arm64
-$ ck run program:caffe-time --target_os=android21-arm64
-```
-
-```
-$ ck compile --speed program:caffe-classification --target_os=android21-arm64
-$ ck run program:caffe-classification --target_os=android21-arm64
-```
-
-We plan to add support for OpenCL version of Caffe for Android in the future.
-
-## Quick installation on Raspberry Pi (32-bit ARM)
-
-We tested installation of Caffe on Raspberry Pi via CK.
-
-You will need to install the following software dependencies:
-
-$ sudo apt install coreutils \
-                   build-essential \
-                   make \
-                   cmake \
-                   wget \
-                   git \
-                   python \
-                   python-pip \
-                   libboost-all-dev \
-                   liblmdb-dev \
-                   libleveldb-dev \
-                   libsnappy-dev \
-                   libopencv-dev
-
-You can then install Caffe for CPU simply as following:
-
-```
-$ ck install package:lib-caffe-bvlc-master-cpu
-$ ck run program:caffe
-(select test_cpu)
-```
 
 ## Next steps
 
 CK-Caffe is part of an ambitious long-term and community-driven 
-project to enable collaborative and systematic benchmarking
-and tuning of realistic workloads across diverse hardware 
+project to enable collaborative and systematic optimization 
+of realistic workloads across diverse hardware 
 in terms of performance, energy usage, accuracy, reliability,
 hardware price and other costs
 ([ARM TechCon'16 talk](http://schedule.armtechcon.com/session/know-your-workloads-design-more-efficient-systems), 
 [ARM TechCon'16 demo](https://github.com/ctuning/ck/wiki/Demo-ARM-TechCon'16), 
-[DATE'16](http://tinyurl.com/zyupd5v), [CPC'15](http://arxiv.org/abs/1506.06256)).
+[DATE'16](http://tinyurl.com/zyupd5v), 
+[CPC'15](http://arxiv.org/abs/1506.06256)).
 
 We are working with the community to unify and crowdsource performance analysis 
 and tuning of various DNN frameworks (or any realistic workload) 
