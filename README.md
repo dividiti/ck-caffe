@@ -32,7 +32,7 @@ the experimental data.
 
 ## Quick installation on Ubuntu
 
-**NB:** Please refer to our [Installation Guide](https://github.com/dividiti/ck-caffe/wiki/Installation) for detailed instructions for Ubuntu, Gentoo, Yocto and Android.
+Please refer to our [Installation Guide](https://github.com/dividiti/ck-caffe/wiki/Installation) for detailed instructions for Ubuntu, Gentoo, Yocto, Windows and Android.
 
 ### Installing general dependencies
 
