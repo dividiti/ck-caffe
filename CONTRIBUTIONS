@@ -32,5 +32,21 @@ N: Daniil Efremov
 E:
 H:
 O: Xored
-C: Improving support for Android
+C: Improving support to build Caffe for Android
+W:
+
+================================================================================
+N: Nicolay Chunosov
+E:
+H:
+O: Xored
+C: Preparing classification demo for CK-Caffe
+W:
+
+================================================================================
+N: Rahul Atlury
+E:
+H:
+O: 
+C: Hints to compile Caffe OpenCL on Intel GPU (Ubuntu 17.04)
 W:
