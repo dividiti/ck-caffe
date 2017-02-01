@@ -15,7 +15,16 @@ rem INSTALL_DIR
 echo **************************************************************
 echo Preparing vars for Caffe ...
 
-set CK_CXX_FLAGS_FOR_CMAKE=
+set EXTRA_FLAGS=
+
+if "%CK_VIENNACL_DEBUG%" == "ON" (
+  set EXTRA_FLAGS=%EXTRA_FLAGS% -DVIENNACL_DEBUG_ALL
+)
+
+set CK_CC_FLAGS_FOR_CMAKE=%EXTRA_FLAGS%
+set CK_CXX_FLAGS_FOR_CMAKE=%EXTRA_FLAGS%
+
+rem set CK_CXX_FLAGS_FOR_CMAKE=
 set CK_CXX_FLAGS_ANDROID_TYPICAL=
 
 set VIENNACL_HOME=%CK_ENV_LIB_VIENNACL%

@@ -33,6 +33,10 @@ if [ "${CK_CPU_ARM_VFPV3}" == "ON" ] ; then
   EXTRA_FLAGS="$EXTRA_FLAGS -mfpu=vfpv3"
 fi
 
+if [ "${CK_VIENNACL_DEBUG}" == "ON" ] ; then
+  EXTRA_FLAGS="$EXTRA_FLAGS -DVIENNACL_DEBUG_ALL"
+fi
+
 export CLBlast_DIR=${CK_ENV_LIB_CLBLAST}
 
 cd ${INSTALL_DIR}/obj

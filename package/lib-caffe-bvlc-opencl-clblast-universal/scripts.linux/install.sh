@@ -25,6 +25,10 @@ fi
 # Check extra stuff
 EXTRA_FLAGS=""
 
+if [ "${CK_VIENNACL_DEBUG}" == "ON" ] ; then
+  EXTRA_FLAGS="$EXTRA_FLAGS -DVIENNACL_DEBUG_ALL"
+fi
+
 export CLBlast_DIR=${CK_ENV_LIB_CLBLAST}
 
 cd ${INSTALL_DIR}/obj
