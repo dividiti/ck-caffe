@@ -17,5 +17,5 @@
       "1"
     ]
   },
-  "data_name": "lib-caffe-bvlc-opencl-win"
+  "data_name": "lib-caffe-bvlc-opencl-viennacl-universal"
 }
