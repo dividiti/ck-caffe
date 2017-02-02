@@ -74,7 +74,7 @@
     },
     "lib-clblast": {
       "local": "yes",
-      "name": "clBLAST library",
+      "name": "CLBlast library",
       "skip_default": "yes",
       "sort": 40,
       "tags": "lib,clblast"
