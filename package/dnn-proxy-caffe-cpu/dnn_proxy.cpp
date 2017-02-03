@@ -1,6 +1,5 @@
 #include "dnn_proxy.h"
 
-#define USE_OPENCV
 #define CPU_ONLY
 #include "classification.cpp"
 
@@ -12,15 +11,13 @@ void* ck_dnn_proxy__prepare(ck_dnn_proxy__init_param *param)
 	string model_file(param->model_file);
 	string trained_file(param->trained_file);
 	string mean_file(param->mean_file);
-	string label_file(param->label_file);
 	
 	std::cout << "ck_dnn_proxy__prepare:" << std::endl;
 	std::cout << "model_file: " << model_file << std::endl;
 	std::cout << "trained_file: " << trained_file << std::endl;
 	std::cout << "mean_file: " << mean_file << std::endl;
-	std::cout << "label_file: " << label_file << std::endl;
 	
-	return new Classifier(model_file, trained_file, mean_file, label_file);
+	return new Classifier(model_file, trained_file, mean_file);
 }
 
 void ck_dnn_proxy__recognize(ck_dnn_proxy__recognition_param *param, 
@@ -35,15 +32,15 @@ void ck_dnn_proxy__recognize(ck_dnn_proxy__recognition_param *param,
 	}
 	
 	Classifier* classifier = (Classifier*)param->proxy_handle;
-	std::vector<Prediction> predictions = classifier->Classify(img);
+	std::vector<Prediction> predictions = classifier->Classify(img, PREDICTIONS_COUNT);
 
 	result->status = 0;
 	result->time = 0; // TODO
 	result->memory = 0; // TODO
 	for (int i = 0; i < PREDICTIONS_COUNT; i++)
 	{
-		result->predictions[i].accuracy = predictions[i].second;
-		result->predictions[i].info = predictions[i].first;
+		result->predictions[i].accuracy = predictions[i].first;
+		result->predictions[i].index = predictions[i].second;
 	}
 }
 

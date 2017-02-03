@@ -1,8 +1,6 @@
 #ifndef __DNN_PROXY_H_
 #define __DNN_PROXY_H_
 
-#include <string>
-
 #ifdef WINDOWS
 	#define CK_EXPORT __declspec(dllexport) 
 #else
@@ -15,7 +13,6 @@ struct ck_dnn_proxy__init_param {
 	const char *model_file;
 	const char *trained_file;
 	const char *mean_file;
-	const char *label_file;
 };
 
 struct ck_dnn_proxy__recognition_param {
@@ -29,7 +26,7 @@ struct ck_dnn_proxy__recognition_result {
 	double memory;
 	struct {
 		float accuracy;
-		std::string info;
+		int index;
 	} predictions[PREDICTIONS_COUNT];
 };
 
