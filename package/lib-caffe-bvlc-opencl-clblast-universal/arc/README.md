@@ -1,8 +1,8 @@
-Caffe for Android brunches are available here:
+Caffe for Android branches are available here:
 * https://github.com/intelfx/caffe-android-lib/tree/opencl-work
 * https://github.com/naibaf7/caffe
 
-We have problems compiling clBLAST for Android using Google's NDK.
+We have problems compiling CLBlast for Android using Google's NDK.
 However, it seems that CrystaX NDK works.
 
 Parts used from 
