@@ -1,0 +1,15 @@
+{
+  "auto_detect": "yes", 
+  "customize": {
+    "add_include_path": "yes", 
+    "env_prefix": "CK_ENV_LIB_DNN_PROXY", 
+    "skip_add_to_bin": "yes", 
+    "skip_add_to_path": "yes"
+  }, 
+  "soft_name": "DNN Proxy Library", 
+  "tags": [
+    "lib", 
+    "dnn-proxy", 
+    "lang-cpp"
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "customize": {
+    "extra_dir": "", 
+    "version": "0.1"
+  }, 
+  "deps": {
+    "compiler": {
+      "local": "yes", 
+      "name": "CPP compiler", 
+      "sort": 10, 
+      "tags": "compiler,lang-cpp"
+    }
+  }, 
+  "end_full_path": {
+    "linux": "lib/libdnnproxy.a", 
+    "mingw": "lib\\libdnnproxy.a", 
+    "win": "lib\\libdnnproxy.lib"
+  }, 
+  "process_script": "process", 
+  "soft_uoa": "88d704eafc486ca3",
+  "suggested_path": "dnn-proxy-caffe-opencl", 
+  "tags": [
+    "lib", 
+    "rtl", 
+    "vopencl",
+    "caffe", 
+    "dnn-proxy"
+  ]
+}
