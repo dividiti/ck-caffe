@@ -20,9 +20,7 @@
   "soft_uoa": "88d704eafc486ca3",
   "suggested_path": "dnn-proxy-caffe-cuda", 
   "tags": [
-    "lib", 
-    "rtl", 
-    "vcuda", 
+    "vcuda",
     "caffe", 
     "dnn-proxy"
   ]

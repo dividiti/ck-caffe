@@ -1,6 +1,8 @@
 #ifndef __DNN_PROXY_H_
 #define __DNN_PROXY_H_
 
+#include <string>
+
 #ifdef WINDOWS
 	#define CK_EXPORT __declspec(dllexport) 
 #else
@@ -17,15 +19,17 @@ struct ck_dnn_proxy__init_param {
 };
 
 struct ck_dnn_proxy__recognition_param {
+	void* proxy_handle;
 	const char* image_file;
 };
 
 struct ck_dnn_proxy__recognition_result {
+	int status;
 	double time;
 	double memory;
 	struct {
-		double accuracy;
-		int index;
+		float accuracy;
+		std::string info;
 	} predictions[PREDICTIONS_COUNT];
 };
 
@@ -35,10 +39,12 @@ extern "C"
 {
 #endif
 
-CK_EXPORT void ck_dnn_proxy__prepare(ck_dnn_proxy__init_param *param);
+CK_EXPORT void* ck_dnn_proxy__prepare(ck_dnn_proxy__init_param *param);
                            
 CK_EXPORT void ck_dnn_proxy__recognize(ck_dnn_proxy__recognition_param *param, 
                                        ck_dnn_proxy__recognition_result *result);
+                                       
+CK_EXPORT void ck_dnn_proxy__release(void* proxy_handle);
 
 #ifdef __cplusplus
 } // extern "C"

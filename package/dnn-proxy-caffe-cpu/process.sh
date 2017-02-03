@@ -22,6 +22,7 @@ mkdir ${INSTALL_DIR}/src
 
 cp ${PACKAGE_DIR}/dnn_proxy.cpp ${INSTALL_DIR}/src
 cp ${PACKAGE_DIR}/dnn_proxy.h ${INSTALL_DIR}/src
+cp ${PACKAGE_DIR}/classification.cpp ${INSTALL_DIR}/src
 cp ${PACKAGE_DIR}/ck-make.sh ${INSTALL_DIR}/src
 
 cd ${INSTALL_DIR}/src

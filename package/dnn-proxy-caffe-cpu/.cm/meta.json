@@ -9,6 +9,55 @@
       "name": "CPP compiler", 
       "sort": 10, 
       "tags": "compiler,lang-cpp"
+    },
+    "lib-blas": {
+      "local": "yes",
+      "name": "BLAS library",
+      "sort": 8,
+      "tags": "lib,blas,openblas"
+    },
+    "lib-boost": {
+      "force_add_static_lib_path": "yes",
+      "local": "yes",
+      "name": "Boost library",
+      "sort": 13,
+      "tags": "lib,boost"
+    },
+    "lib-caffe": {
+      "local": "yes",
+      "name": "Caffe library",
+      "skip_pruning_by_other_deps": "yes",
+      "sort": 1,
+      "tags": "lib,caffe,vcpu"
+    },
+    "lib-gflags": {
+      "local": "yes",
+      "name": "GFlags library",
+      "sort": 5,
+      "tags": "lib,gflags"
+    },
+    "lib-glog": {
+      "force_add_static_lib_path": "yes",
+      "local": "yes",
+      "name": "GLog library",
+      "sort": 7,
+      "tags": "lib,glog"
+    },
+    "lib-opencv": {
+      "local": "yes",
+      "name": "OpenCV library",
+      "sort": 10,
+      "tags": "lib,opencv"
+    },
+    "lib-protobuf-host": {
+      "local": "yes", 
+      "name": "ProtoBuf HOST library", 
+      "only_for_target_os_tags": [
+        "linux",
+        "windows"
+      ], 
+      "sort": 9, 
+      "tags": "lib,protobuf-host"
     }
   }, 
   "end_full_path": {
@@ -20,8 +69,6 @@
   "soft_uoa": "88d704eafc486ca3",
   "suggested_path": "dnn-proxy-caffe", 
   "tags": [
-    "lib", 
-    "rtl",
     "vcpu",
     "caffe",
     "dnn-proxy"

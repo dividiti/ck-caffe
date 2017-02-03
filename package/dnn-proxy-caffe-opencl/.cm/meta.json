@@ -20,8 +20,6 @@
   "soft_uoa": "88d704eafc486ca3",
   "suggested_path": "dnn-proxy-caffe-opencl", 
   "tags": [
-    "lib", 
-    "rtl", 
     "vopencl",
     "caffe", 
     "dnn-proxy"
