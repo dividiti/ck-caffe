@@ -13,6 +13,8 @@ struct ck_dnn_proxy__init_param {
 	const char *model_file;
 	const char *trained_file;
 	const char *mean_file;
+	// TODO configure logging, to disable or minimize it, for speed
+	const char *logs_path; 
 };
 
 struct ck_dnn_proxy__recognition_param {
@@ -22,8 +24,9 @@ struct ck_dnn_proxy__recognition_param {
 
 struct ck_dnn_proxy__recognition_result {
 	int status;
-	double time;
-	double memory;
+	double start_time;
+	double duration;
+	double memory_usage;
 	struct {
 		float accuracy;
 		int index;

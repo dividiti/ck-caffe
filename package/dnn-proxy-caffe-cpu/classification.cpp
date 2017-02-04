@@ -54,9 +54,6 @@ class Classifier {
 		pairs.push_back(std::make_pair(output[i], i));
 	  std::partial_sort(pairs.begin(), pairs.begin() + N, pairs.end(), PairCompare);
 	  
-	  //std::vector<Prediction> predictions;
-	  //for (int i = 0; i < N; ++i)
-		//predictions.push_back(pairs[i]);
 	  return std::vector<Prediction>(pairs.begin(), pairs.begin() + N);
   }
 
