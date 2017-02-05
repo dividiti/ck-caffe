@@ -8,7 +8,8 @@
 collaborative and reproducible optimisation of convolutional neural networks.
 It's based on the [Caffe](http://caffe.berkeleyvision.org) framework from the
 Berkeley Vision and Learning Center ([BVLC](http://bvlc.eecs.berkeley.edu)) and
-the [Collective Knowledge](http://cknowledge.org) framework from the [cTuning
+the [Collective Knowledge](http://cknowledge.org) framework for customizable
+cross-platform builds and experimental workflows with JSON API from the [cTuning
 Foundation](http://ctuning.org) (see CK intro for more details: [1](https://arxiv.org/abs/1506.06256),
 [2](https://www.researchgate.net/publication/304010295_Collective_Knowledge_Towards_RD_Sustainability) ). 
 In essence, CK-Caffe is simply a suite of convenient wrappers with unified 
