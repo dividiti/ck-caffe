@@ -25,7 +25,7 @@ options, and so on; exchange experimental data in a flexible JSON-based format;
 and apply leading-edge predictive analytics to extract valuable insights from
 the experimental data.
 
-See [project page](http://cKnowledge.org/ai) for more details.
+See [cKnowledge.org/ai](http://cKnowledge.org/ai) for more details.
 
 ## Authors/contributors
 
