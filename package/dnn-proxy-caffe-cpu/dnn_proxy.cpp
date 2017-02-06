@@ -1,9 +1,8 @@
 #include "dnn_proxy.h"
+#include "dnn_timer.h"
 
 #define CPU_ONLY
-#include "classification.cpp"
-
-#include <ctime>
+#include "classification.h"
 
 void* ck_dnn_proxy__prepare(ck_dnn_proxy__init_param *param)
 {
@@ -30,7 +29,7 @@ void* ck_dnn_proxy__prepare(ck_dnn_proxy__init_param *param)
 void ck_dnn_proxy__recognize(ck_dnn_proxy__recognition_param *param, 
                              ck_dnn_proxy__recognition_result *result)
 {
-	result->start_time = double(std::clock()) / CLOCKS_PER_SEC;
+	result->start_time = dk_dnn_proxy__get_time();
 	
 	string image_file(param->image_file);
 	cv::Mat img = cv::imread(image_file, -1);
@@ -44,9 +43,7 @@ void ck_dnn_proxy__recognize(ck_dnn_proxy__recognition_param *param,
 	std::vector<Prediction> predictions = classifier->Classify(img, PREDICTIONS_COUNT);
 	// TODO: process errors during classification, don't let an app crash
 
-	double stop_time = double(std::clock()) / CLOCKS_PER_SEC;
-	result->duration = stop_time - result->start_time;
-
+	result->duration = dk_dnn_proxy__get_time() - result->start_time;
 	result->status = 0;
 	result->memory_usage = 0; // TODO
 	for (int i = 0; i < PREDICTIONS_COUNT; i++)

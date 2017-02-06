@@ -22,6 +22,8 @@ mkdir %INSTALL_DIR%\src
 
 copy /B %PACKAGE_DIR%\dnn_proxy.cpp %INSTALL_DIR%\src
 copy /B %PACKAGE_DIR%\dnn_proxy.h %INSTALL_DIR%\src
+copy /B %PACKAGE_DIR%\dnn_timer.h %INSTALL_DIR%\src
+copy /B %PACKAGE_DIR%\classification.h %INSTALL_DIR%\src
 copy /B %PACKAGE_DIR%\ck-make.bat %INSTALL_DIR%\src
 
 cd %INSTALL_DIR%\src
