@@ -8,7 +8,7 @@
       "linux": 4
     }, 
     "soft_file": {
-      "linux": "caffe.bin"
+      "linux": "libcaffe.so"
     }
   }, 
   "deps": {
