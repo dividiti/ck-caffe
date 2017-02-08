@@ -2,6 +2,7 @@
 #include "dnn_timer.h"
 
 #define CPU_ONLY
+#define USE_OPENCV
 #include "classification.h"
 
 void* ck_dnn_proxy__prepare(ck_dnn_proxy__init_param *param)
