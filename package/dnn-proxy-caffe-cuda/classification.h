@@ -22,7 +22,7 @@ static bool PairCompare(const Prediction& lhs, const Prediction& rhs) {
 class Classifier {
  public:
   Classifier(const string& model_file, const string& trained_file, const string& mean_file)   {
-	  Caffe::set_mode(Caffe::CPU);
+	  Caffe::set_mode(Caffe::GPU);
 
 	  /* Load the network. */
 	  net_.reset(new Net<float>(model_file, TEST));
