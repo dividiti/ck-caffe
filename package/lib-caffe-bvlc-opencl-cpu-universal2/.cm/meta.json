@@ -163,12 +163,12 @@
   "package_extra_name": " (cpu)", 
   "process_script": "install", 
   "soft_uoa": "04ab08137582bd03", 
-  "suggested_path": "lib-caffe-bvlc-master-cpu", 
+  "suggested_path": "lib-caffe-bvlc-opencl-cpu", 
   "tags": [
     "lib", 
     "caffe", 
     "bvlc", 
-    "vmaster", 
+    "vopencl", 
     "vcpu"
   ], 
   "use_preprocess_scripts_from_another_entry": {
