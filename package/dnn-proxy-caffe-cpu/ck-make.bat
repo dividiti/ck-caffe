@@ -28,7 +28,6 @@ set CK_COMPILER_FLAGS_MISC=%CK_INC_BOOST% %CK_INC_BLAS% %CK_INC_CAFFE% %CK_INC_G
 set CK_COMPILER_FLAGS_CC_OPTS=/EHsc %CK_COMPILER_FLAGS_CC_OPTS%
 
 
-
 echo.
 echo Building static library ...
 echo.

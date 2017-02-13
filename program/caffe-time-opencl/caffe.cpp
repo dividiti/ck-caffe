@@ -403,7 +403,9 @@ int time() {
   if (gpus.size() != 0) {
 #ifndef CPU_ONLY
     LOG(INFO) << "Use GPU with device ID " << gpus[0];
+    LOG(INFO) << "Before Caffe::SetDevice(gpus)";
     Caffe::SetDevices(gpus);
+    LOG(INFO) << "After Caffe::SetDevice(gpus)";
     Caffe::set_mode(Caffe::GPU);
     Caffe::SetDevice(gpus[0]);
 #endif  // !CPU_ONLY
@@ -412,8 +414,10 @@ int time() {
     Caffe::set_mode(Caffe::CPU);
   }
   // Instantiate the caffe net.
+  LOG(INFO) << "Before caffe_net";
   Net<float> caffe_net(FLAGS_model, phase,
                        Caffe::GetDefaultDevice(), FLAGS_level, &stages);
+  LOG(INFO) << "After caffe_net";
 
   // Do a clean forward and backward pass, so that memory allocation are done
   // and future iterations will be more stable.
