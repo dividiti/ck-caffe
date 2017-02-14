@@ -98,7 +98,16 @@
       "name": "HDF5 library", 
       "sort": 25, 
       "tags": "lib,hdf5"
-    }, 
+    },
+    "lib-lmdb": {
+      "local": "yes",
+      "name": "LMDB library",
+      "only_for_target_os_tags": [
+        "linux"
+      ],
+      "sort": 21,
+      "tags": "lib,lmdb"
+    },
     "lib-opencv": {
       "local": "yes", 
       "name": "OpenCV library", 
