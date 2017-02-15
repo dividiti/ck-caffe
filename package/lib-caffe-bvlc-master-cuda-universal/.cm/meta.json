@@ -95,6 +95,16 @@
       "sort": 30, 
       "tags": "lib,blas,openblas"
     }, 
+    "lib-boost": {
+      "local": "yes",
+      "name": "Boost library",
+      "skip_installed": {
+        "android": "yes",
+        "win": "yes"
+      },
+      "sort": 10,
+      "tags": "lib,boost"
+    },
     "lib-gflags": {
       "local": "yes", 
       "name": "GFlags library", 
