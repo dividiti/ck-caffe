@@ -49,13 +49,13 @@
     "version": "trunk"
   },
   "deps": {
-    "compiler": {
+    "compiler-extra": {
       "local": "yes",
       "name": "CUDA compiler >=7.0",
       "sort": 10,
       "tags": "compiler,lang-c-cuda"
     },
-    "compiler-extra": {
+    "compiler": {
       "local": "yes",
       "name": "C++ compiler",
       "sort": 15,
@@ -81,11 +81,30 @@
       "sort": 25,
       "tags": "lib,hdf5"
     },
+    "lib-lmdb": {
+      "local": "yes",
+      "name": "LMDB library",
+      "only_for_target_os_tags": [
+        "linux"
+      ],
+      "sort": 21,
+      "tags": "lib,lmdb"
+    },
     "lib-opencv": {
       "local": "yes",
       "name": "OpenCV library",
       "sort": 20,
       "tags": "lib,opencv"
+    },
+    "lib-boost": {
+      "local": "yes",
+      "name": "Boost library",
+      "skip_installed": {
+        "android": "yes",
+        "win": "yes"
+      },
+      "sort": 10,
+      "tags": "lib,boost"
     },
     "lib-gflags": {
       "local": "yes",
