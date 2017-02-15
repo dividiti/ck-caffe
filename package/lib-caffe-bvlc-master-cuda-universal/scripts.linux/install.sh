@@ -3,12 +3,13 @@
 #
 # Installation script for Caffe.
 #
-# See CK LICENSE for licensing details.
-# See CK COPYRIGHT for copyright details.
+# See CK LICENSE.txt for licensing details.
+# See CK COPYRIGHT.txt for copyright details.
 #
 # Developer(s):
-# - Grigori Fursin, 2015;
-# - Anton Lokhmotov, 2016.
+# - Grigori Fursin, 2015-2017
+# - Anton Lokhmotov, 2016-2017
+# - Daniil Efremov, 2017
 #
 
 # PACKAGE_DIR
@@ -35,6 +36,7 @@ cmake -DCMAKE_BUILD_TYPE=${CK_ENV_CMAKE_BUILD_TYPE:-Release} \
       -DCMAKE_AR="${CK_AR_PATH_FOR_CMAKE}" \
       -DCMAKE_LINKER="${CK_LD_PATH_FOR_CMAKE}" \
       -DCMAKE_SHARED_LINKER_FLAGS="$CK_OPENMP" \
+      -DCUDA_USE_STATIC_CUDA_RUNTIME=OFF \
       -DBUILD_python=OFF \
       -DBUILD_docs=OFF \
       -DCPU_ONLY=OFF \
