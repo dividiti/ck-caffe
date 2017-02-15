@@ -3,12 +3,13 @@
 #
 # Installation script for Caffe.
 #
-# See CK LICENSE for licensing details.
-# See CK COPYRIGHT for copyright details.
+# See CK LICENSE.txt for licensing details.
+# See CK COPYRIGHT.txt for copyright details.
 #
 # Developer(s):
-# - Grigori Fursin, 2015;
-# - Anton Lokhmotov, 2016.
+# - Grigori Fursin, 2015-2017
+# - Anton Lokhmotov, 2016-2017
+# - Daniil Efremov, 2017
 #
 
 # PACKAGE_DIR
