@@ -16,6 +16,12 @@
       "sort": 8,
       "tags": "lib,blas,openblas"
     },
+    "lib-cublas": {
+      "local": "yes",
+      "name": "cuBLAS library",
+      "sort": 8,
+      "tags": "lib,cuda,cuda-blas,cublas"
+    },
     "lib-boost": {
       "force_add_static_lib_path": "yes",
       "local": "yes",
