@@ -27,6 +27,12 @@
       "sort": 0,
       "tags": "compiler,lang-c-cuda"
     },
+    "lib-hdf5": {
+      "local": "yes",
+      "name": "HDF5 library",
+      "sort": 25,
+      "tags": "lib,hdf5"
+    },
     "lib-blas": {
       "local": "yes", 
       "name": "BLAS library", 
@@ -95,8 +101,9 @@
   "compiler_add_include_as_env_from_deps": [
     "CK_ENV_LIB_STDCPP_INCLUDE", 
     "CK_ENV_LIB_STDCPP_INCLUDE_EXTRA", 
-    "CK_ENV_LIB_CAFFE_EXTRA_INCLUDE"
-  ], 
+    "CK_ENV_LIB_CAFFE_EXTRA_INCLUDE",
+    "CK_ENV_LIB_HDF5_INCLUDE"
+  ],
   "compiler_env": "CK_NVCXX", 
   "compiler_flags_as_env": "$<<CK_OPT_UNWIND>>$ $<<CK_ENV_LIB_CAFFE_CXXFLAGS>>$", 
   "data_name": "caffe-classification", 
