@@ -75,7 +75,7 @@
       "name": "ProtoBuf host compiler",
       "skip_default": "yes",
       "sort": 19,
-      "tags": "lib,protobuf-host,v3.1.0"
+      "tags": "lib,protobuf-host"
     }
   },
   "end_full_path": {
