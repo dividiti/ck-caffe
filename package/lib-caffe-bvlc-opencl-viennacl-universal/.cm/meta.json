@@ -157,7 +157,7 @@
       "name": "ViennaCL library",
       "skip_default": "yes",
       "sort": 35,
-      "tags": "lib,viennacl,vcpu"
+      "tags": "lib,viennacl"
     }
   },
   "end_full_path": {
@@ -182,7 +182,7 @@
     "caffe",
     "bvlc",
     "vopencl",
-    "vmaster"
+    "vviennacl"
   ],
   "use_preprocess_scripts_from_another_entry": {
     "data_uoa": "fd44428fbc77f77f",
