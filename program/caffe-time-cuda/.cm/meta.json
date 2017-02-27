@@ -16,8 +16,14 @@
     }, 
     "compiler": {
       "local": "yes",
+      "name": "C++ compiler",
+      "sort": -1,
+      "tags": "compiler,lang-cpp"
+    },
+    "compiler-extra": {
+      "local": "yes",
       "name": "CUDA compiler >=7.0",
-      "sort": 0,
+      "sort": -1,
       "tags": "compiler,lang-c-cuda"
     },
     "lib-blas": {
