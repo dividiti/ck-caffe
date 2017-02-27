@@ -24,7 +24,7 @@ echo ""
 echo "Converting images ..."
 
 GLOG_logtostderr=1 
-    $CAFFE_INSTALL_DIR/obj/tools/convert_imageset \
+    $CAFFE_INSTALL_DIR/bin/convert_imageset \
     -resize_height=$RESIZE_HEIGHT -resize_width=$RESIZE_WIDTH $SHUFFLE \
     $CK_CAFFE_IMAGENET_VAL \
     $CK_CAFFE_IMAGENET_VAL_TXT \
