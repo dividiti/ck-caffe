@@ -1,3 +1,5 @@
+2017.02.28 - fixed Caffe package with CUDA/CUDNN deps for Windows and Linux
+
 2017.02.01 - added --env.CK_VIENNACL_DEBUG=ON flag to turn on debugging of ViennaCL
 
 2017.01.20 - unifying compilation of Caffe OpenCL for Android on Windows and Linux

@@ -75,7 +75,6 @@
       "tags": "compiler,lang-c-cuda"
     },
     "lib-blas": {
-      "add_to_path": "yes",
       "local": "yes",
       "name": "BLAS library",
       "sort": 30,
@@ -159,7 +158,7 @@
   },
   "end_full_path": {
     "linux": "install/bin/caffe",
-    "linux": "install\\bin\\caffe.exe"
+    "win": "install\\bin\\caffe.exe"
   },
   "need_cpu_info": "yes",
   "only_for_host_os_tags": [
@@ -179,7 +178,8 @@
     "caffe",
     "bvlc",
     "vmaster",
-    "vcuda"
+    "vcuda",
+    "vno-cudnn"
   ],
   "use_preprocess_scripts_from_another_entry": {
     "data_uoa": "fd44428fbc77f77f",
