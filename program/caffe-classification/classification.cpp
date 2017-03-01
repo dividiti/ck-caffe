@@ -300,6 +300,7 @@ int classify_continuously(Classifier& classifier, const fs::path& dir) {
     std::cout << "---------- Prediction for " << file << " ----------" << std::endl;
     std::cout << "Duration: " << duration << " sec" << std::endl;
     print_predictions(predictions);
+    std::cout.flush();
   }
 }
 
