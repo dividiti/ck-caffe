@@ -11,9 +11,14 @@
 #include <utility>
 #include <vector>
 
+#include <boost/filesystem.hpp>
+#include "dnn_timer.h"
+
 #ifdef XOPENME
 #include <xopenme.h>
 #endif
+
+namespace fs = boost::filesystem;
 
 #ifdef USE_OPENCV
 using namespace caffe;  // NOLINT(build/namespaces)
@@ -230,44 +235,23 @@ void Classifier::Preprocess(const cv::Mat& img,
     << "Input channels are not wrapping the input layer of the network.";
 }
 
-int main(int argc, char** argv) {
+void print_predictions(const std::vector<Prediction>& predictions) {
+  for (size_t i = 0; i < predictions.size(); ++i) {
+    Prediction p = predictions[i];
+    std::cout << std::fixed << std::setprecision(4) << p.second << " - \"" << p.first << "\"" << std::endl;
+  }
+}
 
+void classify_single_image(Classifier& classifier, const fs::path& file_path) {
   long ct_repeat=0;
   long ct_repeat_max=1;
   int ct_return=0;
 
-#ifdef XOPENME
-  xopenme_init(3,0);
-#endif
   if (getenv("CT_REPEAT_MAIN")!=NULL) ct_repeat_max=atol(getenv("CT_REPEAT_MAIN"));
 
+  string file = file_path.string();
 
-  if (argc != 6) {
-    std::cerr << "Usage: " << argv[0]
-              << " deploy.prototxt network.caffemodel"
-              << " mean.binaryproto labels.txt img.jpg" << std::endl;
-    return 1;
-  }
-
-  ::google::InitGoogleLogging(argv[0]);
-
-  string model_file   = argv[1];
-  string trained_file = argv[2];
-  string mean_file    = argv[3];
-  string label_file   = argv[4];
-
-#ifdef XOPENME
-  xopenme_clock_start(0);
-#endif
-  Classifier classifier(model_file, trained_file, mean_file, label_file);
-#ifdef XOPENME
-  xopenme_clock_end(0);
-#endif
-
-  string file = argv[5];
-
-  std::cout << "---------- Prediction for "
-            << file << " ----------" << std::endl;
+  std::cout << "---------- Prediction for " << file << " ----------" << std::endl;
 
 #ifdef XOPENME
   xopenme_clock_start(1);
@@ -284,18 +268,77 @@ int main(int argc, char** argv) {
 
   std::vector<Prediction> predictions;
 
-  for (ct_repeat=0; ct_repeat<ct_repeat_max; ct_repeat++)
+  for (ct_repeat=0; ct_repeat<ct_repeat_max; ct_repeat++) {
     predictions = classifier.Classify(img);
+  }
 
 #ifdef XOPENME
   xopenme_clock_end(2);
 #endif
 
   /* Print the top N predictions. */
-  for (size_t i = 0; i < predictions.size(); ++i) {
-    Prediction p = predictions[i];
-    std::cout << std::fixed << std::setprecision(4) << p.second << " - \""
-              << p.first << "\"" << std::endl;
+  print_predictions(predictions);
+}
+
+int classify_continuously(Classifier& classifier, const fs::path& dir) {
+  fs::directory_iterator end_iter;
+  for (fs::directory_iterator dir_iter(dir) ; dir_iter != end_iter ; ++dir_iter){
+    if (!fs::is_regular_file(dir_iter->status())) {
+      // skip non-images
+      continue;
+    }
+    string file = dir_iter->path().string();
+    cv::Mat img = cv::imread(file, -1);
+    if (img.empty()) {
+      // TODO: should we complain?
+      continue;
+    }
+    std::vector<Prediction> predictions;
+    double start_time = dnn_get_time();
+    predictions = classifier.Classify(img);
+    double duration = dnn_get_time() - start_time;
+    std::cout << "---------- Prediction for " << file << " ----------" << std::endl;
+    std::cout << "Duration: " << duration << " sec" << std::endl;
+    print_predictions(predictions);
+  }
+}
+
+int main(int argc, char** argv) {
+
+#ifdef XOPENME
+  xopenme_init(3,0);
+#endif
+
+  if (argc != 6 && argc != 7) {
+    std::cerr << "Usage: " << argv[0]
+              << " deploy.prototxt network.caffemodel"
+              << " mean.binaryproto labels.txt <img.jpg | directory-with-images --continuous>" << std::endl;
+    return 1;
+  }
+
+  ::google::InitGoogleLogging(argv[0]);
+
+  bool continuous_mode = argc >= 7 && string(argv[6]) == "--continuous";
+  string model_file   = argv[1];
+  string trained_file = argv[2];
+  string mean_file    = argv[3];
+  string label_file   = argv[4];
+
+#ifdef XOPENME
+  xopenme_clock_start(0);
+#endif
+  Classifier classifier(model_file, trained_file, mean_file, label_file);
+#ifdef XOPENME
+  xopenme_clock_end(0);
+#endif
+
+  fs::path path(argv[5]);
+  CHECK(fs::exists(path)) << "Path doesn't exist " << path;
+
+  if (continuous_mode) {
+    classify_continuously(classifier, path);
+  } else {
+    classify_single_image(classifier, path);
   }
 
 #ifdef XOPENME
@@ -303,9 +346,12 @@ int main(int argc, char** argv) {
   xopenme_finish();
 #endif
 
+  return 0;
 }
+
 #else
 int main(int argc, char** argv) {
   LOG(FATAL) << "This example requires OpenCV; compile with USE_OPENCV.";
+  return 0;
 }
 #endif  // USE_OPENCV
