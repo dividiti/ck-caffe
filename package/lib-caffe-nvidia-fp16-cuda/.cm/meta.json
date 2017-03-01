@@ -74,7 +74,6 @@
       "force_target_as_host": "yes",
       "local": "yes",
       "name": "ProtoBuf host compiler",
-      "skip_default": "yes",
       "sort": 19,
       "tags": "lib,protobuf-host"
     }
