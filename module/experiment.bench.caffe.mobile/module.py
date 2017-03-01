@@ -772,6 +772,7 @@ def generate(i):
     import os
     import copy
     import shutil
+    import itertools
 
     o=i.get('out','')
 
@@ -803,13 +804,18 @@ def generate(i):
 
     engine_meta={}
 
-    # Go through required ABIs and compile classification and libcaffe.so
-    for b in abis:
+    # Go through required engines (CPU,OpenCL) and ABIs, and compile classification and libcaffe.so
+    for prog,b in list(itertools.product(cfg['prog_uoa'],abis)):
+
+        ck.out(line)
+
         abi=b['abi']
         os_uoa=b['os_uoa']
 
-        ck.out(line)
-        ck.out('Preparing Caffe with ABI "'+abi+'" for crowd-benchmarking and crowd-tuning ...')
+        engine=prog['engine']
+        prog_uoa=prog['program_uoa']
+
+        ck.out('Preparing "'+engine+'" engine with "'+abi+'" ABI for crowd-benchmarking and crowd-tuning ...')
 
         # Compile classification (should compile all deps)
         ck.out('')
@@ -817,13 +823,15 @@ def generate(i):
 
         ii={'action':'compile',
             'module_uoa':cfg['module_deps']['program'],
-            'data_uoa':cfg['data_deps']['caffe-classification-android'],
+            'data_uoa':prog_uoa,
             'host_os':hos,
             'target_os':os_uoa,
             'speed':'yes',
             'out':o}
         r=ck.access(ii)
         if r['return']>0: return r
+
+        continue
 
         # Get various info
         cc=r.get('characteristics',{})
