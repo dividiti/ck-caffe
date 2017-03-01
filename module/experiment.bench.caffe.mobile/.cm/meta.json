@@ -26,9 +26,10 @@
     "module_uoa": "39b4136e052410a2"
   },
   "license": "See CK LICENSE.txt for licensing details",
-  "data_deps": {
-   "caffe-classification-android":"af449893c26d329d"
-  },
+  "prog_uoa": [
+    {"engine": "Caffe CPU","program_uoa":"473c67d70ebe45a9"},
+    {"engine": "Caffe OpenCL","program_uoa":"a04a64811e45d288"}
+  ],
   "module_deps": {
     "choice": "e4564d6f984400d7",
     "env": "9b9b3208ac44b891",
