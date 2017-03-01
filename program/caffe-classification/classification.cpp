@@ -235,13 +235,6 @@ void Classifier::Preprocess(const cv::Mat& img,
     << "Input channels are not wrapping the input layer of the network.";
 }
 
-void print_predictions(const std::vector<Prediction>& predictions) {
-  for (size_t i = 0; i < predictions.size(); ++i) {
-    Prediction p = predictions[i];
-    std::cout << std::fixed << std::setprecision(4) << p.second << " - \"" << p.first << "\"" << std::endl;
-  }
-}
-
 void classify_single_image(Classifier& classifier, const fs::path& file_path) {
   long ct_repeat=0;
   long ct_repeat_max=1;
@@ -277,7 +270,10 @@ void classify_single_image(Classifier& classifier, const fs::path& file_path) {
 #endif
 
   /* Print the top N predictions. */
-  print_predictions(predictions);
+  for (size_t i = 0; i < predictions.size(); ++i) {
+    Prediction p = predictions[i];
+    std::cout << std::fixed << std::setprecision(4) << p.second << " - \"" << p.first << "\"" << std::endl;
+  }
 }
 
 int classify_continuously(Classifier& classifier, const fs::path& dir) {
@@ -297,9 +293,14 @@ int classify_continuously(Classifier& classifier, const fs::path& dir) {
     double start_time = dnn_get_time();
     predictions = classifier.Classify(img);
     double duration = dnn_get_time() - start_time;
-    std::cout << "---------- Prediction for " << file << " ----------" << std::endl;
+    std::cout << "File: " << file << std::endl;
     std::cout << "Duration: " << duration << " sec" << std::endl;
-    print_predictions(predictions);
+    std::cout << "Predictions: " << predictions.size() << std::endl;
+    for (size_t i = 0; i < predictions.size(); ++i) {
+      Prediction p = predictions[i];
+      std::cout << std::fixed << std::setprecision(4) << p.second << " - \"" << p.first << "\"" << std::endl;
+    }
+    std::cout << std::endl;
     std::cout.flush();
   }
 }
