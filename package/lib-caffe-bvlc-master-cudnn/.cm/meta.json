@@ -102,6 +102,7 @@
     "caffe",
     "bvlc",
     "vmaster",
+    "vcuda",
     "vcudnn"
   ],
   "use_scripts_from_another_entry": {

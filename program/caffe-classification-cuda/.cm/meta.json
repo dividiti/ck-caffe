@@ -17,9 +17,21 @@
     }, 
     "compiler": {
       "local": "yes",
+      "name": "C++ compiler",
+      "sort": -1,
+      "tags": "compiler,lang-cpp"
+    },
+    "compiler-cuda": {
+      "local": "yes",
       "name": "CUDA compiler >=7.0",
       "sort": 0,
       "tags": "compiler,lang-c-cuda"
+    },
+    "lib-hdf5": {
+      "local": "yes",
+      "name": "HDF5 library",
+      "sort": 25,
+      "tags": "lib,hdf5"
     },
     "lib-blas": {
       "local": "yes", 
@@ -89,8 +101,9 @@
   "compiler_add_include_as_env_from_deps": [
     "CK_ENV_LIB_STDCPP_INCLUDE", 
     "CK_ENV_LIB_STDCPP_INCLUDE_EXTRA", 
-    "CK_ENV_LIB_CAFFE_EXTRA_INCLUDE"
-  ], 
+    "CK_ENV_LIB_CAFFE_EXTRA_INCLUDE",
+    "CK_ENV_LIB_HDF5_INCLUDE"
+  ],
   "compiler_env": "CK_NVCXX", 
   "compiler_flags_as_env": "$<<CK_OPT_UNWIND>>$ $<<CK_ENV_LIB_CAFFE_CXXFLAGS>>$", 
   "data_name": "caffe-classification-cuda", 
@@ -98,7 +111,7 @@
   "main_language": "cpp", 
   "only_for_target_os_tags": [
     "windows", 
-    "linux", 
+    "linux",
     "android"
   ], 
   "print_files_after_run": [

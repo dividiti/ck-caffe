@@ -25,16 +25,16 @@
     "version": "0.15"
   },
   "deps": {
-    "compiler": {
+    "compiler-cuda": {
       "local": "yes",
       "name": "CUDA compiler >=7.0",
-      "sort": 10,
+      "sort": 15,
       "tags": "compiler,lang-c-cuda"
     },
-    "compiler-extra": {
+    "compiler": {
       "local": "yes",
       "name": "C++ compiler",
-      "sort": 15,
+      "sort": 10,
       "tags": "compiler,lang-cpp"
     },
     "lib-blas": {
@@ -68,7 +68,7 @@
       "name": "GFlags library",
       "skip_default": "yes",
       "sort": 12,
-      "tags": "lib,gflags,v2.2.0"
+      "tags": "lib,gflags"
     },
     "lib-glog": {
       "local": "yes",
@@ -81,9 +81,8 @@
       "force_target_as_host": "yes",
       "local": "yes",
       "name": "ProtoBuf host compiler",
-      "skip_default": "yes",
       "sort": 19,
-      "tags": "lib,protobuf-host,v3.1.0"
+      "tags": "lib,protobuf-host"
     }
   },
   "end_full_path": {
@@ -106,6 +105,7 @@
     "nvidia",
     "vcaffe-0.15",
     "v0.15",
+    "vcuda",
     "vcudnn"
   ],
   "use_scripts_from_another_entry": {

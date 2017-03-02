@@ -77,8 +77,11 @@ else
   fi
 fi
 
+# Get used compiler - useful for NVCC, but will work with other packages too ...
+CK_COMPILER=`which $CK_CXX`
+
 # Have various problems with parallel compilation ...
-make V=1
+make VERBOSE=1 CXX=$CK_COMPILER
 # -j $JOBS
 if [ "${?}" != "0" ] ; then
   echo "Error: Building Caffe in '${CAFFE_BLD_DIR}' failed!"

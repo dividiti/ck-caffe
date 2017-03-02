@@ -64,7 +64,12 @@ Classifier::Classifier(const string& model_file,
 #endif
 
   /* Load the network. */
+#ifdef CK_TARGET_OS_NAME2_ANDROID
+  /* This is needed since we now use official OpenCL branch where our Android changes were added */
+  net_.reset(new Net<float>(model_file, TEST, NULL));
+#else
   net_.reset(new Net<float>(model_file, TEST));
+#endif
   net_->CopyTrainedLayersFrom(trained_file);
 
   CHECK_EQ(net_->num_inputs(), 1) << "Network should have exactly one input.";

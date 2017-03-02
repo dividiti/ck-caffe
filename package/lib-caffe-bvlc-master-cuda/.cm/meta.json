@@ -24,16 +24,16 @@
     "git_src_dir":"src"
   },
   "deps": {
-    "compiler": {
+    "compiler-cuda": {
       "local": "yes",
       "name": "CUDA compiler >=7.0",
-      "sort": 10,
+      "sort": 15,
       "tags": "compiler,lang-c-cuda"
     },
-    "compiler-extra": {
+    "compiler": {
       "local": "yes",
       "name": "C++ compiler",
-      "sort": 15,
+      "sort": 10,
       "tags": "compiler,lang-cpp"
     },
     "lib-opencv": {
@@ -94,7 +94,8 @@
     "caffe",
     "bvlc",
     "vmaster",
-    "vcuda"
+    "vcuda",
+    "vno-cudnn"
   ],
   "use_scripts_from_another_entry": {
     "data_uoa": "14c56f748be92b38"
