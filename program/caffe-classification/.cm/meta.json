@@ -167,6 +167,50 @@
           "tmp-ck-timer.json"
         ]
       }
+    },
+    "use_continuous": {
+      "ignore_return_code": "no",
+      "run_time": {
+        "fine_grain_timer_file": "tmp-ck-timer.json",
+        "params": {
+          "caffemodel_key": "deploy",
+          "classification": "yes"
+        },
+        "pre_process_via_ck": {
+          "data_uoa": "569404c41618603a",
+          "script_name": "preprocess"
+        },
+        "run_cmd_main": "$#BIN_FILE#$ $<<CK_CAFFE_MODEL_FILE>>$ $<<CK_CAFFE_MODEL_WEIGHTS>>$ $<<CK_CAFFE_IMAGENET_MEAN_BIN>>$ $<<CK_CAFFE_IMAGENET_SYNSET_WORDS_TXT>>$ $<<CK_CAFFE_IMAGENET_VAL>>$ --continuous",
+        "run_cmd_out1": "tmp-output1.tmp",
+        "run_cmd_out2": "tmp-output2.tmp",
+        "run_correctness_output_files": [],
+        "run_input_files": [
+          "$<<CK_CAFFE_MODEL_FILE>>$",
+          "$<<CK_ENV_MODEL_CAFFE_WEIGHTS>>$",
+          "$<<CK_CAFFE_IMAGENET_MEAN_BIN>>$",
+          "$<<CK_CAFFE_IMAGENET_SYNSET_WORDS_TXT>>$"
+        ],
+        "run_output_files": [
+          "tmp-output.tmp",
+          "tmp-ck-timer.json"
+        ]
+      },
+      "run_deps": {
+        "imagenet-aux": {
+          "force_target_as_host": "yes",
+          "local": "yes",
+          "name": "ImageNet (aux)",
+          "sort": 50,
+          "tags": "imagenet,aux"
+        },
+        "imagenet-val": {
+          "force_target_as_host": "yes",
+          "local": "yes",
+          "name": "ImageNet (val)",
+          "sort": 60,
+          "tags": "imagenet,val"
+        }
+      }
     }
   },
   "run_deps": {
