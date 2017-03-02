@@ -759,6 +759,8 @@ def process_unexpected_behavior(i):
 def generate(i):
     """
     Input:  {
+              (prune_target_os) - prune generated scenarios by this target OS (ABI)
+              (prune_engine)    - prune generated scenarios by this engine
             }
 
     Output: {
@@ -775,6 +777,9 @@ def generate(i):
     import itertools
 
     o=i.get('out','')
+
+    p_tos=i.get('prune_target_os','')
+    p_engine=i.get('prune_engine','')
 
     # Get platform params
     ck.out('Detecting host platform info ...')
@@ -804,10 +809,10 @@ def generate(i):
 
     engine_meta={}
 
+    engine_state='' # If engine changes, clean up found uids ...
+
     # Go through required engines (CPU,OpenCL) and ABIs, and compile classification and libcaffe.so
     for prog,b in list(itertools.product(cfg['prog_uoa'],abis)):
-
-        ck.out(line)
 
         abi=b['abi']
         os_uoa=b['os_uoa']
@@ -815,7 +820,27 @@ def generate(i):
         engine=prog['engine']
         prog_uoa=prog['program_uoa']
 
+        # Check if should prune
+        if p_tos!='' and p_tos!=os_uoa:
+           continue
+
+        if p_engine!='' and p_engine!=engine:
+           continue
+
+        if engine!=engine_state:
+           uids={}
+           found=False
+           engine_state=engine
+
+        ck.out(line)
         ck.out('Preparing "'+engine+'" engine with "'+abi+'" ABI for crowd-benchmarking and crowd-tuning ...')
+
+        ck.out('')
+        r=ck.inp({'text':'Press Enter to generate this scenario or N to skip this scenario: '})
+        s=r['string']
+
+        if s!='':
+           continue
 
         # Compile classification (should compile all deps)
         ck.out('')
@@ -830,8 +855,6 @@ def generate(i):
             'out':o}
         r=ck.access(ii)
         if r['return']>0: return r
-
-        continue
 
         # Get various info
         cc=r.get('characteristics',{})
@@ -936,10 +959,14 @@ def generate(i):
            if d.get('outdated','')=='yes': # skip archived entries
               continue
 
+           if d.get('engine','')!=engine:
+              continue
+
            pe=q['path'] # Path to entry
 
            files=d.get('files',[])
 
+           # Process main binary files (in code directory)
            for ff in files:
                fduoa=ff.get('from_data_uoa','')
                if fduoa=='':
@@ -951,23 +978,25 @@ def generate(i):
                      xfs=ff.get('file_size',0)
                      xmd5=ff.get('md5','')
 
-                     if (fn==libcaffe and (xmd5!=lmd5 and xfs!=ls)) or \
-                        (fn=='classification' and (xmd5!=md5 and xfs!=bs)) or \
-                        (fn==libxopenme and (xmd5!=omd5 and xfs!=ops)):
+                     pep=os.path.join(pe,p,fn)
+
+                     if (fn==libcaffe and (not os.path.isfile(pep) or (xmd5!=lmd5 and xfs!=ls))) or \
+                        (fn=='classification' and (not os.path.isfile(pep) or (xmd5!=md5 and xfs!=bs))) or \
+                        (fn==libxopenme and (not os.path.isfile(pep) or (xmd5!=omd5 and xfs!=ops))):
 
                         if not found:
                            # If first time, tell that old scenario will be removed!
                            ck.out('')
-                           ck.out('WARNING: we found old files and will be removing them.')
-                           ck.out('         Make sure that you archived them!')
+                           ck.out('WARNING: we found OUTDATED binaries for this scenario')
+                           ck.out('         and plan to remove them - make sure that you archived them!')
 
                            ck.out('')
-                           r=ck.inp({'text':'Would you like to proceed and remove old files (y/N): '})
+                           r=ck.inp({'text':'Would you like to proceed and remove outdated binaries (Y/n): '})
                            if r['return']>0: return r
 
                            s=r['string'].strip().lower()
 
-                           if s!='y' and s!='yes':
+                           if s!='':
                               return {'return':0}
 
                            found=True
@@ -988,6 +1017,8 @@ def generate(i):
                            uids[oduid]=nduid
 
                            ck.out('  * New code UID for '+oduid+' : '+nduid)
+                        else:
+                           ck.out('  * Reusing UID for '+oduid+' : '+nduid)
 
                         np=os.path.join(pe,'code',nduid,abi)
                         ck.out('  * New path: '+np)
@@ -1058,8 +1089,16 @@ def generate(i):
                         changed_files.append({'before':changed_before,
                                               'after':changed_after})
 
+                     else:
+                        ck.out('')
+                        ck.out('*** Scenario binary '+fn+' is up to date! ***')
+
         # If changed original files, change them in all other meta
         if len(changed_files)>0:
+
+           ck.out('')
+           ck.out('Updating all scenarios with new files ...')
+           ck.out('')
 
            for q in lst:
                duid=q['data_uid']
@@ -1071,6 +1110,11 @@ def generate(i):
 
                if d.get('outdated','')=='yes': # skip archived entries
                   continue
+
+               if d.get('engine','')!=engine:
+                  continue
+
+               ck.out('  * '+duoa)
 
                d['engine_meta']=engine_meta
 
