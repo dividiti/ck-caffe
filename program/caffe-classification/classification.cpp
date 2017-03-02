@@ -12,7 +12,6 @@
 #include <vector>
 
 #include <boost/filesystem.hpp>
-#include "dnn_timer.h"
 
 #ifdef XOPENME
 #include <xopenme.h>
@@ -235,6 +234,26 @@ void Classifier::Preprocess(const cv::Mat& img,
     << "Input channels are not wrapping the input layer of the network.";
 }
 
+void x_clock_start(int timer) {
+#ifdef XOPENME
+  xopenme_clock_start(timer);
+#endif
+}
+
+void x_clock_end(int timer) {
+#ifdef XOPENME
+  xopenme_clock_end(timer);
+#endif
+}
+
+double x_get_time(int timer) {
+#ifdef XOPENME
+  return xopenme_get_timer(timer);
+#else
+  return 0;
+#endif
+}
+
 void classify_single_image(Classifier& classifier, const fs::path& file_path) {
   long ct_repeat=0;
   long ct_repeat_max=1;
@@ -246,18 +265,12 @@ void classify_single_image(Classifier& classifier, const fs::path& file_path) {
 
   std::cout << "---------- Prediction for " << file << " ----------" << std::endl;
 
-#ifdef XOPENME
-  xopenme_clock_start(1);
-#endif
+  x_clock_start(1);
   cv::Mat img = cv::imread(file, -1);
-#ifdef XOPENME
-  xopenme_clock_end(1);
-#endif
+  x_clock_end(1);
   CHECK(!img.empty()) << "Unable to decode image " << file;
 
-#ifdef XOPENME
-  xopenme_clock_start(2);
-#endif
+  x_clock_start(2);
 
   std::vector<Prediction> predictions;
 
@@ -265,9 +278,7 @@ void classify_single_image(Classifier& classifier, const fs::path& file_path) {
     predictions = classifier.Classify(img);
   }
 
-#ifdef XOPENME
-  xopenme_clock_end(2);
-#endif
+  x_clock_end(2);
 
   /* Print the top N predictions. */
   for (size_t i = 0; i < predictions.size(); ++i) {
@@ -276,7 +287,8 @@ void classify_single_image(Classifier& classifier, const fs::path& file_path) {
   }
 }
 
-int classify_continuously(Classifier& classifier, const fs::path& dir) {
+void classify_continuously(Classifier& classifier, const fs::path& dir) {
+  const int timer = 2;
   fs::directory_iterator end_iter;
   for (fs::directory_iterator dir_iter(dir) ; dir_iter != end_iter ; ++dir_iter){
     if (!fs::is_regular_file(dir_iter->status())) {
@@ -290,11 +302,11 @@ int classify_continuously(Classifier& classifier, const fs::path& dir) {
       continue;
     }
     std::vector<Prediction> predictions;
-    double start_time = dnn_get_time();
+    x_clock_start(timer);
     predictions = classifier.Classify(img);
-    double duration = dnn_get_time() - start_time;
+    x_clock_end(timer);
     std::cout << "File: " << file << std::endl;
-    std::cout << "Duration: " << duration << " sec" << std::endl;
+    std::cout << "Duration: " << x_get_time(timer) << " sec" << std::endl;
     std::cout << "Predictions: " << predictions.size() << std::endl;
     for (size_t i = 0; i < predictions.size(); ++i) {
       Prediction p = predictions[i];
@@ -326,13 +338,9 @@ int main(int argc, char** argv) {
   string mean_file    = argv[3];
   string label_file   = argv[4];
 
-#ifdef XOPENME
-  xopenme_clock_start(0);
-#endif
+  x_clock_start(0);
   Classifier classifier(model_file, trained_file, mean_file, label_file);
-#ifdef XOPENME
-  xopenme_clock_end(0);
-#endif
+  x_clock_end(0);
 
   fs::path path(argv[5]);
   CHECK(fs::exists(path)) << "Path doesn't exist " << path;
