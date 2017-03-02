@@ -232,7 +232,8 @@
   "tags": [
     "caffe-classification",
     "demo",
-    "vcpu"
+    "vcpu",
+    "continuous"
   ],
   "target_file": "classification",
   "version": "1.0.0",
