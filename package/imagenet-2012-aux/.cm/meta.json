@@ -7,6 +7,7 @@
     "install_env": {
       "DOWNLOAD_FILE_MD5": "f963098ea0e785a968ca1eb634003a90", 
       "DOWNLOAD_FILE": "caffe_ilsvrc12.tar.gz",
+      "DOWNLOAD_FILE1": "caffe_ilsvrc12.tar",
       "DOWNLOAD_NAME": "ILSVRC'12 aux dataset",
       "DOWNLOAD_URL": "http://dl.caffe.berkeleyvision.org/"
     }, 
