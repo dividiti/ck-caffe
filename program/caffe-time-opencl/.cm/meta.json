@@ -94,7 +94,7 @@
       "skip_linking": "yes",
       "skip_copy_to_remote": "yes",
       "sort": 35,
-      "tags": "lib,viennacl,vcpu"
+      "tags": "lib,viennacl,vsrc,vdvdt"
     },
     "xopenme": {
       "local": "yes",
