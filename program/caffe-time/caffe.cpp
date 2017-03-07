@@ -235,9 +235,14 @@ int test() {
     LOG(INFO) << "Use CPU.";
     Caffe::set_mode(Caffe::CPU);
   }
-  // Instantiate the caffe net.
-  Net<float> caffe_net(FLAGS_model, caffe::TEST, FLAGS_level, &stages);
-  caffe_net.CopyTrainedLayersFrom(FLAGS_weights);
+
+  shared_ptr<Net<float> > caffe_net;
+#ifdef CK_TARGET_OS_NAME2_ANDROID
+    caffe_net.reset(new Net<float>(FLAGS_model, caffe::TEST, NULL, FLAGS_level, &stages));
+#else
+    caffe_net.reset(new Net<float>(FLAGS_model, caffe::TEST, FLAGS_level, &stages));
+#endif
+  caffe_net->CopyTrainedLayersFrom(FLAGS_weights);
   LOG(INFO) << "Running for " << FLAGS_iterations << " iterations.";
 
   vector<int> test_score_output_id;
@@ -246,7 +251,7 @@ int test() {
   for (int i = 0; i < FLAGS_iterations; ++i) {
     float iter_loss;
     const vector<Blob<float>*>& result =
-        caffe_net.Forward(&iter_loss);
+        caffe_net->Forward(&iter_loss);
     loss += iter_loss;
     int idx = 0;
     for (int j = 0; j < result.size(); ++j) {
@@ -259,8 +264,8 @@ int test() {
         } else {
           test_score[idx] += score;
         }
-        const std::string& output_name = caffe_net.blob_names()[
-            caffe_net.output_blob_indices()[j]];
+        const std::string& output_name = caffe_net->blob_names()[
+            caffe_net->output_blob_indices()[j]];
         LOG(INFO) << "Batch " << i << ", " << output_name << " = " << score;
       }
     }
@@ -268,10 +273,10 @@ int test() {
   loss /= FLAGS_iterations;
   LOG(INFO) << "Loss: " << loss;
   for (int i = 0; i < test_score.size(); ++i) {
-    const std::string& output_name = caffe_net.blob_names()[
-        caffe_net.output_blob_indices()[test_score_output_id[i]]];
-    const float loss_weight = caffe_net.blob_loss_weights()[
-        caffe_net.output_blob_indices()[test_score_output_id[i]]];
+    const std::string& output_name = caffe_net->blob_names()[
+        caffe_net->output_blob_indices()[test_score_output_id[i]]];
+    const float loss_weight = caffe_net->blob_loss_weights()[
+        caffe_net->output_blob_indices()[test_score_output_id[i]]];
     std::ostringstream loss_msg_stream;
     const float mean_score = test_score[i] / FLAGS_iterations;
     if (loss_weight) {
@@ -306,9 +311,12 @@ int time() {
     LOG(INFO) << "Use CPU.";
     Caffe::set_mode(Caffe::CPU);
   }
-  // Instantiate the caffe net.
-  Net<float> caffe_net(FLAGS_model, phase, FLAGS_level, &stages);
-
+  shared_ptr<Net<float> > caffe_net;
+#ifdef CK_TARGET_OS_NAME2_ANDROID
+  caffe_net.reset(new Net<float>(FLAGS_model, caffe::TEST, NULL, FLAGS_level, &stages));
+#else
+  caffe_net.reset(new Net<float>(FLAGS_model, caffe::TEST, FLAGS_level, &stages));
+#endif
   // Do a clean forward and backward pass, so that memory allocation are done
   // and future iterations will be more stable.
   // Note that for the speed benchmark, we will assume that the network does
@@ -316,19 +324,19 @@ int time() {
   float initial_loss = 0.0f;
   if (!skip_fw) {
     LOG(INFO) << "Performing Forward";
-    caffe_net.Forward(&initial_loss);
+    caffe_net->Forward(&initial_loss);
   }
   LOG(INFO) << "Initial loss: " << initial_loss;
   if (!skip_bw) {
     LOG(INFO) << "Performing Backward";
-    caffe_net.Backward();
+    caffe_net->Backward();
   }
 
-  const vector<shared_ptr<Layer<float> > >& layers = caffe_net.layers();
-  const vector<vector<Blob<float>*> >& bottom_vecs = caffe_net.bottom_vecs();
-  const vector<vector<Blob<float>*> >& top_vecs = caffe_net.top_vecs();
+  const vector<shared_ptr<Layer<float> > >& layers = caffe_net->layers();
+  const vector<vector<Blob<float>*> >& bottom_vecs = caffe_net->bottom_vecs();
+  const vector<vector<Blob<float>*> >& top_vecs = caffe_net->top_vecs();
   const vector<vector<bool> >& bottom_need_backward =
-      caffe_net.bottom_need_backward();
+      caffe_net->bottom_need_backward();
   LOG(INFO) << "*** Benchmark begins ***";
   LOG(INFO) << "Testing for " << FLAGS_iterations << " iterations.";
   Timer total_timer;
