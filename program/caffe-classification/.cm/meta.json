@@ -180,7 +180,7 @@
           "data_uoa": "569404c41618603a",
           "script_name": "preprocess"
         },
-        "run_cmd_main": "$#BIN_FILE#$ $<<CK_CAFFE_MODEL_FILE>>$ $<<CK_CAFFE_MODEL_WEIGHTS>>$ $<<CK_CAFFE_IMAGENET_MEAN_BIN>>$ $<<CK_CAFFE_IMAGENET_SYNSET_WORDS_TXT>>$ $<<CK_CAFFE_IMAGENET_VAL>>$ --continuous",
+        "run_cmd_main": "$#BIN_FILE#$ $<<CK_CAFFE_MODEL_FILE>>$ $<<CK_CAFFE_MODEL_WEIGHTS>>$ $<<CK_CAFFE_IMAGENET_MEAN_BIN>>$ $<<CK_CAFFE_IMAGENET_SYNSET_WORDS_TXT>>$ --continuous $<<CK_CAFFE_IMAGENET_VAL>>$ $<<CK_CAFFE_IMAGENET_VAL_TXT>>$",
         "run_cmd_out1": "tmp-output1.tmp",
         "run_cmd_out2": "tmp-output2.tmp",
         "run_correctness_output_files": [],
