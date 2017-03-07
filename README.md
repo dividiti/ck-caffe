@@ -235,3 +235,5 @@ join this community effort!
 ## Related Publications with long term vision
 
 * <a href="https://github.com/ctuning/ck/wiki/Publications">All references with BibTex</a>
+
+![logo](https://github.com/ctuning/ck-guide-images/blob/master/logo-validated-by-the-community-simple.png)
