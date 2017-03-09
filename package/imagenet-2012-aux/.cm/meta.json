@@ -15,7 +15,8 @@
   }, 
   "deps": {}, 
   "end_full_path": {
-    "linux": "imagenet_mean.binaryproto"
+    "linux": "imagenet_mean.binaryproto",
+    "win": "imagenet_mean.binaryproto"
   }, 
   "need_cpu_info": "no", 
   "process_script": "install", 
