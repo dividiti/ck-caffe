@@ -16,5 +16,5 @@
       "3dev"
     ]
   },
-  "data_name": "caffe-classification"
+  "data_name": "Caffe classification via CPU"
 }
