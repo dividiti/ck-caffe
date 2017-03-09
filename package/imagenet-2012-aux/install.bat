@@ -10,8 +10,8 @@ rem Developer(s):
 rem - Anton Lokhmotov, anton@dividiti.com, 2016
 rem - Grigori Fursin, Grigori.Fursin@cTuning.org, 2016
 
-# PACKAGE_DIR
-# INSTALL_DIR
+rem PACKAGE_DIR
+rem INSTALL_DIR
 
 set FULL_PATH=%INSTALL_DIR%/%DOWNLOAD_FILE%
 set FULL_URL=%DOWNLOAD_URL%/%DOWNLOAD_FILE%

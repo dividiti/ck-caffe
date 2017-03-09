@@ -34,7 +34,8 @@
     }
   },
   "end_full_path": {
-    "linux": "data/data.mdb"
+    "linux": "data/data.mdb",
+    "win": "data\\data.mdb"
   }, 
   "need_cpu_info": "no", 
   "process_script": "install", 
