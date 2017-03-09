@@ -10,7 +10,10 @@
 #include <string>
 #include <utility>
 #include <vector>
+#include <fstream>
+#include <map>
 
+#include <boost/algorithm/string.hpp>
 #include <boost/filesystem.hpp>
 
 #ifdef XOPENME
@@ -34,6 +37,8 @@ class Classifier {
              const string& label_file);
 
   std::vector<Prediction> Classify(const cv::Mat& img, int N = 5);
+
+  std::string GetLabel(int index) { return labels_.size() <= index ? "" : labels_[index]; }
 
  private:
   void SetMean(const string& mean_file);
@@ -292,7 +297,22 @@ void classify_single_image(Classifier& classifier, const fs::path& file_path) {
   }
 }
 
-void classify_continuously(Classifier& classifier, const fs::path& dir) {
+void classify_continuously(Classifier& classifier, const fs::path& val_path, const fs::path& dir) {
+  std::map<std::string, std::string> correct_labels;
+
+  std::ifstream val_file(val_path.string());
+  while (!val_file.eof()) {
+    std::string fname = "";
+    int index = 0;
+    val_file >> fname >> index;
+    if (fname != "") {
+      std::string label = classifier.GetLabel(index);
+      if (label != "") {
+        correct_labels[boost::to_upper_copy(fname)] = label;
+      }
+    }
+  }
+
   const int timer = 2;
   fs::directory_iterator end_iter;
   for (fs::directory_iterator dir_iter(dir) ; dir_iter != end_iter ; ++dir_iter){
@@ -312,6 +332,12 @@ void classify_continuously(Classifier& classifier, const fs::path& dir) {
     x_clock_end(timer);
     std::cout << "File: " << file << std::endl;
     std::cout << "Duration: " << x_get_time(timer) << " sec" << std::endl;
+    auto correct_iter = correct_labels.find(boost::to_upper_copy(dir_iter->path().filename().string()));
+    std::string label = "";
+    if (correct_iter != correct_labels.end()) {
+      label = correct_iter->second;
+    }
+    std::cout << "Correct label: " << label << std::endl;
     std::cout << "Predictions: " << predictions.size() << std::endl;
     for (size_t i = 0; i < predictions.size(); ++i) {
       Prediction p = predictions[i];
@@ -328,16 +354,16 @@ int main(int argc, char** argv) {
   xopenme_init(3,0);
 #endif
 
-  if (argc != 6 && argc != 7) {
+  if (argc != 6 && (argc != 8 || argc == 8 && string(argv[5]) != "--continuous")) {
     std::cerr << "Usage: " << argv[0]
               << " deploy.prototxt network.caffemodel"
-              << " mean.binaryproto labels.txt <img.jpg | directory-with-images --continuous>" << std::endl;
+              << " mean.binaryproto labels.txt <img.jpg | --continuous directory-with-images val.txt>" << std::endl;
     return 1;
   }
 
   ::google::InitGoogleLogging(argv[0]);
 
-  bool continuous_mode = argc >= 7 && string(argv[6]) == "--continuous";
+  bool continuous_mode = argc >= 8 && string(argv[5]) == "--continuous";
   string model_file   = argv[1];
   string trained_file = argv[2];
   string mean_file    = argv[3];
@@ -347,12 +373,17 @@ int main(int argc, char** argv) {
   Classifier classifier(model_file, trained_file, mean_file, label_file);
   x_clock_end(0);
 
-  fs::path path(argv[5]);
-  CHECK(fs::exists(path)) << "Path doesn't exist " << path;
-
   if (continuous_mode) {
-    classify_continuously(classifier, path);
+    fs::path path(argv[6]);
+    CHECK(fs::exists(path)) << "Path to the directory with images doesn't exist " << path;
+
+    fs::path val_path(argv[7]);
+    CHECK(fs::exists(val_path)) << "Val file doesn't exist " << val_path;
+
+    classify_continuously(classifier, val_path, path);
   } else {
+    fs::path path(argv[5]);
+    CHECK(fs::exists(path)) << "Path doesn't exist " << path;
     classify_single_image(classifier, path);
   }
 
