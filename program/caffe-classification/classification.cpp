@@ -315,36 +315,38 @@ void classify_continuously(Classifier& classifier, const fs::path& val_path, con
 
   const int timer = 2;
   fs::directory_iterator end_iter;
-  for (fs::directory_iterator dir_iter(dir) ; dir_iter != end_iter ; ++dir_iter){
-    if (!fs::is_regular_file(dir_iter->status())) {
-      // skip non-images
-      continue;
+  while (true) {
+    for (fs::directory_iterator dir_iter(dir) ; dir_iter != end_iter ; ++dir_iter){
+      if (!fs::is_regular_file(dir_iter->status())) {
+        // skip non-images
+        continue;
+      }
+      string file = dir_iter->path().string();
+      cv::Mat img = cv::imread(file, -1);
+      if (img.empty()) {
+        // TODO: should we complain?
+        continue;
+      }
+      std::vector<Prediction> predictions;
+      x_clock_start(timer);
+      predictions = classifier.Classify(img);
+      x_clock_end(timer);
+      std::cout << "File: " << file << std::endl;
+      std::cout << "Duration: " << x_get_time(timer) << " sec" << std::endl;
+      auto correct_iter = correct_labels.find(boost::to_upper_copy(dir_iter->path().filename().string()));
+      std::string label = "";
+      if (correct_iter != correct_labels.end()) {
+        label = correct_iter->second;
+      }
+      std::cout << "Correct label: " << label << std::endl;
+      std::cout << "Predictions: " << predictions.size() << std::endl;
+      for (size_t i = 0; i < predictions.size(); ++i) {
+        Prediction p = predictions[i];
+        std::cout << std::fixed << std::setprecision(4) << p.second << " - \"" << p.first << "\"" << std::endl;
+      }
+      std::cout << std::endl;
+      std::cout.flush();
     }
-    string file = dir_iter->path().string();
-    cv::Mat img = cv::imread(file, -1);
-    if (img.empty()) {
-      // TODO: should we complain?
-      continue;
-    }
-    std::vector<Prediction> predictions;
-    x_clock_start(timer);
-    predictions = classifier.Classify(img);
-    x_clock_end(timer);
-    std::cout << "File: " << file << std::endl;
-    std::cout << "Duration: " << x_get_time(timer) << " sec" << std::endl;
-    auto correct_iter = correct_labels.find(boost::to_upper_copy(dir_iter->path().filename().string()));
-    std::string label = "";
-    if (correct_iter != correct_labels.end()) {
-      label = correct_iter->second;
-    }
-    std::cout << "Correct label: " << label << std::endl;
-    std::cout << "Predictions: " << predictions.size() << std::endl;
-    for (size_t i = 0; i < predictions.size(); ++i) {
-      Prediction p = predictions[i];
-      std::cout << std::fixed << std::setprecision(4) << p.second << " - \"" << p.first << "\"" << std::endl;
-    }
-    std::cout << std::endl;
-    std::cout.flush();
   }
 }
 
