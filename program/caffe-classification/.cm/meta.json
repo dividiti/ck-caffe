@@ -197,14 +197,12 @@
       },
       "run_deps": {
         "imagenet-aux": {
-          "force_target_as_host": "yes",
           "local": "yes",
           "name": "ImageNet (aux)",
           "sort": 50,
           "tags": "imagenet,aux"
         },
         "imagenet-val": {
-          "force_target_as_host": "yes",
           "local": "yes",
           "name": "ImageNet (val)",
           "sort": 60,

@@ -184,7 +184,7 @@
       "name": "ViennaCL library",
       "skip_default": "yes",
       "sort": 35,
-      "tags": "lib,viennacl,vsrc,vdvdt"
+      "tags": "lib,viennacl,vsrc"
     }
   },
   "end_full_path": {

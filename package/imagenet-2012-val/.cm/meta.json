@@ -15,7 +15,8 @@
   },
   "need_cpu_info": "no",
   "end_full_path": {
-    "linux": "ILSVRC2012_val_00000001.JPEG"
+    "linux": "ILSVRC2012_val_00000001.JPEG",
+    "win": "ILSVRC2012_val_00000001.JPEG"
   }, 
   "process_script": "install",
   "soft_uoa": "ff47fc6a33b4b03b",
