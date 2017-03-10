@@ -5,10 +5,12 @@
     "ck_version": 10, 
     "env_prefix": "CK_ENV_DATASET_IMAGENET_VAL",
     "limit_recursion_dir_search": {
-      "linux": 3
+      "linux": 3,
+      "win": 3
     }, 
     "soft_file": {
-      "linux": "ILSVRC2012_val_00000001.JPEG"
+      "linux": "ILSVRC2012_val_00000001.JPEG",
+      "win": "ILSVRC2012_val_00000001.JPEG"
     }
   }, 
   "deps": {
