@@ -1,3 +1,7 @@
+2017.03.12 - added 2 stripped IMAGENET packages with 500 images (to avoid download 8GB just for testing purposed):
+             * ck install package:imagenet-2012-val-min
+             * ck install package:imagenet-2012-val-min-stripped
+
 2017.03.02 - updated generation of DNN Android scenarios
 
 2017.03.01 - moved Caffe CPU branch for Android to official OpenCL branch with CPU_ONLY

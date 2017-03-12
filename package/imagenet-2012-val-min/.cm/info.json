@@ -1,0 +1,19 @@
+{
+  "backup_data_uid": "60cb8b2218445c36",
+  "backup_module_uid": "1dc07ee0f4742028",
+  "backup_module_uoa": "package",
+  "control": {
+    "author": "Olga Russakovsky and Jia Deng and Hao Su and Jonathan Krause and Sanjeev Satheesh and Sean Ma and Zhiheng Huang and Andrej Karpathy and Aditya Khosla and Michael Bernstein and Alexander C. Berg and Li Fei-Fei",
+    "author_webpage": "http://image-net.org/challenges/LSVRC/2012",
+    "engine": "CK",
+    "iso_datetime": "2017-03-12T13:43:08.717301",
+    "license": "See the LICENSE.txt file for licensing terms",
+    "version": [
+      "1",
+      "8",
+      "7",
+      "1"
+    ]
+  },
+  "data_name": "imagenet-2012-val-min"
+}
