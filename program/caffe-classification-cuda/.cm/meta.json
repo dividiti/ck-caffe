@@ -105,8 +105,8 @@
     "CK_ENV_LIB_HDF5_INCLUDE"
   ],
   "compiler_env": "CK_NVCXX", 
-  "compiler_flags_as_env": "$<<CK_OPT_UNWIND>>$ $<<CK_ENV_LIB_CAFFE_CXXFLAGS>>$", 
-  "data_name": "caffe-classification-cuda", 
+  "compiler_flags_as_env": "$<<CK_OPT_UNWIND>>$ $<<CK_ENV_LIB_CAFFE_CXXFLAGS>>$ $<<CK_COMPILER_FLAG_CPP11>>$",
+  "data_name": "Caffe classification via CUDA", 
   "extra_ld_vars": "$<<CK_ENV_LIB_HDF5_LFLAG>>$ $<<CK_ENV_LIB_HDF5_LFLAG_HL>>$ $<<CK_ENV_LIB_GLOG_LFLAG>>$ $<<CK_ENV_LIB_BOOST_LFLAG_THREAD>>$ $<<CK_ENV_LIB_BOOST_LFLAG_DATE_TIME>>$ $<<CK_ENV_LIB_BOOST_LFLAG_FILESYSTEM>>$ $<<CK_ENV_LIB_BOOST_LFLAG_SYSTEM>>$ $<<CK_ENV_LIB_OPENCV_LFLAG_IMGPROC>>$ $<<CK_ENV_LIB_OPENCV_LFLAG_HIGHGUI>>$ $<<CK_ENV_LIB_OPENCV_LFLAG_CORE>>$ $<<CK_ENV_LIB_OPENCV_LFLAG_IMGCODECS>>$ $<<CK_EXTRA_LIB_Z>>$ $<<CK_EXTRA_LIB_LOG>>$ $<<CK_EXTRA_LIB_M>>$  $<<CK_ENV_LIB_CAFFE_LFLAG_PROTO>>$ $<<CK_ENV_LIB_CAFFE_LINK_FLAGS>>$ $<<CK_ENV_LIB_STDCPP_STATIC>>$", 
   "main_language": "cpp", 
   "only_for_target_os_tags": [
@@ -179,6 +179,48 @@
           "tmp-ck-timer.json"
         ]
       }
+    },
+    "use_continuous": {
+      "ignore_return_code": "no",
+      "run_time": {
+        "fine_grain_timer_file": "tmp-ck-timer.json",
+        "params": {
+          "caffemodel_key": "deploy",
+          "classification": "yes"
+        },
+        "pre_process_via_ck": {
+          "data_uoa": "569404c41618603a",
+          "script_name": "preprocess"
+        },
+        "run_cmd_main": "$#BIN_FILE#$ $<<CK_CAFFE_MODEL_FILE>>$ $<<CK_CAFFE_MODEL_WEIGHTS>>$ $<<CK_CAFFE_IMAGENET_MEAN_BIN>>$ $<<CK_CAFFE_IMAGENET_SYNSET_WORDS_TXT>>$ --continuous $<<CK_CAFFE_IMAGENET_VAL>>$ $<<CK_CAFFE_IMAGENET_VAL_TXT>>$",
+        "run_cmd_out1": "tmp-output1.tmp",
+        "run_cmd_out2": "tmp-output2.tmp",
+        "run_correctness_output_files": [],
+        "run_input_files": [
+          "$<<CK_CAFFE_MODEL_FILE>>$",
+          "$<<CK_ENV_MODEL_CAFFE_WEIGHTS>>$",
+          "$<<CK_CAFFE_IMAGENET_MEAN_BIN>>$",
+          "$<<CK_CAFFE_IMAGENET_SYNSET_WORDS_TXT>>$"
+        ],
+        "run_output_files": [
+          "tmp-output.tmp",
+          "tmp-ck-timer.json"
+        ]
+      },
+      "run_deps": {
+        "imagenet-aux": {
+          "local": "yes",
+          "name": "ImageNet (aux)",
+          "sort": 50,
+          "tags": "imagenet,aux"
+        },
+        "imagenet-val": {
+          "local": "yes",
+          "name": "ImageNet (val)",
+          "sort": 60,
+          "tags": "imagenet,val"
+        }
+      }
     }
   }, 
   "run_deps": {
@@ -200,7 +242,8 @@
   "tags": [
     "caffe-classification", 
     "demo",
-    "vcuda"
+    "vcuda",
+    "continuous"
   ], 
   "target_file": "classification", 
   "version": "1.0.0"
