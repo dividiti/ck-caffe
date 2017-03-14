@@ -1,3 +1,5 @@
+2017.03.14 - moved package:dnn-* to ck-old-packages repo
+
 2017.03.12 - added 2 stripped IMAGENET packages with 500 images (to avoid download 8GB just for testing purposed):
              * ck install package:imagenet-2012-val-min
              * ck install package:imagenet-2012-val-min-stripped
