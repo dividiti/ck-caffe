@@ -1,5 +1,6 @@
 {
   "check_exit_status": "yes",
+  "aux_uoa": "4e3e9dd897f125bb",
   "customize": {
     "extra_dir": "",
     "force_ask_path": "yes",
