@@ -33,6 +33,12 @@ if [ "${CK_CPU_ARM_VFPV3}" == "ON" ] ; then
   EXTRA_FLAGS="$EXTRA_FLAGS -mfpu=vfpv3"
 fi
 
+if [[ "$OSTYPE" == "darwin"* ]]; then
+  HOST_OS="Darwin"
+else
+  HOST_OS="Linux"
+fi
+
 cd ${INSTALL_DIR}/obj
 
 cmake -DCMAKE_BUILD_TYPE=${CK_ENV_CMAKE_BUILD_TYPE:-Release} \
