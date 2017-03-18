@@ -1,7 +1,7 @@
 diff -ruN src\CMakeLists.txt src.new\CMakeLists.txt
---- src\CMakeLists.txt	Tue Jan 10 12:15:51 2017
-+++ src.new\CMakeLists.txt	Mon Jan 09 23:00:19 2017
-@@ -89,8 +89,8 @@
+--- src\CMakeLists.txt	Sat Mar 18 10:28:48 2017
++++ src.new\CMakeLists.txt	Sat Mar 18 10:34:19 2017
+@@ -190,8 +190,8 @@
  # ---[ Subdirectories
  add_subdirectory(src/gtest)
  add_subdirectory(src/caffe)
@@ -9,6 +9,6 @@ diff -ruN src\CMakeLists.txt src.new\CMakeLists.txt
 -add_subdirectory(examples)
 +#add_subdirectory(tools)
 +#add_subdirectory(examples)
+ # This code is taken from https://github.com/sh1r0/caffe-android-lib
  add_subdirectory(android)
  add_subdirectory(python)
- add_subdirectory(matlab)
