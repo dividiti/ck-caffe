@@ -11,14 +11,14 @@ collaborative and reproducible optimisation of convolutional neural networks.
 It's based on the [Caffe](http://caffe.berkeleyvision.org) framework from the
 Berkeley Vision and Learning Center ([BVLC](http://bvlc.eecs.berkeley.edu)) and
 the [Collective Knowledge](http://cknowledge.org) framework for customizable
-cross-platform builds and experimental workflows with JSON API from the [cTuning
-Foundation](http://ctuning.org) (see CK intro for more details: [1](https://arxiv.org/abs/1506.06256),
+cross-platform builds and experimental workflows with JSON API from the 
+[cTuning Foundation](http://ctuning.org) (see CK intro for more details: [1](https://arxiv.org/abs/1506.06256),
 [2](https://www.researchgate.net/publication/304010295_Collective_Knowledge_Towards_RD_Sustainability) ). 
 In essence, CK-Caffe is simply a suite of convenient wrappers with unified 
 JSON API for customized building, evaluation and multi-objective optimisation of Caffe.
 
-As outlined in our [vision](http://dx.doi.org/10.1145/2909437.2909449), we
-invite the community to collaboratively design and optimize convolutional
+As outlined in our [vision](http://dx.doi.org/10.1145/2909437.2909449), 
+we invite the community to collaboratively design and optimize convolutional
 neural networks to meet the performance, accuracy and cost requirements for
 deployment on a range of form factors - from sensors to self-driving cars. To
 this end, CK-Caffe leverages the key capabilities of CK to crowdsource
@@ -32,8 +32,8 @@ See [cKnowledge.org/ai](http://cKnowledge.org/ai) for more details.
 ## Authors/contributors
 
 * Anton Lokhmotov, [dividiti](http://dividiti.com)
-* Grigori Fursin, [dividiti](http://dividiti.com) / [cTuning foundation](http://ctuning.org)
 * Unmesh Bordoloi, [General Motors](http://gm.com)
+* Grigori Fursin, [dividiti](http://dividiti.com) / [cTuning foundation](http://ctuning.org)
 
 ## Quick installation on Ubuntu
 
@@ -236,4 +236,38 @@ join this community effort!
 
 ## Related Publications with long term vision
 
-* <a href="https://github.com/ctuning/ck/wiki/Publications">All references with BibTex</a>
+```
+@inproceedings{Lokhmotov:2016:OCN:2909437.2909449,
+ author = {Lokhmotov, Anton and Fursin, Grigori},
+ title = {Optimizing Convolutional Neural Networks on Embedded Platforms with OpenCL},
+ booktitle = {Proceedings of the 4th International Workshop on OpenCL},
+ series = {IWOCL '16},
+ year = {2016},
+ location = {Vienna, Austria},
+ url = {http://doi.acm.org/10.1145/2909437.2909449},
+ acmid = {2909449},
+ publisher = {ACM},
+ address = {New York, NY, USA},
+ keywords = {Convolutional neural networks, OpenCL, collaborative optimization, deep learning, optimization knowledge repository},
+} 
+
+@inproceedings{ck-date16,
+    title = {{Collective Knowledge}: towards {R\&D} sustainability},
+    author = {Fursin, Grigori and Lokhmotov, Anton and Plowman, Ed},
+    booktitle = {Proceedings of the Conference on Design, Automation and Test in Europe (DATE'16)},
+    year = {2016},
+    month = {March},
+    url = {https://www.researchgate.net/publication/304010295_Collective_Knowledge_Towards_RD_Sustainability}
+}
+```
+
+* <a href="https://github.com/ctuning/ck/wiki/Publications">All related references with BibTex</a>
+
+## Testimonials and awards
+
+* 2015: ARM and the cTuning foundation use CK to accelerate computer engineering: [HiPEAC Info'45 page 17](https://www.hipeac.net/assets/public/publications/newsletter/hipeacinfo45.pdf), [ARM TechCon'16 presentation and demo](http://schedule.armtechcon.com/session/know-your-workloads-design-more-efficient-systems), [public CK repo](https://github.com/ctuning/ck-wa)
+
+## Feedback
+
+Feel free to engage with our community via this mailing list:
+* http://groups.google.com/group/collective-knowledge
