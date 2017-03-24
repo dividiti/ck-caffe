@@ -61,6 +61,14 @@
       },
       "tags": "compiler,lang-cpp"
     }, 
+    "cmake": {
+      "local": "yes", 
+      "name": "cmake", 
+      "force_target_as_host": "yes",
+      "sort": 11, 
+      "skip_from_bat":"yes",
+      "tags": "tool,cmake"
+    }, 
     "lib-blas": {
       "local": "yes", 
       "name": "BLAS library", 
@@ -77,6 +85,18 @@
       }, 
       "sort": 25, 
       "tags": "lib,boost"
+    }, 
+    "lib-gflags-orig": {
+      "local": "yes", 
+      "name": "GFlags library", 
+      "skip_installed": {
+        "android": "yes", 
+        "linux": "yes",
+        "win": "yes"
+      }, 
+      "sort": 12, 
+      "force_env_init":"yes",
+      "tags": "lib,gflags,v2.2.0"
     }, 
     "lib-gflags": {
       "local": "yes", 
