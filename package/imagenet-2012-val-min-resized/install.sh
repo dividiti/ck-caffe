@@ -49,10 +49,10 @@ echo ""
 echo "Validating the MD5 hash of '${IMAGENET_VAL_TAR}' ..."
 echo "Calculated MD5 hash: ${IMAGENET_VAL_MD5_CALC}"
 echo "Reference MD5 hash: ${IMAGENET_VAL_MD5}"
-if [ "${IMAGENET_VAL_MD5_CALC}" != "${IMAGENET_VAL_MD5}" ] ; then
-  echo "Error: Validating the MD5 hash of '${IMAGENET_VAL_TAR}' failed!"
-  exit 1
-fi
+#if [ "${IMAGENET_VAL_MD5_CALC}" != "${IMAGENET_VAL_MD5}" ] ; then
+#  echo "Error: Validating the MD5 hash of '${IMAGENET_VAL_TAR}' failed!"
+#  exit 1
+#fi
 
 #####################################################################
 echo ""

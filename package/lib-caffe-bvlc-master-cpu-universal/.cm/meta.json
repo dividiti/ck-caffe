@@ -24,7 +24,7 @@
       "PACKAGE_SKIP_BUILD_ERROR": "YES", 
       "PACKAGE_SKIP_CLEAN_INSTALL": "NO", 
       "PACKAGE_SKIP_CLEAN_OBJ": "NO", 
-      "PACKAGE_SKIP_CLEAN_SRC_DIR": "YES", 
+      "PACKAGE_SKIP_CLEAN_SRC_DIR": "NO", 
       "PACKAGE_SUB_DIR": "src", 
       "PACKAGE_SUB_DIR1": "src", 
       "PACKAGE_URL_ANDROID": "https://github.com/BVLC/caffe", 
@@ -55,6 +55,10 @@
       "local": "yes", 
       "name": "C++ compiler", 
       "sort": 10, 
+      "update_tags_by_host_platform":{
+        "linux":"gcc",
+        "win":"mvsc"
+      },
       "tags": "compiler,lang-cpp"
     }, 
     "lib-blas": {
@@ -82,7 +86,8 @@
         "linux": "yes",
         "win": "yes"
       }, 
-      "sort": 12, 
+      "sort": 200, 
+      "force_env_init":"yes",
       "tags": "lib,gflags,v2.2.0"
     }, 
     "lib-glog": {
@@ -138,7 +143,7 @@
         "android": "yes", 
         "win": "yes"
       }, 
-      "sort": 16, 
+      "sort": 110, 
       "tags": "lib,protobuf,v3.1.0"
     }, 
     "lib-protobuf-host": {
@@ -149,7 +154,7 @@
         "android": "yes", 
         "win": "yes"
       }, 
-      "sort": 19, 
+      "sort": 115, 
       "tags": "lib,protobuf-host,v3.1.0"
     }
   }, 
