@@ -86,36 +86,26 @@
       "sort": 25, 
       "tags": "lib,boost"
     }, 
-    "lib-gflags-orig": {
-      "local": "yes", 
-      "name": "GFlags library", 
-      "skip_installed": {
-        "android": "yes", 
-        "linux": "yes",
-        "win": "yes"
-      }, 
-      "sort": 12, 
-      "force_env_init":"yes",
-      "tags": "lib,gflags,v2.2.0"
-    }, 
     "lib-gflags": {
       "local": "yes", 
       "name": "GFlags library", 
       "skip_installed": {
         "android": "yes", 
-        "linux": "yes",
         "win": "yes"
       }, 
-      "sort": 200, 
+      "update_tags_by_target_platform2":{
+         "win":"v2.2.0",
+         "android":"v2.2.0"
+      },
+      "sort": 12, 
       "force_env_init":"yes",
-      "tags": "lib,gflags,v2.2.0"
+      "tags": "lib,gflags"
     }, 
     "lib-glog": {
       "local": "yes", 
       "name": "GLog library", 
       "skip_installed": {
         "android": "yes", 
-        "linux": "yes",
         "win": "yes"
       }, 
       "sort": 14, 

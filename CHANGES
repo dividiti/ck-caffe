@@ -1,3 +1,5 @@
+2017.03.25 - fixes for Raspberry Pi 3
+
 2017.03.18 - fixes for Android install scripts (to support latest 3.7.2 cmake)
 
 2017.03.14 - moved package:dnn-* to ck-old-packages repo
