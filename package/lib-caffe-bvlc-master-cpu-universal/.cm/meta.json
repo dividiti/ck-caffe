@@ -55,9 +55,10 @@
       "local": "yes", 
       "name": "C++ compiler", 
       "sort": 10, 
-      "update_tags_by_host_platform":{
+      "update_tags_by_target_platform2":{
         "linux":"gcc",
-        "win":"mvsc"
+        "android":"gcc",
+        "win":"mcl"
       },
       "tags": "compiler,lang-cpp"
     }, 
