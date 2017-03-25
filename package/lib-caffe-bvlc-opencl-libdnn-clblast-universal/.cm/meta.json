@@ -63,10 +63,23 @@
     "version": "trunk"
   },
   "deps": {
+    "cmake": {
+      "force_target_as_host": "yes",
+      "local": "yes",
+      "name": "cmake",
+      "skip_from_bat": "yes",
+      "sort": 5,
+      "tags": "tool,cmake"
+    },
     "compiler": {
       "local": "yes",
       "name": "C++ compiler",
       "sort": 10,
+      "update_tags_by_target_platform2": {
+        "android": "gcc",
+        "linux": "gcc",
+        "win": "mcl"
+      },
       "tags": "compiler,lang-cpp"
     },
     "lib-blas": {
@@ -94,22 +107,25 @@
       "tags": "lib,clblast"
     },
     "lib-gflags": {
+      "force_env_init": "yes",
       "local": "yes",
       "name": "GFlags library",
       "skip_installed": {
         "android": "yes",
-        "linux": "yes",
         "win": "yes"
       },
       "sort": 12,
-      "tags": "lib,gflags"
+      "tags": "lib,gflags",
+      "update_tags_by_target_platform2": {
+        "android": "v2.2.0",
+        "win": "v2.2.0"
+      }
     },
     "lib-glog": {
       "local": "yes",
       "name": "GLog library",
       "skip_installed": {
         "android": "yes",
-        "linux": "yes",
         "win": "yes"
       },
       "sort": 14,
@@ -166,7 +182,7 @@
         "android": "yes",
         "win": "yes"
       },
-      "sort": 16,
+      "sort": 110,
       "tags": "lib,protobuf,v3.1.0"
     },
     "lib-protobuf-host": {
@@ -177,7 +193,7 @@
         "android": "yes",
         "win": "yes"
       },
-      "sort": 19,
+      "sort": 115,
       "tags": "lib,protobuf-host"
     },
     "lib-viennacl": {

@@ -44,10 +44,23 @@
     "version": "trunk"
   }, 
   "deps": {
+    "cmake": {
+      "force_target_as_host": "yes",
+      "local": "yes",
+      "name": "cmake",
+      "skip_from_bat": "yes",
+      "sort": 5,
+      "tags": "tool,cmake"
+    },
     "compiler": {
       "local": "yes", 
       "name": "C++ compiler", 
       "sort": 10, 
+      "update_tags_by_target_platform2": {
+        "android": "gcc",
+        "linux": "gcc",
+        "win": "mcl"
+      },
       "tags": "compiler,lang-cpp"
     }, 
     "lib-blas": {
@@ -68,27 +81,30 @@
       "tags": "lib,boost"
     }, 
     "lib-gflags": {
-      "local": "yes", 
-      "name": "GFlags library", 
+      "force_env_init": "yes",
+      "local": "yes",
+      "name": "GFlags library",
       "skip_installed": {
-        "android": "yes", 
-        "linux": "yes", 
+        "android": "yes",
         "win": "yes"
-      }, 
-      "sort": 12, 
-      "tags": "lib,gflags,v2.2.0"
-    }, 
+      },
+      "sort": 12,
+      "tags": "lib,gflags",
+      "update_tags_by_target_platform2": {
+        "android": "v2.2.0",
+        "win": "v2.2.0"
+      }
+    },
     "lib-glog": {
-      "local": "yes", 
-      "name": "GLog library", 
+      "local": "yes",
+      "name": "GLog library",
       "skip_installed": {
-        "android": "yes", 
-        "linux": "yes", 
+        "android": "yes",
         "win": "yes"
-      }, 
-      "sort": 14, 
+      },
+      "sort": 14,
       "tags": "lib,glog"
-    }, 
+    },
     "lib-hdf5": {
       "local": "yes", 
       "name": "HDF5 library", 
@@ -131,7 +147,7 @@
         "android": "yes", 
         "win": "yes"
       }, 
-      "sort": 16, 
+      "sort": 110, 
       "tags": "lib,protobuf,v3.1.0"
     }, 
     "lib-protobuf-host": {
@@ -142,7 +158,7 @@
         "android": "yes", 
         "win": "yes"
       }, 
-      "sort": 19, 
+      "sort": 115, 
       "tags": "lib,protobuf-host,v3.1.0"
     }
   }, 
