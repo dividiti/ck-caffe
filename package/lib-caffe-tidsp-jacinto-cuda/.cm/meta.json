@@ -1,0 +1,108 @@
+{
+  "check_exit_status": "yes",
+  "customize": {
+    "extra_dir": "",
+    "git_src_dir": "src",
+    "install_env": {
+      "CAFFE_BRANCH": "caffe-0.15",
+      "CAFFE_URL": "https://github.com/tidsp/caffe-jacinto",
+      "NVCCFLAGS": "-D_FORCE_INLINES -Wno-deprecated-gpu-targets"
+    },
+    "params": {
+      "cpu_only": 0,
+      "debug": 0,
+      "use_clblas": 0,
+      "use_clblast": 0,
+      "use_cuda": 1,
+      "use_greentea": 0,
+      "use_leveldb": 1,
+      "use_lmdb": 1,
+      "use_opencv": 1
+    },
+    "skip_file_check": "yes",
+    "use_git_revision": "yes",
+    "version": "jacinto"
+  },
+  "deps": {
+    "compiler": {
+      "local": "yes",
+      "name": "C++ compiler",
+      "sort": 10,
+      "tags": "compiler,lang-cpp"
+    },
+    "compiler-cuda": {
+      "local": "yes",
+      "name": "CUDA compiler >=7.0",
+      "sort": 15,
+      "tags": "compiler,lang-c-cuda"
+    },
+    "lib-blas": {
+      "add_to_path": "yes",
+      "local": "yes",
+      "name": "BLAS library",
+      "sort": 30,
+      "tags": "lib,blas,openblas"
+    },
+    "lib-gflags": {
+      "local": "yes",
+      "name": "GFlags library",
+      "skip_default": "yes",
+      "sort": 12,
+      "tags": "lib,gflags"
+    },
+    "lib-glog": {
+      "local": "yes",
+      "name": "GLog library",
+      "skip_default": "yes",
+      "sort": 14,
+      "tags": "lib,glog"
+    },
+    "lib-hdf5": {
+      "local": "yes",
+      "name": "HDF5 library",
+      "sort": 25,
+      "tags": "lib,hdf5"
+    },
+    "lib-opencv": {
+      "local": "yes",
+      "name": "OpenCV library",
+      "sort": 20,
+      "tags": "lib,opencv"
+    },
+    "lib-protobuf-host": {
+      "force_target_as_host": "yes",
+      "local": "yes",
+      "name": "ProtoBuf host compiler",
+      "sort": 19,
+      "tags": "lib,protobuf-host"
+    }
+  },
+  "end_full_path": {
+    "linux": "src/build/tools/caffe.bin"
+  },
+  "need_cpu_info": "yes",
+  "only_for_host_os_tags": [
+    "linux"
+  ],
+  "only_for_target_os_tags": [
+    "linux"
+  ],
+  "package_extra_name": " (tidsp,cuda)",
+  "process_script": "install",
+  "soft_uoa": "04ab08137582bd03",
+  "suggested_path": "lib-caffe-tidsp-cuda",
+  "tags": [
+    "lib",
+    "caffe",
+    "tidsp",
+    "vcaffe-jacinto",
+    "vjacinto",
+    "vcaffe-0.15",
+    "v0.15",
+    "vcuda",
+    "vno-cudnn"
+  ],
+  "use_scripts_from_another_entry": {
+    "data_uoa": "14c56f748be92b38"
+  }
+}
