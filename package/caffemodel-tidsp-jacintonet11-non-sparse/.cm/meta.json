@@ -1,0 +1,77 @@
+{
+  "check_exit_status": "yes",
+  "customize": {
+    "extra_dir": "",
+    "file_with_weights": "jacintonet11_bn_iter_320000.caffemodel",
+    "force_ask_path": "yes",
+    "install_env": {
+      "MODEL_FILE": "jacintonet11_bn_iter_320000.caffemodel",
+      "MODEL_HASH_CALCULATOR": "sha1sum",
+      "MODEL_HASH_REF": "60f5ac3fe7f6e022bac8072ad14f69b6e2a28350",
+      "MODEL_URL": "https://github.com/tidsp/caffe-jacinto-models/raw/master/examples/tidsp/models/non_sparse/imagenet_classification/jacintonet11/jacintonet11_bn_iter_320000.caffemodel"
+    },
+    "no_os_in_suggested_path": "yes",
+    "no_ver_in_suggested_path": "yes",
+    "params": {
+      "deploy": {
+        "substitute": {
+          "batch_size": 1
+        },
+        "template": "deploy.prototxt"
+      },
+      "train": {
+        "substitute": {
+          "train_batch_size": 128,
+          "val_batch_size": 128
+        },
+        "template": "train_val.prototxt"
+      },
+      "val": {
+        "accuracy_layers": [
+          "accuracy/top-1",
+          "accuracy/top-5"
+        ],
+        "substitute": {
+          "train_batch_size": 128,
+          "val_batch_size": 128
+        },
+        "template": "train_val.prototxt"
+      }
+    },
+    "skip_file_check": "yes",
+    "version": "trunk"
+  },
+  "end_full_path": {
+    "linux": "jacintonet11_bn_iter_320000.caffemodel",
+    "win": "jacintonet11_bn_iter_320000.caffemodel"
+  },
+  "only_for_host_os_tags": [
+    "windows",
+    "linux"
+  ],
+  "only_for_target_os_tags": [
+    "windows",
+    "linux"
+  ],
+  "features":{
+    "accuracy":0.6077,
+    "accuracy_top5":0.8320
+  },
+  "package_extra_name": " (tidsp, jacintonet11, non-sparse)",
+  "process_script": "download",
+  "soft_uoa": "e2400aabc11d6cd1",
+  "suggested_path": "caffemodel-tidsp-jacintonet11-non-sparse",
+  "tags": [
+    "caffe",
+    "weights",
+    "caffemodel",
+    "tidsp",
+    "jacintonet11",
+    "non-sparse"
+  ],
+  "use_scripts_from_another_entry": {
+    "data_uoa": "download-caffemodel",
+    "module_uoa": "script",
+    "repo_uoa": "ck-caffe"
+  }
+}
