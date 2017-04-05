@@ -1,0 +1,32 @@
+{
+  "check_exit_status": "yes",
+  "customize": {
+    "extra_dir": "",
+    "force_ask_path": "yes",
+    "no_os_in_suggested_path": "yes",
+    "no_ver_in_suggested_path": "yes",
+    "install_env": {
+      "IMAGE_DIR": "",
+      "LABELS_DIR": "",
+      "COCO_MD5": "",
+      "COCO_ARCHIVE": "",
+      "COCO_URL": ""
+    },
+    "version": "2014"
+  },
+  "deps": {},
+  "need_cpu_info": "no",
+  "end_full_path": {
+    "linux": ""
+  },
+  "process_script": "install",
+  "soft_uoa": "2439499e39a313b5",
+  "suggested_path": "dataset-coco-full",
+  "tags": [
+    "dataset",
+    "coco",
+    "COCO",
+    "val",
+    "COCOfull"
+  ]
+}
