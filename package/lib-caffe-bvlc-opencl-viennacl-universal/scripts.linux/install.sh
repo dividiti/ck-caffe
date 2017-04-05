@@ -22,6 +22,11 @@ if [ "${CK_HAS_OPENMP}" = "0"  ]; then
   CK_OPENMP=""
 fi
 
+OPENCV_DIR=${CK_ENV_LIB_OPENCV_JNI}
+if [ "${OPENCV_DIR}" == "" ]; then
+  OPENCV_DIR=${CK_ENV_LIB_OPENCV}/share/OpenCV
+fi
+
 # Check extra stuff
 EXTRA_FLAGS=""
 
@@ -76,7 +81,7 @@ cmake -DCMAKE_BUILD_TYPE=${CK_ENV_CMAKE_BUILD_TYPE:-Release} \
       -DOpenBLAS_INCLUDE_DIR="${CK_ENV_LIB_OPENBLAS_INCLUDE}" \
       -DOpenBLAS_LIB="${CK_ENV_LIB_OPENBLAS_LIB}/libopenblas.a" \
       -DLMDB_INCLUDE_DIR="${CK_ENV_LIB_LMDB_INCLUDE}" \
-      -DOpenCV_DIR="${CK_ENV_LIB_OPENCV_JNI}" \
+      -DOpenCV_DIR="${OPENCV_DIR}" \
       -DHDF5_DIR="${CK_ENV_LIB_HDF5}/cmake" \
       -DHDF5_ROOT_DIR="${CK_ENV_LIB_HDF5}/cmake" \
       -DHDF5_INCLUDE_DIRS="${CK_ENV_LIB_HDF5_INCLUDE}" \
