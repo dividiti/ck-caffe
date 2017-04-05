@@ -84,6 +84,11 @@ def setup(i):
     env[ep+'_WEIGHTS']=os.path.join(pi, cus.get('file_with_weights',''))
     env[ep+'_WEIGHTS_FILE']=cus.get('file_with_weights','')
 
+    mean_bin_file = cus.get('file_mean_bin','')
+    if (mean_bin_file != ''):
+      env[ep + '_MEAN_BIN'] = os.path.join(pi, mean_bin_file)
+      env[ep + '_MEAN_BIN_FILE'] = mean_bin_file
+
     # record params
     pff=cus['ck_params_file']
     pf=os.path.join(pi, pff)
