@@ -1,0 +1,54 @@
+{
+  "check_exit_status": "yes",
+  "customize": {
+    "extra_dir": "",
+    "file_with_weights": "VGG_ILSVRC_19_layers.caffemodel",
+    "force_ask_path": "yes",
+    "install_env": {
+      "MODEL_FILE": "VGG_ILSVRC_19_layers.caffemodel",
+      "MODEL_HASH_CALCULATOR": "sha1sum",
+      "MODEL_HASH_REF": "239785e7862442717d831f682bb824055e51e9ba",
+      "MODEL_URL": "http://www.robots.ox.ac.uk/~vgg/software/very_deep/caffe/VGG_ILSVRC_19_layers.caffemodel"
+    },
+    "no_os_in_suggested_path": "yes",
+    "no_ver_in_suggested_path": "yes",
+    "params": {
+      "deploy": {
+        "substitute": {
+          "batch_size": 10
+        },
+        "template": "deploy.prototxt"
+      }
+    },
+    "skip_file_check": "yes",
+    "version": "deploy"
+  },
+  "end_full_path": {
+    "linux": "VGG_ILSVRC_19_layers.caffemodel",
+    "win": "VGG_ILSVRC_19_layers.caffemodel"
+  },
+  "only_for_host_os_tags": [
+    "windows",
+    "linux"
+  ],
+  "only_for_target_os_tags": [
+    "windows",
+    "linux"
+  ],
+  "package_extra_name": " (vgg, vgg19)",
+  "process_script": "download",
+  "soft_uoa": "e2400aabc11d6cd1",
+  "suggested_path": "caffemodel-vgg19",
+  "tags": [
+    "caffe",
+    "weights",
+    "caffemodel",
+    "vgg",
+    "vgg19"
+  ],
+  "use_scripts_from_another_entry": {
+    "data_uoa": "download-caffemodel",
+    "module_uoa": "script",
+    "repo_uoa": "ck-caffe"
+  }
+}
