@@ -1,0 +1,1 @@
+The [Visual Geometry Group](http://www.robots.ox.ac.uk/~vgg) at the University of Oxford designed several [highly accurate DNNs](https://arxiv.org/abs/1409.1556) and provided them under the [CC-4.0 license](https://creativecommons.org/licenses/by/4.0/).
