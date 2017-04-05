@@ -7,7 +7,7 @@
     "install_env": {
       "MODEL_FILE": "VGG_ILSVRC_19_layers.caffemodel",
       "MODEL_HASH_CALCULATOR": "sha1sum",
-      "MODEL_HASH_REF": "",
+      "MODEL_HASH_REF": "239785e7862442717d831f682bb824055e51e9ba",
       "MODEL_URL": "http://www.robots.ox.ac.uk/~vgg/software/very_deep/caffe/VGG_ILSVRC_19_layers.caffemodel"
     },
     "no_os_in_suggested_path": "yes",
