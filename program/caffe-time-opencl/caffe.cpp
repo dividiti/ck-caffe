@@ -425,19 +425,23 @@ int time() {
 
   // Do a clean forward and backward pass, so that memory allocation are done
   // and future iterations will be more stable.
-  LOG(INFO) << "Performing Forward";
+
   // Note that for the speed benchmark, we will assume that the network does
   // not take any input blobs.
   float initial_loss = 0.0f;
   if (!skip_fw) {
     LOG(INFO) << "Performing Forward";
-    caffe_net->Forward(&initial_loss);
+    caffe_net.Forward(&initial_loss);
+  } else {
+    LOG(INFO) << "Skip Forward";
   }
 
   LOG(INFO) << "Initial loss: " << initial_loss;
   if (!skip_bw) {
     LOG(INFO) << "Performing Backward";
     caffe_net.Backward();
+  } else {
+       LOG(INFO) << "Skip Backward";
   }
 
   const vector<shared_ptr<Layer<float> > >& layers = caffe_net.layers();
