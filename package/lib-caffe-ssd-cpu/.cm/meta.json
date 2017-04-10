@@ -18,7 +18,6 @@
         "PACKAGE_COPY": "NO",
         "PACKAGE_GIT": "YES", 
         "PACKAGE_GIT_CHECKOUT": "ssd",
-        "PACKAGE_SKIP_LINUX_MAKE": "YES", 
         "PACKAGE_SUB_DIR": "src",
         "PACKAGE_SUB_DIR1": "src",
         "PACKAGE_URL": "https://github.com/weiliu89/caffe",
