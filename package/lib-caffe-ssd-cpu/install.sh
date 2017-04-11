@@ -70,6 +70,4 @@ if [ "${?}" != "0" ] ; then
   exit 1
 fi
 
-cp ${INSTALL_DIR}/src/include/caffe ${INSTALL_DIR}/obj/include
-
 return 0

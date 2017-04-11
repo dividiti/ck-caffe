@@ -163,9 +163,9 @@
       }
     }, 
     "end_full_path": {
-      "android": "obj/lib/libcaffe.so",
-      "linux": "obj/lib/libcaffe.so",
-      "win": "obj/lib/libcaffe.so"
+      "android": "install/lib/libcaffe.so",
+      "linux": "install/bin/caffe",
+      "win": "install/bin/caffe.exe"
     },
     "package_extra_name": " (cpu ssd)", 
     "process_script": "install", 

@@ -2,4 +2,4 @@
 
 . ${ORIGINAL_PACKAGE_DIR}/install.sh
 
-exit ${?}
+return ${?}
