@@ -29,6 +29,10 @@
 #ifdef USE_OPENCV
 using namespace caffe;  // NOLINT(build/namespaces)
 
+#ifdef XOPENME
+#include <xopenme.h>
+#endif
+
 class Detector {
  public:
   Detector(const string& model_file,
@@ -228,6 +232,26 @@ void Detector::Preprocess(const cv::Mat& img,
     << "Input channels are not wrapping the input layer of the network.";
 }
 
+void x_clock_start(int timer) {
+#ifdef XOPENME
+  xopenme_clock_start(timer);
+#endif
+}
+
+void x_clock_end(int timer) {
+#ifdef XOPENME
+  xopenme_clock_end(timer);
+#endif
+}
+
+double x_get_time(int timer) {
+#ifdef XOPENME
+  return xopenme_get_timer(timer);
+#else
+  return 0;
+#endif
+}
+
 DEFINE_string(mean_file, "",
     "The mean file used to subtract from the input image.");
 DEFINE_string(mean_value, "104,117,123",
@@ -242,6 +266,11 @@ DEFINE_double(confidence_threshold, 0.01,
     "Only store detections with score higher than the threshold.");
 
 int main(int argc, char** argv) {
+
+#ifdef XOPENME
+  xopenme_init(3,0);
+#endif
+
   ::google::InitGoogleLogging(argv[0]);
   // Print output to stderr (while still logging)
   FLAGS_alsologtostderr = 1;
@@ -269,7 +298,9 @@ int main(int argc, char** argv) {
   const float confidence_threshold = FLAGS_confidence_threshold;
 
   // Initialize the network.
+  x_clock_start(0);
   Detector detector(model_file, weights_file, mean_file, mean_value);
+  x_clock_end(0);
 
   // Set the output mode.
   std::streambuf* buf = std::cout.rdbuf();
@@ -282,13 +313,48 @@ int main(int argc, char** argv) {
   }
   std::ostream out(buf);
 
-  // Process image one by one.
-  std::ifstream infile(argv[3]);
   std::string file = argv[3];
-  //while (infile >> file) {
-    if (file_type == "image") {
-      cv::Mat img = cv::imread(file, -1);
-      CHECK(!img.empty()) << "Unable to decode image " << file;
+
+  if (file_type == "image") {
+    x_clock_start(1);
+    cv::Mat img = cv::imread(file, -1);
+    x_clock_end(1);
+    CHECK(!img.empty()) << "Unable to decode image " << file;
+
+    x_clock_start(2);
+    std::vector<vector<float> > detections = detector.Detect(img);
+    x_clock_end(2);
+    
+    /* Print the detection results. */
+    for (int i = 0; i < detections.size(); ++i) {
+      const vector<float>& d = detections[i];
+      // Detection format: [image_id, label, score, xmin, ymin, xmax, ymax].
+      CHECK_EQ(d.size(), 7);
+      const float score = d[2];
+      if (score >= confidence_threshold) {
+        out << file << " ";
+        out << static_cast<int>(d[1]) << " ";
+        out << score << " ";
+        out << static_cast<int>(d[3] * img.cols) << " ";
+        out << static_cast<int>(d[4] * img.rows) << " ";
+        out << static_cast<int>(d[5] * img.cols) << " ";
+        out << static_cast<int>(d[6] * img.rows) << std::endl;
+      }
+    }
+  } else if (file_type == "video") {
+    cv::VideoCapture cap(file);
+    if (!cap.isOpened()) {
+      LOG(FATAL) << "Failed to open video: " << file;
+    }
+    cv::Mat img;
+    int frame_count = 0;
+    while (true) {
+      bool success = cap.read(img);
+      if (!success) {
+        LOG(INFO) << "Process " << frame_count << " frames from " << file;
+        break;
+      }
+      CHECK(!img.empty()) << "Error when read frame";
       std::vector<vector<float> > detections = detector.Detect(img);
 
       /* Print the detection results. */
@@ -298,7 +364,8 @@ int main(int argc, char** argv) {
         CHECK_EQ(d.size(), 7);
         const float score = d[2];
         if (score >= confidence_threshold) {
-          out << file << " ";
+          out << file << "_";
+          out << std::setfill('0') << std::setw(6) << frame_count << " ";
           out << static_cast<int>(d[1]) << " ";
           out << score << " ";
           out << static_cast<int>(d[3] * img.cols) << " ";
@@ -307,48 +374,20 @@ int main(int argc, char** argv) {
           out << static_cast<int>(d[6] * img.rows) << std::endl;
         }
       }
-    } else if (file_type == "video") {
-      cv::VideoCapture cap(file);
-      if (!cap.isOpened()) {
-        LOG(FATAL) << "Failed to open video: " << file;
-      }
-      cv::Mat img;
-      int frame_count = 0;
-      while (true) {
-        bool success = cap.read(img);
-        if (!success) {
-          LOG(INFO) << "Process " << frame_count << " frames from " << file;
-          break;
-        }
-        CHECK(!img.empty()) << "Error when read frame";
-        std::vector<vector<float> > detections = detector.Detect(img);
-
-        /* Print the detection results. */
-        for (int i = 0; i < detections.size(); ++i) {
-          const vector<float>& d = detections[i];
-          // Detection format: [image_id, label, score, xmin, ymin, xmax, ymax].
-          CHECK_EQ(d.size(), 7);
-          const float score = d[2];
-          if (score >= confidence_threshold) {
-            out << file << "_";
-            out << std::setfill('0') << std::setw(6) << frame_count << " ";
-            out << static_cast<int>(d[1]) << " ";
-            out << score << " ";
-            out << static_cast<int>(d[3] * img.cols) << " ";
-            out << static_cast<int>(d[4] * img.rows) << " ";
-            out << static_cast<int>(d[5] * img.cols) << " ";
-            out << static_cast<int>(d[6] * img.rows) << std::endl;
-          }
-        }
-        ++frame_count;
-      }
-      if (cap.isOpened()) {
-        cap.release();
-      }
-    } else {
-      LOG(FATAL) << "Unknown file_type: " << file_type;
+      ++frame_count;
     }
-  //}
+    if (cap.isOpened()) {
+      cap.release();
+    }
+  } else {
+    LOG(FATAL) << "Unknown file_type: " << file_type;
+  }
+
+#ifdef XOPENME
+  xopenme_dump_state();
+  xopenme_finish();
+#endif
+
   return 0;
 }
 #else
