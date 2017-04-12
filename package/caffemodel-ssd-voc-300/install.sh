@@ -31,9 +31,7 @@ cd ${INSTALL_DIR}
 echo ""
 echo "Downloading the model files ..."
 
-#wget -c ${PACKAGE_URL} --no-check-certificate
-
-ggID=${PACKAGE_ID}
+ggID=${PACKAGE_GOOGLE_DRIVE_ID}
 ggURL='https://drive.google.com/uc?export=download'  
 curl -sc /tmp/gcokie "${ggURL}&id=${ggID}" >/dev/null
 getcode="$(awk '/_warning_/ {print $NF}' /tmp/gcokie)"  
