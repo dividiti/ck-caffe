@@ -42,15 +42,16 @@
     "windows", 
     "linux" 
   ], 
-  "package_extra_name": " (ssd, ssd512)", 
+  "package_extra_name": " (ssd, ssd-512, ssd-voc)", 
   "process_script": "install", 
   "soft_uoa": "e2400aabc11d6cd1", 
-  "suggested_path": "caffemodel-ssd512", 
+  "suggested_path": "caffemodel-ssd-voc-512", 
   "tags": [ 
     "caffe", 
     "weights", 
     "caffemodel", 
     "ssd", 
-    "ssd512" 
+    "ssd-voc",
+    "ssd-512" 
   ]
 }

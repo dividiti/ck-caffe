@@ -2,20 +2,20 @@
   "check_exit_status": "yes", 
   "customize": { 
     "extra_dir": "", 
-    "file_with_weights": "VGG_VOC0712_SSD_300x300_iter_120000.caffemodel", 
-    "file_with_labelmap": "labelmap_voc.prototxt",
+    "file_with_weights": "VGG_coco_SSD_300x300_iter_400000.caffemodel", 
+    "file_with_labelmap": "labelmap_coco.prototxt",
     "force_ask_path": "yes", 
     "install_env": { 
       "PACKAGE_WGET": "YES",
       "PACKAGE_UNGZIP": "YES",
       "PACKAGE_UNTAR": "YES",
-      "PACKAGE_NAME": "models_VGGNet_VOC0712_SSD_300x300.tar.gz",
-      "PACKAGE_NAME1": "models_VGGNet_VOC0712_SSD_300x300.tar",
+      "PACKAGE_NAME": "models_VGGNet_coco_SSD_300x300.tar.gz",
+      "PACKAGE_NAME1": "models_VGGNet_coco_SSD_300x300.tar",
       "SUBPACKAGE_NAME1": "models",
       "SUBPACKAGE_NAME2": "VGGNet",
-      "SUBPACKAGE_NAME3": "VOC0712",
+      "SUBPACKAGE_NAME3": "coco",
       "SUBPACKAGE_NAME4": "SSD_300x300",
-      "PACKAGE_GOOGLE_DRIVE_ID": "0BzKzrI_SkD1_WVVTSmQxU0dVRzA"
+      "PACKAGE_GOOGLE_DRIVE_ID": "0BzKzrI_SkD1_dUY1Ml9GRTFpUWc"
     }, 
     "no_os_in_suggested_path": "yes", 
     "no_ver_in_suggested_path": "yes", 
@@ -31,8 +31,8 @@
     "version": "trunk" 
   }, 
   "end_full_path": { 
-    "linux": "VGG_VOC0712_SSD_300x300_iter_120000.caffemodel", 
-    "win": "VGG_VOC0712_SSD_300x300_iter_120000.caffemodel" 
+    "linux": "VGG_coco_SSD_300x300_iter_400000.caffemodel", 
+    "win": "VGG_coco_SSD_300x300_iter_400000.caffemodel" 
   }, 
   "only_for_host_os_tags": [ 
     "windows", 
@@ -42,16 +42,16 @@
     "windows", 
     "linux" 
   ], 
-  "package_extra_name": " (ssd, ssd-300, ssd-voc)", 
+  "package_extra_name": " (ssd, ssd-300, ssd-coco)", 
   "process_script": "install", 
   "soft_uoa": "e2400aabc11d6cd1", 
-  "suggested_path": "caffemodel-ssd-voc-300", 
+  "suggested_path": "caffemodel-ssd-coco-300", 
   "tags": [ 
     "caffe", 
     "weights", 
     "caffemodel", 
     "ssd", 
-    "ssd-voc",
+    "ssd-coco",
     "ssd-300" 
   ]
 }
