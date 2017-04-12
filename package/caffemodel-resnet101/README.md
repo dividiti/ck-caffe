@@ -1,0 +1,1 @@
+Kaiming He, Xiangyu Zhang, Shaoqing Ren and Jian Sun from Microsoft Research Asia designed several [Deep Residual Networks](https://github.com/KaimingHe/deep-residual-networks) and released them under the [MIT license](https://github.com/KaimingHe/deep-residual-networks/blob/master/LICENSE).

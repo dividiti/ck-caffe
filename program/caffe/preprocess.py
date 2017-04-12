@@ -52,6 +52,19 @@ def ck_preprocess(i):
     cmw_path_full=x['dict']['env']['CK_ENV_MODEL_CAFFE_WEIGHTS']
     nenv['CK_ENV_MODEL_CAFFE_WEIGHTS']=cmw_path_full
 
+    mean_bin='imagenet_mean.binaryproto'
+    aux_mean_bin = ''
+    if deps.get('imagenet-aux', '') != '':
+        aux_mean_bin = deps['imagenet-aux']['dict']['env'].get('CK_CAFFE_IMAGENET_MEAN_BIN', '')
+    model_mean_bin = x['dict']['env'].get('CK_ENV_MODEL_CAFFE_MEAN_BIN', '')
+   
+    if aux_mean_bin != '':
+        mean_bin = aux_mean_bin
+    if model_mean_bin != '':
+        mean_bin = model_mean_bin
+    
+    nenv['CK_CAFFE_MODEL_MEAN_BIN'] = mean_bin
+
     if remote=='yes':
        # For Android we need only filename without full path
        cmw_path=os.path.basename(cmw_path_full)
