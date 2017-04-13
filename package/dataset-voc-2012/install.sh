@@ -5,62 +5,43 @@
 
 # VOC_URL
 
-VOC_NAME="VOC validation dataset"
+VOC_TRAIN_NAME="VOC 2012 training dataset"
+
+mkdir ${TRAIN_DIR}
+cd ${INSTALL_DIR}/${TRAIN_DIR}
 #####################################################################
 echo ""
-echo "Downloading ${VOC_NAME} from '${VOC_URL}' ..."
+echo "Downloading ${VOC_TRAIN_NAME} from '${VOC_TRAIN_URL}' ..."
 
-wget -c ${VOC_URL} -O ${VOC_ARCHIVE}
+wget -c ${VOC_TRAIN_URL} -O ${VOC_TRAIN_ARCHIVE}
 
 if [ "${?}" != "0" ] ; then
-  echo "Error: Downloading ${VOC_NAME} from '${VOC_URL}' failed!"
+  echo "Error: Downloading ${VOC_TRAIN_NAME} from '${VOC_TRAIN_URL}' failed!"
   exit 1
 fi
 
 #####################################################################
 echo ""
-echo "Calculating the MD5 hash of '${VOC_ARCHIVE}' ..."
-VOC_MD5_CALC=($(md5sum ${VOC_ARCHIVE}))
+echo "Unpacking '${VOC_TRAIN_ARCHIVE}' ..."
+
+tar xvf ${VOC_TRAIN_ARCHIVE}
 if [ "${?}" != "0" ] ; then
-  echo "Error: Calculating the MD5 hash of '${VOC_ARCHIVE}' failed!"
+  echo "Error: Unpacking '${VOC_TRAIN_ARCHIVE}' failed!"
   exit 1
 fi
 
 #####################################################################
 echo ""
-echo "Validating the MD5 hash of '${VOC_ARCHIVE}' ..."
-echo "Calculated MD5 hash: ${VOC_MD5_CALC}"
-echo "Reference MD5 hash: ${VOC_MD5}"
-if [ "${VOC_MD5_CALC}" != "${VOC_MD5}" ] ; then
-  echo "Error: Validating the MD5 hash of '${VOC_ARCHIVE}' failed!"
-  exit 1
-fi
+echo "Deleting '${VOC_TRAIN_ARCHIVE}' ..."
 
-#####################################################################
-echo ""
-echo "Unpacking '${VOC_ARCHIVE}' ..."
-
-cd ${INSTALL_DIR}
-tar xvf ${VOC_ARCHIVE}
+rm ${VOC_TRAIN_ARCHIVE}
 if [ "${?}" != "0" ] ; then
-  echo "Error: Unpacking '${VOC_ARCHIVE}' failed!"
+  echo "Error: Deleting '${VOC_TRAIN_ARCHIVE}' failed!"
   exit 1
 fi
 
 #####################################################################
+
 echo ""
-echo "Deleting '${VOC_ARCHIVE}' ..."
-
-rm ${VOC_ARCHIVE}
-if [ "${?}" != "0" ] ; then
-  echo "Error: Deleting '${VOC_ARCHIVE}' failed!"
-  exit 1
-fi
-
-#####################################################################
-echo ""
-echo "Successfully installed ${VOC_NAME} ..."
-exit 0
-
-
+echo "Successfully installed '${VOC_TRAIN_NAME}'"
 exit 0

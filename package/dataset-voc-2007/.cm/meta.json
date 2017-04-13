@@ -18,8 +18,8 @@
       "IMAGESETS_IMAGE_DIR": "Layout",
       "IMAGESETS_SEG_DIR": "Segmentation",
       "IMAGESETS_TESTS_DIR": "Main",
-      "VOC_TEST_ARCHIVE": "VOCtrainval_11-May-2012.tar",
-      "VOC_TEST_URL": "http://host.robots.ox.ac.uk/pascal/VOC/voc2012/VOCtrainval_11-May-2012.tar",
+      "VOC_TEST_ARCHIVE": "VOCtest_06-Nov-2007.tar",
+      "VOC_TEST_URL": "http://host.robots.ox.ac.uk/pascal/VOC/voc2007/VOCtest_06-Nov-2007.tar",
       "VOC_TRAIN_ARCHIVE": "VOCtrainval_06-Nov-2007.tar",
       "VOC_TRAIN_URL": "http://host.robots.ox.ac.uk/pascal/VOC/voc2007/VOCtrainval_06-Nov-2007.tar"
     },
@@ -32,12 +32,13 @@
   },
   "process_script": "install",
   "soft_uoa": "041cf4753bed7c62",
-  "suggested_path": "dataset-voc-full",
+  "suggested_path": "dataset-voc-2007-full",
   "tags": [
     "dataset",
     "voc",
     "VOC",
+    "2007",
     "val",
-    "VOCfull"
+    "full"
   ]
 }

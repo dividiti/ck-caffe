@@ -5,8 +5,8 @@
 
 # VOC_URL
 
-VOC_TRAIN_NAME="VOC training dataset"
-VOC_TEST_NAME="VOC test dataset"
+VOC_TRAIN_NAME="VOC 2007 training dataset"
+VOC_TEST_NAME="VOC 2007 test dataset"
 
 mkdir ${TRAIN_DIR}
 cd ${INSTALL_DIR}/${TRAIN_DIR}
@@ -79,5 +79,5 @@ fi
 #####################################################################
 
 echo ""
-echo "Successfully installed ${VOC_NAME} ..."
+echo "Successfully installed 'VOC 2007 dataset'"
 exit 0

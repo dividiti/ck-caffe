@@ -6,27 +6,36 @@
     "no_os_in_suggested_path": "yes",
     "no_ver_in_suggested_path": "yes",
     "install_env": {
-      "IMAGE_DIR": "",
-      "LABELS_DIR": "",
-      "VOC_MD5": "",
-      "VOC_ARCHIVE": "",
-      "VOC_URL": ""
+      "TRAIN_DIR": "train",
+      "VOC_DIR1": "VOCdevkit",
+      "VOC_DIR2": "VOC2012",
+      "IMAGE_DIR": "JPEGImages",
+      "SEG_CLASS_DIR": "SegmentationClass",
+      "SEG_OBJ_DIR": "SegmentationObject",
+      "LABELS_DIR": "Annotations",
+      "IMAGESETS_DIR": "ImageSets",
+      "IMAGESETS_IMAGE_DIR": "Layout",
+      "IMAGESETS_SEG_DIR": "Segmentation",
+      "IMAGESETS_TESTS_DIR": "Main",
+      "VOC_TRAIN_ARCHIVE": "VOCtrainval_11-May-2012.tar",
+      "VOC_TRAIN_URL": "http://host.robots.ox.ac.uk/pascal/VOC/voc2012/VOCtrainval_11-May-2012.tar"
     },
     "version": "2012"
   },
   "deps": {},
   "need_cpu_info": "no",
   "end_full_path": {
-    "linux": ""
+    "linux": "train/VOCdevkit/VOC2012/JPEGImages/2007_000123.jpg"
   },
   "process_script": "install",
   "soft_uoa": "041cf4753bed7c62",
-  "suggested_path": "dataset-voc-full",
+  "suggested_path": "dataset-voc-2012-full",
   "tags": [
     "dataset",
     "voc",
     "VOC",
+    "2012",
     "val",
-    "VOCfull"
+    "full"
   ]
 }
