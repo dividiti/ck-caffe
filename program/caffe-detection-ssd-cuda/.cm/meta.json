@@ -103,11 +103,6 @@
   "data_name": "Caffe SSD detection via CUDA",
   "extra_ld_vars": "$<<CK_ENV_LIB_HDF5_LFLAG>>$ $<<CK_ENV_LIB_HDF5_LFLAG_HL>>$ $<<CK_ENV_LIB_GLOG_LFLAG>>$ $<<CK_ENV_LIB_BOOST_LFLAG_THREAD>>$ $<<CK_ENV_LIB_BOOST_LFLAG_DATE_TIME>>$ $<<CK_ENV_LIB_BOOST_LFLAG_FILESYSTEM>>$ $<<CK_ENV_LIB_BOOST_LFLAG_SYSTEM>>$ $<<CK_ENV_LIB_OPENCV_LFLAG_IMGPROC>>$ $<<CK_ENV_LIB_OPENCV_LFLAG_HIGHGUI>>$ $<<CK_ENV_LIB_OPENCV_LFLAG_CORE>>$ $<<CK_ENV_LIB_OPENCV_LFLAG_IMGCODECS>>$ $<<CK_EXTRA_LIB_Z>>$ $<<CK_EXTRA_LIB_LOG>>$ $<<CK_EXTRA_LIB_M>>$  $<<CK_ENV_LIB_CAFFE_LFLAG_PROTO>>$ $<<CK_ENV_LIB_CAFFE_LINK_FLAGS>>$ $<<CK_ENV_LIB_STDCPP_STATIC>>$", 
   "main_language": "cpp",
-  "only_for_target_os_tags": [
-    "windows",
-    "linux",
-    "android"
-  ],
   "print_files_after_run": [
     "tmp-output1.tmp",
     "tmp-output2.tmp"
@@ -159,6 +154,12 @@
   "run_vars": {
     "CK_CAFFE_BATCH_SIZE":"1"
   },
+  "only_for_host_os_tags": [
+    "linux"
+  ],
+  "only_for_target_os_tags": [
+    "linux"
+  ],
   "skip_bin_ext": "yes",
   "source_files": [
     "ssd-detect.cpp"

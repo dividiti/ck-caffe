@@ -184,12 +184,10 @@
       "win": "install/bin/caffe.exe"
     },
     "only_for_host_os_tags": [
-      "linux",
-      "windows"
+      "linux"
     ],
     "only_for_target_os_tags": [
-      "linux",
-      "windows"
+      "linux"
     ],
     "package_extra_name": " (cuda ssd)", 
     "process_script": "install", 

@@ -167,6 +167,12 @@
       "linux": "install/bin/caffe",
       "win": "install/bin/caffe.exe"
     },
+    "only_for_host_os_tags": [
+      "linux"
+    ],
+    "only_for_target_os_tags": [
+      "linux"
+    ],
     "package_extra_name": " (cpu ssd)", 
     "process_script": "install", 
     "soft_uoa": "04ab08137582bd03", 
