@@ -75,24 +75,35 @@ def setup(i):
 
     env=i['env']
 
-    pi=os.path.dirname(fp)
-    p1=os.path.dirname(pi)
-    p2=os.path.dirname(p1)
+    p1=os.path.dirname(fp)
+    pi=os.path.dirname(p1)
 
     ep=cus.get('env_prefix','')
 
-    full_path = p2
-    if 'COCO-min' in cus.get('full_path', ''):
-      full_path = p1
-    image_dir =  cus.get('install_env', '').get('IMAGE_DIR', '')
-    labels_dir =  cus.get('install_env', '').get('LABELS_DIR', '')
+    train_dir = cus.get('install_env', '').get('TRAIN_DIR', '')
+    val_dir = cus.get('install_env', '').get('VAL_DIR', '')
+    test_dir = cus.get('install_env', '').get('TEST_DIR', '')
+    labels_dir = cus.get('install_env', '').get('LABELS_DIR', '')
 
-    env[ep + "_IMAGE_DIR"] = os.path.join(full_path, image_dir)
-    env[ep + "_LABELS_DIR"] = os.path.join(full_path, labels_dir)
-    env[ep]=full_path
-    
+    if train_dir != '':
+        env[ep + '_TRAIN_IMAGE_DIR'] = train_dir
+    if val_dir != '':
+        env[ep + '_VAL_IMAGE_DIR'] = val_dir
+    if test_dir != '':
+        env[ep + '_TEST_IMAGE_DIR'] = test_dir
+    if labels_dir != '':
+        full_path = os.path.join(ep, labels_dir)
+        train_file = cus.get('instances_train_file', '')
+        val_file = cus.get('instances_val_file', '')
+        env[ep + '_LABELS_DIR'] = full_path
+        env[ep + 'TRAIN_LABELS_DIR'] = os.path.join(full_path, train_file)
+        env[ep + 'TRAIN_LABELS_FILE'] = train_file
+        env[ep + 'VAL_LABELS_DIR'] = os.path.join(full_path, val_file)
+        env[ep + 'VAL_LABELS_FILE'] = val_file
+    env[ep] = pi
 
-    
-    
+
+
+
     return {'return':0, 'bat':s}
 

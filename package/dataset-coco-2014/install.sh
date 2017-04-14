@@ -1,66 +1,68 @@
 #! /bin/bash
 
-# PACKAGE_DIR
-# INSTALL_DIR
+function download {
+  NAME=${1}
+  URL=${2}
+  ARCH=${3}
+  FULL_URL=${URL}/${ARCH}
+  echo ""
+  echo "Downloading ${NAME} from '${FULL_URL}' ..."
 
-# COCO_URL
+  wget -c ${FULL_URL} -O ${ARCH}
 
-COCO_NAME="COCO validation dataset"
-#####################################################################
-echo ""
-echo "Downloading ${COCO_NAME} from '${COCO_URL}' ..."
+  if [ "${?}" != "0" ] ; then
+    echo "Error: Downloading ${NAME} from '${FULL_URL}' failed!"
+    exit 1
+  fi
+}
 
-wget -c ${COCO_URL} -O ${COCO_ARCHIVE}
+function uncompress {
+  ARCH=${1}
+  echo ""
+  echo "Unzipping archive ..."
 
-if [ "${?}" != "0" ] ; then
-  echo "Error: Downloading ${COCO_NAME} from '${COCO_URL}' failed!"
-  exit 1
-fi
+  unzip ${ARCH}
+  if [ "${?}" != "0" ] ; then
+    echo "Error: unzipping package failed!"
+    exit 1
+  fi
+  rm ${ARCH}
+}
 
-#####################################################################
-echo ""
-echo "Calculating the MD5 hash of '${COCO_ARCHIVE}' ..."
-COCO_MD5_CALC=($(md5sum ${COCO_ARCHIVE}))
-if [ "${?}" != "0" ] ; then
-  echo "Error: Calculating the MD5 hash of '${COCO_ARCHIVE}' failed!"
-  exit 1
-fi
+# #####################################################################
 
-#####################################################################
-echo ""
-echo "Validating the MD5 hash of '${COCO_ARCHIVE}' ..."
-echo "Calculated MD5 hash: ${COCO_MD5_CALC}"
-echo "Reference MD5 hash: ${COCO_MD5}"
-if [ "${COCO_MD5_CALC}" != "${COCO_MD5}" ] ; then
-  echo "Error: Validating the MD5 hash of '${COCO_ARCHIVE}' failed!"
-  exit 1
-fi
+# TRAIN_IMG_NAME="COCO 2014 train dataset"
+# download "${TRAIN_IMG_NAME}" ${IMAGE_URL} "${TRAIN_IMAGE_ARCHIVE}"
+# uncompress "${TRAIN_IMAGE_ARCHIVE}"
 
-#####################################################################
-echo ""
-echo "Unpacking '${COCO_ARCHIVE}' ..."
+# #####################################################################
 
-cd ${INSTALL_DIR}
-tar xvf ${COCO_ARCHIVE}
-if [ "${?}" != "0" ] ; then
-  echo "Error: Unpacking '${COCO_ARCHIVE}' failed!"
-  exit 1
-fi
+# VAL_IMG_NAME="COCO 2014 validation dataset"
+# download "${VAL_IMG_NAME}" ${IMAGE_URL} "${VAL_IMAGE_ARCHIVE}"
+# uncompress "${VAL_IMAGE_ARCHIVE}"
 
-#####################################################################
-echo ""
-echo "Deleting '${COCO_ARCHIVE}' ..."
+# #####################################################################
 
-rm ${COCO_ARCHIVE}
-if [ "${?}" != "0" ] ; then
-  echo "Error: Deleting '${COCO_ARCHIVE}' failed!"
-  exit 1
-fi
+# TEST_IMG_NAME="COCO 2014 test dataset"
+# download "${TEST_IMG_NAME}" ${IMAGE_URL} "${TEST_IMAGE_ARCHIVE}"
+# uncompress "${TEST_IMAGE_ARCHIVE}"
+
+# #####################################################################
+
+TRAINVAL_OBJ_INSTANCES_NAME="COCO 2014 Train/Val object instances"
+download "${TRAINVAL_OBJ_INSTANCES_NAME}" ${ANNOTATION_URL} "${TRAINVAL_OBJ_INSTANCES_ARCHIVE}"
+uncompress "${TRAINVAL_OBJ_INSTANCES_ARCHIVE}"
 
 #####################################################################
-echo ""
-echo "Successfully installed ${COCO_NAME} ..."
-exit 0
 
+TRAINVAL_PERSON_KEYPOINTS_NAME="COCO 2014 Train/Val person keypoints"
+download "${TRAINVAL_PERSON_KEYPOINTS_NAME}" ${ANNOTATION_URL} "${TRAINVAL_PERSON_KEYPOINTS_ARCHIVE}"
+uncompress "${TRAINVAL_PERSON_KEYPOINTS_ARCHIVE}"
+
+#####################################################################
+
+TRAINVAL_IMG_CAPTIONS_NAME="COCO 2014 Train/Val image captions"
+download "${TRAINVAL_IMG_CAPTIONS_NAME}" ${ANNOTATION_URL} "${TRAINVAL_IMG_CAPTIONS_ARCHIVE}"
+uncompress "${TRAINVAL_IMG_CAPTIONS_ARCHIVE}"
 
 exit 0
