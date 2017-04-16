@@ -232,14 +232,12 @@ def crowdsource(i):
                  'data_uoa':'caffe'})
     if r['return']>0: return r
 
+    deps=r['dict']['compile_deps']
     pp=r['path']
 
-    lib_dep=r['dict']['run_deps']['lib-caffe']
-
+    lib_dep=deps['lib-caffe']
     lib_dep['tags']=tags
     lib_dep['no_tags']=ntags
-
-    deps={'lib-caffe':lib_dep}
 
     # Check environment for selected type
     r=ck.access({'action':'resolve',
