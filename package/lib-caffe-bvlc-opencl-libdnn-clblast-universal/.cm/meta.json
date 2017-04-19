@@ -206,7 +206,8 @@
   },
   "end_full_path": {
     "android": "install/lib/libcaffe.so",
-    "linux": "install/bin/caffe"
+    "linux": "install/bin/caffe",
+    "win": "install/bin/caffe.exe"
   },
   "need_cpu_info": "yes",
   "only_for_host_os_tags": [
