@@ -90,12 +90,13 @@ def do(i):
 
     ii={'action':'pipeline',
         'prepare':'yes',
-        
         'dependencies':cdeps,
 
         'module_uoa':'program',
         'data_uoa':program,
         'cmd_key':cmd_key,
+
+        'dvdt_prof':'yes',
 
         'no_state_check':'yes',
         'no_compiler_description':'yes',
@@ -108,8 +109,8 @@ def do(i):
         'speed':'no',
         'energy':'no',
 
-        'out':'con',
-        'skip_print_timers':'yes'
+        'skip_print_timers':'yes',
+        'out':'con'
     }
 
     r=ck.access(ii)
@@ -213,6 +214,8 @@ def do(i):
                 ],
 
                 'features_keys_to_process':['##choices#*'],
+
+                'process_multi_keys':[''],
 
                 'iterations':-1,
                 'repetitions':num_repetitions,
