@@ -90,12 +90,13 @@ def do(i):
 
     ii={'action':'pipeline',
         'prepare':'yes',
-        
         'dependencies':cdeps,
 
         'module_uoa':'program',
         'data_uoa':program,
         'cmd_key':cmd_key,
+
+        'dvdt_prof':'yes',
 
         'no_state_check':'yes',
         'no_compiler_description':'yes',
@@ -108,8 +109,8 @@ def do(i):
         'speed':'no',
         'energy':'no',
 
-        'out':'con',
-        'skip_print_timers':'yes'
+        'skip_print_timers':'yes',
+        'out':'con'
     }
 
     r=ck.access(ii)
@@ -164,7 +165,7 @@ def do(i):
             model_tags = re.match('Caffe model \(net and weights\) \((?P<tags>.*)\)', model_name)
             model_tags = model_tags.group('tags').replace(' ', '').replace(',', '-')
             # Skip some models with "in [..]" or "not in [..]".
-            if model_tags in []: continue
+            if model_tags not in [ 'bvlc-alexnet', 'bvlc-googlenet', 'deepscale-squeezenet-1.1', 'deepscale-squeezenet-1.0' ]: continue
 
             record_repo='local'
             record_uoa='dvdt-prof-'+model_tags+'-'+lib_tags
@@ -213,6 +214,8 @@ def do(i):
                 ],
 
                 'features_keys_to_process':['##choices#*'],
+
+                'process_multi_keys':[''],
 
                 'iterations':-1,
                 'repetitions':num_repetitions,
