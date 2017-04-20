@@ -1,6 +1,6 @@
 name: "VGG_ILSVRC_19_layers"
 input: "data"
-input_dim: 10
+input_dim: $#batch_size#$
 input_dim: 3
 input_dim: 224
 input_dim: 224
