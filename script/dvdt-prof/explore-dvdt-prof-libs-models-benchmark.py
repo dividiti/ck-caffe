@@ -165,7 +165,7 @@ def do(i):
             model_tags = re.match('Caffe model \(net and weights\) \((?P<tags>.*)\)', model_name)
             model_tags = model_tags.group('tags').replace(' ', '').replace(',', '-')
             # Skip some models with "in [..]" or "not in [..]".
-            if model_tags in []: continue
+            if model_tags not in [ 'bvlc-alexnet', 'bvlc-googlenet', 'deepscale-squeezenet-1.1', 'deepscale-squeezenet-1.0' ]: continue
 
             record_repo='local'
             record_uoa='dvdt-prof-'+model_tags+'-'+lib_tags
