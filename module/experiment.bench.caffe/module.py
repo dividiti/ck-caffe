@@ -529,7 +529,7 @@ def crowdsource(i):
         ck.out('Succesfully recorded results in remote repo (Entry UID='+rduid+')')
 
         # Check host URL prefix and default module/action
-        url='http://cknowledge.org/repo/web.php?action=index&native_action=show&native_module_uoa=program.optimization&scenario=155b6fa5a4012a93&highlight_uid='+rduid
+        url='http://cknowledge.org/repo/web.php?native_action=show&native_module_uoa=program.optimization&scenario=155b6fa5a4012a93&highlight_uid='+rduid
         ck.out('')
         ck.out('You can see your results at the following URL:')
         ck.out('')
