@@ -127,6 +127,13 @@ def crowdsource(i):
             if r['return']>0: return r
 
     choices=i.get('choices',{})
+    env=i.get('env',{})
+
+    if 'env' not in choices: choices['env']={}
+    
+    r=ck.merge_dicts({'dict1':choices['env'], 'dict2':copy.deepcopy(env)})
+    env={}
+
     xchoices=copy.deepcopy(choices)
 
     # Get user 
@@ -271,7 +278,7 @@ def crowdsource(i):
 
         'prepare':'yes',
 
-        'env':i.get('env',{}),
+        'env':env,
         'choices':choices,
         'dependencies':deps,
         'cmd_key':run_cmd,
@@ -325,6 +332,9 @@ def crowdsource(i):
     xblas=''
     for k in deps:
         dp=deps[k]
+
+        puoa=dp.get('cus',{}).get('used_package_uoa','')
+
         dname=dp.get('dict',{}).get('data_name','')
 
         if k=='caffemodel':
@@ -334,10 +344,11 @@ def crowdsource(i):
             if j1>0:
                 xnn=xnn[j1+1:-1]
 
-        xdeps[k]={'name':dp.get('name',''), 'data_name':dname, 'ver':dp.get('ver','')}
+        xdeps[k]={'name':dp.get('name',''), 'data_name':dname, 'ver':dp.get('ver',''), 'package_uoa':puoa}
 
     meta['xdeps']=xdeps
     meta['nn_type']=xnn
+    meta['choices']=xchoices
 
     mmeta=copy.deepcopy(meta)
 
@@ -389,6 +400,8 @@ def crowdsource(i):
     lsa=rrr.get('last_stat_analysis',{})
     lsad=lsa.get('dict_flat',{})
 
+    real_proto=xchoices.get('env',{}).get('CK_CAFFE_MODEL','') # to push to server
+
     ddd={'meta':mmeta}
 
     ddd['choices']=xchoices
@@ -415,6 +428,7 @@ def crowdsource(i):
 
         # Find remote entry
         rduid=''
+        found=False
 
         ii={'action':'search',
             'module_uoa':work['self_module_uid'],
@@ -428,6 +442,7 @@ def crowdsource(i):
 
         if len(lst)==1:
             rduid=lst[0]['data_uid']
+            found=True
         else:
             rx=ck.gen_uid({})
             if rx['return']>0: return rx
@@ -460,6 +475,17 @@ def crowdsource(i):
         if rx['return']>0: return rx
 
         os.remove(fstat)
+
+        # Push real proto
+        if not found and real_proto!='':
+           rx=ck.access({'action':'push',
+                         'module_uoa':work['self_module_uid'],
+                         'data_uoa':rduid,
+                         'repo_uoa':er,
+                         'remote_repo_uoa':esr,
+                         'filename':real_proto,
+                         'overwrite':'yes'})
+           if rx['return']>0: return rx
 
         # Info
         if o=='con':
