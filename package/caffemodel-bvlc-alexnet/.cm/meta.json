@@ -60,7 +60,8 @@
   "suggested_path": "caffemodel-bvlc-alexnet",
   "features":{
     "accuracy":0.568279,
-    "accuracy_top5":0.799501
+    "accuracy_top5":0.799501,
+    "model_size_mb":244
   },
   "tags": [
     "caffe",
