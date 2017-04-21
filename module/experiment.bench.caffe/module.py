@@ -448,6 +448,11 @@ def crowdsource(i):
             if rx['return']>0: return rx
             rduid=rx['data_uid']
 
+        # Add files
+        ddd['file_stat']=ffstat
+        if not found and real_proto!='':
+           ddd['file_model_topology']=os.path.basename(real_proto)
+
         # Update meta
         rx=ck.access({'action':'update',
                       'module_uoa':work['self_module_uid'],
