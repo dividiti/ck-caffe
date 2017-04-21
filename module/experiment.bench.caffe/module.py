@@ -314,9 +314,6 @@ def crowdsource(i):
     if 'fail' in rr: del(rr['fail'])
     if 'return' in rr: del(rr['return'])
 
-    # Check if aggregted stats
-    aggregated_stats={} # Pre-load statistics ...
-
     # Prepare high-level experiment meta
     meta={'cpu_name':cpu_name,
           'os_name':os_name,
@@ -368,8 +365,47 @@ def crowdsource(i):
     mmeta['gpgpu_uid']=gpgpu_uid
     mmeta['user']=user
 
-    # Check if already exists
-    # tbd
+    # Check if already exists (to aggregate stats)
+    aggregated_stats={}
+    rduid=''
+    found=False
+
+    if o=='con':
+        ck.out('')
+        ck.out('Checking if results already exists in a public repo (to aggregate statistics) ...')
+
+    # Find remote entry
+    ii={'action':'search',
+        'module_uoa':work['self_module_uid'],
+        'repo_uoa':er,
+        'remote_repo_uoa':esr,
+        'search_dict':{'meta':meta}}
+    rx=ck.access(ii)
+    if rx['return']>0: return rx
+
+    lst=rx['lst']
+
+    if len(lst)==1:
+        rduid=lst[0]['data_uid']
+        found=True
+
+        if o=='con':
+           ck.out('')
+           ck.out('Results found. Pre-loading aggregated stats ...')
+
+        # Load stats
+        rx=ck.access({'action':'load',
+                      'module_uoa':work['self_module_uid'],
+                      'data_uoa':rduid,
+                      'repo_uoa':er,
+                      'remote_repo_uoa':esr,
+                      'load_extra_json_files':[ffstat]})
+        if rx['return']==0:
+           aggregated_stats=rx.get('extra_json_files',{}).get(ffstat,{})
+        else:
+            rx=ck.gen_uid({})
+            if rx['return']>0: return rx
+            rduid=rx['data_uid']
 
     # Run CK pipeline *****************************************************
     pipeline=copy.deepcopy(rr)
@@ -406,8 +442,7 @@ def crowdsource(i):
     ls=rrr.get('last_iteration_output',{})
     state=ls.get('state',{})
     xchoices=copy.deepcopy(ls.get('choices',{}))
-    lsa=rrr.get('last_stat_analysis',{})
-    lsad=lsa.get('dict_flat',{})
+    lsaf=rrr.get('last_stat_analysis',{}).get('dict_flat',{})
 
     real_proto=xchoices.get('env',{}).get('CK_CAFFE_MODEL','') # to push to server
 
@@ -430,87 +465,68 @@ def crowdsource(i):
 
     ddd['user']=user
 
+    # Add files
+    ddd['file_stat']=ffstat
+    if not found and real_proto!='':
+       ddd['file_model_topology']=os.path.basename(real_proto)
+
+    if not found:
+       if o=='con':
+          ck.out('')
+          ck.out('Saving results to the remote public repo ...')
+
+       # Update meta
+       rx=ck.access({'action':'add',
+                     'module_uoa':work['self_module_uid'],
+                     'data_uoa':rduid,
+                     'repo_uoa':er,
+                     'remote_repo_uoa':esr,
+                     'dict':ddd,
+                     'sort_keys':'yes'})
+       if rx['return']>0: return rx
+
+       # Push real proto
+       if real_proto!='':
+          rx=ck.access({'action':'push',
+                        'module_uoa':work['self_module_uid'],
+                        'data_uoa':rduid,
+                        'repo_uoa':er,
+                        'remote_repo_uoa':esr,
+                        'filename':real_proto,
+                        'overwrite':'yes'})
+          if rx['return']>0: return rx
+
+    # Push statistical characteristics
     if o=='con':
+       ck.out('')
+       ck.out('Pushing file with statistics to server ...')
+
+    fstat=os.path.join(pp,tmp_dir,ffstat)
+
+    r=ck.save_json_to_file({'json_file':fstat, 'dict':lsaf, 'sort_keys':'yes'})
+    if r['return']>0: return r
+
+    rx=ck.access({'action':'push',
+                  'module_uoa':work['self_module_uid'],
+                  'data_uoa':rduid,
+                  'repo_uoa':er,
+                  'remote_repo_uoa':esr,
+                  'filename':fstat,
+                  'overwrite':'yes'})
+    if rx['return']>0: return rx
+
+    os.remove(fstat)
+
+    # Info
+    if o=='con':
+        ck.out('Succesfully recorded results in remote repo (Entry UID='+rduid+')')
+
+        # Check host URL prefix and default module/action
+        url='http://cknowledge.org/repo/web.php?action=index&native_action=show&native_module_uoa=program.optimization&scenario=155b6fa5a4012a93&highlight_uid='+rduid
         ck.out('')
-        ck.out('Saving results to the remote public repo ...')
+        ck.out('You can see your results at the following URL:')
         ck.out('')
-
-        # Find remote entry
-        rduid=''
-        found=False
-
-        ii={'action':'search',
-            'module_uoa':work['self_module_uid'],
-            'repo_uoa':er,
-            'remote_repo_uoa':esr,
-            'search_dict':{'meta':meta}}
-        rx=ck.access(ii)
-        if rx['return']>0: return rx
-
-        lst=rx['lst']
-
-        if len(lst)==1:
-            rduid=lst[0]['data_uid']
-            found=True
-        else:
-            rx=ck.gen_uid({})
-            if rx['return']>0: return rx
-            rduid=rx['data_uid']
-
-        # Add files
-        ddd['file_stat']=ffstat
-        if not found and real_proto!='':
-           ddd['file_model_topology']=os.path.basename(real_proto)
-
-        # Update meta
-        rx=ck.access({'action':'update',
-                      'module_uoa':work['self_module_uid'],
-                      'data_uoa':rduid,
-                      'repo_uoa':er,
-                      'remote_repo_uoa':esr,
-                      'dict':ddd,
-                      'substitute':'yes',
-                      'sort_keys':'yes'})
-        if rx['return']>0: return rx
-
-        # Push statistical characteristics
-        fstat=os.path.join(pp,tmp_dir,ffstat)
-
-        r=ck.save_json_to_file({'json_file':fstat, 'dict':lsad})
-        if r['return']>0: return r
-
-        rx=ck.access({'action':'push',
-                      'module_uoa':work['self_module_uid'],
-                      'data_uoa':rduid,
-                      'repo_uoa':er,
-                      'remote_repo_uoa':esr,
-                      'filename':fstat,
-                      'overwrite':'yes'})
-        if rx['return']>0: return rx
-
-        os.remove(fstat)
-
-        # Push real proto
-        if not found and real_proto!='':
-           rx=ck.access({'action':'push',
-                         'module_uoa':work['self_module_uid'],
-                         'data_uoa':rduid,
-                         'repo_uoa':er,
-                         'remote_repo_uoa':esr,
-                         'filename':real_proto,
-                         'overwrite':'yes'})
-           if rx['return']>0: return rx
-
-        # Info
-        if o=='con':
-            ck.out('Succesfully recorded results in remote repo (Entry UID='+rduid+')')
-
-            # Check host URL prefix and default module/action
-            url='http://cknowledge.org/repo/web.php?template=cknowledge&action=index&module_uoa=wfe&native_action=show&native_module_uoa=program.optimization&scenario=155b6fa5a4012a93&highlight_uid='+rduid
-            ck.out('')
-            ck.out('You can see your results at the following URL:')
-            ck.out('')
-            ck.out(url)
+        ck.out(url)
 
     return {'return':0}
 
@@ -993,7 +1009,6 @@ def show(i):
             x+='<input type="button" class="ck_small_button" onClick="alert(\''+x5+'\');" value="CK">'
 
         h+='   <td '+ha+'>'+x+'</td>\n'
-
 
         # Crowdsourcing bug detection
         x=fail_reason

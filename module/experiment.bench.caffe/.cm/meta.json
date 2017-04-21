@@ -24,6 +24,7 @@
   "module_deps": {
     "choice": "e4564d6f984400d7",
     "env": "9b9b3208ac44b891",
+    "experiment": "bc0409fb61f0aa82",
     "graph": "2d41f89bcf32d4d4",
     "machine": "84be34883a81b2a9",
     "module": "032630d041b4fd8a",
