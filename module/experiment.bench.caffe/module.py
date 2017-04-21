@@ -851,7 +851,9 @@ def show(i):
         ver=''
         dver=meta.get('xversions',{})
         for dx in sorted(dver):
-            ver+=dx+': '+str(dver[dx])+'\n'
+            vx=dver[dx]
+            if vx!=None and vx!='':
+               ver+=dx+': '+str(dver[dx])+'\n'
 
         ver=ver.replace("\'","'").replace("'","\\'").replace('\"','"').replace('"',"\\'").replace('\n','\\n')
         if ver!='':
@@ -1028,7 +1030,45 @@ def show(i):
 #        x5=x5.replace("'","\'").replace('"',"\\'").replace('\n','\\n')
         x5=x5.replace("\'","'").replace("'","\\'").replace('\"','"').replace('"',"\\'").replace('\n','\\n')
         if x5!='':
-            x+='<input type="button" class="ck_small_button" onClick="alert(\''+x5+'\');" value="CK">'
+            x+='<input type="button" class="ck_small_button" onClick="alert(\''+x5+'\');" value="Main">'
+
+        # Also layers
+        y5=''
+        for j in range(0,10000):
+            k1='##characteristics#run#per_layer_info@'+str(j)+'#direction#min'
+            k2='##characteristics#run#per_layer_info@'+str(j)+'#label#min'
+            k3='##characteristics#run#per_layer_info@'+str(j)+'#time_ms#min'
+            k4='##characteristics#run#per_layer_info@'+str(j)+'#time_ms#max'
+            k5='##characteristics#run#per_layer_info@'+str(j)+'#time_ms#exp_allx'
+
+            v1=dstat.get(k1,'')
+            v2=dstat.get(k2,'')
+            v3=dstat.get(k3,'')
+            v4=dstat.get(k4,'')
+            v5=dstat.get(k5,[])
+
+            if v1!='' and v2!='' and v3!='' and v4!='':
+               v6=0
+               if len(v5)>0:
+                  v6=v5[0]
+
+               xv3=''
+               xv4=''
+               xv5=''
+
+               if v3!='': xv3=('%.1f'%v3)
+               if v4!='': xv4=('%.1f'%v4)
+               if v6!='': xv6=('%.1f'%v6)
+
+               if y5=='': y5='Layers:\nName (direction): min time ; expected time ; max time\n'
+
+               y5+='\n'+v2+' ('+v1+'): '+xv3+' ms. ; '+xv6+' ms. ; '+xv4+' ms.'
+            else:
+               break
+
+        y5=y5.replace("\'","'").replace("'","\\'").replace('\"','"').replace('"',"\\'").replace('\n','\\n')
+        if y5!='':
+            x+='<br><br><input type="button" class="ck_small_button" onClick="alert(\''+y5+'\');" value="Per layer">'
 
         h+='   <td '+ha+'>'+x+'</td>\n'
 
