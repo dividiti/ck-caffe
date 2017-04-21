@@ -346,6 +346,15 @@ def crowdsource(i):
 
         xdeps[k]={'name':dp.get('name',''), 'data_name':dname, 'ver':dp.get('ver',''), 'package_uoa':puoa}
 
+    # versions of engine sub deps
+    dvers={}
+    mdep=deps['lib-caffe']
+    mdeps=mdep.get('dict',{}).get('deps',{})
+
+    for k in mdeps:
+        dvers[k]=mdeps[k].get('ver','')
+
+    meta['xversions']=dvers
     meta['xdeps']=xdeps
     meta['nn_type']=xnn
     meta['choices']=xchoices
