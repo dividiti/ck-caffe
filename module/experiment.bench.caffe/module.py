@@ -391,7 +391,7 @@ def crowdsource(i):
 
         if o=='con':
            ck.out('')
-           ck.out('Results found. Pre-loading aggregated stats ...')
+           ck.out('Results found. Pre-loading aggregated stats from '+rduid+' ...')
 
         # Load stats
         rx=ck.access({'action':'load',
@@ -403,9 +403,12 @@ def crowdsource(i):
         if rx['return']==0:
            aggregated_stats=rx.get('extra_json_files',{}).get(ffstat,{})
         else:
-            rx=ck.gen_uid({})
-            if rx['return']>0: return rx
-            rduid=rx['data_uid']
+           ck.out('')
+           ck.out('WARNING: couldn\'t load data ('+rx['error']+')')
+    else:
+       rx=ck.gen_uid({})
+       if rx['return']>0: return rx
+       rduid=rx['data_uid']
 
     # Run CK pipeline *****************************************************
     pipeline=copy.deepcopy(rr)
@@ -471,7 +474,7 @@ def crowdsource(i):
     if not found:
        if o=='con':
           ck.out('')
-          ck.out('Saving results to the remote public repo ...')
+          ck.out('Saving results to the remote public repo ('+rduid+') ...')
 
        # Update meta
        rx=ck.access({'action':'add',
@@ -485,6 +488,10 @@ def crowdsource(i):
 
        # Push real proto
        if real_proto!='':
+          if o=='con':
+             ck.out('')
+             ck.out('Pushing prototxt to the remote public repo ...')
+
           ddd['file_model_topology']=os.path.basename(real_proto)
 
           rx=ck.access({'action':'push',
