@@ -43,9 +43,9 @@ hextra+='<br>\n'
 
 selector=[{'name':'Type', 'key':'caffe_type'},
           {'name':'Network', 'key':'nn_type'},
-          {'name':'Platform', 'key':'plat_name'},
-          {'name':'CPU', 'key':'cpu_name', 'new_line':'yes'},
-          {'name':'OS', 'key':'os_name'},
+          {'name':'Platform', 'key':'plat_name', 'new_line':'yes'},
+          {'name':'CPU', 'key':'cpu_name'},
+          {'name':'OS', 'key':'os_name', 'new_line':'yes'},
           {'name':'GPGPU', 'key':'gpgpu_name'}]
 
 ##############################################################################
@@ -532,11 +532,12 @@ def show(i):
 
     hi_uid=i.get('highlight_uid','')
 
-    h='<hr>\n'
+    h=''
+#    h='<hr>\n'
     h+='<center>\n'
     h+='\n\n<script language="JavaScript">function copyToClipboard (text) {window.prompt ("Copy to clipboard: Ctrl+C, Enter", text);}</script>\n\n' 
 
-    h+='<h2>Aggregated results from Caffe crowd-benchmarking (time, accuracy, energy, cost, ...)</h2>\n'
+#    h+='<h2>Aggregated results from Caffe crowd-benchmarking (time, accuracy, energy, cost, ...)</h2>\n'
 
     h+=hextra
 
@@ -671,20 +672,24 @@ def show(i):
     hb='align="left" valign="top"'
 
     h+='  <tr style="background-color:#dddddd">\n'
-    h+='   <td '+ha+'><b>All raw files</b></td>\n'
     h+='   <td '+ha+'><b>Type</b></td>\n'
+    h+='   <td '+ha+'><b>Caffe engine</b></td>\n'
     h+='   <td '+ha+'><b>Network</b></td>\n'
+    h+='   <td '+ha+'><b>Choices (env)</b></td>\n'
     h+='   <td '+ha+'><b>FWBW</b></td>\n'
     h+='   <td '+ha+'><b>FW</b></td>\n'
     h+='   <td '+ha+'><b>BW</b></td>\n'
-    h+='   <td '+ha+'><b>Accuracy<br>(TP1 / TP5)</b></td>\n'
-    h+='   <td '+ha+'><b>Chars</b></td>\n'
+    h+='   <td '+ha+'><b>Model size</b></td>\n'
+    h+='   <td '+ha+'><b><a href="https://github.com/dividiti/ck-caffe/blob/master/script/explore-accuracy/explore_accuracy.20160808.ipynb">Model accuracy on ImageNet</a></td>\n'
+    h+='   <td '+ha+'><b>Model topology and parameters</td>\n'
+    h+='   <td '+ha+'><b>Power consumption (W)<br>min / max</td>\n'
+    h+='   <td '+ha+'><b>Memory usage (MB)</td>\n'
+    h+='   <td '+ha+'><b>All characteristics</b></td>\n'
     h+='   <td '+ha+'><b>Platform</b></td>\n'
     h+='   <td '+ha+'><b>CPU</b></td>\n'
     h+='   <td '+ha+'><b>GPGPU</b></td>\n'
     h+='   <td '+ha+'><b>OS</b></td>\n'
-    h+='   <td '+ha+'><b>Fail?</b></td>\n'
-    h+='   <td '+ha+'><b>Choices</b></td>\n'
+    h+='   <td '+ha+'><b>Bug detected?</b></td>\n'
     h+='   <td '+ha+'><b>User</b></td>\n'
     h+='   <td '+ha+'><b>Replay</b></td>\n'
     h+='  <tr>\n'
@@ -710,7 +715,21 @@ def show(i):
 
         meta=d.get('meta',{})
 
-        params=d.get('choices',{}).get('params',{}).get('params',{})
+        choices=d.get('choices',{})
+        env=choices.get('env',{})
+        params=choices.get('params',{}).get('params',{})
+
+        xdeps=meta.get('xdeps',{})
+
+        d_model=xdeps.get('caffemodel',{})
+        d_model_name=d_model.get('data_name','')
+        d_model_package_uoa=d_model.get('package_uoa','')
+        d_model_ver=d_model.get('ver','')
+
+        d_engine=xdeps.get('lib-caffe',{})
+        d_engine_name=d_engine.get('data_name','')
+        d_engine_package_uoa=d_engine.get('package_uoa','')
+        d_engine_ver=d_engine.get('ver','')
 
         tp=meta.get('caffe_type','')
         nn=meta.get('nn_type','')
@@ -746,13 +765,71 @@ def show(i):
 
         h+='  <tr'+bg+'>\n'
 
-        x=work['self_module_uid']
-        if cmuoa!='': x=cmuoa
-        h+='   <td '+ha+'>'+str(ix)+')&nbsp;<a href="'+url0+'&wcid='+x+':'+duid+'">'+duid+'</a></td>\n'
+        # All files
+        uu1=work['self_module_uid']
+        if cmuoa!='': uu1=cmuoa
+        uu2=str(ix)+')&nbsp;<a href="'+url0+'&wcid='+uu1+':'+duid+'">'+duid+'</a>'
+        uu3='[&nbsp;<a href="'+url0+'&wcid='+uu1+':'+duid+'">See&nbsp;raw&nbsp;files</a>&nbsp;]'
 
+        # Type
         h+='   <td '+ha+'>'+tp+'</a></td>\n'
 
-        h+='   <td '+ha+'>'+nn+'</a></td>\n'
+        # Engine
+        x=d_engine_name
+
+        if d_engine_package_uoa!='':
+           x='<a href="'+url0+'&wcid=package:'+d_engine_package_uoa+'">'+x+'</a>'
+
+        if x!='' and d_engine_ver!='':
+           x+='\n<br><br>Version&nbsp;<b>'+d_engine_ver+'</b>'
+
+        h+='   <td '+ha+'>'+x+'</td>\n'
+
+        # Model
+
+        x=nn
+
+        msize=''
+        mtop=''
+        mtop5=''
+
+        if d_model_package_uoa!='':
+           x='<a href="'+url0+'&wcid=package:'+d_model_package_uoa+'">'+x+'</a>'
+
+           # Load features
+           rx=ck.access({'action':'load',
+                         'module_uoa':'package',
+                         'data_uoa':d_model_package_uoa})
+           if rx['return']>0: return rx
+           mft=rx['dict'].get('features',{})
+
+           msize=str(mft.get('model_size_mb',''))+'&nbsp;MB'
+           mtop=str(mft.get('accuracy',''))
+           mtop5=str(mft.get('accuracy_top5',''))
+
+#        if x!='' and d_model_ver!='':
+#           x+='\n<br><br>Version&nbsp;<b>'+d_model_ver+'</b>'
+
+        h+='   <td '+ha+'>'+x+'</td>\n'
+
+        # Choices (for now env)
+#        x='<table border="0" cellpadding="0" cellspacing="2">\n'
+        x=''
+        for k in sorted(env):
+            v=env[k]
+            x+=str(k)+'='+str(v)+'\n'
+#            x+='<tr><td>'+str(k)+'=</td><td>'+str(v)+'</td></tr>\n'
+#        x+='</table>\n'
+#        x=x.replace("'","\'").replace('"',"\\'").replace('\n','\\n')
+        x=x.replace("\'","'").replace("'","\\'").replace('\"','"').replace('"',"\\'").replace('\n','\\n')
+
+        x1=''
+        if x!='':
+            if env.get('CK_CAFFE_BATCH_SIZE','')!='':
+               x1+='Batch&nbsp;size='+env['CK_CAFFE_BATCH_SIZE']+'<br><br>\n'
+            x1+='<input type="button" class="ck_small_button" onClick="alert(\''+x+'\');" value="View all">'
+
+        h+='   <td '+ha+'>'+x1+'</td>\n'
 
         # Characteristics
         # Check if has statistics
@@ -793,18 +870,41 @@ def show(i):
 
         h+='   <td '+ha+'>'+x+'</td>\n'
 
-        # Accuracy - for now hardwired - later should get directly from experiment description
+        # Model size
+        h+='   <td '+ha+'>'+msize+'</td>\n'
+
+        # Accuracy
         x=''
-        if nn=='bvlc, alexnet':
-            x='0.568279&nbsp;/&nbsp;0.799501'
-        elif nn=='bvlc, googlenet':
-            x='0.689299&nbsp;/&nbsp;0.891441'
-        elif nn=='deepscale, squeezenet, 1.1':
-            x='0.583880&nbsp;/&nbsp;0.810123'
-        elif nn=='deepscale, squeezenet, 1.0':
-            x='0.576801&nbsp;/&nbsp;0.803903'
+
+        if mtop!='' and mtop5!='':
+           x=mtop+'&nbsp;/&nbsp;'+mtop5
+
+#        if nn=='bvlc, alexnet':
+#            x='0.568279&nbsp;/&nbsp;0.799501'
+#        elif nn=='bvlc, googlenet':
+#            x='0.689299&nbsp;/&nbsp;0.891441'
+#        elif nn=='deepscale, squeezenet, 1.1':
+#            x='0.583880&nbsp;/&nbsp;0.810123'
+#        elif nn=='deepscale, squeezenet, 1.0':
+#            x='0.576801&nbsp;/&nbsp;0.803903'
 
         h+='   <td '+ha+'>'+x+'</td>\n'
+
+        # Model topology
+        x=''
+
+        h+='   <td '+ha+'>'+x+'</td>\n'
+
+        # Power consumption (TBD)
+        x=''
+
+        h+='   <td '+ha+'>'+x+'</td>\n'
+
+        # Memory usage (TBD)
+        x=''
+
+        h+='   <td '+ha+'>'+x+'</td>\n'
+
 
         # Check all characteristics
         x=''
@@ -835,7 +935,7 @@ def show(i):
 #        x5=x5.replace("'","\'").replace('"',"\\'").replace('\n','\\n')
         x5=x5.replace("\'","'").replace("'","\\'").replace('\"','"').replace('"',"\\'").replace('\n','\\n')
         if x5!='':
-            x+='<input type="button" class="ck_small_button" onClick="alert(\''+x5+'\');" value="All">'
+            x+='<input type="button" class="ck_small_button" onClick="alert(\''+x5+'\');" value="CK">'
 
         h+='   <td '+ha+'>'+x+'</td>\n'
 
@@ -862,33 +962,18 @@ def show(i):
 
         x=fail_reason
         if x=='': 
-            x='No'
+            x=''
         else:
             fail_reason=fail_reason.replace("\'","'").replace("'","\\'").replace('\"','"').replace('"',"\\'").replace('\n','\\n')
             x='Yes <input type="button" class="ck_small_button" onClick="alert(\''+fail_reason+'\');" value="Log">'
 
         h+='   <td '+ha+'>'+x+'</td>\n'
 
-        # Params
-#        x='<table border="0" cellpadding="0" cellspacing="2">\n'
-        x=''
-        for k in sorted(params):
-            v=params[k]
-            x+=str(k)+'='+str(v)+'\n'
-#            x+='<tr><td>'+str(k)+'=</td><td>'+str(v)+'</td></tr>\n'
-#        x+='</table>\n'
-#        x=x.replace("'","\'").replace('"',"\\'").replace('\n','\\n')
-        x=x.replace("\'","'").replace("'","\\'").replace('\"','"').replace('"',"\\'").replace('\n','\\n')
-
-        x1=''
-        if x!='':
-            x1='<input type="button" class="ck_small_button" onClick="alert(\''+x+'\');" value="See">'
-
-        h+='   <td '+ha+'>'+x1+'</td>\n'
 
         h+='   <td '+ha+'><a href="'+url0+'&action=index&module_uoa=wfe&native_action=show&native_module_uoa=experiment.user">'+user+'</a></td>\n'
 
-        h+='   <td '+ha+'><input type="button" class="ck_small_button" onClick="copyToClipboard(\'ck replay caffe\');" value="Replay"></td>\n'
+        h+='   <td '+ha+'><input type="button" class="ck_small_button" onClick="copyToClipboard(\'ck replay caffe\');" value="Replay"><br><br>\n'
+        h+='              '+uu3+'</td>\n'
 
         h+='  <tr>\n'
 
