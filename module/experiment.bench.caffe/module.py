@@ -711,7 +711,7 @@ def show(i):
     h+='   <td '+ha+'><b>Caffe engine</b></td>\n'
     h+='   <td '+ha+'><b>Network</b></td>\n'
     h+='   <td '+ha+'><b>Choices (env)</b></td>\n'
-    h+='   <td '+ha+'><b>FWBW</b></td>\n'
+    h+='   <td '+ha+'><b>FWBW<br>min time</b><br><br>(exp&nbsp;time)<br>stat.&nbsp;repetitions</td>\n'
     h+='   <td '+ha+'><b>FW</b></td>\n'
     h+='   <td '+ha+'><b>BW</b></td>\n'
     h+='   <td '+ha+'><b>Model size</b></td>\n'
@@ -911,11 +911,20 @@ def show(i):
         x0=dstat.get("##characteristics#run#time_fwbw_ms#min",None)
         x0e=dstat.get("##characteristics#run#time_fwbw_ms#exp",None)
         x1=dstat.get("##characteristics#run#time_fwbw_ms#center",None)
+        xr=dstat.get("##characteristics#run#time_fwbw_ms#repeats",None)
         x2=dstat.get("##characteristics#run#time_fwbw_ms#halfrange",None)
-        if x1!=None and x2!=None:
-            x=('%.0f'%x1)+'&nbsp;&PlusMinus;&nbsp;'+('%.0f'%x2)+'&nbsp;ms.'
+        x=''
+        if x!=None:
+            x='<b>'+('%.0f'%x0)+'&nbsp;ms.</b>\n'
+#            x+='('+('%.0f'%x1)+'&nbsp;&PlusMinus;&nbsp;'+('%.0f'%x2)+'&nbsp;ms.)'
 
-        h+='   <td '+ha+'>'+x+'</td>\n'
+        if x1!=None and x2!=None:
+            x+='<br><br>('+('%.0f'%x0e)+'&nbsp;&PlusMinus;&nbsp;'+('%.0f'%x2)+'&nbsp;ms.)\n'
+
+        if xr!=None:
+            x+='<br><i>'+str(xr)+' repetitions</i>\n'
+
+        h+='   <td '+ha+' style="background-color:#ffcfcf">'+x+'</td>\n'
 
         if fail!='yes' and x0!=None and duid!=hi_uid:
             bgraph['0'].append([ix,x0])
@@ -971,8 +980,12 @@ def show(i):
 
         h+='   <td '+ha+'>'+x+'</td>\n'
 
-        # Memory usage (TBD)
+        # Memory usage
         x=''
+
+        mem=dstat.get("##characteristics#run#memory_mbytes#max",None)
+        if mem!=None:
+           x=str(int(mem))+' MB'
 
         h+='   <td '+ha+'>'+x+'</td>\n'
 
