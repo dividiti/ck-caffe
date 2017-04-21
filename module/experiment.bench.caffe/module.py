@@ -467,8 +467,6 @@ def crowdsource(i):
 
     # Add files
     ddd['file_stat']=ffstat
-    if not found and real_proto!='':
-       ddd['file_model_topology']=os.path.basename(real_proto)
 
     if not found:
        if o=='con':
@@ -487,6 +485,8 @@ def crowdsource(i):
 
        # Push real proto
        if real_proto!='':
+          ddd['file_model_topology']=os.path.basename(real_proto)
+
           rx=ck.access({'action':'push',
                         'module_uoa':work['self_module_uid'],
                         'data_uoa':rduid,
