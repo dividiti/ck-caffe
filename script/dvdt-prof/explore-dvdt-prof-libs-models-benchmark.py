@@ -11,7 +11,7 @@ bs={
   'default':1
 }
 # Number of statistical repetitions.
-num_repetitions=1
+num_repetitions=3
 
 def do(i):
     # Detect basic platform info.
@@ -83,6 +83,9 @@ def do(i):
 
     program='caffe'
     cmd_key='time_gpu'
+# TODO: Use program:caffe-time.
+#   program='caffe-time'
+#   cmd_key='default'
 
     # Prepare pipeline.
     cdeps['lib-caffe']['uoa']=udepl[0]
@@ -97,6 +100,10 @@ def do(i):
         'cmd_key':cmd_key,
 
         'dvdt_prof':'yes',
+# TODO: skip back propagation.
+#        'env':{
+#          'CK_CAFFE_SKIP_BACKWARD':1
+#        },
 
         'no_state_check':'yes',
         'no_compiler_description':'yes',
@@ -215,7 +222,7 @@ def do(i):
 
                 'features_keys_to_process':['##choices#*'],
 
-                'process_multi_keys':[''],
+                'process_multi_keys':['##choices#env#CK_CAFFE_BATCH_SIZE'],
 
                 'iterations':-1,
                 'repetitions':num_repetitions,
