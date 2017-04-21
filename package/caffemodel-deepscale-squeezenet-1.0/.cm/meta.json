@@ -55,7 +55,8 @@
   },
   "features":{
     "accuracy":0.576801,
-    "accuracy_top5":0.803903
+    "accuracy_top5":0.803903,
+    "model_size_mb":6
   },
   "suggested_path": "caffemodel-deepscale-squeezenet-1.0",
   "tags": [

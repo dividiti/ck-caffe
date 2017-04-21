@@ -1,7 +1,7 @@
 diff -ruN src\CMakeLists.txt src-new\CMakeLists.txt
---- src\CMakeLists.txt	Tue Feb 28 20:01:35 2017
-+++ src-new\CMakeLists.txt	Tue Feb 28 22:53:33 2017
-@@ -190,8 +190,8 @@
+--- src\CMakeLists.txt	Tue Apr 18 23:03:31 2017
++++ src-new\CMakeLists.txt	Tue Apr 18 23:06:28 2017
+@@ -188,8 +188,8 @@
  # ---[ Subdirectories
  add_subdirectory(src/gtest)
  add_subdirectory(src/caffe)

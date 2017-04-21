@@ -62,7 +62,8 @@
   ],
   "features":{
     "accuracy":0.689299,
-    "accuracy_top5":0.891441
+    "accuracy_top5":0.891441,
+    "model_size_mb":54
   },
   "package_extra_name": " (bvlc, googlenet)",
   "process_script": "download",
