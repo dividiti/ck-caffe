@@ -925,7 +925,7 @@ def show(i):
         xr=dstat.get("##characteristics#run#time_fwbw_ms#repeats",None)
         x2=dstat.get("##characteristics#run#time_fwbw_ms#halfrange",None)
         x=''
-        if x!=None:
+        if x0!=None:
             x='<b>'+('%.0f'%x0)+'&nbsp;ms.</b>\n'
 #            x+='('+('%.0f'%x1)+'&nbsp;&PlusMinus;&nbsp;'+('%.0f'%x2)+'&nbsp;ms.)'
 
