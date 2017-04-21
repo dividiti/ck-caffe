@@ -157,7 +157,7 @@ def do(i):
         lib_tags=re.match('BVLC Caffe framework \((?P<tags>.*)\)', lib_name)
         lib_tags=lib_tags.group('tags').replace(' ', '').replace(',', '-')
         # Skip some libs with "in [..]" or "not in [..]".
-        if lib_tags not in [ 'opencl-clblast' ]: continue
+        if lib_tags not in [ 'opencl-clblast', 'opencl-clblast-tune' ]: continue
 
         # For each Caffe model.
         for model_uoa in udepm:
