@@ -330,7 +330,9 @@ def crowdsource(i):
     for k in deps:
         dp=deps[k]
 
-        puoa=dp.get('cus',{}).get('used_package_uoa','')
+        puoa=dp.get('package_uoa','')
+        if puoa=='':
+           puoa=dp.get('cus',{}).get('used_package_uoa','')
 
         dname=dp.get('dict',{}).get('data_name','')
 
