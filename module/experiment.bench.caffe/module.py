@@ -677,6 +677,11 @@ def show(i):
     hb='align="left" valign="top"'
 
     h+='  <tr style="background-color:#dddddd">\n'
+    h+='   <td '+ha+'><b>#</b></td>\n'
+    h+='   <td '+ha+'><b>Platform</b></td>\n'
+    h+='   <td '+ha+'><b>OS</b></td>\n'
+    h+='   <td '+ha+'><b>CPU</b></td>\n'
+    h+='   <td '+ha+'><b>GPGPU</b></td>\n'
     h+='   <td '+ha+'><b>Type</b></td>\n'
     h+='   <td '+ha+'><b>Caffe engine</b></td>\n'
     h+='   <td '+ha+'><b>Network</b></td>\n'
@@ -690,10 +695,6 @@ def show(i):
     h+='   <td '+ha+'><b>Power consumption (W)<br>min / max</td>\n'
     h+='   <td '+ha+'><b>Memory usage (MB)</td>\n'
     h+='   <td '+ha+'><b>All characteristics</b></td>\n'
-    h+='   <td '+ha+'><b>Platform</b></td>\n'
-    h+='   <td '+ha+'><b>CPU</b></td>\n'
-    h+='   <td '+ha+'><b>GPGPU</b></td>\n'
-    h+='   <td '+ha+'><b>OS</b></td>\n'
     h+='   <td '+ha+'><b>Bug detected?</b></td>\n'
     h+='   <td '+ha+'><b>User</b></td>\n'
     h+='   <td '+ha+'><b>Replay</b></td>\n'
@@ -769,6 +770,30 @@ def show(i):
         bg=' style="background-color:#'+bgc+';"'
 
         h+='  <tr'+bg+'>\n'
+
+        # Number
+        h+='   <td '+ha+'>'+str(ix)+'</a></td>\n'
+
+        # Platform, etc ...
+        x=plat_name
+        if plat_uid!='':
+            x='<a href="'+url0+'&wcid='+cfg['module_deps']['platform']+':'+plat_uid+'">'+x+'</a>'
+        h+='   <td '+ha+'>'+x+'</td>\n'
+
+        x=os_name
+        if os_uid!='':
+            x='<a href="'+url0+'&wcid='+cfg['module_deps']['platform']+':'+os_uid+'">'+x+'</a>'
+        h+='   <td '+ha+'>'+x+'</td>\n'
+
+        x=cpu_name
+        if cpu_uid!='':
+            x='<a href="'+url0+'&wcid='+cfg['module_deps']['platform.cpu']+':'+cpu_uid+'">'+x+'</a>'
+        h+='   <td '+ha+'>'+x+'</td>\n'
+
+        x=gpgpu_name
+        if gpgpu_uid!='':
+            x='<a href="'+url0+'&wcid='+cfg['module_deps']['platform.gpgpu']+':'+gpgpu_uid+'">'+x+'</a>'
+        h+='   <td '+ha+'>'+x+'</td>\n'
 
         # All files
         uu1=work['self_module_uid']
@@ -898,6 +923,12 @@ def show(i):
         # Model topology
         x=''
 
+        fmt=d.get('file_model_topology','')
+        if fmt!='':
+           pfmt=os.path.join(path,fmt)
+           if os.path.isfile(pfmt):
+               x='<a href="'+url0+'&action=pull&common_action=yes&cid='+work['self_module_uid']+':'+duid+'&filename='+fmt+'">deploy.prototxt</a>\n'
+
         h+='   <td '+ha+'>'+x+'</td>\n'
 
         # Power consumption (TBD)
@@ -944,27 +975,8 @@ def show(i):
 
         h+='   <td '+ha+'>'+x+'</td>\n'
 
-        # Platform, etc ...
-        x=plat_name
-        if plat_uid!='':
-            x='<a href="'+url0+'&wcid='+cfg['module_deps']['platform']+':'+plat_uid+'">'+x+'</a>'
-        h+='   <td '+ha+'>'+x+'</td>\n'
 
-        x=cpu_name
-        if cpu_uid!='':
-            x='<a href="'+url0+'&wcid='+cfg['module_deps']['platform.cpu']+':'+cpu_uid+'">'+x+'</a>'
-        h+='   <td '+ha+'>'+x+'</td>\n'
-
-        x=gpgpu_name
-        if gpgpu_uid!='':
-            x='<a href="'+url0+'&wcid='+cfg['module_deps']['platform.gpgpu']+':'+gpgpu_uid+'">'+x+'</a>'
-        h+='   <td '+ha+'>'+x+'</td>\n'
-
-        x=os_name
-        if os_uid!='':
-            x='<a href="'+url0+'&wcid='+cfg['module_deps']['platform']+':'+os_uid+'">'+x+'</a>'
-        h+='   <td '+ha+'>'+x+'</td>\n'
-
+        # Crowdsourcing bug detection
         x=fail_reason
         if x=='': 
             x=''
