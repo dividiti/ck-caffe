@@ -822,7 +822,17 @@ def show(i):
         if x!='' and d_engine_ver!='':
            x+='\n<br><br>Version&nbsp;<b>'+d_engine_ver+'</b>'
 
-        h+='   <td '+ha+'>'+x+'</td>\n'
+        # Versions
+        ver=''
+        dver=meta.get('xversions',{})
+        for dx in sorted(dver):
+            ver+=dx+': '+str(dver[dx])+'\n'
+
+        ver=ver.replace("\'","'").replace("'","\\'").replace('\"','"').replace('"',"\\'").replace('\n','\\n')
+        if ver!='':
+            ver='<input type="button" class="ck_small_button" onClick="alert(\''+ver+'\');" value="See versions of all deps">'
+
+        h+='   <td '+ha+'>'+x+'<br><br>'+ver+'</td>\n'
 
         # Model
 
