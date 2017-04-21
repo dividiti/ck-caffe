@@ -330,7 +330,9 @@ def crowdsource(i):
     for k in deps:
         dp=deps[k]
 
-        puoa=dp.get('cus',{}).get('used_package_uoa','')
+        puoa=dp.get('package_uoa','')
+        if puoa=='':
+           puoa=dp.get('cus',{}).get('used_package_uoa','')
 
         dname=dp.get('dict',{}).get('data_name','')
 
@@ -391,7 +393,7 @@ def crowdsource(i):
 
         if o=='con':
            ck.out('')
-           ck.out('Results found. Pre-loading aggregated stats ...')
+           ck.out('Results found. Pre-loading aggregated stats from '+rduid+' ...')
 
         # Load stats
         rx=ck.access({'action':'load',
@@ -403,9 +405,12 @@ def crowdsource(i):
         if rx['return']==0:
            aggregated_stats=rx.get('extra_json_files',{}).get(ffstat,{})
         else:
-            rx=ck.gen_uid({})
-            if rx['return']>0: return rx
-            rduid=rx['data_uid']
+           ck.out('')
+           ck.out('WARNING: couldn\'t load data ('+rx['error']+')')
+    else:
+       rx=ck.gen_uid({})
+       if rx['return']>0: return rx
+       rduid=rx['data_uid']
 
     # Run CK pipeline *****************************************************
     pipeline=copy.deepcopy(rr)
@@ -467,13 +472,11 @@ def crowdsource(i):
 
     # Add files
     ddd['file_stat']=ffstat
-    if not found and real_proto!='':
-       ddd['file_model_topology']=os.path.basename(real_proto)
 
     if not found:
        if o=='con':
           ck.out('')
-          ck.out('Saving results to the remote public repo ...')
+          ck.out('Saving results to the remote public repo ('+rduid+') ...')
 
        # Update meta
        rx=ck.access({'action':'add',
@@ -487,6 +490,12 @@ def crowdsource(i):
 
        # Push real proto
        if real_proto!='':
+          if o=='con':
+             ck.out('')
+             ck.out('Pushing prototxt to the remote public repo ...')
+
+          ddd['file_model_topology']=os.path.basename(real_proto)
+
           rx=ck.access({'action':'push',
                         'module_uoa':work['self_module_uid'],
                         'data_uoa':rduid,
@@ -522,7 +531,7 @@ def crowdsource(i):
         ck.out('Succesfully recorded results in remote repo (Entry UID='+rduid+')')
 
         # Check host URL prefix and default module/action
-        url='http://cknowledge.org/repo/web.php?action=index&native_action=show&native_module_uoa=program.optimization&scenario=155b6fa5a4012a93&highlight_uid='+rduid
+        url='http://cknowledge.org/repo/web.php?native_action=show&native_module_uoa=program.optimization&scenario=155b6fa5a4012a93&highlight_uid='+rduid
         ck.out('')
         ck.out('You can see your results at the following URL:')
         ck.out('')
@@ -711,7 +720,7 @@ def show(i):
     h+='   <td '+ha+'><b>Caffe engine</b></td>\n'
     h+='   <td '+ha+'><b>Network</b></td>\n'
     h+='   <td '+ha+'><b>Choices (env)</b></td>\n'
-    h+='   <td '+ha+'><b>FWBW</b></td>\n'
+    h+='   <td '+ha+'><b>FWBW<br>min time</b><br><br>(exp&nbsp;time)<br>stat.&nbsp;repetitions</td>\n'
     h+='   <td '+ha+'><b>FW</b></td>\n'
     h+='   <td '+ha+'><b>BW</b></td>\n'
     h+='   <td '+ha+'><b>Model size</b></td>\n'
@@ -842,7 +851,9 @@ def show(i):
         ver=''
         dver=meta.get('xversions',{})
         for dx in sorted(dver):
-            ver+=dx+': '+str(dver[dx])+'\n'
+            vx=dver[dx]
+            if vx!=None and vx!='':
+               ver+=dx+': '+str(dver[dx])+'\n'
 
         ver=ver.replace("\'","'").replace("'","\\'").replace('\"','"').replace('"',"\\'").replace('\n','\\n')
         if ver!='':
@@ -911,11 +922,20 @@ def show(i):
         x0=dstat.get("##characteristics#run#time_fwbw_ms#min",None)
         x0e=dstat.get("##characteristics#run#time_fwbw_ms#exp",None)
         x1=dstat.get("##characteristics#run#time_fwbw_ms#center",None)
+        xr=dstat.get("##characteristics#run#time_fwbw_ms#repeats",None)
         x2=dstat.get("##characteristics#run#time_fwbw_ms#halfrange",None)
-        if x1!=None and x2!=None:
-            x=('%.0f'%x1)+'&nbsp;&PlusMinus;&nbsp;'+('%.0f'%x2)+'&nbsp;ms.'
+        x=''
+        if x0!=None:
+            x='<b>'+('%.0f'%x0)+'&nbsp;ms.</b>\n'
+#            x+='('+('%.0f'%x1)+'&nbsp;&PlusMinus;&nbsp;'+('%.0f'%x2)+'&nbsp;ms.)'
 
-        h+='   <td '+ha+'>'+x+'</td>\n'
+        if x1!=None and x2!=None:
+            x+='<br><br>('+('%.0f'%x0e)+'&nbsp;&PlusMinus;&nbsp;'+('%.0f'%x2)+'&nbsp;ms.)\n'
+
+        if xr!=None:
+            x+='<br><i>'+str(xr)+' repetitions</i>\n'
+
+        h+='   <td '+ha+' style="background-color:#ffcfcf">'+x+'</td>\n'
 
         if fail!='yes' and x0!=None and duid!=hi_uid:
             bgraph['0'].append([ix,x0])
@@ -971,8 +991,12 @@ def show(i):
 
         h+='   <td '+ha+'>'+x+'</td>\n'
 
-        # Memory usage (TBD)
+        # Memory usage
         x=''
+
+        mem=dstat.get("##characteristics#run#memory_mbytes#max",None)
+        if mem!=None:
+           x=str(int(mem))+' MB'
 
         h+='   <td '+ha+'>'+x+'</td>\n'
 
@@ -1006,7 +1030,45 @@ def show(i):
 #        x5=x5.replace("'","\'").replace('"',"\\'").replace('\n','\\n')
         x5=x5.replace("\'","'").replace("'","\\'").replace('\"','"').replace('"',"\\'").replace('\n','\\n')
         if x5!='':
-            x+='<input type="button" class="ck_small_button" onClick="alert(\''+x5+'\');" value="CK">'
+            x+='<input type="button" class="ck_small_button" onClick="alert(\''+x5+'\');" value="Main">'
+
+        # Also layers
+        y5=''
+        for j in range(0,10000):
+            k1='##characteristics#run#per_layer_info@'+str(j)+'#direction#min'
+            k2='##characteristics#run#per_layer_info@'+str(j)+'#label#min'
+            k3='##characteristics#run#per_layer_info@'+str(j)+'#time_ms#min'
+            k4='##characteristics#run#per_layer_info@'+str(j)+'#time_ms#max'
+            k5='##characteristics#run#per_layer_info@'+str(j)+'#time_ms#exp_allx'
+
+            v1=dstat.get(k1,'')
+            v2=dstat.get(k2,'')
+            v3=dstat.get(k3,'')
+            v4=dstat.get(k4,'')
+            v5=dstat.get(k5,[])
+
+            if v1!='' and v2!='' and v3!='' and v4!='':
+               v6=0
+               if len(v5)>0:
+                  v6=v5[0]
+
+               xv3=''
+               xv4=''
+               xv5=''
+
+               if v3!='': xv3=('%.1f'%v3)
+               if v4!='': xv4=('%.1f'%v4)
+               if v6!='': xv6=('%.1f'%v6)
+
+               if y5=='': y5='Layers:\nName (direction): min time ; expected time ; max time\n'
+
+               y5+='\n'+v2+' ('+v1+'): '+xv3+' ms. ; '+xv6+' ms. ; '+xv4+' ms.'
+            else:
+               break
+
+        y5=y5.replace("\'","'").replace("'","\\'").replace('\"','"').replace('"',"\\'").replace('\n','\\n')
+        if y5!='':
+            x+='<br><br><input type="button" class="ck_small_button" onClick="alert(\''+y5+'\');" value="Per layer">'
 
         h+='   <td '+ha+'>'+x+'</td>\n'
 
