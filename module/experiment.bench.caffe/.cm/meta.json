@@ -12,7 +12,7 @@
     "show": {
       "desc": "show results"
     },
-    "show_layers": {
+    "html_viewer": {
       "desc": "show info for all layers",
       "for_web": "yes"
     }

@@ -16,7 +16,7 @@ ck=None # Will be updated by CK (initialized CK kernel)
 line='================================================================'
 
 ck_url='http://cknowledge.org/repo/web.php?native_action=show&native_module_uoa=program.optimization&scenario=155b6fa5a4012a93'
-ck_url1='http://cknowledge.org/repo/web.php?native_action=show_layers&native_module_uoa=experiment.bench.caffe'
+ck_url1='http://cknowledge.org/repo/web.php?wcid=experiment.bench.caffe:'
 
 ffstat='ck-stat-flat-characteristics.json'
 
@@ -952,7 +952,7 @@ def show(i):
         if xr!=None:
             x+='<br><i>'+str(xr)+' repetitions</i>\n'
 
-        h+='   <td '+ha+' style="background-color:#ffcfcf">'+x+'</td>\n'
+        h+='   <td '+ha+' style="background-color:#afffaf">'+x+'</td>\n'
 
         if fail!='yes' and x0!=None and duid!=hi_uid:
             bgraph['0'].append([ix,x0])
@@ -1034,7 +1034,7 @@ def show(i):
 
         y5=y5.replace("\'","'").replace("'","\\'").replace('\"','"').replace('"',"\\'").replace('\n','\\n')
         if y5!='':
-            x+='<a href="'+ck_url1+'&experiment_uoa='+duid+'">Stats per layer</a><br><br>\n'
+            x+='<a href="'+ck_url1+duid+'">Stats per layer</a><br><br>\n'
             x+='<input type="button" class="ck_small_button" onClick="alert(\''+y5+'\');" value="All layers as pop-up">'
 
 #        x5=x5.replace("'","\'").replace('"',"\\'").replace('\n','\\n')
@@ -1212,9 +1212,10 @@ def browse(i):
 ##############################################################################
 # show info for all layers
 
-def show_layers(i):
+def html_viewer(i):
     """
     Input:  {
+              data_uoa - CK entry UOA to view
             }
 
     Output: {
@@ -1227,15 +1228,19 @@ def show_layers(i):
 
     import os
 
-    euid=i.get('experiment_uoa','')
+    duoa=i.get('data_uoa','')
 
     # Load entry
     r=ck.access({'action':'load',
                  'module_uoa':work['self_module_uid'],
-                 'data_uoa':euid})
+                 'data_uoa':duoa})
     if r['return']>0: return r
     p=r['path']
     d=r['dict']
+
+    dchars=d.get('characteristics',{})
+    dchoices=d.get('choices',{})
+    dmeta=d.get('meta',{})
 
     # Load stats
     dstat={}
@@ -1246,19 +1251,115 @@ def show_layers(i):
         dstat=r['dict']
 
     # Prepare table
-    h='<center>\n'
-    h+='<h2>DNN engine and model evaluation Statistics per layer</h2><br>\n'
+    h=''
+    h+='<hr>\n'
+    h+='<center>\n'
+    h+='<h2>DNN engine and model evaluation statistics per layer (crowd-tuning)</h2><br>\n'
+    h+='</center>\n'
 
+    xdeps=dmeta.get('xdeps',{})
+    lcaffe=xdeps.get('lib-caffe',{})
+    lmodel=xdeps.get('caffemodel',{})
+
+    # Prepare extra info
     h+='<p>\n'
-    h+='<table border="1" cellpadding="5" cellspacing="0">\n'
+    h+='<table border="1" cellpadding="8" cellspacing="0">\n'
+
+    h+=' <tr>\n'
+    h+='  <td><b>DNN engine name:</b></td>\n'
+    h+='  <td>'+lcaffe.get('data_name','')+'</td>\n'
+    h+=' </tr>\n'
+
+    h+=' <tr>\n'
+    h+='  <td><b>DNN engine version:</b></td>\n'
+    h+='  <td>'+lcaffe.get('ver','')+'</td>\n'
+    h+=' </tr>\n'
+
+    h+=' <tr>\n'
+    h+='  <td><b>DNN engine type:</b></td>\n'
+    h+='  <td>'+dmeta.get('caffe_type','')+'</td>\n'
+    h+=' </tr>\n'
+
+    x=''
+
+    dx=dmeta.get('xversions',{})
+    for k in sorted(dx):
+        v=dx[k]
+        if v!='':
+           if x!='': x+='<br>\n'
+           x+=k+'='+str(v)+'\n'
+
+    h+=' <tr>\n'
+    h+='  <td><b>DNN engine dependencies:</b></td>\n'
+    h+='  <td>'+x+'</td>\n'
+    h+=' </tr>\n'
+
+    h+=' <tr>\n'
+    h+='  <td><b>DNN model name:</b></td>\n'
+    h+='  <td>'+lmodel.get('data_name','')+'</td>\n'
+    h+=' </tr>\n'
+
+    h+=' <tr>\n'
+    h+='  <td><b>DNN model version:</b></td>\n'
+    h+='  <td>'+lmodel.get('ver','')+'</td>\n'
+    h+=' </tr>\n'
+
+    h+=' <tr>\n'
+    h+='  <td><b>Batch size:</b></td>\n'
+    h+='  <td>'+dchars.get('run',{}).get('REAL_ENV_CK_CAFFE_BATCH_SIZE','')+'</td>\n'
+    h+=' </tr>\n'
+
+# TBD: Need to show min,exp,max!
+#    h+=' <tr>\n'
+#    h+='  <td><b>FWBW time (ms.):</b></td>\n'
+#    h+='  <td>'+str(dchars.get('run',{}).get('time_bw_ms',''))+'</td>\n'
+#    h+=' </tr>\n'
+
+#    h+=' <tr>\n'
+#    h+='  <td><b>FW time (ms.):</b></td>\n'
+#    h+='  <td>'+str(dchars.get('run',{}).get('time_fw_ms',''))+'</td>\n'
+#    h+=' </tr>\n'
+
+#    h+=' <tr>\n'
+#    h+='  <td><b>BW time (ms.):</b></td>\n'
+#    h+='  <td>'+str(dchars.get('run',{}).get('time_bw_ms',''))+'</td>\n'
+#    h+=' </tr>\n'
+
+    h+=' <tr>\n'
+    h+='  <td><b>Platform:</b></td>\n'
+    h+='  <td>'+dmeta.get('plat_name','')+'</td>\n'
+    h+=' </tr>\n'
+
+    h+=' <tr>\n'
+    h+='  <td><b>OS:</b></td>\n'
+    h+='  <td>'+dmeta.get('os_name','')+'</td>\n'
+    h+=' </tr>\n'
+
+    h+=' <tr>\n'
+    h+='  <td><b>CPU:</b></td>\n'
+    h+='  <td>'+dmeta.get('cpu_name','')+'</td>\n'
+    h+=' </tr>\n'
+
+    h+=' <tr>\n'
+    h+='  <td><b>GPU:</b></td>\n'
+    h+='  <td>'+dmeta.get('gpu_name','')+'</td>\n'
+    h+=' </tr>\n'
+
+
+    h+=' </tr>\n'
+    h+='</table>\n'
+
+    h+='<center>\n'
+    h+='<p>\n'
+    h+='<table border="0" cellpadding="10" cellspacing="0">\n'
 
     h+=' <tr>\n'
     h+='  <td><b>Name</b></td>\n'
     h+='  <td><b>Direction</b></td>\n'
-    h+='  <td><b>Min time (ms.)</b></td>\n'
-    h+='  <td><b>Expected time (ms.)</b></td>\n'
-    h+='  <td><b>Max time (ms.)</b></td>\n'
-    h+='  <td><b>Repetitions</b></td>\n'
+    h+='  <td align="right"><b>Min time (ms.):</b></td>\n'
+    h+='  <td align="right"><b>Expected time (ms.):</b></td>\n'
+    h+='  <td align="right"><b>Max time (ms.):</b></td>\n'
+    h+='  <td align="right"><b>Repetitions:</b></td>\n'
     h+=' </tr>\n'
 
     # Also layers
@@ -1268,12 +1369,14 @@ def show_layers(i):
         k3='##characteristics#run#per_layer_info@'+str(j)+'#time_ms#min'
         k4='##characteristics#run#per_layer_info@'+str(j)+'#time_ms#max'
         k5='##characteristics#run#per_layer_info@'+str(j)+'#time_ms#exp_allx'
+        k7='##characteristics#run#per_layer_info@'+str(j)+'#time_ms#repeats'
 
         v1=dstat.get(k1,'')
         v2=dstat.get(k2,'')
         v3=dstat.get(k3,'')
         v4=dstat.get(k4,'')
         v5=dstat.get(k5,[])
+        v7=dstat.get(k7,'')
 
         if v1!='' and v2!='' and v3!='' and v4!='':
            v6=0
@@ -1282,19 +1385,27 @@ def show_layers(i):
 
            xv3=''
            xv4=''
-           xv5=''
+           xv6=''
 
-           if v3!='': xv3=('%.1f'%v3)
-           if v4!='': xv4=('%.1f'%v4)
-           if v6!='': xv6=('%.1f'%v6)
+           if v3!='':
+              if v3==0: xv3='0'
+              else: xv3='<b>'('%.1f'%v3)+'</b>'
+
+           if v4!='':
+              if v4==0: xv4='0'
+              else: xv4='<b>'+('%.1f'%v4)+'</b>'
+
+           if v6!='':
+              if v6==0: xv6='0'
+              else: xv6='<b>'+('%.1f'%v6)+'</b>'
 
            h+=' <tr>\n'
            h+='  <td>'+v2+'</td>\n'
            h+='  <td>'+v1+'</td>\n'
-           h+='  <td>'+xv3+'</td>\n'
-           h+='  <td>'+xv6+'</td>\n'
-           h+='  <td>'+xv4+'</td>\n'
-           h+='  <td>x</td>\n'
+           h+='  <td align="right">'+xv3+'</td>\n'
+           h+='  <td align="right">'+xv6+'</td>\n'
+           h+='  <td align="right">'+xv4+'</td>\n'
+           h+='  <td align="right">'+str(v7)+'</td>\n'
            h+=' </tr>\n'
 
     h+='</table>\n'
@@ -1302,4 +1413,4 @@ def show_layers(i):
     h+='</center>\n'
 
 
-    return {'return':0, 'html':h}
+    return {'return':0, 'html':h, 'show_top':'yes'}
