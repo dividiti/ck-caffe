@@ -16,6 +16,7 @@ ck=None # Will be updated by CK (initialized CK kernel)
 line='================================================================'
 
 ck_url='http://cknowledge.org/repo/web.php?native_action=show&native_module_uoa=program.optimization&scenario=155b6fa5a4012a93'
+ck_url1='http://cknowledge.org/repo/web.php?native_action=show_layers&native_module_uoa=experiment.bench.caffe'
 
 ffstat='ck-stat-flat-characteristics.json'
 
@@ -739,12 +740,12 @@ def show(i):
     h+='   <td '+ha+'><b>FWBW<br>min time</b><br><br>(exp&nbsp;time)<br>stat.&nbsp;repetitions</td>\n'
     h+='   <td '+ha+'><b>FW</b></td>\n'
     h+='   <td '+ha+'><b>BW</b></td>\n'
+    h+='   <td '+ha+'><b>Per layer</b></td>\n'
     h+='   <td '+ha+'><b>Model size</b></td>\n'
     h+='   <td '+ha+'><b><a href="https://github.com/dividiti/ck-caffe/blob/master/script/explore-accuracy/explore_accuracy.20160808.ipynb">Model accuracy on ImageNet</a></td>\n'
     h+='   <td '+ha+'><b>Model topology and parameters</td>\n'
     h+='   <td '+ha+'><b>Power consumption (W)<br>min / max</td>\n'
     h+='   <td '+ha+'><b>Memory usage (MB)</td>\n'
-    h+='   <td '+ha+'><b>All characteristics</b></td>\n'
     h+='   <td '+ha+'><b>Bug detected?</b></td>\n'
     h+='   <td '+ha+'><b>User</b></td>\n'
     h+='   <td '+ha+'><b>Replay</b></td>\n'
@@ -971,6 +972,78 @@ def show(i):
 
         h+='   <td '+ha+'>'+x+'</td>\n'
 
+        # Check all characteristics
+        x=''
+        x5=''
+        for k in sorted(te):
+            v=te[k]
+
+            kx="##characteristics#run#"+k
+
+            kx1=dstat.get(kx+'#center',None)
+            kx2=dstat.get(kx+'#halfrange',None)
+
+            x6=''
+            if type(v)==int:
+                if kx1!=None and kx2!=None:
+                    x6=str(kx1)+' +- '+str(kx2)
+                else:
+                    x6=str(v)
+            elif type(v)==float:
+                if kx1!=None and kx2!=None:
+                    x6=('%.1f'%kx1)+' +- '+('%.1f'%kx2)
+                else:
+                    x6=('%.1f'%v)
+
+            if x6!='':
+                x5+=str(k)+'='+x6+'\n'
+
+        # Also layers
+        y5=''
+        for j in range(0,1000):
+            k1='##characteristics#run#per_layer_info@'+str(j)+'#direction#min'
+            k2='##characteristics#run#per_layer_info@'+str(j)+'#label#min'
+            k3='##characteristics#run#per_layer_info@'+str(j)+'#time_ms#min'
+            k4='##characteristics#run#per_layer_info@'+str(j)+'#time_ms#max'
+            k5='##characteristics#run#per_layer_info@'+str(j)+'#time_ms#exp_allx'
+
+            v1=dstat.get(k1,'')
+            v2=dstat.get(k2,'')
+            v3=dstat.get(k3,'')
+            v4=dstat.get(k4,'')
+            v5=dstat.get(k5,[])
+
+            if v1!='' and v2!='' and v3!='' and v4!='':
+               v6=0
+               if len(v5)>0:
+                  v6=v5[0]
+
+               xv3=''
+               xv4=''
+               xv5=''
+
+               if v3!='': xv3=('%.1f'%v3)
+               if v4!='': xv4=('%.1f'%v4)
+               if v6!='': xv6=('%.1f'%v6)
+
+               if y5=='': y5='Layers:\nName (direction): min time (ms.) ; expected time (ms.) ; max time (ms.)\n'
+
+               y5+='\n'+v2+' ('+v1+'): '+xv3+';'+xv6+';'+xv4
+            else:
+               break
+
+        y5=y5.replace("\'","'").replace("'","\\'").replace('\"','"').replace('"',"\\'").replace('\n','\\n')
+        if y5!='':
+            x+='<a href="'+ck_url1+'&experiment_uoa='+duid+'">Stats per layer</a><br><br>\n'
+            x+='<input type="button" class="ck_small_button" onClick="alert(\''+y5+'\');" value="All layers as pop-up">'
+
+#        x5=x5.replace("'","\'").replace('"',"\\'").replace('\n','\\n')
+        x5=x5.replace("\'","'").replace("'","\\'").replace('\"','"').replace('"',"\\'").replace('\n','\\n')
+        if x5!='':
+            x+='<br><br><input type="button" class="ck_small_button" onClick="alert(\''+x5+'\');" value="CK vars">'
+
+        h+='   <td '+ha+'>'+x+'</td>\n'
+
         # Model size
         h+='   <td '+ha+'>'+msize+'</td>\n'
 
@@ -1016,77 +1089,6 @@ def show(i):
 
         h+='   <td '+ha+'>'+x+'</td>\n'
 
-
-        # Check all characteristics
-        x=''
-        x5=''
-        for k in sorted(te):
-            v=te[k]
-
-            kx="##characteristics#run#"+k
-
-            kx1=dstat.get(kx+'#center',None)
-            kx2=dstat.get(kx+'#halfrange',None)
-
-            x6=''
-            if type(v)==int:
-                if kx1!=None and kx2!=None:
-                    x6=str(kx1)+' +- '+str(kx2)
-                else:
-                    x6=str(v)
-            elif type(v)==float:
-                if kx1!=None and kx2!=None:
-                    x6=('%.1f'%kx1)+' +- '+('%.1f'%kx2)
-                else:
-                    x6=('%.1f'%v)
-
-            if x6!='':
-                x5+=str(k)+'='+x6+'\n'
-
-#        x5=x5.replace("'","\'").replace('"',"\\'").replace('\n','\\n')
-        x5=x5.replace("\'","'").replace("'","\\'").replace('\"','"').replace('"',"\\'").replace('\n','\\n')
-        if x5!='':
-            x+='<input type="button" class="ck_small_button" onClick="alert(\''+x5+'\');" value="Main">'
-
-        # Also layers
-        y5=''
-        for j in range(0,10000):
-            k1='##characteristics#run#per_layer_info@'+str(j)+'#direction#min'
-            k2='##characteristics#run#per_layer_info@'+str(j)+'#label#min'
-            k3='##characteristics#run#per_layer_info@'+str(j)+'#time_ms#min'
-            k4='##characteristics#run#per_layer_info@'+str(j)+'#time_ms#max'
-            k5='##characteristics#run#per_layer_info@'+str(j)+'#time_ms#exp_allx'
-
-            v1=dstat.get(k1,'')
-            v2=dstat.get(k2,'')
-            v3=dstat.get(k3,'')
-            v4=dstat.get(k4,'')
-            v5=dstat.get(k5,[])
-
-            if v1!='' and v2!='' and v3!='' and v4!='':
-               v6=0
-               if len(v5)>0:
-                  v6=v5[0]
-
-               xv3=''
-               xv4=''
-               xv5=''
-
-               if v3!='': xv3=('%.1f'%v3)
-               if v4!='': xv4=('%.1f'%v4)
-               if v6!='': xv6=('%.1f'%v6)
-
-               if y5=='': y5='Layers:\nName (direction): min time ; expected time ; max time\n'
-
-               y5+='\n'+v2+' ('+v1+'): '+xv3+' ms. ; '+xv6+' ms. ; '+xv4+' ms.'
-            else:
-               break
-
-        y5=y5.replace("\'","'").replace("'","\\'").replace('\"','"').replace('"',"\\'").replace('\n','\\n')
-        if y5!='':
-            x+='<br><br><input type="button" class="ck_small_button" onClick="alert(\''+y5+'\');" value="Per layer">'
-
-        h+='   <td '+ha+'>'+x+'</td>\n'
 
         # Crowdsourcing bug detection
         x=fail_reason
@@ -1206,3 +1208,98 @@ def browse(i):
     webbrowser.open(ck_url)
 
     return {'return':0}
+
+##############################################################################
+# show info for all layers
+
+def show_layers(i):
+    """
+    Input:  {
+            }
+
+    Output: {
+              return       - return code =  0, if successful
+                                         >  0, if error
+              (error)      - error text if return > 0
+            }
+
+    """
+
+    import os
+
+    euid=i.get('experiment_uoa','')
+
+    # Load entry
+    r=ck.access({'action':'load',
+                 'module_uoa':work['self_module_uid'],
+                 'data_uoa':euid})
+    if r['return']>0: return r
+    p=r['path']
+    d=r['dict']
+
+    # Load stats
+    dstat={}
+    fstat=os.path.join(p,'ck-stat-flat-characteristics.json')
+    if os.path.isfile(fstat):
+        r=ck.load_json_file({'json_file':fstat, 'dict':dstat})
+        if r['return']>0: return r
+        dstat=r['dict']
+
+    # Prepare table
+    h='<center>\n'
+    h+='<h2>DNN engine and model evaluation Statistics per layer</h2><br>\n'
+
+    h+='<p>\n'
+    h+='<table border="1" cellpadding="5" cellspacing="0">\n'
+
+    h+=' <tr>\n'
+    h+='  <td><b>Name</b></td>\n'
+    h+='  <td><b>Direction</b></td>\n'
+    h+='  <td><b>Min time (ms.)</b></td>\n'
+    h+='  <td><b>Expected time (ms.)</b></td>\n'
+    h+='  <td><b>Max time (ms.)</b></td>\n'
+    h+='  <td><b>Repetitions</b></td>\n'
+    h+=' </tr>\n'
+
+    # Also layers
+    for j in range(0,1000):
+        k1='##characteristics#run#per_layer_info@'+str(j)+'#direction#min'
+        k2='##characteristics#run#per_layer_info@'+str(j)+'#label#min'
+        k3='##characteristics#run#per_layer_info@'+str(j)+'#time_ms#min'
+        k4='##characteristics#run#per_layer_info@'+str(j)+'#time_ms#max'
+        k5='##characteristics#run#per_layer_info@'+str(j)+'#time_ms#exp_allx'
+
+        v1=dstat.get(k1,'')
+        v2=dstat.get(k2,'')
+        v3=dstat.get(k3,'')
+        v4=dstat.get(k4,'')
+        v5=dstat.get(k5,[])
+
+        if v1!='' and v2!='' and v3!='' and v4!='':
+           v6=0
+           if len(v5)>0:
+              v6=v5[0]
+
+           xv3=''
+           xv4=''
+           xv5=''
+
+           if v3!='': xv3=('%.1f'%v3)
+           if v4!='': xv4=('%.1f'%v4)
+           if v6!='': xv6=('%.1f'%v6)
+
+           h+=' <tr>\n'
+           h+='  <td>'+v2+'</td>\n'
+           h+='  <td>'+v1+'</td>\n'
+           h+='  <td>'+xv3+'</td>\n'
+           h+='  <td>'+xv6+'</td>\n'
+           h+='  <td>'+xv4+'</td>\n'
+           h+='  <td>x</td>\n'
+           h+=' </tr>\n'
+
+    h+='</table>\n'
+
+    h+='</center>\n'
+
+
+    return {'return':0, 'html':h}

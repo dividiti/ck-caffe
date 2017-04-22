@@ -11,6 +11,10 @@
     },
     "show": {
       "desc": "show results"
+    },
+    "show_layers": {
+      "desc": "show info for all layers",
+      "for_web": "yes"
     }
   },
   "copyright": "See CK COPYRIGHT.txt for copyright details",
