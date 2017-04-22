@@ -208,7 +208,7 @@ def crowdsource(i):
     sn=fos.get('serial_number','')
 
     # Ask for cmd
-    tp=['cpu', 'cuda', 'opencl']
+    tp=['cpu', 'cuda', 'cuda_fp16', 'opencl']
 
     ck.out(line)
     ck.out('Select Caffe library type:')
@@ -219,13 +219,25 @@ def crowdsource(i):
     if r['return']>0: return r
     xtp=r['choice']
 
+    xtp16=''
+    if xtp=='cuda_fp16':
+       xtp='cuda'
+       xtp16='yes'
+
     # Get extra platform features if "cuda" or "opencl"
     run_cmd='time_cpu'
     tags='lib,caffe'
     ntags='vcuda,vopencl'
     gpgpu_uid=''
+
+    prog_uoa='caffe'
+
     if xtp=='cuda' or xtp=='opencl':
         run_cmd='time_gpu'
+
+        if xtp16=='yes':
+           run_cmd='time_gpu_fp16'
+
         r=ck.access({'action':'detect',
                      'module_uoa':cfg['module_deps']['platform.gpgpu'],
                      'host_os':hos,
@@ -249,40 +261,40 @@ def crowdsource(i):
     # Get deps from caffe program
     r=ck.access({'action':'load',
                  'module_uoa':cfg['module_deps']['program'],
-                 'data_uoa':'caffe'})
+                 'data_uoa':prog_uoa})
     if r['return']>0: return r
 
     pp=r['path']
 
-    lib_dep=r['dict']['run_deps']['lib-caffe']
+#    lib_dep=r['dict']['run_deps']['lib-caffe']
 
-    lib_dep['tags']=tags
-    lib_dep['no_tags']=ntags
+#    lib_dep['tags']=tags
+#    lib_dep['no_tags']=ntags
 
-    deps={'lib-caffe':lib_dep}
+#    deps={'lib-caffe':lib_dep}
 
     # Check environment for selected type
-    r=ck.access({'action':'resolve',
-                 'module_uoa':cfg['module_deps']['env'],
-                 'deps':deps,
-                 'host_os':hos,
-                 'target_os':tos,
-                 'device_id':tdid,
-                 'out':o})
-    if r['return']>0: return r
-    deps=r['deps']
+#    r=ck.access({'action':'resolve',
+#                 'module_uoa':cfg['module_deps']['env'],
+#                 'deps':deps,
+#                 'host_os':hos,
+#                 'target_os':tos,
+#                 'device_id':tdid,
+#                 'out':o})
+#    if r['return']>0: return r
+#    deps=r['deps']
 
     # Prepare CK pipeline for a given workload
     ii={'action':'pipeline',
 
         'module_uoa':cfg['module_deps']['program'],
-        'data_uoa':'caffe',
+        'data_uoa':prog_uoa,
 
         'prepare':'yes',
 
         'env':env,
         'choices':choices,
-        'dependencies':deps,
+#        'dependencies':deps,
         'cmd_key':run_cmd,
         'no_state_check':'yes',
         'no_compiler_description':'yes',
@@ -310,6 +322,8 @@ def crowdsource(i):
 
     state=rr['state']
     tmp_dir=state['tmp_dir']
+
+    deps=rr['dependencies'] # resolved deps
 
     # Clean pipeline
     if 'ready' in rr: del(rr['ready'])
