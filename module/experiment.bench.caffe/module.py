@@ -15,6 +15,8 @@ ck=None # Will be updated by CK (initialized CK kernel)
 
 line='================================================================'
 
+ck_url='http://cknowledge.org/repo/web.php?native_action=show&native_module_uoa=program.optimization&scenario=155b6fa5a4012a93'
+
 ffstat='ck-stat-flat-characteristics.json'
 
 form_name='wa_web_form'
@@ -531,7 +533,7 @@ def crowdsource(i):
         ck.out('Succesfully recorded results in remote repo (Entry UID='+rduid+')')
 
         # Check host URL prefix and default module/action
-        url='http://cknowledge.org/repo/web.php?native_action=show&native_module_uoa=program.optimization&scenario=155b6fa5a4012a93&highlight_uid='+rduid
+        url=ck_url+'&highlight_uid='+rduid
         ck.out('')
         ck.out('You can see your results at the following URL:')
         ck.out('')
@@ -1166,3 +1168,27 @@ def replay(i):
     i['module_uoa']=cfg['module_deps']['experiment.bench.caffe']
 
     return ck.access(i)
+
+##############################################################################
+# browse public results
+
+def browse(i):
+    """
+    Input:  {
+            }
+
+    Output: {
+              return       - return code =  0, if successful
+                                         >  0, if error
+              (error)      - error text if return > 0
+            }
+
+    """
+
+    import webbrowser
+
+    ck.out('Opening web page '+ck_url+' ...')
+
+    webbrowser.open(ck_url)
+
+    return {'return':0}

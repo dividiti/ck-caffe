@@ -1,5 +1,8 @@
 {
   "actions": {
+    "browse": {
+      "desc": "browse public results"
+    },
     "crowdsource": {
       "desc": "crowdsource these experiments"
     },
