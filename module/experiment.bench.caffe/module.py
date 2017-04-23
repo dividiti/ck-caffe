@@ -818,6 +818,19 @@ def show(i):
 
         d=q['meta']
 
+        # Check if has statistics
+        dstat={}
+        fstat=os.path.join(path,'ck-stat-flat-characteristics.json')
+        if os.path.isfile(fstat):
+            r=ck.load_json_file({'json_file':fstat, 'dict':dstat})
+            if r['return']>0: return r
+            dstat=r['dict']
+
+        x=''
+
+        # Check if has stats
+        x0=dstat.get("##characteristics#run#time_fwbw_ms#min",None)
+
         meta=d.get('meta',{})
 
         choices=d.get('choices',{})
@@ -863,8 +876,9 @@ def show(i):
             bgc='ffafaf'
         elif hi_uid!='' and duid==hi_uid:
             bgc='9fff9f'
-            bgraph['0'].append([ix,None])
-            bgraph['1'].append([ix,x0])
+
+#            bgraph['0'].append([ix,None])
+#            bgraph['1'].append([ix,x0])
 
         bg=' style="background-color:#'+bgc+';"'
 
@@ -974,17 +988,9 @@ def show(i):
 
         # Characteristics
         # Check if has statistics
-        dstat={}
-        fstat=os.path.join(path,'ck-stat-flat-characteristics.json')
-        if os.path.isfile(fstat):
-            r=ck.load_json_file({'json_file':fstat, 'dict':dstat})
-            if r['return']>0: return r
-            dstat=r['dict']
-
         x=''
 
         # Check if has stats
-        x0=dstat.get("##characteristics#run#time_fwbw_ms#min",None)
         x0e=dstat.get("##characteristics#run#time_fwbw_ms#exp",None)
         x1=dstat.get("##characteristics#run#time_fwbw_ms#center",None)
         xr=dstat.get("##characteristics#run#time_fwbw_ms#repeats",None)
@@ -1002,8 +1008,9 @@ def show(i):
 
         h+='   <td '+ha+' style="background-color:#afffaf">'+x+'</td>\n'
 
+        bgraph['0'].append([ix,x0])
         if fail!='yes' and x0!=None and duid!=hi_uid:
-            bgraph['0'].append([ix,x0])
+#            bgraph['0'].append([ix,x0])
             if hi_uid!='': bgraph['1'].append([ix,None])
 
         x1=dstat.get("##characteristics#run#time_fw_ms#center",None)
