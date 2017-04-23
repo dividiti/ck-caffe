@@ -107,19 +107,27 @@ You can list them via
  $ ck search dataset --tags=dnn
 ```
 
-### Testing beta crowd-benchmarking
-It is now possible to participate in crowd-benchmarking of Caffe
-(early prototype):
+### Participating in collaborative evaluation and optimization of various Caffe engines and models (on-going crowd-benchmarking)
+It is now possible to participate in crowd-benchmarking of Caffe via
 ```
-$ ck crowdbench caffe --user={your email or ID to acknowledge contributions} --env.CK_CAFFE_BATCH_SIZE=2
+$ ck crowdbench caffe --user={your email or ID to acknowledge contributions} --env.CK_CAFFE_BATCH_SIZE=1
 ```
+
+During collaborative benchmarking, you can select various engines and models for evaluation.
+
+You can also evaluate DNN engines on Android mobile devices connected via adb to your host machine via:
+
+```
+$ ck crowdbench caffe --target_os=android21-arm64 --env.CK_CAFFE_BATCH_SIZE=1
+```
+
+Feel free to try different batch sizes by changing command line option --env.CK_CAFFE_BATCH_SIZE.
 
 You can also use this [Android app](https://play.google.com/store/apps/details?id=openscience.crowdsource.video.experiments)
-to crowdsource benchmarking of ARM-based Caffe libraries for image recognition (beta version).
+to crowdsource benchmarking of ARM-based Caffe libraries for image recognition.
 
 You can see continuously aggregated results in the 
-[public Collective Knowledge repository](http://cknowledge.org/repo)
-under 'crowd-benchmark Caffe library' scenario.
+[public Collective Knowledge repository](http://cknowledge.org/repo/web.php?native_action=show&native_module_uoa=program.optimization&scenario=1eb2f50d4620903e).
 
 ### Creating dataset subsets
 
