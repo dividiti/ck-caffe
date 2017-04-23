@@ -45,7 +45,7 @@
     "soft": "5e1100048ab875d7",
     "wfe": "1e4e644996b7f2a0"
   },
-  "priority": -200,
+  "priority": -210,
   "program_tags": "crowd-benchmarking,caffe",
   "tags": [
     "crowdsource",
