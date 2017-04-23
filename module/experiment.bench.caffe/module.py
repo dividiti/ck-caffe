@@ -81,6 +81,8 @@ def crowdsource(i):
               (choices)             - force different choices to program pipeline
 
               (repetitions)         - statistical repetitions (default=1), for now statistical analysis is not used (TBD)
+
+              (no_compile)          - if 'yes', skip program compilation (for Android)
             }
 
     Output: {
@@ -317,6 +319,9 @@ def crowdsource(i):
 
         'prepare':'yes',
 
+        'no_clean':i.get('no_compile',''),
+        'no_compile':i.get('no_compile',''),
+
         'env':env,
         'choices':choices,
 #        'dependencies':deps,
@@ -346,9 +351,19 @@ def crowdsource(i):
         return {'return':11, 'error':'couldn\'t prepare universal CK program workflow'}
 
     state=rr['state']
-    tmp_dir=state['tmp_dir']
+    tmp_dir=state.get('tmp_dir','')
+    if tmp_dir=='': tmp_dir='tmp' # usually when no_compile
 
     deps=rr['dependencies'] # resolved deps
+
+    if i.get('no_compile','')=='yes':
+       pdeps=os.path.join(pp,tmp_dir,'tmp-deps.json')
+       if os.path.isfile(pdeps):
+          rz=ck.load_json_file({'json_file':pdeps})
+          if rz['return']>0: return rz
+          qdeps=rz['dict']
+
+          deps.update(qdeps)
 
     # Clean pipeline
     if 'ready' in rr: del(rr['ready'])
@@ -389,7 +404,7 @@ def crowdsource(i):
 
     # versions of engine sub deps
     dvers={}
-    mdep=deps['lib-caffe']
+    mdep=deps.get('lib-caffe',{})
     mdeps=mdep.get('dict',{}).get('deps',{})
 
     for k in mdeps:
@@ -473,6 +488,8 @@ def crowdsource(i):
 
     ii={'action':'autotune',
         'module_uoa':cfg['module_deps']['pipeline'],
+
+        'data_uoa':cfg['module_deps']['program'],
 
         'host_os':hos,
         'target_os':tos,
