@@ -202,8 +202,21 @@ def crowdsource(i):
     plat_uid=features.get('platform_uid','')
     os_name=fos.get('name','')
     os_uid=features.get('os_uid','')
+
     cpu_name=fcpu.get('name','')
-    if cpu_name=='': cpu_name='unknown-'+fcpu.get('cpu_abi','')
+    if cpu_name=='': 
+       #cpu_name='unknown-'+fcpu.get('cpu_abi','')
+       # Likely CPU with multiple cores (such as big-little)
+       cpu_unique=features.get('cpu_unique',[])
+       for x in cpu_unique:
+           if cpu_name!='':
+              cpu_name+=' ; '
+
+           y=x.get('ck_arch_real_name','')
+           if y=='': y=x.get('ck_cpu_name','')
+
+           cpu_name+=y
+
     cpu_uid=features.get('cpu_uid','')
     gpu_name=fgpu.get('name','')
     gpgpu_name=''
@@ -355,12 +368,13 @@ def crowdsource(i):
     xdeps={}
     xnn=''
     xblas=''
+
     for k in deps:
         dp=deps[k]
 
-        puoa=dp.get('package_uoa','')
+        puoa=dp.get('dict',{}).get('package_uoa','')
         if puoa=='':
-           puoa=dp.get('cus',{}).get('used_package_uoa','')
+           puoa=dp.get('cus',{}).get('used_package_uid','')
 
         dname=dp.get('dict',{}).get('data_name','')
 
