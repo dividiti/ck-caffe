@@ -19,6 +19,7 @@ ck_url='http://cknowledge.org/repo/web.php?native_action=show&native_module_uoa=
 ck_url1='http://cknowledge.org/repo/web.php?wcid=experiment.bench.dnn:'
 
 ffstat='ck-stat-flat-characteristics.json'
+ffmin='ck-stat-flat-min.json'
 
 form_name='wa_web_form'
 onchange='document.'+form_name+'.submit();'
@@ -583,41 +584,71 @@ def crowdsource(i):
           if rx['return']>0: return rx
 
     # Push statistical characteristics
-    if o=='con':
-       ck.out('')
-       ck.out('Pushing file with statistics to server ...')
+    x0=lsaf.get("##characteristics#run#time_fwbw_ms#min",None)
 
-    fstat=os.path.join(pp,tmp_dir,ffstat)
+    if x0!=None and x0>0:
+       if o=='con':
+          ck.out('')
+          ck.out('Pushing file with statistics to server ...')
 
-    r=ck.save_json_to_file({'json_file':fstat, 'dict':lsaf, 'sort_keys':'yes'})
+       fstat=os.path.join(pp,tmp_dir,ffstat)
+
+       r=ck.save_json_to_file({'json_file':fstat, 'dict':lsaf, 'sort_keys':'yes'})
+       if r['return']>0: return r
+
+       rx=ck.access({'action':'push',
+                     'module_uoa':record_module_uoa,
+                     'data_uoa':rduid,
+                     'repo_uoa':er,
+                     'remote_repo_uoa':esr,
+                     'filename':fstat,
+                     'overwrite':'yes'})
+       if rx['return']>0: return rx
+
+       os.remove(fstat)
+
+       # Push statistical characteristics
+
+       dmin={"##characteristics#run#time_fwbw_ms#min":x0}
+
+       if o=='con':
+          ck.out('')
+          ck.out('Pushing file with min stats to server ...')
+
+       fmin=os.path.join(pp,tmp_dir,ffmin)
+
+       r=ck.save_json_to_file({'json_file':fmin, 'dict':dmin, 'sort_keys':'yes'})
+       if r['return']>0: return r
+
+       rx=ck.access({'action':'push',
+                     'module_uoa':record_module_uoa,
+                     'data_uoa':rduid,
+                     'repo_uoa':er,
+                     'remote_repo_uoa':esr,
+                     'filename':fmin,
+                     'overwrite':'yes'})
+       if rx['return']>0: return rx
+
+       os.remove(fmin)
+
+       if o=='con':
+           ck.out('')
+           ck.out('Succesfully recorded results in remote repo (Entry UID='+rduid+')')
+    else:
+       if o=='con':
+           ck.out('')
+           ck.out('WARNING: did not record results to remote repo (Entry UID='+rduid+')')
+
+    # Check host URL prefix and default module/action
+    url=ck_url+'&highlight_uid='+rduid
+    ck.out('')
+    r=ck.inp({'text':'Would you like to open a browser to see results "'+url+'" (Y/n)? '})
     if r['return']>0: return r
 
-    rx=ck.access({'action':'push',
-                  'module_uoa':record_module_uoa,
-                  'data_uoa':rduid,
-                  'repo_uoa':er,
-                  'remote_repo_uoa':esr,
-                  'filename':fstat,
-                  'overwrite':'yes'})
-    if rx['return']>0: return rx
-
-    os.remove(fstat)
-
-    # Info
-    if o=='con':
-        ck.out('')
-        ck.out('Succesfully recorded results in remote repo (Entry UID='+rduid+')')
-
-        # Check host URL prefix and default module/action
-        url=ck_url+'&highlight_uid='+rduid
-        ck.out('')
-        r=ck.inp({'text':'Would you like to open a browser to see results "'+url+'" (Y/n)? '})
-        if r['return']>0: return r
-
-        x=r['string'].strip().lower()
-        if x=='':
-           import webbrowser
-           webbrowser.open(url)
+    x=r['string'].strip().lower()
+    if x=='':
+       import webbrowser
+       webbrowser.open(url)
 
     return {'return':0}
 

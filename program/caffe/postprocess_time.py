@@ -157,7 +157,7 @@ def ck_postprocess(i):
     else:
         rr['return']=1
         rr['error']='failed to find the \'Total Time\' string in Caffe output'
-        print (d)
+#        print (d)
 
     return rr
 
