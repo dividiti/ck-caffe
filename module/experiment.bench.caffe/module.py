@@ -45,7 +45,8 @@ hextra+='</center></i>\n'
 hextra+='<br>\n'
 
 selector=[{'name':'Type', 'key':'caffe_type'},
-          {'name':'Network', 'key':'nn_type'},
+          {'name':'DNN engine', 'key':'dnn_engine', 'flat_key':'##xdeps#lib-caffe#data_name'},
+          {'name':'Model', 'key':'nn_type'},
           {'name':'Platform', 'key':'plat_name', 'new_line':'yes'},
           {'name':'CPU', 'key':'cpu_name'},
           {'name':'OS', 'key':'os_name', 'new_line':'yes'},
@@ -133,7 +134,7 @@ def crowdsource(i):
     env=i.get('env',{})
 
     if 'env' not in choices: choices['env']={}
-    
+
     r=ck.merge_dicts({'dict1':choices['env'], 'dict2':copy.deepcopy(env)})
     env={}
 
@@ -661,7 +662,14 @@ def show(i):
                 choices[k]=[]
                 wchoices[k]=[{'name':'','value':''}]
 
-            v=meta.get(kx,'')
+            kflat=kk.get('flat_key','')
+            if kflat=='': kflat='##'+kx
+
+            rx=ck.get_by_flat_key({'dict':meta, 'key':kflat})
+            if rx['return']>0: return rx
+            v=rx['value']
+            if v==None: v=''
+
             if v!='':
                 if v not in choices[k]: 
                     choices[k].append(v)
@@ -678,7 +686,8 @@ def show(i):
         h+=r['html']
 
     for kk in selector:
-        k=ckey+kk['key']
+        kx=kk['key']
+        k=ckey+kx
         n=kk['name']
 
         nl=kk.get('new_line','')
@@ -722,7 +731,15 @@ def show(i):
             n=kk['name']
             v=kk.get('value','')
 
-            if v!='' and meta.get(k,'')!=v:
+            kflat=kk.get('flat_key','')
+            if kflat=='': kflat='##'+kx
+
+            rx=ck.get_by_flat_key({'dict':meta, 'key':kflat})
+            if rx['return']>0: return rx
+            vxx=rx['value']
+            if vxx==None: vxx=''
+
+            if v!='' and vxx!=v:
                 skip=True
 
         if not skip:
@@ -750,8 +767,8 @@ def show(i):
     h+='   <td '+ha+'><b>CPU</b></td>\n'
     h+='   <td '+ha+'><b>GPGPU</b></td>\n'
     h+='   <td '+ha+'><b>Type</b></td>\n'
-    h+='   <td '+ha+'><b>Caffe engine</b></td>\n'
-    h+='   <td '+ha+'><b>Network</b></td>\n'
+    h+='   <td '+ha+'><b>DNN engine</b></td>\n'
+    h+='   <td '+ha+'><b>Model</b></td>\n'
     h+='   <td '+ha+'><b>Choices (env)</b></td>\n'
     h+='   <td '+ha+'><b>FWBW<br>min time</b><br><br>(exp&nbsp;time)<br>stat.&nbsp;repetitions</td>\n'
     h+='   <td '+ha+'><b>FW</b></td>\n'
@@ -1404,15 +1421,15 @@ def html_viewer(i):
            xv6=''
 
            if v3!='':
-              if v3==0: xv3='0'
-              else: xv3='<b>'('%.1f'%v3)+'</b>'
+              if v3<0.1: xv3='0'
+              else: xv3='<b>'+('%.1f'%v3)+'</b>'
 
            if v4!='':
-              if v4==0: xv4='0'
+              if v4<0.1: xv4='0'
               else: xv4='<b>'+('%.1f'%v4)+'</b>'
 
            if v6!='':
-              if v6==0: xv6='0'
+              if v6<0.1: xv6='0'
               else: xv6='<b>'+('%.1f'%v6)+'</b>'
 
            h+=' <tr>\n'
@@ -1427,6 +1444,5 @@ def html_viewer(i):
     h+='</table>\n'
 
     h+='</center>\n'
-
 
     return {'return':0, 'html':h, 'show_top':'yes'}
