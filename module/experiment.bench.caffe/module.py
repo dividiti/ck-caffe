@@ -225,20 +225,20 @@ def crowdsource(i):
        xtp='cuda'
        xtp16='yes'
 
+    android=False
+    if 'android' in tos: android=True
+
     # Get extra platform features if "cuda" or "opencl"
-    run_cmd='time_cpu'
-    tags='lib,caffe'
-    ntags='vcuda,vopencl'
+    if android:
+       run_cmd='default'
+       prog_uoa='caffe-time'
+    else:
+       run_cmd='time_cpu'
+       prog_uoa='caffe'
+
     gpgpu_uid=''
 
-    prog_uoa='caffe'
-
     if xtp=='cuda' or xtp=='opencl':
-        run_cmd='time_gpu'
-
-        if xtp16=='yes':
-           run_cmd='time_gpu_fp16'
-
         r=ck.access({'action':'detect',
                      'module_uoa':cfg['module_deps']['platform.gpgpu'],
                      'host_os':hos,
@@ -256,8 +256,15 @@ def crowdsource(i):
             gpgpu_name=gpgpus[0].get('gpgpu',{}).get('name','')
             gpgpu_uid=gpgpus[0].get('gpgpu_uoa','')
 
-        ntags=''
-        tags+=',v'+xtp
+        if android:
+           if xtp!='opencl':
+              return {'return':1, 'error':'can\'t crowdbenchmark this type of DNN engine on selected target platform'}
+
+           run_cmd='default'
+           prog_uoa='caffe-time-opencl'
+        else:
+           run_cmd='time_gpu'
+           if xtp16=='yes': run_cmd='time_gpu_fp16'
 
     # Get deps from caffe program
     r=ck.access({'action':'load',
@@ -268,9 +275,6 @@ def crowdsource(i):
     pp=r['path']
 
 #    lib_dep=r['dict']['run_deps']['lib-caffe']
-
-#    lib_dep['tags']=tags
-#    lib_dep['no_tags']=ntags
 
 #    deps={'lib-caffe':lib_dep}
 
@@ -290,6 +294,12 @@ def crowdsource(i):
 
         'module_uoa':cfg['module_deps']['program'],
         'data_uoa':prog_uoa,
+
+        'host_os':hos,
+        'target_os':tos,
+        'device_id':tdid,
+
+        'skip_target':'yes',
 
         'prepare':'yes',
 
@@ -438,6 +448,10 @@ def crowdsource(i):
     ii={'action':'autotune',
         'module_uoa':cfg['module_deps']['pipeline'],
 
+        'host_os':hos,
+        'target_os':tos,
+        'device_id':tdid,
+
         'iterations':1,
         'repetitions':repetitions,
 
@@ -490,6 +504,9 @@ def crowdsource(i):
     # Add files
     ddd['file_stat']=ffstat
 
+    if real_proto!='':
+       ddd['file_model_topology']=os.path.basename(real_proto)
+
     if not found:
        if o=='con':
           ck.out('')
@@ -510,8 +527,6 @@ def crowdsource(i):
           if o=='con':
              ck.out('')
              ck.out('Pushing prototxt to the remote public repo ...')
-
-          ddd['file_model_topology']=os.path.basename(real_proto)
 
           rx=ck.access({'action':'push',
                         'module_uoa':work['self_module_uid'],
@@ -545,6 +560,7 @@ def crowdsource(i):
 
     # Info
     if o=='con':
+        ck.out('')
         ck.out('Succesfully recorded results in remote repo (Entry UID='+rduid+')')
 
         # Check host URL prefix and default module/action

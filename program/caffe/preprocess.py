@@ -111,6 +111,8 @@ def ck_preprocess(i):
        if bs=='':
           bs=sub.get('val_batch_size','')
 
+    nenv['CK_CAFFE_BATCH_SIZE']=bs # FGG added recently to save final BATCH SIZE (for stats)
+
     iters=env.get('CK_CAFFE_ITERATIONS','')
 
     if iters=='':

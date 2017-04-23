@@ -65,6 +65,10 @@ def ck_postprocess(i):
     d['REAL_ENV_CK_CAFFE_MODEL']=env.get('CK_CAFFE_MODEL','')
 
     for line in lst:
+        # Update for Android (minor hack)
+        line=line.replace('..\\caffe','caffe')
+        line=line.replace('../caffe','caffe')
+
         # Match layer info.
         layer_regex = \
             'I(?P<timestamp>\d{4}(\s+)\d{2}:\d{2}:\d{2}\.\d{6})' + \

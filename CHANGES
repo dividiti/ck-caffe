@@ -1,3 +1,5 @@
+2017.04.23 - Caffe crowd-benchmarking now support Android mobiles connected via adb
+
 2017.04.16 - removed outdated experiment.bench.caffe.mobile module (now using generic experiment.bench.dnn.mobile)
            - fixed caffe desktop crowd-tuning (still requires major update)
 
