@@ -359,9 +359,11 @@ def crowdsource(i):
     if i.get('no_compile','')=='yes':
        pdeps=os.path.join(pp,tmp_dir,'tmp-deps.json')
        if os.path.isfile(pdeps):
+          qdeps=copy.deepcopy(deps) # need to keep current selected model for run-time
+
           rz=ck.load_json_file({'json_file':pdeps})
           if rz['return']>0: return rz
-          qdeps=rz['dict']
+          deps=rz['dict']
 
           deps.update(qdeps)
 
