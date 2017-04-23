@@ -871,8 +871,16 @@ def show(i):
     if hi_uid!='':
         bgraph['1']=[]
 
+    # Load min stat
+    for q in plst:
+        pmin=os.path.join(q['path'],ffmin)
+        if os.path.isfile(pmin):
+           rx=ck.load_json_file({'json_file':pmin})
+           if rx['return']==0:
+              q['min_stat']=rx['dict']
+
     # Sort
-    splst=sorted(plst, key=lambda x: x.get('meta',{}).get('characteristics',{}).get('run',{}).get('time_fwbw_ms',0))
+    splst=sorted(plst, key=lambda x: x.get('min_stat',{}).get('##characteristics#run#time_fwbw_ms#min',0))
 
     for q in splst:
         ix+=1
