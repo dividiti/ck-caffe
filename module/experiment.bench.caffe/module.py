@@ -1395,8 +1395,23 @@ def html_viewer(i):
     h+='  <td align="right"><b>Repetitions:</b></td>\n'
     h+=' </tr>\n'
 
-    # Also layers
+    # Detecting number of layers
+    jj={}
+
     for j in range(0,1000):
+        k3='##characteristics#run#per_layer_info@'+str(j)+'#time_ms#min'
+        v3=dstat.get(k3,'')
+
+        if v3=='': break
+
+        jj[j]=v3
+
+    # Sorting by min time
+    if i.get('all_params',{}).get('skip_sort','')!='yes':
+       jj=sorted(jj, key=lambda x: jj[x], reverse=True)
+
+    # Also layers
+    for j in jj:
         k1='##characteristics#run#per_layer_info@'+str(j)+'#direction#min'
         k2='##characteristics#run#per_layer_info@'+str(j)+'#label#min'
         k3='##characteristics#run#per_layer_info@'+str(j)+'#time_ms#min'
