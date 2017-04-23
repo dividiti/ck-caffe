@@ -381,10 +381,19 @@ def crowdsource(i):
     for k in mdeps:
         dvers[k]=mdeps[k].get('ver','')
 
+    # Checking engine name
+    d_engine=xdeps.get('lib-caffe',{})
+    d_engine_name=d_engine.get('data_name','')
+    d_engine_package_uoa=d_engine.get('package_uoa','')
+    d_engine_ver=d_engine.get('ver','')
+
     meta['xversions']=dvers
     meta['xdeps']=xdeps
     meta['nn_type']=xnn
     meta['choices']=xchoices
+
+    meta['dnn_engine_name']=d_engine_name
+    meta['dnn_engine_package_uoa']=d_engine_package_uoa
 
     mmeta=copy.deepcopy(meta)
 
@@ -569,9 +578,13 @@ def crowdsource(i):
         # Check host URL prefix and default module/action
         url=ck_url+'&highlight_uid='+rduid
         ck.out('')
-        ck.out('You can see your results at the following URL:')
-        ck.out('')
-        ck.out(url)
+        r=ck.inp({'text':'Would you like to open a browser to see results "'+url+'" (Y/n)? '})
+        if r['return']>0: return r
+
+        x=r['string'].strip().lower()
+        if x=='':
+           import webbrowser
+           webbrowser.open(url)
 
     return {'return':0}
 
