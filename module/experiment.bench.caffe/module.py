@@ -45,7 +45,7 @@ hextra+='<a href="https://www.youtube.com/watch?v=Q94yWxXUMP0">YouTube intro</a>
 hextra+='</center></i>\n'
 hextra+='<br>\n'
 
-selector=[{'name':'Type', 'key':'caffe_type'},
+selector=[{'name':'Type', 'key':'dnn_type'},
           {'name':'DNN engine', 'key':'dnn_engine', 'flat_key':'##xdeps#lib-caffe#data_name'},
           {'name':'Model', 'key':'nn_type'},
           {'name':'Platform', 'key':'plat_name', 'new_line':'yes'},
@@ -378,7 +378,7 @@ def crowdsource(i):
           'os_name':os_name,
           'plat_name':plat_name,
           'gpu_name':gpu_name,
-          'caffe_type':xtp,
+          'dnn_type':xtp,
           'gpgpu_name':gpgpu_name,
           'cmd_key':run_cmd}
 
@@ -921,7 +921,7 @@ def show(i):
         d_engine_package_uoa=d_engine.get('package_uoa','')
         d_engine_ver=d_engine.get('ver','')
 
-        tp=meta.get('caffe_type','')
+        tp=meta.get('dnn_type','')
         nn=meta.get('nn_type','')
 
         plat_name=meta.get('plat_name','')
@@ -1404,7 +1404,7 @@ def html_viewer(i):
 
     h+=' <tr>\n'
     h+='  <td><b>DNN engine type:</b></td>\n'
-    h+='  <td>'+dmeta.get('caffe_type','')+'</td>\n'
+    h+='  <td>'+dmeta.get('dnn_type','')+'</td>\n'
     h+=' </tr>\n'
 
     x=''
