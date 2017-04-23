@@ -47,6 +47,7 @@
   },
   "priority": -210,
   "program_tags": "crowd-benchmarking,caffe",
+  "record_module_uoa":"1eb2f50d4620903e",
   "tags": [
     "crowdsource",
     "experiments",

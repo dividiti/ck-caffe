@@ -15,8 +15,8 @@ ck=None # Will be updated by CK (initialized CK kernel)
 
 line='================================================================'
 
-ck_url='http://cknowledge.org/repo/web.php?native_action=show&native_module_uoa=program.optimization&scenario=155b6fa5a4012a93'
-ck_url1='http://cknowledge.org/repo/web.php?wcid=experiment.bench.caffe:'
+ck_url='http://cknowledge.org/repo/web.php?native_action=show&native_module_uoa=program.optimization&scenario=1eb2f50d4620903e'
+ck_url1='http://cknowledge.org/repo/web.php?wcid=experiment.bench.dnn:'
 
 ffstat='ck-stat-flat-characteristics.json'
 
@@ -404,9 +404,11 @@ def crowdsource(i):
         ck.out('')
         ck.out('Checking if results already exists in a public repo (to aggregate statistics) ...')
 
+    record_module_uoa=cfg['record_module_uoa']
+
     # Find remote entry
     ii={'action':'search',
-        'module_uoa':work['self_module_uid'],
+        'module_uoa':record_module_uoa,
         'repo_uoa':er,
         'remote_repo_uoa':esr,
         'search_dict':{'meta':meta}}
@@ -425,7 +427,7 @@ def crowdsource(i):
 
         # Load stats
         rx=ck.access({'action':'load',
-                      'module_uoa':work['self_module_uid'],
+                      'module_uoa':record_module_uoa,
                       'data_uoa':rduid,
                       'repo_uoa':er,
                       'remote_repo_uoa':esr,
@@ -515,7 +517,7 @@ def crowdsource(i):
 
        # Update meta
        rx=ck.access({'action':'add',
-                     'module_uoa':work['self_module_uid'],
+                     'module_uoa':record_module_uoa,
                      'data_uoa':rduid,
                      'repo_uoa':er,
                      'remote_repo_uoa':esr,
@@ -530,7 +532,7 @@ def crowdsource(i):
              ck.out('Pushing prototxt to the remote public repo ...')
 
           rx=ck.access({'action':'push',
-                        'module_uoa':work['self_module_uid'],
+                        'module_uoa':record_module_uoa,
                         'data_uoa':rduid,
                         'repo_uoa':er,
                         'remote_repo_uoa':esr,
@@ -549,7 +551,7 @@ def crowdsource(i):
     if r['return']>0: return r
 
     rx=ck.access({'action':'push',
-                  'module_uoa':work['self_module_uid'],
+                  'module_uoa':record_module_uoa,
                   'data_uoa':rduid,
                   'repo_uoa':er,
                   'remote_repo_uoa':esr,
@@ -1213,8 +1215,8 @@ def replay(i):
     # TBD - take params from remote/local experiment and pre-set ...
     # Run locally, i.e. do not share stats unless requested ...
 
-    i['action']='crowdsource'
-    i['module_uoa']=cfg['module_deps']['experiment.bench.caffe']
+#    i['action']='crowdsource'
+#    i['module_uoa']=cfg['module_deps']['experiment.bench.caffe']
 
     return ck.access(i)
 
