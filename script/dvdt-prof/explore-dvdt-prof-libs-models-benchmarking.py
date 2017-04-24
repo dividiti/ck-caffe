@@ -29,13 +29,13 @@ def do(i):
     tosd=r['os_dict']
     tdid=r['device_id']
 
-    # Type and program
-    tp='opencl'
+    # Program and command.
     program='caffe-time'
     cmd_key='default'
+    tp='opencl'
 
     if tp=='opencl' or tp=='cuda':
-       program=program+'-'+tp
+      program=program+'-'+tp
 
     # Load Caffe program meta and desc to check deps.
     ii={'action':'load',
@@ -119,6 +119,7 @@ def do(i):
         'energy':'no',
 
         'skip_print_timers':'yes',
+        'skip_file_print':'yes',
         'out':'con'
     }
 
