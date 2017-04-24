@@ -115,7 +115,17 @@ $ ck crowdbench caffe --user={your email or ID to acknowledge contributions} --e
 
 During collaborative benchmarking, you can select various engines and models for evaluation.
 
-You can also evaluate DNN engines on Android mobile devices connected via adb to your host machine via:
+You can manually install additional flavours of Caffe engines across diverse hardware 
+and OS (Linux/Windows/Android on odroid, RPi, ARM, Intel, AMD, NVIDIA, etc) 
+as described [here](https://github.com/dividiti/ck-caffe/wiki/Installation).
+
+You can also install extra models as following:
+```
+ $ ck list package --tags=caffemodel
+ $ ck install package:{name of above packages}
+```
+
+You can even evaluate DNN engines on Android mobile devices connected via adb to your host machine via:
 
 ```
 $ ck crowdbench caffe --target_os=android21-arm64 --env.CK_CAFFE_BATCH_SIZE=1
