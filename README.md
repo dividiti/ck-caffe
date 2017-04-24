@@ -129,6 +129,11 @@ to crowdsource benchmarking of ARM-based Caffe libraries for image recognition.
 You can see continuously aggregated results in the 
 [public Collective Knowledge repository](http://cknowledge.org/repo/web.php?native_action=show&native_module_uoa=program.optimization&scenario=1eb2f50d4620903e).
 
+If you forget this link, you can open this website from command line:
+```
+ $ ck browse experiment.bench.caffe
+```
+
 ### Creating dataset subsets
 
 The ILSVRC2012 validation dataset contains 50K images. For quick experiments,
