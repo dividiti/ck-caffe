@@ -29,10 +29,18 @@ def do(i):
     tosd=r['os_dict']
     tdid=r['device_id']
 
+    # Type and program
+    tp='opencl'
+    program='caffe-time'
+    cmd_key='default'
+
+    if tp=='opencl' or tp=='cuda':
+       program=program+'-'+tp
+
     # Load Caffe program meta and desc to check deps.
     ii={'action':'load',
         'module_uoa':'program',
-        'data_uoa':'caffe'}
+        'data_uoa':program}
     rx=ck.access(ii)
     if rx['return']>0: return rx
     mm=rx['dict']
@@ -81,12 +89,6 @@ def do(i):
     if len(udepm)==0:
         return {'return':1, 'error':'no installed Caffe models'}
 
-    program='caffe'
-    cmd_key='time_gpu'
-# TODO: Use program:caffe-time.
-#   program='caffe-time'
-#   cmd_key='default'
-
     # Prepare pipeline.
     cdeps['lib-caffe']['uoa']=udepl[0]
     cdeps['caffemodel']['uoa']=udepm[0]
@@ -100,10 +102,10 @@ def do(i):
         'cmd_key':cmd_key,
 
         'dvdt_prof':'yes',
-# TODO: skip back propagation.
-#        'env':{
-#          'CK_CAFFE_SKIP_BACKWARD':1
-#        },
+
+         'env':{
+          'CK_CAFFE_SKIP_BACKWARD':1
+         },
 
         'no_state_check':'yes',
         'no_compiler_description':'yes',
@@ -144,7 +146,7 @@ def do(i):
 
     pipeline=copy.deepcopy(r)
 
-    # For each Caffe lib.
+    # For each Caffe lib ******************************************************************************
     for lib_uoa in udepl:
         # Load Caffe lib.
         ii={'action':'load',
@@ -152,14 +154,18 @@ def do(i):
             'data_uoa':lib_uoa}
         r=ck.access(ii)
         if r['return']>0: return r
+
         # Get the tags from e.g. 'BVLC Caffe framework (libdnn,viennacl)'
         lib_name=r['data_name']
         lib_tags=re.match('BVLC Caffe framework \((?P<tags>.*)\)', lib_name)
         lib_tags=lib_tags.group('tags').replace(' ', '').replace(',', '-')
+
         # Skip some libs with "in [..]" or "not in [..]".
         if lib_tags not in [ 'opencl-clblast', 'opencl-clblast-tune' ]: continue
 
-        # For each Caffe model.
+        skip_compile='no'
+
+        # For each Caffe model.************************************************************************
         for model_uoa in udepm:
             # Load Caffe model.
             ii={'action':'load',
@@ -167,10 +173,12 @@ def do(i):
                 'data_uoa':model_uoa}
             r=ck.access(ii)
             if r['return']>0: return r
+
             # Get the tags from e.g. 'Caffe model (net and weights) (deepscale, squeezenet, 1.1)'
             model_name=r['data_name']
             model_tags = re.match('Caffe model \(net and weights\) \((?P<tags>.*)\)', model_name)
             model_tags = model_tags.group('tags').replace(' ', '').replace(',', '-')
+
             # Skip some models with "in [..]" or "not in [..]".
             if model_tags not in [ 'bvlc-alexnet', 'bvlc-googlenet', 'deepscale-squeezenet-1.1', 'deepscale-squeezenet-1.0' ]: continue
 
@@ -204,6 +212,9 @@ def do(i):
 
             cpipeline['dependencies'].update(new_deps)
 
+            cpipeline['no_clean']=skip_compile
+            cpipeline['no_compile']=skip_compile
+
             cpipeline['cmd_key']=cmd_key
 
             ii={'action':'autotune',
@@ -213,7 +224,7 @@ def do(i):
 
                 'choices_order':[
                     [
-                        '##env#CK_CAFFE_BATCH_SIZE'
+                        '##choices#env#CK_CAFFE_BATCH_SIZE'
                     ]
                 ],
                 'choices_selection':[
@@ -246,6 +257,8 @@ def do(i):
             fail=r.get('fail','')
             if fail=='yes':
                 return {'return':10, 'error':'pipeline failed ('+r.get('fail_reason','')+')'}
+
+            skip_compile='yes'
 
     return {'return':0}
 

@@ -114,7 +114,7 @@
   "program": "yes", 
   "run_cmds": {
     "default": {
-      "ignore_return_code": "no", 
+      "ignore_return_code": "yes", 
       "run_time": {
         "fine_grain_timer_file": "tmp-ck-timer.json", 
         "params": {
