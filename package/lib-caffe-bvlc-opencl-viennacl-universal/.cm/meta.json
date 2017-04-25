@@ -8,6 +8,7 @@
       "BUILD_MATLAB": 0,
       "BUILD_PYTHON": 0,
       "BUILD_PYTHON_LAYER": 0,
+      "CAFFE_BUILD_PYTHON": "OFF",
       "CMAKE_BUILD_SHARED_LIBS": 0,
       "CMAKE_CONFIG": "Release",
       "CPU_ONLY": 0,
