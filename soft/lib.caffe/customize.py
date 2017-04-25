@@ -187,9 +187,9 @@ def setup(i):
     if os.path.isdir(ppy) and os.path.isdir(ppy1):
        env[ep+'_PYTHON']=ppy
        if tplat=='win':
-          s+='\n\nexport PYTHONPATH='+ppy+':$PYTHONPATH\n\n'
-       else:
           s+='\n\nset PYTHONPATH='+ppy+';%PYTHONPATH%\n\n'
+       else:
+          s+='\n\nexport PYTHONPATH='+ppy+':$PYTHONPATH\n\n'
 
     if tplat=='win':
        env[ep+'_CFLAGS']='/D CMAKE_WINDOWS_BUILD'
