@@ -181,6 +181,16 @@ def setup(i):
 
     env['CAFFE_INSTALL_DIR']=pi
 
+    # Check if compiled with Python
+    ppy=os.path.join(pi,'python')
+    ppy1=os.path.join(ppy,'caffe')
+    if os.path.isdir(ppy) and os.path.isdir(ppy1):
+       env[ep+'_PYTHON']=ppy
+       if tplat=='win':
+          s+='\n\nset PYTHONPATH='+ppy+';%PYTHONPATH%\n\n'
+       else:
+          s+='\n\nexport PYTHONPATH='+ppy+':$PYTHONPATH\n\n'
+
     if tplat=='win':
        env[ep+'_CFLAGS']='/D CMAKE_WINDOWS_BUILD'
        env[ep+'_CXXFLAGS']='/D CMAKE_WINDOWS_BUILD'
