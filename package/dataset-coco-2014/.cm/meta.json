@@ -1,0 +1,42 @@
+{
+  "check_exit_status": "yes",
+  "customize": {
+    "extra_dir": "",
+    "force_ask_path": "yes",
+    "no_os_in_suggested_path": "yes",
+    "no_ver_in_suggested_path": "yes",
+    "instances_train_file": "instances_train2014.json",
+    "instances_val_file": "instances_val2014.json",
+    "install_env": {
+      "TRAIN_DIR": "train2014",
+      "VAL_DIR": "val2014",
+      "TEST_DIR": "test2014",
+      "LABELS_DIR": "annotations",
+      "TRAIN_IMAGE_ARCHIVE": "train2014.zip",
+      "VAL_IMAGE_ARCHIVE": "val2014.zip",
+      "TEST_IMAGE_ARCHIVE": "test2014.zip",
+      "IMAGE_URL": "http://msvocds.blob.core.windows.net/coco2014",
+      "TRAINVAL_OBJ_INSTANCES_ARCHIVE": "instances_train-val2014.zip",
+      "TRAINVAL_PERSON_KEYPOINTS_ARCHIVE": "person_keypoints_trainval2014.zip",
+      "TRAINVAL_IMG_CAPTIONS_ARCHIVE": "captions_train-val2014.zip",
+      "ANNOTATION_URL": "http://msvocds.blob.core.windows.net/annotations-1-0-3"
+    },
+    "version": "2014"
+  },
+  "deps": {},
+  "need_cpu_info": "no",
+  "end_full_path": {
+    "linux": "val2014/COCO_val2014_000000000042.jpg"
+  },
+  "process_script": "install",
+  "soft_uoa": "2439499e39a313b5",
+  "suggested_path": "dataset-coco-2014-full",
+  "tags": [
+    "dataset",
+    "coco",
+    "COCO",
+    "2014",
+    "val",
+    "full"
+  ]
+}

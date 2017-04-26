@@ -2,9 +2,8 @@
 # Collective Knowledge (individual environment - setup)
 #
 # See CK LICENSE.txt for licensing details
-# See CK COPYRIGHT.txt for copyright details
 #
-# Developer: Grigori Fursin, Grigori.Fursin@cTuning.org, http://fursin.net
+# Developer: Zaborovskiy Vladislav, vladzab@yandex.ru, 
 #
 
 import os
@@ -76,39 +75,35 @@ def setup(i):
 
     env=i['env']
 
-    pi=os.path.dirname(fp)
+    p1=os.path.dirname(fp)
+    pi=os.path.dirname(p1)
 
     ep=cus.get('env_prefix','')
-    env[ep]=pi
 
-    env[ep+'_WEIGHTS']=os.path.join(pi, cus.get('file_with_weights',''))
-    env[ep+'_WEIGHTS_FILE']=cus.get('file_with_weights','')
+    train_dir = cus.get('install_env', '').get('TRAIN_DIR', '')
+    val_dir = cus.get('install_env', '').get('VAL_DIR', '')
+    test_dir = cus.get('install_env', '').get('TEST_DIR', '')
+    labels_dir = cus.get('install_env', '').get('LABELS_DIR', '')
 
-    mean_bin_file = cus.get('file_mean_bin','')
-    if (mean_bin_file != ''):
-      env[ep + '_MEAN_BIN'] = os.path.join(pi, mean_bin_file)
-      env[ep + '_MEAN_BIN_FILE'] = mean_bin_file
+    if train_dir != '':
+        env[ep + '_TRAIN_IMAGE_DIR'] = train_dir
+    if val_dir != '':
+        env[ep + '_VAL_IMAGE_DIR'] = val_dir
+    if test_dir != '':
+        env[ep + '_TEST_IMAGE_DIR'] = test_dir
+    if labels_dir != '':
+        full_path = os.path.join(ep, labels_dir)
+        train_file = cus.get('instances_train_file', '')
+        val_file = cus.get('instances_val_file', '')
+        env[ep + '_LABELS_DIR'] = full_path
+        env[ep + 'TRAIN_LABELS_DIR'] = os.path.join(full_path, train_file)
+        env[ep + 'TRAIN_LABELS_FILE'] = train_file
+        env[ep + 'VAL_LABELS_DIR'] = os.path.join(full_path, val_file)
+        env[ep + 'VAL_LABELS_FILE'] = val_file
+    env[ep] = pi
 
-    labelmap_file = cus.get('file_with_labelmap','')
-    if (labelmap_file != ''):
-      env[ep + '_LABELMAP'] = os.path.join(pi, labelmap_file)
-      env[ep + '_LABELMAP_FILE'] = labelmap_file
 
-    # record params
-    pff=cus['ck_params_file']
-    pf=os.path.join(pi, pff)
-    params=cus.get('params',{})
 
-    if len(params)==0:
-       if os.path.isfile(pf):
-          r=ck.load_json_file({'json_file':pf})
-          if r['return']>0: return r
-          cus['params']=r['dict']
-       else:
-          return {'return':1, 'error':'CK params for the DNN are not defined and file '+pff+' doesn\'t exist'}
-
-    else:
-       r=ck.save_json_to_file({'json_file':pf, 'dict':params})
-       if r['return']>0: return r
 
     return {'return':0, 'bat':s}
+

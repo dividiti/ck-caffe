@@ -132,6 +132,7 @@ def ck_preprocess(i):
     # Get path to imagenet aux
     plmdb=''
     paux=''
+    path_to_labelmap = x['dict']['env'].get('CK_ENV_MODEL_CAFFE_LABELMAP', '')
 
     if classification!='yes' and nim!=-1:
         paux=deps['dataset-imagenet-aux']['dict']['env']['CK_ENV_DATASET_IMAGENET_AUX']+'/'
@@ -140,6 +141,7 @@ def ck_preprocess(i):
     st=st.replace('$#path_to_imagenet_aux#$', paux)
     st=st.replace('$#train_lmdb#$', plmdb)
     st=st.replace('$#val_lmdb#$', plmdb)
+    st=st.replace('$#path_to_labelmap#$', path_to_labelmap)
 
     # Record template
     r=ck.save_text_file({'text_file':fn, 'string':st})
