@@ -106,7 +106,8 @@ def setup(i):
     if not found:
        return {'return':1, 'error':'can\'t find root dir of the CAFFE installation'}
 
-    p1=os.path.dirname(fp)
+#    p1=os.path.dirname(fp)
+    p1=os.path.join(pi,'bin')
 
     cus['path_bin']=p1
 

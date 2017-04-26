@@ -12,6 +12,16 @@ rem
 rem PACKAGE_DIR
 rem INSTALL_DIR
 
+if "%CAFFE_BUILD_PYTHON%" == "ON" (
+  echo.
+  echo You are compiling Caffe with Python support!
+  echo To use it you need to set up CK env as following ^(after installation^)^:
+  echo.
+  echo ck xset env tags=lib,caffe ; call tmp-ck-env.bat ; ipython2
+  echo.
+  set /p id="Press enter to continue"
+)
+
 echo **************************************************************
 echo Preparing vars for Caffe ...
 
@@ -51,7 +61,7 @@ set CK_CMAKE_EXTRA=%CK_CMAKE_EXTRA% ^
  -DDISABLE_DEVICE_HOST_UNIFIED_MEMORY=%DISABLE_DEVICE_HOST_UNIFIED_MEMORY% ^
  -DDISABLE_DOUBLE_SUPPORT=%DISABLE_DOUBLE_SUPPORT% ^
  -DBUILD_SHARED_LIBS:BOOL=%CMAKE_BUILD_SHARED_LIBS% ^
- -DBUILD_python:BOOL=%BUILD_PYTHON% ^
+ -DBUILD_python=%CAFFE_BUILD_PYTHON% ^
  -DBUILD_matlab:BOOL=%BUILD_MATLAB% ^
  -DUSE_PREBUILT_DEPENDENCIES=OFF ^
  -DGFLAGS_INCLUDE_DIR="%CK_ENV_LIB_GFLAGS_INCLUDE%" ^
