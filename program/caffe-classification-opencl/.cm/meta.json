@@ -101,6 +101,15 @@
       "name": "xOpenME library",
       "sort": 100,
       "tags": "lib,xopenme"
+    },
+    "lib-lmdb": {
+      "local": "yes", 
+      "name": "LMDB library", 
+      "only_for_target_os_tags": [
+        "windows"
+      ], 
+      "sort": 5, 
+      "tags": "lib,lmdb"
     }
   },
   "compiler_add_include_as_env_from_deps": [

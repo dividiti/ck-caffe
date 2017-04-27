@@ -390,11 +390,15 @@ def crowdsource(i):
     for k in deps:
         dp=deps[k]
 
-        puoa=dp.get('dict',{}).get('package_uoa','')
+        dpd=dp.get('dict',{})
+
+        ptags=dpd.get('tags',[])
+
+        puoa=dpd.get('package_uoa','')
         if puoa=='':
            puoa=dp.get('cus',{}).get('used_package_uid','')
 
-        dname=dp.get('dict',{}).get('data_name','')
+        dname=dpd.get('data_name','')
 
         if k=='caffemodel':
             xnn=dname
@@ -403,7 +407,7 @@ def crowdsource(i):
             if j1>0:
                 xnn=xnn[j1+1:-1]
 
-        xdeps[k]={'name':dp.get('name',''), 'data_name':dname, 'ver':dp.get('ver',''), 'package_uoa':puoa}
+        xdeps[k]={'name':dp.get('name',''), 'data_name':dname, 'ver':dp.get('ver',''), 'package_uoa':puoa, 'package_tags':ptags}
 
     # versions of engine sub deps
     dvers={}

@@ -141,7 +141,8 @@
       "local": "yes",
       "name": "LMDB library",
       "only_for_target_os_tags": [
-        "linux"
+        "linux",
+        "windows"
       ],
       "sort": 18,
       "tags": "lib,lmdb"
