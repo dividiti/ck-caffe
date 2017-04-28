@@ -11,6 +11,14 @@
     },
     "version": "5a1422a93a842bd6"
   },
+  "deps": {
+    "lib-opencl": {
+      "local": "yes",
+      "name": "OpenCL library",
+      "sort": 11,
+      "tags": "lib,opencl"
+    }
+  },
   "end_full_path": {
     "win": "install/bin/caffe.exe"
   },
