@@ -356,6 +356,23 @@ def crowdsource(i):
     if tmp_dir=='': tmp_dir='tmp' # usually when no_compile
 
     deps=rr['dependencies'] # resolved deps
+    ydeps=deps
+
+    # Check saved deps (if from bin package)
+    xk=deps['lib-caffe']
+    pbin=xk.get('cus',{}).get('path_bin','')
+    if pbin!='':
+       rx=ck.access({'action':'find_config_file',
+                     'module_uoa':cfg['module_deps']['soft'],
+                     'full_path':pbin})
+       if rx['return']>0: return rx
+       if rx['found']=='yes':
+          if o=='con':
+             ck.out('')
+             ck.out('Found saved config file for CK binary distribution - reusing deps ...')
+             ck.out('')
+
+          ydeps=rx['dict']['deps']
 
     if i.get('no_compile','')=='yes':
        pdeps=os.path.join(pp,tmp_dir,'tmp-deps.json')
@@ -387,8 +404,8 @@ def crowdsource(i):
     xnn=''
     xblas=''
 
-    for k in deps:
-        dp=deps[k]
+    for k in ydeps:
+        dp=ydeps[k]
 
         dpd=dp.get('dict',{})
 
