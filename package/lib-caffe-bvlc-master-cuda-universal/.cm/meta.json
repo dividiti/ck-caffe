@@ -46,6 +46,7 @@
       "USE_NCCL": 0,
       "USE_OPENCV": 1,
       "USE_OPENMP": 0,
+      "USE_PREBUILT_DEPENDENCIES":"OFF",
       "WITH_NINJA": 0
     },
     "params": {

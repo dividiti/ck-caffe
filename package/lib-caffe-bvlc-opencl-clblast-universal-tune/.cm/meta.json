@@ -46,6 +46,7 @@
       "USE_ISAAC": 0,
       "USE_LIBDNN": 0,
       "USE_NCCL": 0,
+      "USE_PREBUILT_DEPENDENCIES":"OFF",
       "WITH_NINJA": 0
     },
     "params": {

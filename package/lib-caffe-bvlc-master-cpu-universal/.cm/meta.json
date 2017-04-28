@@ -38,6 +38,7 @@
       "USE_LEVELDB": "OFF",
       "USE_LMDB": "ON",
       "USE_OPENMP": 0,
+      "USE_PREBUILT_DEPENDENCIES": "OFF",
       "WITH_NINJA": 0
     },
     "params": {
@@ -170,6 +171,59 @@
       "sort": 115,
       "tags": "lib,protobuf-host,v3.1.0"
     }
+  },
+  "distribute_extra_commands": {
+    "win": [
+      {
+        "action": "compile",
+        "data_uoa": "4d01855945175f57",
+        "module_uoa": "program"
+      }
+    ]
+  },
+  "distribute_extra_file": {
+    "win": [
+      {
+        "file": "boost_chrono-mt.dll"
+      },
+      {
+        "file": "boost_system-mt.dll"
+      },
+      {
+        "file": "boost_thread-mt.dll"
+      },
+      {
+        "file": "gflags.dll"
+      },
+      {
+        "file": "glog.dll"
+      },
+      {
+        "file": "hdf5.dll"
+      },
+      {
+        "file": "hdf5_hl.dll"
+      },
+      {
+        "file": "libopenblas.dll"
+      },
+      {
+        "file": "opencv_core320.dll"
+      },
+      {
+        "file": "opencv_imgcodecs320.dll"
+      },
+      {
+        "file": "opencv_imgproc320.dll"
+      },
+      {
+        "data_uoa": "4d01855945175f57",
+        "extra_dir": "tmp",
+        "file": "caffe.exe",
+        "module_uoa": "program",
+        "new_file": "ck-caffe-time.exe"
+      }
+    ]
   },
   "end_full_path": {
     "android": "install/lib/libcaffe.so",

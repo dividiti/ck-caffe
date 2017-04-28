@@ -39,6 +39,7 @@
       "USE_LEVELDB": "OFF", 
       "USE_LMDB": "ON",
       "USE_OPENMP": 0, 
+      "USE_PREBUILT_DEPENDENCIES":"OFF",
       "WITH_NINJA": 0
     }, 
     "use_git_revision": "yes", 
