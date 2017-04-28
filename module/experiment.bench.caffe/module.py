@@ -663,11 +663,11 @@ def crowdsource(i):
     # Check host URL prefix and default module/action
     url=ck_url+'&highlight_uid='+rduid
     ck.out('')
-    r=ck.inp({'text':'Would you like to open a browser to see results "'+url+'" (Y/n)? '})
+    r=ck.inp({'text':'Would you like to open a browser to see results "'+url+'" (y/N)? '})
     if r['return']>0: return r
 
     x=r['string'].strip().lower()
-    if x=='':
+    if x=='y' or x=='yes':
        import webbrowser
        webbrowser.open(url)
 
