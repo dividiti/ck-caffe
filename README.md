@@ -113,9 +113,10 @@ It is now possible to participate in crowd-benchmarking of Caffe via
 $ ck crowdbench caffe --user={your email or ID to acknowledge contributions} --env.CK_CAFFE_BATCH_SIZE=1
 ```
 
-During collaborative benchmarking, you can select various engines and models for evaluation.
+During collaborative benchmarking, you can select various engines (will be build on your machine) 
+and models for evaluation.
 
-You can manually install additional flavours of Caffe engines across diverse hardware 
+You can also manually install additional flavours of Caffe engines across diverse hardware 
 and OS (Linux/Windows/Android on odroid, RPi, ARM, Intel, AMD, NVIDIA, etc) 
 as described [here](https://github.com/dividiti/ck-caffe/wiki/Installation).
 
@@ -132,6 +133,18 @@ $ ck crowdbench caffe --target_os=android21-arm64 --env.CK_CAFFE_BATCH_SIZE=1
 ```
 
 Feel free to try different batch sizes by changing command line option --env.CK_CAFFE_BATCH_SIZE.
+
+You can crowd-benchmark Caffe on Windows without re-compilation, 
+i.e. using Caffe CPU or OpenCL binaries pre-built by the CK. 
+You should install such binaries as following:
+
+```
+ $ ck install package:lib-caffe-bvlc-master-cpu-bin-win
+```
+or
+```
+ $ ck install package:lib-caffe-bvlc-opencl-libdnn-viennacl-bin-win
+```
 
 You can also use this [Android app](https://play.google.com/store/apps/details?id=openscience.crowdsource.video.experiments)
 to crowdsource benchmarking of ARM-based Caffe libraries for image recognition.

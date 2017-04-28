@@ -358,22 +358,6 @@ def crowdsource(i):
     deps=rr['dependencies'] # resolved deps
     ydeps=deps
 
-    # Check saved deps (if from bin package)
-    xk=deps['lib-caffe']
-    pbin=xk.get('cus',{}).get('path_bin','')
-    if pbin!='':
-       rx=ck.access({'action':'find_config_file',
-                     'module_uoa':cfg['module_deps']['soft'],
-                     'full_path':pbin})
-       if rx['return']>0: return rx
-       if rx['found']=='yes':
-          if o=='con':
-             ck.out('')
-             ck.out('Found saved config file for CK binary distribution - reusing deps ...')
-             ck.out('')
-
-          ydeps=rx['dict']['deps']
-
     if i.get('no_compile','')=='yes':
        pdeps=os.path.join(pp,tmp_dir,'tmp-deps.json')
        if os.path.isfile(pdeps):
@@ -384,6 +368,27 @@ def crowdsource(i):
           deps=rz['dict']
 
           deps.update(qdeps)
+
+    # Check saved deps (if from bin package)
+    xk=deps['lib-caffe']
+    pbin=xk.get('cus',{}).get('path_bin','')
+    if pbin!='':
+       rx=ck.access({'action':'find_config_file',
+                     'module_uoa':cfg['module_deps']['soft'],
+                     'full_path':pbin,
+                     'filename':'ck-install-saved.json'})
+       if rx['return']>0: return rx
+       if rx['found']=='yes':
+          if o=='con':
+             ck.out('')
+             ck.out('Found saved config file for CK binary distribution - reusing deps ...')
+             ck.out('')
+
+          ydeps=copy.deepcopy(deps)
+          dname=deps['lib-caffe']['dict']['data_name']
+
+          ydeps['lib-caffe']['dict']=copy.deepcopy(rx['dict'])
+          ydeps['lib-caffe']['dict']['data_name']=dname
 
     # Clean pipeline
     if 'ready' in rr: del(rr['ready'])
@@ -428,7 +433,7 @@ def crowdsource(i):
 
     # versions of engine sub deps
     dvers={}
-    mdep=deps.get('lib-caffe',{})
+    mdep=ydeps.get('lib-caffe',{})
     mdeps=mdep.get('dict',{}).get('deps',{})
 
     for k in mdeps:
@@ -661,7 +666,7 @@ def crowdsource(i):
            ck.out('WARNING: did not record results to remote repo (Entry UID='+rduid+')')
 
     # Check host URL prefix and default module/action
-    url=ck_url+'&highlight_uid='+rduid
+    url=ck_url+'&highlight_uid='+rduid+'#'+rduid
     ck.out('')
     r=ck.inp({'text':'Would you like to open a browser to see results "'+url+'" (y/N)? '})
     if r['return']>0: return r
