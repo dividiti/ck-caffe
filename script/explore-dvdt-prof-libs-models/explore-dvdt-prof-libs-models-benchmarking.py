@@ -13,7 +13,7 @@ bs={
 # Number of statistical repetitions.
 num_repetitions=3
 
-def do(i):
+def do(i,arg):
     # Detect basic platform info.
     ii={'action':'detect',
         'module_uoa':'platform',
@@ -57,6 +57,9 @@ def do(i):
 
     # Caffe libs.
     depl=copy.deepcopy(cdeps['lib-caffe'])
+    if ((arg.tos is not None) and (arg.did is not None) ):
+       tos=arg.tos
+       tdid=arg.did
 
     ii={'action':'resolve',
         'module_uoa':'env',
@@ -263,5 +266,14 @@ def do(i):
 
     return {'return':0}
 
-r=do({})
+
+
+parser = argparse.ArgumentParser(description='Pipeline')
+parser.add_argument("--target_os", action="store", dest="tos")
+parser.add_argument("--device_id", action="store", dest="did")
+myarg=parser.parse_args()
+
+
+r=do({}, myarg)
 if r['return']>0: ck.err(r)
+
