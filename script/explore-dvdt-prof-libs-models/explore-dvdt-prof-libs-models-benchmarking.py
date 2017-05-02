@@ -67,6 +67,7 @@ def do(i,arg):
         'host_os':hos,
         'target_os':tos,
         'device_id':tdid,
+        'out':'con',
         'deps':{'lib-caffe':copy.deepcopy(depl)}
     }
     r=ck.access(ii)
@@ -84,6 +85,7 @@ def do(i,arg):
         'host_os':hos,
         'target_os':tos,
         'device_id':tdid,
+	'out':'con',
         'deps':{'caffemodel':copy.deepcopy(depm)}
     }
     r=ck.access(ii)
@@ -103,6 +105,8 @@ def do(i,arg):
         'module_uoa':'program',
         'data_uoa':program,
         'cmd_key':cmd_key,
+        "target_os":tos,
+        "device_id":tdid,
 
         'dvdt_prof':'yes',
 
@@ -125,10 +129,8 @@ def do(i,arg):
         'skip_file_print':'yes',
         'out':'con'
     }
- #   exit(1)
     r=ck.access(ii)
     if r['return']>0: return r
-    exit(1)
    
     fail=r.get('fail','')
     if fail=='yes':
