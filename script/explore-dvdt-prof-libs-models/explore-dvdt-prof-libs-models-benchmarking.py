@@ -2,6 +2,7 @@
 import ck.kernel as ck
 import copy
 import re
+import argparse
 
 # Batch size iteration parameters.
 bs={
@@ -87,15 +88,14 @@ def do(i,arg):
     }
     r=ck.access(ii)
     if r['return']>0: return r
-
     udepm=r['deps']['caffemodel'].get('choices',[]) # All UOAs of env for Caffe models.
     if len(udepm)==0:
         return {'return':1, 'error':'no installed Caffe models'}
 
     # Prepare pipeline.
+
     cdeps['lib-caffe']['uoa']=udepl[0]
     cdeps['caffemodel']['uoa']=udepm[0]
-
     ii={'action':'pipeline',
         'prepare':'yes',
         'dependencies':cdeps,
@@ -125,10 +125,11 @@ def do(i,arg):
         'skip_file_print':'yes',
         'out':'con'
     }
-
+ #   exit(1)
     r=ck.access(ii)
     if r['return']>0: return r
-
+    exit(1)
+   
     fail=r.get('fail','')
     if fail=='yes':
         return {'return':10, 'error':'pipeline failed ('+r.get('fail_reason','')+')'}
