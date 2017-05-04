@@ -35,6 +35,7 @@
       "RUN_INSTALL": 0,
       "RUN_LINT": 0,
       "USE_LMDB": "ON",
+      "USE_LEVELDB": "ON",
       "RUN_TESTS": 0,
       "USE_CLBLAS": 0,
       "USE_CLBLAST": 1,
