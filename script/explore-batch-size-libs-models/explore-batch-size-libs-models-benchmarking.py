@@ -1,3 +1,4 @@
+#! /usr/bin/python
 import ck.kernel as ck
 import copy
 import re
@@ -54,6 +55,7 @@ def do(i):
         'host_os':hos,
         'target_os':tos,
         'device_id':tdid,
+        'out':'con',
         'deps':{'lib-caffe':copy.deepcopy(depl)}
     }
     r=ck.access(ii)
@@ -71,6 +73,7 @@ def do(i):
         'host_os':hos,
         'target_os':tos,
         'device_id':tdid,
+        'out':'con',
         'deps':{'caffemodel':copy.deepcopy(depm)}
     }
     r=ck.access(ii)
@@ -85,30 +88,29 @@ def do(i):
     cdeps['caffemodel']['uoa']=udepm[0]
 
     ii={'action':'pipeline',
+        'prepare':'yes',
+        'dependencies':cdeps,
 
         'module_uoa':'program',
         'data_uoa':'caffe',
+        'cmd_key':'time_gpu',
 
-        'prepare':'yes',
-
-        'dependencies': cdeps,
+        'target_os':tos,
+        'device_id':tdid,
 
         'no_state_check':'yes',
         'no_compiler_description':'yes',
         'skip_calibration':'yes',
 
-        'cmd_key':'time_gpu',
-
         'cpu_freq':'max',
         'gpu_freq':'max',
 
         'flags':'-O3',
-
         'speed':'no',
         'energy':'no',
 
-        'out':'con',
-        'skip_print_timers':'yes'
+        'skip_print_timers':'yes',
+        'out':'con'
     }
 
     r=ck.access(ii)
@@ -135,7 +137,7 @@ def do(i):
 
     pipeline=copy.deepcopy(r)
 
-    # For each Caffe lib.
+    # For each Caffe lib.*******************************************************
     for lib_uoa in udepl:
         # Load Caffe lib.
         ii={'action':'load',
@@ -150,6 +152,8 @@ def do(i):
         # Skip some libs with "in [..]" or "not in [..]".
         if lib_tags in []: continue
 
+        skip_compile='no'
+
         # Use the 'time_cpu' command for the CPU only lib, 'time_gpu' for all the rest.
         if r['dict']['customize']['params']['cpu_only']==1:
             cmd_key='time_cpu'
@@ -159,7 +163,7 @@ def do(i):
         if lib_tags in [ 'nvidia-fp16-cuda', 'nvidia-fp16-cudnn' ]:
             cmd_key='time_gpu_fp16'
 
-        # For each Caffe model.
+        # For each Caffe model.*************************************************
         for model_uoa in udepm:
             # Load Caffe model.
             ii={'action':'load',
@@ -204,6 +208,9 @@ def do(i):
 
             cpipeline['dependencies'].update(new_deps)
 
+            cpipeline['no_clean']=skip_compile
+            cpipeline['no_compile']=skip_compile
+
             cpipeline['cmd_key']=cmd_key
 
             ii={'action':'autotune',
@@ -213,7 +220,7 @@ def do(i):
 
                 'choices_order':[
                     [
-                        '##env#CK_CAFFE_BATCH_SIZE'
+                        '##choices#env#CK_CAFFE_BATCH_SIZE'
                     ]
                 ],
                 'choices_selection':[
@@ -244,6 +251,8 @@ def do(i):
             fail=r.get('fail','')
             if fail=='yes':
                 return {'return':10, 'error':'pipeline failed ('+r.get('fail_reason','')+')'}
+
+            skip_compile='yes'
 
     return {'return':0}
 

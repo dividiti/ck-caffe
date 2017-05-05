@@ -1,4 +1,4 @@
-#! //usr/bin/python
+#! /usr/bin/python
 import ck.kernel as ck
 import copy
 import re
@@ -14,7 +14,7 @@ bs={
 # Number of statistical repetitions.
 num_repetitions=3
 
-def do(i,arg):
+def do(i, arg):
     # Detect basic platform info.
     ii={'action':'detect',
         'module_uoa':'platform',
@@ -58,9 +58,9 @@ def do(i,arg):
 
     # Caffe libs.
     depl=copy.deepcopy(cdeps['lib-caffe'])
-    if ((arg.tos is not None) and (arg.did is not None) ):
-       tos=arg.tos
-       tdid=arg.did
+    if (arg.tos is not None) and (arg.did is not None):
+        tos=arg.tos
+        tdid=arg.did
 
     ii={'action':'resolve',
         'module_uoa':'env',
@@ -79,13 +79,12 @@ def do(i,arg):
 
     # Caffe models.
     depm=copy.deepcopy(cdeps['caffemodel'])
-
     ii={'action':'resolve',
         'module_uoa':'env',
         'host_os':hos,
         'target_os':tos,
         'device_id':tdid,
-	'out':'con',
+        'out':'con',
         'deps':{'caffemodel':copy.deepcopy(depm)}
     }
     r=ck.access(ii)
@@ -95,7 +94,6 @@ def do(i,arg):
         return {'return':1, 'error':'no installed Caffe models'}
 
     # Prepare pipeline.
-
     cdeps['lib-caffe']['uoa']=udepl[0]
     cdeps['caffemodel']['uoa']=udepm[0]
     ii={'action':'pipeline',
@@ -105,14 +103,14 @@ def do(i,arg):
         'module_uoa':'program',
         'data_uoa':program,
         'cmd_key':cmd_key,
-        "target_os":tos,
-        "device_id":tdid,
+
+        'target_os':tos,
+        'device_id':tdid,
 
         'dvdt_prof':'yes',
-
-         'env':{
+        'env':{
           'CK_CAFFE_SKIP_BACKWARD':1
-         },
+        },
 
         'no_state_check':'yes',
         'no_compiler_description':'yes',
@@ -131,7 +129,7 @@ def do(i,arg):
     }
     r=ck.access(ii)
     if r['return']>0: return r
-   
+
     fail=r.get('fail','')
     if fail=='yes':
         return {'return':10, 'error':'pipeline failed ('+r.get('fail_reason','')+')'}
@@ -153,7 +151,7 @@ def do(i,arg):
 
     pipeline=copy.deepcopy(r)
 
-    # For each Caffe lib ******************************************************************************
+    # For each Caffe lib.*******************************************************
     for lib_uoa in udepl:
         # Load Caffe lib.
         ii={'action':'load',
@@ -172,7 +170,7 @@ def do(i,arg):
 
         skip_compile='no'
 
-        # For each Caffe model.************************************************************************
+        # For each Caffe model.*************************************************
         for model_uoa in udepm:
             # Load Caffe model.
             ii={'action':'load',
@@ -268,7 +266,6 @@ def do(i,arg):
             skip_compile='yes'
 
     return {'return':0}
-
 
 
 parser = argparse.ArgumentParser(description='Pipeline')
