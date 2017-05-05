@@ -54,6 +54,42 @@
         ]
       }
     }, 
+    "classify_ck_ai_api": {
+      "ignore_return_code": "no", 
+      "run_deps": {
+        "caffemodel": {
+          "force_target_as_host": "yes", 
+          "local": "yes", 
+          "name": "Caffe model (net and weights)", 
+          "sort": 40, 
+          "tags": "caffemodel"
+        }
+      }, 
+      "run_time": {
+        "params": {
+          "caffemodel_key": "deploy", 
+          "classification": "yes"
+        }, 
+        "pre_process_via_ck": {
+          "data_uoa": "569404c41618603a", 
+          "script_name": "preprocess"
+        }, 
+        "run_cmd_main": "$<<CK_CAFFE_CLASSIFICATION_BIN>>$ $<<CK_CAFFE_MODEL_FILE>>$ $<<CK_CAFFE_MODEL_WEIGHTS>>$ $#up_dir#$for_classification_demo/imagenet_mean.binaryproto $#up_dir#$for_classification_demo/synset_words.txt $<<CK_AI_API_IMAGE_FILE>>$", 
+        "run_cmd_out1": "stderr.log", 
+        "run_cmd_out2": "stderr2.log", 
+        "run_correctness_output_files": [], 
+        "run_input_files": [
+          "$<<CK_CAFFE_MODEL_FILE>>$", 
+          "$<<CK_ENV_MODEL_CAFFE_WEIGHTS>>$", 
+          "imagenet_mean.binaryproto", 
+          "synset_words.txt"
+        ], 
+        "run_output_files": [
+          "stdout.log", 
+          "stderr.log"
+        ]
+      }
+    }, 
     "query_gpu_cuda": {
       "ignore_return_code": "no", 
       "run_time": {
