@@ -6,14 +6,14 @@ import re
 # Batch size iteration parameters.
 bs={
   'start':2,
-  'stop':4,
+  'stop':32,
   'step':2,
   'default':2
 }
 # OpenBLAS number of threads iteration parameters.
 nt={
   'start':1,
-  'stop':4,
+  'stop':20,
   'step':1,
   'default':1
 }
@@ -106,6 +106,10 @@ def do(i):
         'data_uoa':program,
         'cmd_key':cmd_key,
 
+        'env':{
+          'CK_CAFFE_SKIP_BACKWARD':1
+        },
+
         'target_os':tos,
         'device_id':tdid,
 
@@ -178,7 +182,7 @@ def do(i):
             model_tags = re.match('Caffe model \(net and weights\) \((?P<tags>.*)\)', model_name)
             model_tags = model_tags.group('tags').replace(' ', '').replace(',', '-')
             # Skip some models with "in [..]" or "not in [..]".
-            if model_tags not in ['bvlc-alexnet', 'deepscale-squeezenet-1.1']: continue
+            if model_tags not in ['bvlc-alexnet', 'bvlc-googlenet', 'deepscale-squeezenet-1.1']: continue
 
             record_repo='local'
             record_uoa='openblas-threads-'+model_tags+'-'+lib_tags

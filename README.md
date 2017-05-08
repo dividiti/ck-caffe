@@ -14,8 +14,10 @@ the [Collective Knowledge](http://cknowledge.org) framework for customizable
 cross-platform builds and experimental workflows with JSON API from the 
 [cTuning Foundation](http://ctuning.org) (see CK intro for more details: [1](https://arxiv.org/abs/1506.06256),
 [2](https://www.researchgate.net/publication/304010295_Collective_Knowledge_Towards_RD_Sustainability) ). 
-In essence, CK-Caffe is simply a suite of convenient wrappers with unified 
-JSON API for customized building, evaluation and multi-objective optimisation of Caffe.
+In essence, CK-Caffe is an open-source suite of convenient wrappers and workflows with unified 
+JSON API for simple and customized building, evaluation and multi-objective optimisation 
+of various Caffe implementations (CPU,CUDA,OpenCL) across diverse platforms
+from mobile devices and IoT to supercomputers.
 
 As outlined in our [vision](http://dx.doi.org/10.1145/2909437.2909449), 
 we invite the community to collaboratively design and optimize convolutional
@@ -27,7 +29,8 @@ options, and so on; exchange experimental data in a flexible JSON-based format;
 and apply leading-edge predictive analytics to extract valuable insights from
 the experimental data.
 
-See [cKnowledge.org/ai](http://cKnowledge.org/ai) for more details.
+See [cKnowledge.org/ai](http://cKnowledge.org/ai), [shared optimization statistics](http://cKnowledge.org/repo) 
+and [online demo of CK AI API with self-optimizing DNN](http://cKnowledge.org/ai/ck-api-demo) for more details.
 
 ## Authors/contributors
 
