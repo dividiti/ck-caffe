@@ -33,7 +33,7 @@ if [ "${CAFFE_BUILD_PYTHON}" == "ON" ] ; then
   echo "You are compiling Caffe with Python support!"
   echo "To use it you need to set up CK env as following (after installation)":
   echo ""
-  echo "ck xset env tags=lib,caffe && . ./tmp-ck-env.bat && ipython2"
+  echo "ck xset env tags=lib,caffe ; . ./tmp-ck-env.bat ; ipython2"
   echo ""
   read -p "Press enter to continue"
 fi
