@@ -108,7 +108,7 @@
       "name": "CLBlast library", 
       "skip_default": "yes", 
       "sort": 40, 
-      "tags": "lib,clblast,no-tune"
+      "tags": "lib,clblast,tune"
     }, 
     "lib-gflags": {
       "force_env_init": "yes", 
@@ -224,14 +224,15 @@
     "windows", 
     "android"
   ], 
-  "package_extra_name": " (opencl,libdnn,clblast)", 
+  "package_extra_name": " (opencl,libdnn,clblast,tune)", 
   "process_script": "install", 
   "soft_uoa": "04ab08137582bd03", 
-  "suggested_path": "lib-caffe-bvlc-opencl-libdnn-clblast", 
+  "suggested_path": "lib-caffe-bvlc-opencl-libdnn-clblast-tune", 
   "tags": [
     "lib", 
     "caffe", 
-    "bvlc", 
+    "bvlc",
+    "vtune", 
     "vmaster", 
     "vlibdnn", 
     "vclblast", 
