@@ -2,6 +2,7 @@
 import ck.kernel as ck
 import copy
 import re
+import argparse
 
 # Batch size iteration parameters.
 bs={
@@ -13,7 +14,7 @@ bs={
 # Number of statistical repetitions.
 num_repetitions=3
 
-def do(i):
+def do(i, arg):
     # Detect basic platform info.
     ii={'action':'detect',
         'module_uoa':'platform',
@@ -28,11 +29,15 @@ def do(i):
     tos=r['os_uoa']
     tosd=r['os_dict']
     tdid=r['device_id']
+    # Program and command.
+    program='caffe-time'
+    cmd_key='default'
+    tp='opencl'
 
     # Load Caffe program meta and desc to check deps.
     ii={'action':'load',
         'module_uoa':'program',
-        'data_uoa':'caffe'}
+        'data_uoa':program}
     rx=ck.access(ii)
     if rx['return']>0: return rx
     mm=rx['dict']
@@ -49,6 +54,9 @@ def do(i):
 
     # Caffe libs.
     depl=copy.deepcopy(cdeps['lib-caffe'])
+    if (arg.tos is not None) and (arg.did is not None):
+        tos=arg.tos
+        tdid=arg.did
 
     ii={'action':'resolve',
         'module_uoa':'env',
@@ -92,8 +100,8 @@ def do(i):
         'dependencies':cdeps,
 
         'module_uoa':'program',
-        'data_uoa':'caffe',
-        'cmd_key':'time_gpu',
+        'data_uoa':program,
+        'cmd_key':cmd_key,
 
         'target_os':tos,
         'device_id':tdid,
@@ -155,13 +163,13 @@ def do(i):
         skip_compile='no'
 
         # Use the 'time_cpu' command for the CPU only lib, 'time_gpu' for all the rest.
-        if r['dict']['customize']['params']['cpu_only']==1:
-            cmd_key='time_cpu'
-        else:
-            cmd_key='time_gpu'
-        # FIXME: Customise cmd for NVIDIA's experimental fp16 branch.
-        if lib_tags in [ 'nvidia-fp16-cuda', 'nvidia-fp16-cudnn' ]:
-            cmd_key='time_gpu_fp16'
+#        if r['dict']['customize']['params']['cpu_only']==1:
+#            cmd_key='time_cpu'
+#        else:
+#            cmd_key='time_gpu'
+#        # FIXME: Customise cmd for NVIDIA's experimental fp16 branch.
+#        if lib_tags in [ 'nvidia-fp16-cuda', 'nvidia-fp16-cudnn' ]:
+#            cmd_key='time_gpu_fp16'
 
         # For each Caffe model.*************************************************
         for model_uoa in udepm:
@@ -256,5 +264,11 @@ def do(i):
 
     return {'return':0}
 
-r=do({})
+parser = argparse.ArgumentParser(description='Pipeline')
+parser.add_argument("--target_os", action="store", dest="tos")
+parser.add_argument("--device_id", action="store", dest="did")
+myarg=parser.parse_args()
+
+
+r=do({}, myarg)
 if r['return']>0: ck.err(r)
