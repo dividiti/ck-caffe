@@ -16,7 +16,7 @@ cross-platform builds and experimental workflows with JSON API from the
 [2](https://www.researchgate.net/publication/304010295_Collective_Knowledge_Towards_RD_Sustainability) ). 
 In essence, CK-Caffe is an open-source suite of convenient wrappers and workflows with unified 
 JSON API for simple and customized building, evaluation and multi-objective optimisation 
-of various Caffe implementations (CPU,CUDA,OpenCL) across diverse platforms
+of various Caffe implementations (CPU, CUDA, OpenCL) across diverse platforms
 from mobile devices and IoT to supercomputers.
 
 As outlined in our [vision](http://dx.doi.org/10.1145/2909437.2909449), 
@@ -40,7 +40,7 @@ and [online demo of CK AI API with self-optimizing DNN](http://cKnowledge.org/ai
 
 ## Quick installation on Ubuntu
 
-Please refer to our [Installation Guide](https://github.com/dividiti/ck-caffe/wiki/Installation) for detailed instructions for Ubuntu, Gentoo, Yocto, Windows and Android.
+Please refer to our [Installation Guide](https://github.com/dividiti/ck-caffe/wiki/Installation) for detailed instructions for Ubuntu, Gentoo, Yocto, RedHat, CentOS, Windows and Android.
 
 ### Installing general dependencies
 
@@ -186,13 +186,13 @@ $ ck run program:caffe --env.CK_CAFFE_BATCH_SIZE=1 --env.CK_CAFFE_ITERATIONS=10
 You can find details about CK-Caffe installation for Windows, various flavours 
 of Linux and Android [here](http://github.com/dividiti/ck-caffe/wiki/Installation).
 
-## Preliminary results
+## Benchmarking results
 
-### Compare accuracy of 4 CNNs
+### Compare accuracy of 4 models
 
 In this [Jupyter
 notebook](https://github.com/dividiti/ck-caffe/blob/master/script/explore-accuracy/explore_accuracy.20160808.ipynb),
-we compare the Top-1 and Top-5 accuracy of 4 CNNs:
+we compare the Top-1 and Top-5 accuracy of 4 models:
 
 - [AlexNet](https://github.com/BVLC/caffe/tree/master/models/bvlc_alexnet)
 - [SqueezeNet 1.0](https://github.com/DeepScale/SqueezeNet/tree/master/SqueezeNet_v1.0)
@@ -205,44 +205,15 @@ We have thus independently verified that on this data set [SqueezeNet](https://a
 
 The experimental data is stored in the main CK-Caffe repository under '[experiment](https://github.com/dividiti/ck-caffe/tree/master/experiment)'.
 
-### Compare performance of 4 CNNs on Chromebook 2
+### Compare performance across models and configurations
 
-This
-[notebook](https://github.com/dividiti/ck-caffe-explore-batch-size-chromebook2/blob/master/script/explore-batch-size/explore_batch_size.20160809.ipynb)
-investigates effects on inference performance of varying the batch size:
+We have performed several performance analysis studies across a range of platforms. The following public results are available:
 
-- across the same 4 **CNNs**;
-- with 4 BLAS **libraries**:
-  - [CPU] [OpenBLAS](https://github.com/xianyi/OpenBLAS) 0.2.18 (one thread per core);
-  - [GPU] [clBLAS](https://github.com/clMathLibraries/clBLAS) 2.4 (OpenCL 1.1 compliant);
-  - [GPU] [CLBlast](https://github.com/CNugteren/CLBlast) dev (35623cd > 0.8.0);
-  - [GPU] [CLBlast](https://github.com/CNugteren/CLBlast) dev (35623cd > 0.8.0) with Mali-optimized [overlay](https://github.com/intelfx/CLBlast/tree/mali-overlay) (641bb07);
-- on the [Samsung Chromebook 2](http://www.samsung.com/us/computing/chromebooks/under-12/samsung-chromebook-2-11-6-xe503c12-k01us/) **platform**:
-  - [CPU] quad-core ARM Cortex-A15 (@ 1900 MHz);
-  - [GPU] quad-core ARM Mali-T628 (@ 600 MHz);
-  - [GPU] OpenCL driver 6.0 (r6p0); OpenCL standard 1.1.
+- [NVIDIA TX1](https://github.com/dividiti/ck-caffe-nvidia-tx1) ([view on github.com](https://github.com/dividiti/ck-caffe-nvidia-tx1/blob/master/script/caffe-tensorrt/ck-caffe-nvidia-tx1-with-tensorrt.20170429.ipynb); [view on nbviewer.jupyter.org](https://nbviewer.jupyter.org/github/dividiti/ck-caffe-nvidia-tx1/blob/master/script/caffe-tensorrt/ck-caffe-nvidia-tx1-with-tensorrt.20170429.ipynb?raw)): 4 models, 6 Caffe configs + 2 TensorRT 1.0 EA configs. **NB:** The Caffe results are released with approval from General Motors. The TensorRT 1.0 EA results are obtained with [CK-TensorRT](https://github.com/dividiti/ck-tensorrt) and released with approval from General Motors and NVIDIA.
 
-Finally, this
-[notebook](https://github.com/dividiti/ck-caffe-explore-batch-size-chromebook2/blob/master/script/compare-time-fw/compare_time_fw.20160809.ipynb)
-compares the best performance per image across the CNNs and BLAS libraries.
-When using OpenBLAS, SqueezeNet 1.1 is 2 times faster than SqueezeNet 1.0 and
-2.4 times faster than AlexNet, broadly in line with expectations set by the
-[SqueezeNet](http://arxiv.org/abs/1602.07360) paper.
+- [NVIDIA GTX1080](https://github.com/dividiti/ck-caffe-nvidia-gtx1080): 4 models, 14 configs. **NB:** The Caffe results are released with approval from General Motors. 
 
-When using OpenCL BLAS libraries, however, SqueezeNet 1.0 is not necessarily
-faster than AlexNet, despite roughly 500 times reduction in the weights' size.
-This suggests that an optimal network design for a given task may depend on the
-software stack as well as on the hardware platform. Moreover, design choices
-may well shift over time, as software matures and new hardware becomes
-available. That's why we believe it is necessary to leverage community effort
-to collectively grow design and optimisation knowledge.
-
-The experimental data and visualisation notebooks are stored in a separate
-repository which can be obtained as follows:
-```
-ck pull repo:ck-caffe-explore-batch-size-chromebook2 \
-    --url=https://github.com/dividiti/ck-caffe-explore-batch-size-chromebook2.git
-```
+- [Samsung Chromebook 2](http://www.samsung.com/us/computing/chromebooks/under-12/samsung-chromebook-2-11-6-xe503c12-k01us/) ([view on github.com](https://github.com/dividiti/ck-caffe-explore-batch-size-chromebook2/blob/master/script/compare-time-fw/compare_time_fw.20160809.ipynb); [view on nbviewer.jupyter.org](https://nbviewer.jupyter.org/github/dividiti/ck-caffe-explore-batch-size-chromebook2/blob/master/script/compare-time-fw/compare_time_fw.20160809.ipynb?raw)): 4 models, 4 configs.
 
 ## Next steps
 
