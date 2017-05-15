@@ -104,12 +104,12 @@
       "sort": 25, 
       "tags": "lib,boost"
     }, 
-    "lib-clblast": {
+    "lib-clblas": {
       "add_to_path": "yes",
       "local": "yes", 
-      "name": "CLBlast library", 
+      "name": "CLBlas library", 
       "sort": 40, 
-      "tags": "lib,clblast,no-tune"
+      "tags": "lib,clblas"
     }, 
     "lib-gflags": {
       "local": "yes", 
