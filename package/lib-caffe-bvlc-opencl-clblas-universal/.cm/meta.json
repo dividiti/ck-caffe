@@ -107,7 +107,7 @@
     }, 
     "lib-clblas": {
       "local": "yes", 
-      "name": "CLBlas library", 
+      "name": "clBLAS library",
       "add_to_path": "yes", 
       "sort": 40, 
       "tags": "lib,clblas"
