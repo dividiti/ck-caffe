@@ -36,7 +36,7 @@ onchange='document.'+form_name+'.submit();'
 
 hextra='<i><center>\n'
 hextra+=' [ <a href="http://cKnowledge.org/ai">Collaborative unification of AI</a> ], '
-hextra+=' [ <a href="https://github.com/ctuning/ck-caffe">CK-Caffe2</a> / <a href="https://github.com/dividiti/ck-caffe">CK-Caffe</a> ], '
+hextra+=' [ <a href="https://github.com/ctuning/ck-caffe2">CK-Caffe2</a> / <a href="https://github.com/dividiti/ck-caffe">CK-Caffe</a> ], '
 hextra+=' [ <a href="https://github.com/ctuning/ck-tensorflow">CK-Tensorflow</a> ], '
 hextra+=' [ <a href="https://play.google.com/store/apps/details?id=openscience.crowdsource.video.experiments&hl=en">Android app</a> ], '
 hextra+=' [ <a href="https://en.wikipedia.org/wiki/Collective_Knowledge_(software)">CK intro</a>, \n'
