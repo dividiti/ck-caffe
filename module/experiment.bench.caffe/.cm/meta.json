@@ -18,7 +18,7 @@
     }
   },
   "copyright": "See CK COPYRIGHT.txt for copyright details",
-  "desc": "crowd-benchmark DNN libraries and models (Caffe)",
+  "desc": "crowd-benchmark DNN libraries and models (Caffe - dev)",
   "developer": "Grigori Fursin",
   "developer_email": "Grigori.Fursin@cTuning.org",
   "developer_webpage": "http://fursin.net/research.html",
