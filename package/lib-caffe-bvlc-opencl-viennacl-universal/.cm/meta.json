@@ -20,6 +20,7 @@
       "PACKAGE_CONFIGURE_FLAGS_WINDOWS": "",
       "PACKAGE_COPY": "NO",
       "PACKAGE_GIT": "YES",
+      "PACKAGE_GIT_CHECKOUT_ANDROID": "opencl",
       "PACKAGE_GIT_CHECKOUT_LINUX": "opencl",
       "PACKAGE_GIT_CHECKOUT_WINDOWS": "opencl",
       "PACKAGE_SKIP_CLEAN_INSTALL": "NO",
@@ -27,6 +28,7 @@
       "PACKAGE_SKIP_CLEAN_SRC_DIR": "YES",
       "PACKAGE_SUB_DIR": "src",
       "PACKAGE_SUB_DIR1": "src",
+      "PACKAGE_URL_ANDROID": "https://github.com/BVLC/caffe",
       "PACKAGE_URL_LINUX": "https://github.com/BVLC/caffe",
       "PACKAGE_URL_WINDOWS": "https://github.com/BVLC/caffe",
       "PYTHON_EXE": "python",
@@ -168,6 +170,19 @@
       "sort": 20,
       "tags": "lib,opencv"
     },
+    "lib-protobuf": {
+      "local": "yes",
+      "name": "ProtoBuf library",
+      "only_for_target_os_tags": [
+        "android"
+      ],
+      "skip_installed": {
+        "android": "yes",
+        "win": "yes"
+      },
+      "sort": 110,
+      "tags": "lib,protobuf,v3.1.0"
+    },
     "lib-protobuf-host": {
       "force_target_as_host": "yes",
       "local": "yes",
@@ -198,7 +213,8 @@
   ],
   "only_for_target_os_tags": [
     "windows",
-    "linux"
+    "linux",
+    "android"
   ],
   "package_extra_name": " (opencl,viennacl)",
   "process_script": "install",
