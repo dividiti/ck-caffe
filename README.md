@@ -113,7 +113,7 @@ You can list them via
 ### Participating in collaborative evaluation and optimization of various Caffe engines and models (on-going crowd-benchmarking)
 It is now possible to participate in crowd-benchmarking of Caffe via
 ```
-$ ck crowdbench caffe --user={your email or ID to acknowledge contributions} --env.CK_CAFFE_BATCH_SIZE=1
+$ ck crowdbench caffe --user={your email or ID to acknowledge contributions} --env.CK_CAFFE_BATCH_SIZE=5
 ```
 
 During collaborative benchmarking, you can select various engines (will be build on your machine) 
@@ -185,6 +185,12 @@ $ ck run program:caffe --env.CK_CAFFE_BATCH_SIZE=1 --env.CK_CAFFE_ITERATIONS=10
 
 You can find details about CK-Caffe installation for Windows, various flavours 
 of Linux and Android [here](http://github.com/dividiti/ck-caffe/wiki/Installation).
+
+## Online demo of a unified CK-AI API 
+
+* [Simple demo](http://cknowledge.org/repo/web.php?template=ck-ai-basic) to classify images with
+continuous optimization of DNN engines underneath, sharing of mispredictions and creation of a community training set;
+and to predict compiler optimizations based on program features.
 
 ## Benchmarking results
 
