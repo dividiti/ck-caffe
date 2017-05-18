@@ -1,5 +1,58 @@
 {
   "check_exit_status": "yes",
+  "distribute_extra_commands": {
+    "win": [
+      {
+        "action": "compile",
+        "data_uoa": "2b9f71021ffb7681",
+        "module_uoa": "program"
+      }
+    ]
+  },
+  "distribute_extra_file": {
+    "win": [
+      {
+        "file": "boost_chrono-mt.dll"
+      },
+      {
+        "file": "boost_system-mt.dll"
+      },
+      {
+        "file": "boost_thread-mt.dll"
+      },
+      {
+        "file": "gflags.dll"
+      },
+      {
+        "file": "glog.dll"
+      },
+      {
+        "file": "hdf5.dll"
+      },
+      {
+        "file": "hdf5_hl.dll"
+      },
+      {
+        "file": "libopenblas.dll"
+      },
+      {
+        "file": "opencv_core320.dll"
+      },
+      {
+        "file": "opencv_imgcodecs320.dll"
+      },
+      {
+        "file": "opencv_imgproc320.dll"
+      },
+      {
+        "data_uoa": "2b9f71021ffb7681",
+        "extra_dir": "tmp",
+        "file": "caffe.exe",
+        "module_uoa": "program",
+        "new_file": "ck-caffe-time-opencl.exe"
+      }
+    ]
+  },
   "customize": {
     "extra_dir": "",
     "git_src_dir": "src",
@@ -8,6 +61,7 @@
       "BUILD_MATLAB": 0,
       "BUILD_PYTHON": 0,
       "BUILD_PYTHON_LAYER": 0,
+      "CAFFE_BUILD_PYTHON": "OFF",
       "CMAKE_BUILD_SHARED_LIBS": 0,
       "CMAKE_CONFIG": "Release",
       "CPU_ONLY": 0,
@@ -31,6 +85,8 @@
       "PYTHON_EXE": "python",
       "RUN_INSTALL": 0,
       "RUN_LINT": 0,
+      "USE_LMDB": "ON",
+      "USE_LEVELDB": "ON",
       "RUN_TESTS": 0,
       "USE_CLBLAS": 0,
       "USE_CLBLAST": 0,
@@ -43,6 +99,7 @@
       "USE_LIBDNN": 1,
       "USE_NCCL": 0,
       "USE_OPENMP": 0,
+      "USE_PREBUILT_DEPENDENCIES":"OFF",
       "WITH_NINJA": 0
     },
     "params": {
@@ -140,7 +197,8 @@
       "local": "yes",
       "name": "LMDB library",
       "only_for_target_os_tags": [
-        "linux"
+        "linux",
+        "windows"
       ],
       "sort": 18,
       "tags": "lib,lmdb"

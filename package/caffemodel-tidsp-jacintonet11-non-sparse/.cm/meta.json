@@ -45,6 +45,9 @@
     "linux": "jacintonet11_bn_iter_320000.caffemodel",
     "win": "jacintonet11_bn_iter_320000.caffemodel"
   },
+  "features":{
+    "model_size_mb":12
+  },
   "only_for_host_os_tags": [
     "windows",
     "linux"

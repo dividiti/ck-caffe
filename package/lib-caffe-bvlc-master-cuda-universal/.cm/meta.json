@@ -8,6 +8,7 @@
       "BUILD_MATLAB": 0,
       "BUILD_PYTHON": 0,
       "BUILD_PYTHON_LAYER": 0,
+      "CAFFE_BUILD_PYTHON": "OFF",
       "CMAKE_BUILD_SHARED_LIBS": 0,
       "CMAKE_CONFIG": "Release",
       "CPU_ONLY": 0,
@@ -31,6 +32,8 @@
       "PYTHON_EXE": "python",
       "RUN_INSTALL": 0,
       "RUN_LINT": 0,
+      "USE_LMDB": "ON",
+      "USE_LEVELDB": "ON",
       "RUN_TESTS": 0,
       "USE_CLBLAS": 0,
       "USE_CLBLAST": 0,
@@ -44,6 +47,7 @@
       "USE_NCCL": 0,
       "USE_OPENCV": 1,
       "USE_OPENMP": 0,
+      "USE_PREBUILT_DEPENDENCIES":"OFF",
       "WITH_NINJA": 0
     },
     "params": {
@@ -145,7 +149,8 @@
       "local": "yes",
       "name": "LMDB library",
       "only_for_target_os_tags": [
-        "linux"
+        "linux",
+        "windows"
       ],
       "sort": 21,
       "tags": "lib,lmdb"

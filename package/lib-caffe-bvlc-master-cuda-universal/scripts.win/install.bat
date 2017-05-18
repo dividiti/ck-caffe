@@ -12,6 +12,16 @@ rem
 rem PACKAGE_DIR
 rem INSTALL_DIR
 
+if "%CAFFE_BUILD_PYTHON%" == "ON" (
+  echo.
+  echo You are compiling Caffe with Python support!
+  echo To use it you need to set up CK env as following ^(after installation^)^:
+  echo.
+  echo "ck xset env tags=lib,caffe & call tmp-ck-env.bat & ipython2"
+  echo.
+  set /p id="Press enter to continue"
+)
+
 echo **************************************************************
 echo Preparing vars for Caffe ...
 
@@ -20,11 +30,11 @@ set CK_CXX_FLAGS_ANDROID_TYPICAL=
 
 set CK_CMAKE_EXTRA=%CK_CMAKE_EXTRA% -DCPU_ONLY:BOOL=%CPU_ONLY% ^
  -DBLAS=%BLAS_TYPE% ^
- -DUSE_LMDB=OFF ^
+ -DUSE_LMDB=%USE_LMDB% ^
  -DUSE_LEVELDB=OFF ^
  -DUSE_PREBUILT_DEPENDENCIES=OFF ^
  -DBUILD_SHARED_LIBS:BOOL=%CMAKE_BUILD_SHARED_LIBS% ^
- -DBUILD_python:BOOL=%BUILD_PYTHON% ^
+ -DBUILD_python=%CAFFE_BUILD_PYTHON% ^
  -DBUILD_matlab:BOOL=%BUILD_MATLAB% ^
  -DGFLAGS_INCLUDE_DIR="%CK_ENV_LIB_GFLAGS_INCLUDE%" ^
  -DGFLAGS_LIBRARY="%CK_ENV_LIB_GFLAGS_LIB%\gflags.lib" ^
@@ -32,6 +42,8 @@ set CK_CMAKE_EXTRA=%CK_CMAKE_EXTRA% -DCPU_ONLY:BOOL=%CPU_ONLY% ^
  -DCUDA_NVCC_FLAGS="-D_FORCE_INLINES -Wno-deprecated-gpu-targets" ^
  -DGLOG_INCLUDE_DIR="%CK_ENV_LIB_GLOG_INCLUDE%" ^
  -DGLOG_LIBRARY="%CK_ENV_LIB_GLOG_LIB%\glog.lib" ^
+ -DLMDB_INCLUDE_DIR="%CK_ENV_LIB_LMDB_INCLUDE%" ^
+ -DLMDB_LIBRARIES="%CK_ENV_LIB_LMDB_LIB%\lmdb.lib" ^
  -DCMAKE_BUILD_TYPE:STRING=%CMAKE_CONFIG% ^
  -DPROTOBUF_DIR="%CK_ENV_LIB_PROTOBUF_HOST%\cmake" ^
  -DHDF5_DIR="%CK_ENV_LIB_HDF5%\cmake" ^

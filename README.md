@@ -14,8 +14,10 @@ the [Collective Knowledge](http://cknowledge.org) framework for customizable
 cross-platform builds and experimental workflows with JSON API from the 
 [cTuning Foundation](http://ctuning.org) (see CK intro for more details: [1](https://arxiv.org/abs/1506.06256),
 [2](https://www.researchgate.net/publication/304010295_Collective_Knowledge_Towards_RD_Sustainability) ). 
-In essence, CK-Caffe is simply a suite of convenient wrappers with unified 
-JSON API for customized building, evaluation and multi-objective optimisation of Caffe.
+In essence, CK-Caffe is an open-source suite of convenient wrappers and workflows with unified 
+JSON API for simple and customized building, evaluation and multi-objective optimisation 
+of various Caffe implementations (CPU, CUDA, OpenCL) across diverse platforms
+from mobile devices and IoT to supercomputers.
 
 As outlined in our [vision](http://dx.doi.org/10.1145/2909437.2909449), 
 we invite the community to collaboratively design and optimize convolutional
@@ -27,7 +29,8 @@ options, and so on; exchange experimental data in a flexible JSON-based format;
 and apply leading-edge predictive analytics to extract valuable insights from
 the experimental data.
 
-See [cKnowledge.org/ai](http://cKnowledge.org/ai) for more details.
+See [cKnowledge.org/ai](http://cKnowledge.org/ai), [shared optimization statistics](http://cKnowledge.org/repo) 
+and [online demo of CK AI API with self-optimizing DNN](http://cKnowledge.org/ai/ck-api-demo) for more details.
 
 ## Authors/contributors
 
@@ -37,7 +40,7 @@ See [cKnowledge.org/ai](http://cKnowledge.org/ai) for more details.
 
 ## Quick installation on Ubuntu
 
-Please refer to our [Installation Guide](https://github.com/dividiti/ck-caffe/wiki/Installation) for detailed instructions for Ubuntu, Gentoo, Yocto, Windows and Android.
+Please refer to our [Installation Guide](https://github.com/dividiti/ck-caffe/wiki/Installation) for detailed instructions for Ubuntu, Gentoo, Yocto, RedHat, CentOS, Windows and Android.
 
 ### Installing general dependencies
 
@@ -107,19 +110,55 @@ You can list them via
  $ ck search dataset --tags=dnn
 ```
 
-### Testing beta crowd-benchmarking
-It is now possible to participate in crowd-benchmarking of Caffe
-(early prototype):
+### Participating in collaborative evaluation and optimization of various Caffe engines and models (on-going crowd-benchmarking)
+It is now possible to participate in crowd-benchmarking of Caffe via
 ```
-$ ck crowdbench caffe --user={your email or ID to acknowledge contributions} --env.CK_CAFFE_BATCH_SIZE=2
+$ ck crowdbench caffe --user={your email or ID to acknowledge contributions} --env.CK_CAFFE_BATCH_SIZE=5
+```
+
+During collaborative benchmarking, you can select various engines (will be build on your machine) 
+and models for evaluation.
+
+You can also manually install additional flavours of Caffe engines across diverse hardware 
+and OS (Linux/Windows/Android on odroid, RPi, ARM, Intel, AMD, NVIDIA, etc) 
+as described [here](https://github.com/dividiti/ck-caffe/wiki/Installation).
+
+You can also install extra models as following:
+```
+ $ ck list package --tags=caffemodel
+ $ ck install package:{name of above packages}
+```
+
+You can even evaluate DNN engines on Android mobile devices connected via adb to your host machine via:
+
+```
+$ ck crowdbench caffe --target_os=android21-arm64 --env.CK_CAFFE_BATCH_SIZE=1
+```
+
+Feel free to try different batch sizes by changing command line option --env.CK_CAFFE_BATCH_SIZE.
+
+You can crowd-benchmark Caffe on Windows without re-compilation, 
+i.e. using Caffe CPU or OpenCL binaries pre-built by the CK. 
+You should install such binaries as following:
+
+```
+ $ ck install package:lib-caffe-bvlc-master-cpu-bin-win
+```
+or
+```
+ $ ck install package:lib-caffe-bvlc-opencl-libdnn-viennacl-bin-win
 ```
 
 You can also use this [Android app](https://play.google.com/store/apps/details?id=openscience.crowdsource.video.experiments)
-to crowdsource benchmarking of ARM-based Caffe libraries for image recognition (beta version).
+to crowdsource benchmarking of ARM-based Caffe libraries for image recognition.
 
 You can see continuously aggregated results in the 
-[public Collective Knowledge repository](http://cknowledge.org/repo)
-under 'crowd-benchmark Caffe library' scenario.
+[public Collective Knowledge repository](http://cknowledge.org/repo/web.php?native_action=show&native_module_uoa=program.optimization&scenario=1eb2f50d4620903e).
+
+If you forget this link, you can open this website from command line:
+```
+ $ ck browse experiment.bench.caffe
+```
 
 ### Creating dataset subsets
 
@@ -147,13 +186,19 @@ $ ck run program:caffe --env.CK_CAFFE_BATCH_SIZE=1 --env.CK_CAFFE_ITERATIONS=10
 You can find details about CK-Caffe installation for Windows, various flavours 
 of Linux and Android [here](http://github.com/dividiti/ck-caffe/wiki/Installation).
 
-## Preliminary results
+## Online demo of a unified CK-AI API 
 
-### Compare accuracy of 4 CNNs
+* [Simple demo](http://cknowledge.org/repo/web.php?template=ck-ai-basic) to classify images with
+continuous optimization of DNN engines underneath, sharing of mispredictions and creation of a community training set;
+and to predict compiler optimizations based on program features.
+
+## Benchmarking results
+
+### Compare accuracy of 4 models
 
 In this [Jupyter
 notebook](https://github.com/dividiti/ck-caffe/blob/master/script/explore-accuracy/explore_accuracy.20160808.ipynb),
-we compare the Top-1 and Top-5 accuracy of 4 CNNs:
+we compare the Top-1 and Top-5 accuracy of 4 models:
 
 - [AlexNet](https://github.com/BVLC/caffe/tree/master/models/bvlc_alexnet)
 - [SqueezeNet 1.0](https://github.com/DeepScale/SqueezeNet/tree/master/SqueezeNet_v1.0)
@@ -166,44 +211,15 @@ We have thus independently verified that on this data set [SqueezeNet](https://a
 
 The experimental data is stored in the main CK-Caffe repository under '[experiment](https://github.com/dividiti/ck-caffe/tree/master/experiment)'.
 
-### Compare performance of 4 CNNs on Chromebook 2
+### Compare performance across models and configurations
 
-This
-[notebook](https://github.com/dividiti/ck-caffe-explore-batch-size-chromebook2/blob/master/script/explore-batch-size/explore_batch_size.20160809.ipynb)
-investigates effects on inference performance of varying the batch size:
+We have performed several performance analysis studies across a range of platforms. The following public results are available:
 
-- across the same 4 **CNNs**;
-- with 4 BLAS **libraries**:
-  - [CPU] [OpenBLAS](https://github.com/xianyi/OpenBLAS) 0.2.18 (one thread per core);
-  - [GPU] [clBLAS](https://github.com/clMathLibraries/clBLAS) 2.4 (OpenCL 1.1 compliant);
-  - [GPU] [CLBlast](https://github.com/CNugteren/CLBlast) dev (35623cd > 0.8.0);
-  - [GPU] [CLBlast](https://github.com/CNugteren/CLBlast) dev (35623cd > 0.8.0) with Mali-optimized [overlay](https://github.com/intelfx/CLBlast/tree/mali-overlay) (641bb07);
-- on the [Samsung Chromebook 2](http://www.samsung.com/us/computing/chromebooks/under-12/samsung-chromebook-2-11-6-xe503c12-k01us/) **platform**:
-  - [CPU] quad-core ARM Cortex-A15 (@ 1900 MHz);
-  - [GPU] quad-core ARM Mali-T628 (@ 600 MHz);
-  - [GPU] OpenCL driver 6.0 (r6p0); OpenCL standard 1.1.
+- [NVIDIA TX1](https://github.com/dividiti/ck-caffe-nvidia-tx1) ([view on github.com](https://github.com/dividiti/ck-caffe-nvidia-tx1/blob/master/script/caffe-tensorrt/ck-caffe-nvidia-tx1-with-tensorrt.20170429.ipynb); [view on nbviewer.jupyter.org](https://nbviewer.jupyter.org/github/dividiti/ck-caffe-nvidia-tx1/blob/master/script/caffe-tensorrt/ck-caffe-nvidia-tx1-with-tensorrt.20170429.ipynb?raw)): 4 models, 6 Caffe configs + 2 TensorRT 1.0 EA configs. **NB:** The Caffe results are released with approval from General Motors. The TensorRT 1.0 EA results are obtained with [CK-TensorRT](https://github.com/dividiti/ck-tensorrt) and released with approval from General Motors and NVIDIA.
 
-Finally, this
-[notebook](https://github.com/dividiti/ck-caffe-explore-batch-size-chromebook2/blob/master/script/compare-time-fw/compare_time_fw.20160809.ipynb)
-compares the best performance per image across the CNNs and BLAS libraries.
-When using OpenBLAS, SqueezeNet 1.1 is 2 times faster than SqueezeNet 1.0 and
-2.4 times faster than AlexNet, broadly in line with expectations set by the
-[SqueezeNet](http://arxiv.org/abs/1602.07360) paper.
+- [NVIDIA GTX1080](https://github.com/dividiti/ck-caffe-nvidia-gtx1080): 4 models, 14 configs. **NB:** The Caffe results are released with approval from General Motors. 
 
-When using OpenCL BLAS libraries, however, SqueezeNet 1.0 is not necessarily
-faster than AlexNet, despite roughly 500 times reduction in the weights' size.
-This suggests that an optimal network design for a given task may depend on the
-software stack as well as on the hardware platform. Moreover, design choices
-may well shift over time, as software matures and new hardware becomes
-available. That's why we believe it is necessary to leverage community effort
-to collectively grow design and optimisation knowledge.
-
-The experimental data and visualisation notebooks are stored in a separate
-repository which can be obtained as follows:
-```
-ck pull repo:ck-caffe-explore-batch-size-chromebook2 \
-    --url=https://github.com/dividiti/ck-caffe-explore-batch-size-chromebook2.git
-```
+- [Samsung Chromebook 2](http://www.samsung.com/us/computing/chromebooks/under-12/samsung-chromebook-2-11-6-xe503c12-k01us/) ([view on github.com](https://github.com/dividiti/ck-caffe-explore-batch-size-chromebook2/blob/master/script/compare-time-fw/compare_time_fw.20160809.ipynb); [view on nbviewer.jupyter.org](https://nbviewer.jupyter.org/github/dividiti/ck-caffe-explore-batch-size-chromebook2/blob/master/script/compare-time-fw/compare_time_fw.20160809.ipynb?raw)): 4 models, 4 configs.
 
 ## Next steps
 
@@ -221,6 +237,7 @@ We are working with the community to unify and crowdsource performance analysis
 and tuning of various DNN frameworks (or any realistic workload) 
 using Collective Knowledge Technology:
 * [CK-TensorFlow](https://github.com/dividiti/ck-tensorflow)
+* [CK-Caffe2](https://github.com/ctuning/ck-caffe2)
 * [CK-TinyDNN](https://github.com/ctuning/ck-tiny-dnn)
 * [Android app for DNN crowd-benchmarking and crowd-tuning](https://play.google.com/store/apps/details?id=openscience.crowdsource.video.experiments)
 * [CK-powered ARM workload automation](https://github.com/ctuning/ck-wa)

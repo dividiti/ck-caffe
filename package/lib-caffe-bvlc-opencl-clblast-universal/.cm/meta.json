@@ -8,6 +8,7 @@
       "BUILD_MATLAB": 0,
       "BUILD_PYTHON": 0,
       "BUILD_PYTHON_LAYER": 0,
+      "CAFFE_BUILD_PYTHON": "OFF",
       "CMAKE_BUILD_SHARED_LIBS": 0,
       "CMAKE_CONFIG": "Release",
       "CPU_ONLY": 1,
@@ -33,6 +34,8 @@
       "PYTHON_EXE": "python",
       "RUN_INSTALL": 0,
       "RUN_LINT": 0,
+      "USE_LMDB": "ON",
+      "USE_LEVELDB": "ON",
       "RUN_TESTS": 0,
       "USE_CLBLAS": 0,
       "USE_CLBLAST": 1,
@@ -44,6 +47,7 @@
       "USE_ISAAC": 0,
       "USE_LIBDNN": 0,
       "USE_NCCL": 0,
+      "USE_PREBUILT_DEPENDENCIES":"OFF",
       "WITH_NINJA": 0
     },
     "params": {
@@ -103,7 +107,7 @@
       "name": "CLBlast library",
       "skip_default": "yes",
       "sort": 40,
-      "tags": "lib,clblast"
+      "tags": "lib,clblast,no-tune"
     },
     "lib-gflags": {
       "force_env_init": "yes",
@@ -147,7 +151,8 @@
       "local": "yes",
       "name": "LMDB library",
       "only_for_target_os_tags": [
-        "linux"
+        "linux",
+        "windows"
       ],
       "sort": 18,
       "tags": "lib,lmdb"
@@ -205,7 +210,8 @@
   },
   "end_full_path": {
     "android": "install/lib/libcaffe.so",
-    "linux": "install/bin/caffe"
+    "linux": "install/bin/caffe",
+    "win": "install/bin/caffe.exe"
   },
   "need_cpu_info": "yes",
   "only_for_host_os_tags": [

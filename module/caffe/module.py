@@ -115,22 +115,3 @@ def demo(i):
        time.sleep(dl)
 
     return {'return':0}
-
-##############################################################################
-# replay experiment
-
-def replay(i):
-    """
-    Input:  {
-            }
-
-    Output: {
-              return       - return code =  0, if successful
-                                         >  0, if error
-              (error)      - error text if return > 0
-            }
-
-    """
-
-    i['module_uoa']=cfg['module_deps']['experiment.bench.caffe']
-    return ck.access(i)

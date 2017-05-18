@@ -89,6 +89,15 @@
       ], 
       "sort": 9, 
       "tags": "lib,protobuf-host"
+    },
+    "lib-lmdb": {
+      "local": "yes", 
+      "name": "LMDB library", 
+      "only_for_target_os_tags": [
+        "windows"
+      ], 
+      "sort": 5, 
+      "tags": "lib,lmdb"
     }
   }, 
   "compiler_add_include_as_env_from_deps": [
@@ -114,7 +123,7 @@
   "program": "yes", 
   "run_cmds": {
     "default": {
-      "ignore_return_code": "no", 
+      "ignore_return_code": "yes", 
       "run_time": {
         "fine_grain_timer_file": "tmp-ck-timer.json", 
         "params": {

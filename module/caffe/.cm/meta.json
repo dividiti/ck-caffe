@@ -5,10 +5,7 @@
     }, 
     "demo": {
       "desc": "classification demo using webcam"
-    }, 
-    "replay": {
-      "desc": "replay experiment"
-    }
+    } 
   }, 
   "copyright": "See CK COPYRIGHT.txt for copyright details", 
   "demo": {

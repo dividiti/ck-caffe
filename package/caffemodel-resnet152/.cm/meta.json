@@ -28,6 +28,9 @@
     "linux": "ResNet-152-model.caffemodel",
     "win": "ResNet-152-model.caffemodel"
   },
+  "features":{
+    "model_size_mb":236
+  },
   "only_for_host_os_tags": [
     "windows",
     "linux"

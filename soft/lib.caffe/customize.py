@@ -91,6 +91,15 @@ def setup(i):
     # In such case, we reference .so file instead of bin when registering soft ...
     if not fp0.endswith('.so'): 
        env['CK_CAFFE_BIN']=fp0
+    else:
+       # Check extra .so extensions to be copied to Android device
+       x=os.listdir(fp1)
+       for y in x:
+           y1=os.path.join(fp1,y)
+           if y1.startswith(fp):
+              if 'adb_extra_files' not in cus: 
+                 cus['adb_extra_files']=[]
+              cus['adb_extra_files'].append(y1)
 
     pi=fp
     found=False
@@ -106,7 +115,8 @@ def setup(i):
     if not found:
        return {'return':1, 'error':'can\'t find root dir of the CAFFE installation'}
 
-    p1=os.path.dirname(fp)
+#    p1=os.path.dirname(fp)
+    p1=os.path.join(pi,'bin')
 
     cus['path_bin']=p1
 
@@ -180,6 +190,16 @@ def setup(i):
     env[ep+'_EXTRA_INCLUDE']=os.path.join(pi,'.build_release','src')
 
     env['CAFFE_INSTALL_DIR']=pi
+
+    # Check if compiled with Python
+    ppy=os.path.join(pi,'python')
+    ppy1=os.path.join(ppy,'caffe')
+    if os.path.isdir(ppy) and os.path.isdir(ppy1):
+       env[ep+'_PYTHON']=ppy
+       if tplat=='win':
+          s+='\n\nset PYTHONPATH='+ppy+';%PYTHONPATH%\n\n'
+       else:
+          s+='\n\nexport PYTHONPATH='+ppy+':$PYTHONPATH\n\n'
 
     if tplat=='win':
        env[ep+'_CFLAGS']='/D CMAKE_WINDOWS_BUILD'

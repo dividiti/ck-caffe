@@ -8,6 +8,7 @@
       "BUILD_MATLAB": 0,
       "BUILD_PYTHON": 0,
       "BUILD_PYTHON_LAYER": 0,
+      "CAFFE_BUILD_PYTHON": "OFF",
       "CMAKE_BUILD_SHARED_LIBS": 0,
       "CMAKE_CONFIG": "Release",
       "CPU_ONLY": 0,
@@ -19,6 +20,7 @@
       "PACKAGE_CONFIGURE_FLAGS_WINDOWS": "",
       "PACKAGE_COPY": "NO",
       "PACKAGE_GIT": "YES",
+      "PACKAGE_GIT_CHECKOUT_ANDROID": "opencl",
       "PACKAGE_GIT_CHECKOUT_LINUX": "opencl",
       "PACKAGE_GIT_CHECKOUT_WINDOWS": "opencl",
       "PACKAGE_SKIP_CLEAN_INSTALL": "NO",
@@ -26,11 +28,14 @@
       "PACKAGE_SKIP_CLEAN_SRC_DIR": "YES",
       "PACKAGE_SUB_DIR": "src",
       "PACKAGE_SUB_DIR1": "src",
+      "PACKAGE_URL_ANDROID": "https://github.com/BVLC/caffe",
       "PACKAGE_URL_LINUX": "https://github.com/BVLC/caffe",
       "PACKAGE_URL_WINDOWS": "https://github.com/BVLC/caffe",
       "PYTHON_EXE": "python",
       "RUN_INSTALL": 0,
       "RUN_LINT": 0,
+      "USE_LMDB": "ON",
+      "USE_LEVELDB": "ON",
       "RUN_TESTS": 0,
       "USE_CLBLAS": 0,
       "USE_CLBLAST": 0,
@@ -43,6 +48,7 @@
       "USE_LIBDNN": 0,
       "USE_NCCL": 0,
       "USE_OPENMP": 0,
+      "USE_PREBUILT_DEPENDENCIES":"OFF",
       "WITH_NINJA": 0
     },
     "params": {
@@ -139,7 +145,8 @@
       "local": "yes",
       "name": "LMDB library",
       "only_for_target_os_tags": [
-        "linux"
+        "linux",
+        "windows"
       ],
       "sort": 18,
       "tags": "lib,lmdb"
@@ -162,6 +169,19 @@
       },
       "sort": 20,
       "tags": "lib,opencv"
+    },
+    "lib-protobuf": {
+      "local": "yes",
+      "name": "ProtoBuf library",
+      "only_for_target_os_tags": [
+        "android"
+      ],
+      "skip_installed": {
+        "android": "yes",
+        "win": "yes"
+      },
+      "sort": 110,
+      "tags": "lib,protobuf,v3.1.0"
     },
     "lib-protobuf-host": {
       "force_target_as_host": "yes",
@@ -193,7 +213,8 @@
   ],
   "only_for_target_os_tags": [
     "windows",
-    "linux"
+    "linux",
+    "android"
   ],
   "package_extra_name": " (opencl,viennacl)",
   "process_script": "install",

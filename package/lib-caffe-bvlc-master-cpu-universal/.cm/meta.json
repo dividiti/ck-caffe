@@ -8,6 +8,7 @@
       "BUILD_MATLAB": 0,
       "BUILD_PYTHON": 0,
       "BUILD_PYTHON_LAYER": 0,
+      "CAFFE_BUILD_PYTHON": "OFF",
       "CMAKE_BUILD_SHARED_LIBS": 0,
       "CMAKE_CONFIG": "Release",
       "CPU_ONLY": 1,
@@ -34,9 +35,10 @@
       "RUN_INSTALL": 0,
       "RUN_LINT": 0,
       "RUN_TESTS": 0,
-      "USE_LEVELDB": "OFF",
-      "USE_LMDB": "OFF",
+      "USE_LEVELDB": "ON",
+      "USE_LMDB": "ON",
       "USE_OPENMP": 0,
+      "USE_PREBUILT_DEPENDENCIES": "OFF",
       "WITH_NINJA": 0
     },
     "params": {
@@ -52,122 +54,176 @@
   },
   "deps": {
     "cmake": {
-        "force_target_as_host": "yes",
-        "local": "yes",
-        "name": "cmake",
-        "skip_from_bat": "yes",
-        "sort": 5,
-        "tags": "tool,cmake"
-      },
-      "compiler": {
-        "local": "yes",
-        "name": "C++ compiler",
-        "sort": 10,
-        "tags": "compiler,lang-cpp",
-        "update_tags_by_target_platform2": {
-          "android": "gcc",
-          "linux": "gcc",
-          "win": "mcl"
-        }
-      },
-      "lib-blas": {
-        "local": "yes",
-        "name": "BLAS library",
-        "skip_default": "yes",
-        "sort": 30,
-        "tags": "lib,blas,openblas"
-      },
-      "lib-boost": {
-        "local": "yes",
-        "name": "Boost library",
-        "skip_installed": {
-          "android": "yes",
-          "win": "yes"
-        },
-        "sort": 25,
-        "tags": "lib,boost"
-      },
-      "lib-gflags": {
-        "force_env_init": "yes",
-        "local": "yes",
-        "name": "GFlags library",
-        "skip_installed": {
-          "android": "yes",
-          "win": "yes"
-        },
-        "sort": 12,
-        "tags": "lib,gflags",
-        "update_tags_by_target_platform2": {
-          "android": "v2.2.0",
-          "win": "v2.2.0"
-        }
-      },
-      "lib-glog": {
-        "local": "yes",
-        "name": "GLog library",
-        "skip_installed": {
-          "android": "yes",
-          "win": "yes"
-        },
-        "sort": 14,
-        "tags": "lib,glog"
-      },
-      "lib-hdf5": {
-        "local": "yes",
-        "name": "HDF5 library",
-        "only_for_target_os_tags": [
-          "linux",
-          "windows"
-        ],
-        "skip_installed": {
-          "win": "yes"
-        },
-        "sort": 19,
-        "tags": "lib,hdf5"
-      },
-      "lib-lmdb": {
-        "local": "yes",
-        "name": "LMDB library",
-        "only_for_target_os_tags": [
-          "linux"
-        ],
-        "sort": 18,
-        "tags": "lib,lmdb"
-      },
-      "lib-opencv": {
-        "local": "yes",
-        "name": "OpenCV library",
-        "skip_installed": {
-          "android": "yes",
-          "win": "yes"
-        },
-        "sort": 20,
-        "tags": "lib,opencv"
-      },
-      "lib-protobuf": {
-        "local": "yes",
-        "name": "ProtoBuf library",
-        "only_for_target_os_tags": [
-          "android"
-        ],
-        "skip_installed": {
-          "android": "yes",
-          "win": "yes"
-        },
-        "sort": 110,
-        "tags": "lib,protobuf,v3.1.0"
-      },
-      "lib-protobuf-host": {
-        "force_target_as_host": "yes",
-        "local": "yes",
-        "name": "ProtoBuf host compiler",
-        "skip_installed": {
-          "android": "yes",
-          "win": "yes"
-        },
-        "sort": 115,
-        "tags": "lib,protobuf-host,v3.1.0"
+      "force_target_as_host": "yes",
+      "local": "yes",
+      "name": "cmake",
+      "skip_from_bat": "yes",
+      "sort": 5,
+      "tags": "tool,cmake"
+    },
+    "compiler": {
+      "local": "yes",
+      "name": "C++ compiler",
+      "sort": 10,
+      "tags": "compiler,lang-cpp",
+      "update_tags_by_target_platform2": {
+        "android": "gcc",
+        "linux": "gcc",
+        "win": "mcl"
       }
+    },
+    "lib-blas": {
+      "local": "yes",
+      "name": "BLAS library",
+      "skip_default": "yes",
+      "sort": 30,
+      "tags": "lib,blas,openblas"
+    },
+    "lib-boost": {
+      "local": "yes",
+      "name": "Boost library",
+      "skip_installed": {
+        "android": "yes",
+        "win": "yes"
+      },
+      "sort": 25,
+      "tags": "lib,boost"
+    },
+    "lib-gflags": {
+      "force_env_init": "yes",
+      "local": "yes",
+      "name": "GFlags library",
+      "skip_installed": {
+        "android": "yes",
+        "win": "yes"
+      },
+      "sort": 12,
+      "tags": "lib,gflags",
+      "update_tags_by_target_platform2": {
+        "android": "v2.2.0",
+        "win": "v2.2.0"
+      }
+    },
+    "lib-glog": {
+      "local": "yes",
+      "name": "GLog library",
+      "skip_installed": {
+        "android": "yes",
+        "win": "yes"
+      },
+      "sort": 14,
+      "tags": "lib,glog"
+    },
+    "lib-hdf5": {
+      "local": "yes",
+      "name": "HDF5 library",
+      "only_for_target_os_tags": [
+        "linux",
+        "windows"
+      ],
+      "skip_installed": {
+        "win": "yes"
+      },
+      "sort": 19,
+      "tags": "lib,hdf5"
+    },
+    "lib-lmdb": {
+      "local": "yes",
+      "name": "LMDB library",
+      "only_for_target_os_tags": [
+        "linux",
+        "windows"
+      ],
+      "sort": 18,
+      "tags": "lib,lmdb"
+    },
+    "lib-opencv": {
+      "local": "yes",
+      "name": "OpenCV library",
+      "skip_installed": {
+        "android": "yes",
+        "win": "yes"
+      },
+      "sort": 20,
+      "tags": "lib,opencv"
+    },
+    "lib-protobuf": {
+      "local": "yes",
+      "name": "ProtoBuf library",
+      "only_for_target_os_tags": [
+        "android"
+      ],
+      "skip_installed": {
+        "android": "yes",
+        "win": "yes"
+      },
+      "sort": 110,
+      "tags": "lib,protobuf,v3.1.0"
+    },
+    "lib-protobuf-host": {
+      "force_target_as_host": "yes",
+      "local": "yes",
+      "name": "ProtoBuf host compiler",
+      "skip_installed": {
+        "android": "yes",
+        "win": "yes"
+      },
+      "sort": 115,
+      "tags": "lib,protobuf-host,v3.1.0"
+    }
+  },
+  "distribute_extra_commands": {
+    "win": [
+      {
+        "action": "compile",
+        "data_uoa": "4d01855945175f57",
+        "module_uoa": "program"
+      }
+    ]
+  },
+  "distribute_extra_file": {
+    "win": [
+      {
+        "file": "boost_chrono-mt.dll"
+      },
+      {
+        "file": "boost_system-mt.dll"
+      },
+      {
+        "file": "boost_thread-mt.dll"
+      },
+      {
+        "file": "gflags.dll"
+      },
+      {
+        "file": "glog.dll"
+      },
+      {
+        "file": "hdf5.dll"
+      },
+      {
+        "file": "hdf5_hl.dll"
+      },
+      {
+        "file": "libopenblas.dll"
+      },
+      {
+        "file": "opencv_core320.dll"
+      },
+      {
+        "file": "opencv_imgcodecs320.dll"
+      },
+      {
+        "file": "opencv_imgproc320.dll"
+      },
+      {
+        "data_uoa": "4d01855945175f57",
+        "extra_dir": "tmp",
+        "file": "caffe.exe",
+        "module_uoa": "program",
+        "new_file": "ck-caffe-time.exe"
+      }
+    ]
   },
   "end_full_path": {
     "android": "install/lib/libcaffe.so",

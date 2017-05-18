@@ -5,9 +5,11 @@
     "ck_version": 10, 
     "env_prefix": "CK_ENV_LIB_CAFFE",
     "limit_recursion_dir_search": {
-      "linux": 4
+      "linux": 4,
+      "win": 4
     }, 
     "soft_file": {
+      "win": "caffe.exe",
       "linux": "libcaffe.so"
     }
   }, 

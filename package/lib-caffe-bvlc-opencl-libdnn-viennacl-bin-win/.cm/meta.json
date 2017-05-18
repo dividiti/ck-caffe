@@ -1,0 +1,45 @@
+{
+  "check_exit_status": "yes",
+  "customize": {
+    "install_env": {
+      "PACKAGE_NAME": "ck-distro-5a1422a93a842bd6.zip",
+      "PACKAGE_SKIP_CLEAN_INSTALL": "YES",
+      "PACKAGE_UNZIP": "YES",
+      "PACKAGE_URL": "http://cKnowledge.org/packages",
+      "PACKAGE_WGET": "YES",
+      "PACKAGE_WGET_EXTRA": "--no-cookies"
+    },
+    "version": "5a1422a93a842bd6"
+  },
+  "deps": {
+    "lib-opencl": {
+      "local": "yes",
+      "name": "OpenCL library",
+      "sort": 11,
+      "tags": "lib,opencl"
+    }
+  },
+  "end_full_path": {
+    "win": "install/bin/caffe.exe"
+  },
+  "only_for_target_os_tags": [
+    "windows"
+  ],
+  "package_extra_name": " (opencl,libdnn,viennacl)",
+  "process_script": "install",
+  "soft_uoa": "04ab08137582bd03",
+  "suggested_path": "lib-caffe-bvlc-opencl-libdnn-viennacl-bin",
+  "tags": [
+    "lib",
+    "caffe",
+    "bvlc",
+    "vopencl",
+    "vlibdnn",
+    "vbin",
+    "v5a1422a93a842bd6"
+  ],
+  "use_scripts_from_another_entry": {
+    "data_uoa": "cd9ccc74060b3d18",
+    "module_uoa": "script"
+  }
+}

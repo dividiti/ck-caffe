@@ -55,7 +55,8 @@
   "suggested_path": "caffemodel-deepscale-squeezenet-1.1",
   "features":{
     "accuracy":0.58388,
-    "accuracy_top5":0.810123
+    "accuracy_top5":0.810123,
+    "model_size_mb":5
   },
   "package_extra_name":" (deepscale, squeezenet, 1.1)",
   "tags": [

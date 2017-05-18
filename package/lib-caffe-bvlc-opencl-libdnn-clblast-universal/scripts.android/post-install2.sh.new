@@ -1,0 +1,20 @@
+#! /bin/bash
+
+#
+# Installation script for Caffe.
+#
+# See CK LICENSE for licensing details.
+# See CK COPYRIGHT for copyright details.
+#
+# Developer(s):
+# - Grigori Fursin, 2015;
+# - Anton Lokhmotov, 2016.
+#
+
+CAFFE_LIB="${INSTALL_DIR}/install/lib/libcaffe.so"
+
+CAFFE_LIB_REAL=`readlink ${CAFFE_LIB}`
+
+cp -f ${INSTALL_DIR}/install/lib/${CAFFE_LIB_REAL} ${CAFFE_LIB}
+
+return 0
