@@ -1,3 +1,5 @@
+2017.05.18 - added customizable autotuning example (script:explore-batch-size-unified-and-customized)
+
 2017.04.28 - added support to create binary package distro (particularly for Windows crowd-benchmarking)
 
 2017.04.25 - added support for Python (compile universal package with --env.CAFFE_BUILD_PYTHON=ON
