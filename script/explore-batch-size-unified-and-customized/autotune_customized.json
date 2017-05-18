@@ -1,0 +1,18 @@
+{
+  "cmd_keys":["time_cpu","time_cuda"],
+  "experiment_0_pipeline_update": {
+    "pipeline":{"choices":{"env":{"BATCH_SIZE":8}}}
+  },
+  "choices_order": [
+    [
+      "##env#BATCH_SIZE"
+    ]
+  ], 
+  "choices_selection": [
+   {"type":"loop", "choice":[3,6]}
+  ], 
+  "repetitions": 1, 
+  "seed": 12345, 
+  "iterations": -1,
+  "sleep":0
+}

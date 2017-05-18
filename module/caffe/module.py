@@ -115,3 +115,28 @@ def demo(i):
        time.sleep(dl)
 
     return {'return':0}
+
+##############################################################################
+# autotune Caffe workloads
+
+def autotune(i):
+    """
+    Input:  {
+            }
+
+    Output: {
+              return       - return code =  0, if successful
+                                         >  0, if error
+              (error)      - error text if return > 0
+            }
+
+    """
+
+    i['module_uoa']=cfg['module_deps']['program']
+    i['data_uoa']='caffe'
+    i['explore']='yes'
+    i['extra_tags']='dnn'
+    i['skip_collaborative']='yes'
+    i['cmd_keys']=['time_cpu','time_gpu']
+
+    return ck.access(i)
