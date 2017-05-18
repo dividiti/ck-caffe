@@ -13,6 +13,7 @@
       "CMAKE_CONFIG": "Release",
       "CPU_ONLY": 0,
       "DISABLE_DEVICE_HOST_UNIFIED_MEMORY": "OFF",
+      "DISABLE_DOUBLE_SUPPORT": "OFF",
       "PACKAGE_BUILD_TYPE": "cmake",
       "PACKAGE_CONFIGURE_FLAGS": "",
       "PACKAGE_CONFIGURE_FLAGS_ANDROID": "",
@@ -23,8 +24,10 @@
       "PACKAGE_GIT_CHECKOUT_ANDROID": "opencl",
       "PACKAGE_GIT_CHECKOUT_LINUX": "opencl",
       "PACKAGE_GIT_CHECKOUT_WINDOWS": "opencl",
+      "PACKAGE_PATCH": "YES",
+      "PACKAGE_SKIP_BUILD_ERROR": "YES",
       "PACKAGE_SKIP_CLEAN_INSTALL": "NO",
-      "PACKAGE_SKIP_CLEAN_OBJ": "YES",
+      "PACKAGE_SKIP_CLEAN_OBJ": "NO",
       "PACKAGE_SKIP_CLEAN_SRC_DIR": "YES",
       "PACKAGE_SUB_DIR": "src",
       "PACKAGE_SUB_DIR1": "src",
@@ -199,10 +202,11 @@
       "name": "ViennaCL library",
       "skip_default": "yes",
       "sort": 35,
-      "tags": "lib,viennacl"
+      "tags": "lib,viennacl,vsrc"
     }
   },
   "end_full_path": {
+    "android": "install/lib/libcaffe.so",
     "linux": "install/bin/caffe",
     "win": "install/bin/caffe.exe"
   },
