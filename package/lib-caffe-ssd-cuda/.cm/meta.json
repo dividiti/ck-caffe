@@ -3,53 +3,13 @@
       "extra_dir": "", 
       "git_src_dir": "src", 
       "install_env": {
-        "BLAS_TYPE": "Open",
-        "BUILD_MATLAB": 0,
-        "BUILD_PYTHON": 0,
-        "BUILD_PYTHON_LAYER": 0,
-        "CMAKE_BUILD_SHARED_LIBS": 0,
-        "CMAKE_CONFIG": "Release",
-        "CPU_ONLY": 0,
-        "PACKAGE_BUILD_TYPE": "cmake",
-        "PACKAGE_CONFIGURE_FLAGS": "",
-        "PACKAGE_CONFIGURE_FLAGS_ANDROID": "-DBUILD_python=OFF -DBUILD_docs=OFF -DUSE_HDF5=OFF",
-        "PACKAGE_CONFIGURE_FLAGS_LINUX": "",
-        "PACKAGE_CONFIGURE_FLAGS_WINDOWS": "",
-        "PACKAGE_COPY": "NO",
         "PACKAGE_GIT": "YES", 
         "PACKAGE_GIT_CHECKOUT": "ssd",
         "PACKAGE_SUB_DIR": "src",
-        "PACKAGE_SUB_DIR1": "src",
         "PACKAGE_URL": "https://github.com/weiliu89/caffe",
-        "USE_DEFAULT_PYTHON_LIB_PATH":1,
-        "PYTHON_BIN_PATH":"$<<CK_ENV_COMPILER_PYTHON_FILE>>$",
-        "RUN_INSTALL": 0,
-        "RUN_LINT": 0,
-        "RUN_TESTS": 0,
-        "USE_CLBLAS": 0,
-        "USE_CLBLAST": 0,
-        "USE_CUDA": 1,
-        "USE_CUDNN": 0,
-        "USE_FFT": 0,
-        "USE_GREENTEA": 0,
-        "USE_INTEL_SPATIAL": "OFF",
-        "USE_ISAAC": 0,
-        "USE_LIBDNN": 0,
-        "USE_NCCL": 0,
-        "USE_OPENCV": 1,
-        "USE_OPENMP": 0,
-        "WITH_NINJA": 0
-      }, 
-      "params": {
-        "cpu_only": 0,
-        "debug": 0,
-        "use_clblas": 0,
-        "use_clblast": 0,
-        "use_cuda": 1,
-        "use_greentea": 0,
-        "use_leveldb": 1,
-        "use_lmdb": 1,
-        "use_opencv": 1
+        "PACKAGE_SKIP_CLEAN_OBJ": "YES",
+        "CPU_ONLY": "OFF",
+        "PACKAGE_CONFIGURE_FLAGS": "-DCUDA_USE_STATIC_CUDA_RUNTIME=OFF -DCUDA_TOOLKIT_ROOT_DIR=$<<CK_ENV_COMPILER_CUDA>>$ -DCUDA_NVCC_FLAGS=\"-D_FORCE_INLINES -Wno-deprecated-gpu-targets\""
       },
       "use_git_revision": "yes", 
       "version": "ssd"
@@ -79,6 +39,12 @@
         "name": "CUDA compiler >=7.0",
         "sort": 16,
         "tags": "compiler,lang-c-cuda"
+      },
+      "python": {
+        "local": "yes",
+        "name": "Python interpreter",
+        "sort": 5,
+        "tags": "compiler,python"
       },
       "lib-blas": {
         "local": "yes",
@@ -189,8 +155,9 @@
     "only_for_target_os_tags": [
       "linux"
     ],
+    "need_cpu_info": "yes",
     "package_extra_name": " (cuda ssd)", 
-    "process_script": "install", 
+    "process_script": "install",
     "soft_uoa": "04ab08137582bd03", 
     "suggested_path": "lib-caffe-cuda", 
     "tags": [
