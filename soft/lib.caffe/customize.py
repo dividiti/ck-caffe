@@ -91,6 +91,15 @@ def setup(i):
     # In such case, we reference .so file instead of bin when registering soft ...
     if not fp0.endswith('.so'): 
        env['CK_CAFFE_BIN']=fp0
+    else:
+       # Check extra .so extensions to be copied to Android device
+       x=os.listdir(fp1)
+       for y in x:
+           y1=os.path.join(fp1,y)
+           if y1.startswith(fp):
+              if 'adb_extra_files' not in cus: 
+                 cus['adb_extra_files']=[]
+              cus['adb_extra_files'].append(y1)
 
     pi=fp
     found=False
