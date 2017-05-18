@@ -1,0 +1,54 @@
+diff --git a/include/caffe/android_patch.h b/include/caffe/android_patch.h
+new file mode 100644
+index 0000000..5478c5d
+--- /dev/null
++++ b/include/caffe/android_patch.h
+@@ -0,0 +1,35 @@
++//
++// Created by daniil on 1/11/17.
++//
++
++#ifndef LIBDNN_ANDROID_PATCH_H
++#define LIBDNN_ANDROID_PATCH_H
++
++#include <string>
++#include <sstream>
++#include <cstdio>
++#include <cstdlib>
++namespace std {
++    template<typename T>
++    std::string to_string(T value) {
++        //create an output string stream
++        std::ostringstream os;
++
++        //throw the value into the string stream
++        os << value;
++
++        //convert the string stream into a string and return
++        return os.str();
++    }
++
++    inline double stod(string value) {
++        return strtod (value.c_str(), NULL);
++    }
++
++    inline int stoi(string value) {
++        return strtol (value.c_str(),NULL,0);
++    }
++}
++#endif //CLBLAST_ANDROID_PATCH_H
++
++
+diff --git a/include/caffe/common.hpp b/include/caffe/common.hpp
+index 44027e2..b943702 100644
+--- a/include/caffe/common.hpp
++++ b/include/caffe/common.hpp
+@@ -5,6 +5,8 @@
+   #include "caffe_config.h"
+ #endif
+ 
++#include "android_patch.h"
++
+ #include <boost/shared_ptr.hpp>
+ #include <gflags/gflags.h>
+ #include <glog/logging.h>

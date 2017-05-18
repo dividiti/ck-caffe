@@ -1,0 +1,12 @@
+diff -ruN src/src/caffe/CMakeLists.txt src-new/src/caffe/CMakeLists.txt
+--- src/src/caffe/CMakeLists.txt	Sat Apr 15 08:48:03 2017
++++ src-new/src/caffe/CMakeLists.txt	Sat Apr 15 11:16:09 2017
+@@ -93,6 +93,8 @@
+ 
+ configure_file(${caffe_export_hdr_in} ${caffe_export_hdr})
+ 
++set(CMAKE_CXX_CREATE_SHARED_LIBRARY "${CMAKE_CXX_CREATE_SHARED_LIBRARY} ${CMAKE_EXE_LINKER_LIBS}")
++
+ # ---[ Tests
+  add_subdirectory(test)
+ 
