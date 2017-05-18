@@ -25,6 +25,16 @@ fi
 # Check extra stuff
 EXTRA_FLAGS=""
 
+XCMAKE_AR=""
+if [ "${CK_AR_PATH_FOR_CMAKE}" != "" ] ; then
+    XCMAKE_AR=" -DCMAKE_AR=${CK_AR_PATH_FOR_CMAKE} "
+fi
+
+XCMAKE_LD=""
+if [ "${CK_LD_PATH_FOR_CMAKE}" != "" ] ; then
+    XCMAKE_LD=" -DCMAKE_LINKER=${CK_LD_PATH_FOR_CMAKE} "
+fi
+
 cd ${INSTALL_DIR}/obj
 
 cmake -DCMAKE_BUILD_TYPE=${CK_ENV_CMAKE_BUILD_TYPE:-Release} \
@@ -32,13 +42,14 @@ cmake -DCMAKE_BUILD_TYPE=${CK_ENV_CMAKE_BUILD_TYPE:-Release} \
       -DCMAKE_C_FLAGS="${CK_CC_FLAGS_FOR_CMAKE} ${EXTRA_FLAGS}" \
       -DCMAKE_CXX_COMPILER="${CK_CXX_PATH_FOR_CMAKE}" \
       -DCMAKE_CXX_FLAGS="${CK_CXX_FLAGS_FOR_CMAKE} ${EXTRA_FLAGS} -I${CK_ENV_LIB_OPENCV_INCLUDE}" \
-      -DCMAKE_AR="${CK_AR_PATH_FOR_CMAKE}" \
-      -DCMAKE_LINKER="${CK_LD_PATH_FOR_CMAKE}" \
+      ${XCMAKE_AR} \
+      ${XCMAKE_LD} \
       -DCMAKE_SHARED_LINKER_FLAGS="$CK_OPENMP" \
-      -DBUILD_python=OFF \
+      -DBUILD_python=ON \
+      -DPYTHON_EXECUTABLE:FILEPATH="$CK_ENV_COMPILER_PYTHON_FILE" \
       -DBUILD_docs=OFF \
       -DCPU_ONLY=ON \
-      -DUSE_OPENMP:BOOL=${USE_OPENMP} \
+      -DUSE_OPENMP=OFF \
       -DUSE_GREENTEA=OFF \
       -DUSE_LMDB=ON \
       -DUSE_LEVELDB=ON \
@@ -63,7 +74,7 @@ cmake -DCMAKE_BUILD_TYPE=${CK_ENV_CMAKE_BUILD_TYPE:-Release} \
       -DPROTOBUF_PROTOC_EXECUTABLE="${CK_ENV_LIB_PROTOBUF_HOST}/bin/protoc" \
       -DCMAKE_INSTALL_PREFIX="${INSTALL_DIR}/install" \
       -DCMAKE_VERBOSE_MAKEFILE=ON \
-      ../src
+      ${INSTALL_DIR}/${PACKAGE_SUB_DIR}
 
 if [ "${?}" != "0" ] ; then
   echo "Error: cmake failed!"
