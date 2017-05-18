@@ -13,7 +13,7 @@ bs={
 }
 # Number of statistical repetitions.
 num_repetitions=3
-
+platform_tags='mediatek-x20'
 def do(i, arg):
     # Detect basic platform info.
     ii={'action':'detect',
@@ -248,7 +248,7 @@ def do(i, arg):
                 'record_repo':record_repo,
                 'record_uoa':record_uoa,
 
-                'tags':[ 'explore-batch-size-libs-models', cmd_key, model_tags, lib_tags ],
+                'tags':[ 'explore-batch-size-libs-models', cmd_key, model_tags, lib_tags, platform_tags ],
 
                 'pipeline':cpipeline,
                 'out':'con'}
