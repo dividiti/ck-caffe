@@ -1,5 +1,6 @@
 *~
 *tmp/
+*tmp-ck-*/
 *.pyc
 *_tmp.json
 .ipynb_checkpoints/
