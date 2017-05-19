@@ -97,10 +97,6 @@
   "data_name": "Caffe SSD detection via CPU",
   "extra_ld_vars": "$<<CK_ENV_LIB_HDF5_LFLAG>>$ $<<CK_ENV_LIB_HDF5_LFLAG_HL>>$ $<<CK_ENV_LIB_GLOG_LFLAG>>$ $<<CK_ENV_LIB_BOOST_LFLAG_THREAD>>$ $<<CK_ENV_LIB_BOOST_LFLAG_DATE_TIME>>$ $<<CK_ENV_LIB_BOOST_LFLAG_FILESYSTEM>>$ $<<CK_ENV_LIB_BOOST_LFLAG_SYSTEM>>$ $<<CK_ENV_LIB_OPENCV_LFLAG_IMGPROC>>$ $<<CK_ENV_LIB_OPENCV_LFLAG_HIGHGUI>>$ $<<CK_ENV_LIB_OPENCV_LFLAG_CORE>>$ $<<CK_ENV_LIB_OPENCV_LFLAG_IMGCODECS>>$ $<<CK_EXTRA_LIB_Z>>$ $<<CK_EXTRA_LIB_LOG>>$ $<<CK_EXTRA_LIB_M>>$  $<<CK_ENV_LIB_CAFFE_LFLAG_PROTO>>$ $<<CK_ENV_LIB_CAFFE_LINK_FLAGS>>$ $<<CK_ENV_LIB_STDCPP_STATIC>>$", 
   "main_language": "cpp",
-  "print_files_after_run": [
-    "tmp-output1.tmp",
-    "tmp-output2.tmp"
-  ],
   "process_in_tmp": "yes",
   "program": "yes",
   "run_cmds": {
@@ -134,6 +130,40 @@
           "tmp-ck-timer.json"
         ]
       }
+    },
+    "use_continuous": {
+      "run_deps": {
+        "dataset-kitti-val": {
+          "local": "yes",
+          "name": "KITTI dataset",
+          "sort": 10,
+          "tags": "dataset,kitti,val"
+        }
+      },
+      "ignore_return_code": "no",
+      "run_time": {
+        "fine_grain_timer_file": "tmp-ck-timer.json",
+        "params": {
+          "caffemodel_key": "deploy",
+          "classification": "yes"
+        },
+        "pre_process_via_ck": {
+          "data_uoa": "569404c41618603a",
+          "script_name": "preprocess"
+        },
+        "run_cmd_main": "$#BIN_FILE#$ --continuous --labelmap_file=$<<CK_ENV_MODEL_CAFFE_LABELMAP>>$ $<<CK_CAFFE_MODEL_FILE>>$ $<<CK_CAFFE_MODEL_WEIGHTS>>$ $<<CK_ENV_DATASET_KITTI_IMAGE_DIR>>$",
+        "run_cmd_out1": "tmp-output1.tmp",
+        "run_cmd_out2": "tmp-output2.tmp",
+        "run_correctness_output_files": [],
+        "run_input_files": [
+          "$<<CK_CAFFE_MODEL_FILE>>$",
+          "$<<CK_ENV_MODEL_CAFFE_WEIGHTS>>$"
+        ],
+        "run_output_files": [
+          "tmp-output.tmp",
+          "tmp-ck-timer.json"
+        ]
+      }
     }
   },
   "run_deps": {
@@ -146,7 +176,8 @@
     }
   },
   "run_vars": {
-    "CK_CAFFE_BATCH_SIZE":"1"
+    "CK_CAFFE_BATCH_SIZE":"1",
+    "GLOG_minloglevel": "2"
   },
   "skip_bin_ext": "yes",
   "source_files": [

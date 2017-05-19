@@ -26,6 +26,12 @@
 #include <utility>
 #include <vector>
 
+#include <regex>
+#include <boost/algorithm/string.hpp>
+#include <boost/filesystem.hpp>
+
+namespace fs = boost::filesystem;
+
 #ifdef USE_OPENCV
 using namespace caffe;  // NOLINT(build/namespaces)
 
@@ -258,12 +264,184 @@ DEFINE_string(mean_value, "104,117,123",
     "If specified, can be one value or can be same as image channels"
     " - would subtract from the corresponding channel). Separated by ','."
     "Either mean_file or mean_value should be provided, not both.");
-DEFINE_string(file_type, "image",
-    "The file type in the list_file. Currently support image and video.");
 DEFINE_string(out_file, "",
     "If provided, store the detection results in the out_file.");
-DEFINE_double(confidence_threshold, 0.01,
+DEFINE_double(confidence_threshold, 0.5,
     "Only store detections with score higher than the threshold.");
+DEFINE_bool(continuous, false, 
+    "Run continuously for each image from the dataset");
+DEFINE_string(labelmap_file, "",
+    "If provided, should point to the file with labels.");
+DEFINE_string(out_images_dir, "out",
+    "In continuous mode, puts processed images into this directory (recreates the directory first).");
+
+void detect_single_image(Detector& detector, const string& file, std::ostream& out, float confidence_threshold) {
+  long ct_repeat=0;
+  long ct_repeat_max=1;
+  int ct_return=0;
+
+  if (getenv("CT_REPEAT_MAIN")!=NULL) ct_repeat_max=atol(getenv("CT_REPEAT_MAIN"));
+
+  x_clock_start(1);
+  cv::Mat img = cv::imread(file, -1);
+  x_clock_end(1);
+  CHECK(!img.empty()) << "Unable to decode image " << file;
+
+  x_clock_start(2);
+  std::vector<vector<float> > detections = detector.Detect(img);
+  x_clock_end(2);
+  
+  /* Print the detection results. */
+  for (int i = 0; i < detections.size(); ++i) {
+    const vector<float>& d = detections[i];
+    // Detection format: [image_id, label, score, xmin, ymin, xmax, ymax].
+    CHECK_EQ(d.size(), 7);
+    const float score = d[2];
+    if (score >= confidence_threshold) {
+      out << file << " ";
+      out << static_cast<int>(d[1]) << " ";
+      out << score << " ";
+      out << static_cast<int>(d[3] * img.cols) << " ";
+      out << static_cast<int>(d[4] * img.rows) << " ";
+      out << static_cast<int>(d[5] * img.cols) << " ";
+      out << static_cast<int>(d[6] * img.rows) << std::endl;
+    }
+  }
+}
+
+std::map<int, std::string> read_labelmap(const std::string& file) {
+  static const std::regex label_regex("^\\s*label: (\\d+)\\s*$");
+  static const std::regex display_name_regex("^\\s*display_name: \"([^\"]+)\"\\s*$");
+
+  std::map<int, std::string> labelmap;
+
+  std::ifstream f(file);
+  std::string line;
+  int label = -1;
+  std::string display_name = "";
+  while (std::getline(f, line)) {
+    std::smatch match;
+    if (std::regex_search(line, match, label_regex)) {
+      label = std::stoi(match[1]);
+    } else if (std::regex_search(line, match, display_name_regex)) {
+      display_name = match[1];
+    }
+    if (0 <= label && !display_name.empty()) {
+      labelmap[label] = display_name;
+      label = -1;
+      display_name = "";
+    }
+  }
+
+  return labelmap;
+}
+
+cv::Scalar get_color(const std::string& label) {
+  static const std::map<std::string, cv::Scalar> colors = {
+    {"background", CV_RGB(0, 0, 0)},
+    {"aeroplane", CV_RGB(128, 0, 0)},
+    {"bicycle", CV_RGB(0, 128, 0)},
+    {"bird", CV_RGB(128, 128, 0)},
+    {"boat", CV_RGB(0, 0, 128)},
+    {"bottle", CV_RGB(128, 0, 128)},
+    {"bus", CV_RGB(0, 128, 128)},
+    {"car", CV_RGB(128, 128, 128)},
+    {"cat", CV_RGB(64, 0, 0)},
+    {"chair", CV_RGB(192, 0, 0)},
+    {"cow", CV_RGB(64, 128, 0)},
+    {"diningtable", CV_RGB(192, 128, 0)},
+    {"dog", CV_RGB(64, 0, 128)},
+    {"horse", CV_RGB(192, 0, 128)},
+    {"motorbike", CV_RGB(64, 128, 128)},
+    {"person", CV_RGB(192, 128, 128)},
+    {"pottedplant", CV_RGB(0, 64, 0)},
+    {"sheep", CV_RGB(128, 64, 0)},
+    {"sofa", CV_RGB(0, 192, 0)},
+    {"train", CV_RGB(128, 192, 0)},
+    {"tvmonitor", CV_RGB(0, 64, 128)}
+  };
+  static const cv::Scalar default_color = CV_RGB(200, 200, 200);
+
+  auto it = colors.find(label);
+  return it == colors.end() ? default_color : it->second;
+}
+
+void detect_continuously(Detector& detector, const string& dir, std::ostream& out, float confidence_threshold) {
+  auto labelmap = read_labelmap(FLAGS_labelmap_file);
+
+  const int timer = 2;
+  fs::directory_iterator end_iter;
+  std::vector<fs::path> paths;
+  for (fs::directory_iterator dir_iter(dir) ; dir_iter != end_iter ; ++dir_iter) {
+    if (!fs::is_regular_file(dir_iter->status())) {
+      // skip non-images
+      continue;
+    }
+    paths.push_back(dir_iter->path());
+  }
+  std::sort(paths.begin(), paths.end());
+
+  fs::path out_dir(FLAGS_out_images_dir);
+  fs::remove_all(out_dir);
+  CHECK(fs::create_directory(out_dir)) << "Unable to create output directory " << out_dir;
+
+  for (auto& p : paths) {
+    std::string file = p.string();
+    cv::Mat img = cv::imread(file, -1);
+    CHECK(!img.empty()) << "Unable to decode image " << file;
+
+    x_clock_start(timer);
+    std::vector<vector<float> > detections = detector.Detect(img);
+    x_clock_end(timer);
+
+    std::string out_file = fs::absolute((out_dir / p.filename())).string();
+    std::map<std::string, int> recognized;
+
+    /* Print the detection results. */
+    for (int i = 0; i < detections.size(); ++i) {
+      const vector<float>& d = detections[i];
+      // Detection format: [image_id, label, score, xmin, ymin, xmax, ymax].
+      CHECK_EQ(d.size(), 7);
+      const float score = d[2];
+      if (score >= confidence_threshold) {
+        const int class_id = static_cast<int>(d[1]);
+        auto label_it = labelmap.find(class_id);
+        const std::string label = label_it == labelmap.end() ? std::to_string(class_id) : label_it->second;
+        const int xmin = static_cast<int>(d[3] * img.cols);
+        const int ymin = static_cast<int>(d[4] * img.rows);
+        const int xmax = static_cast<int>(d[5] * img.cols);
+        const int ymax = static_cast<int>(d[6] * img.rows);
+
+        auto recognized_it = recognized.find(label);
+        if (recognized_it == recognized.end()) {
+          recognized[label] = 1;
+        } else {
+          recognized_it->second++;
+        }
+
+        const auto color = get_color(label);
+        cv::rectangle(img, cv::Point(xmin, ymin), cv::Point(xmax, ymax), color, 2);
+
+        const auto font = cv::FONT_HERSHEY_SIMPLEX;
+        const float scale = 0.7;
+        const int thickness = 1;
+        int baseline = 0;
+        cv::Size textSize = cv::getTextSize(label, font, scale, thickness, &baseline);
+        const cv::Point text_point(xmin, ymax);
+        cv::rectangle(img, text_point, text_point + cv::Point(textSize.width + 6, -textSize.height - 10), color, CV_FILLED);
+        cv::putText(img, label, text_point + cv::Point(3, -5), font, scale, CV_RGB(255, 255, 255), thickness);
+      }
+    }
+    CHECK(cv::imwrite(out_file, img)) << "Failed to write file " << out_file;
+    out << "File: " << out_file << std::endl;
+    out << "Duration: " << x_get_time(timer) << " sec" << std::endl;
+    for (auto it = recognized.begin(); it != recognized.end(); ++it) {
+      out << "Recognized " << it->first << ": " << it->second << std::endl;
+    }
+    out << std::endl;
+    out.flush();
+  }
+}
 
 int main(int argc, char** argv) {
 
@@ -289,12 +467,13 @@ int main(int argc, char** argv) {
     return 1;
   }
 
+  const bool continuous_mode = FLAGS_continuous;
   const string& model_file = argv[1];
   const string& weights_file = argv[2];
   const string& mean_file = FLAGS_mean_file;
   const string& mean_value = FLAGS_mean_value;
-  const string& file_type = FLAGS_file_type;
   const string& out_file = FLAGS_out_file;
+  const string& labelmap_file = FLAGS_labelmap_file;
   const float confidence_threshold = FLAGS_confidence_threshold;
 
   // Initialize the network.
@@ -315,72 +494,10 @@ int main(int argc, char** argv) {
 
   std::string file = argv[3];
 
-  if (file_type == "image") {
-    x_clock_start(1);
-    cv::Mat img = cv::imread(file, -1);
-    x_clock_end(1);
-    CHECK(!img.empty()) << "Unable to decode image " << file;
-
-    x_clock_start(2);
-    std::vector<vector<float> > detections = detector.Detect(img);
-    x_clock_end(2);
-    
-    /* Print the detection results. */
-    for (int i = 0; i < detections.size(); ++i) {
-      const vector<float>& d = detections[i];
-      // Detection format: [image_id, label, score, xmin, ymin, xmax, ymax].
-      CHECK_EQ(d.size(), 7);
-      const float score = d[2];
-      if (score >= confidence_threshold) {
-        out << file << " ";
-        out << static_cast<int>(d[1]) << " ";
-        out << score << " ";
-        out << static_cast<int>(d[3] * img.cols) << " ";
-        out << static_cast<int>(d[4] * img.rows) << " ";
-        out << static_cast<int>(d[5] * img.cols) << " ";
-        out << static_cast<int>(d[6] * img.rows) << std::endl;
-      }
-    }
-  } else if (file_type == "video") {
-    cv::VideoCapture cap(file);
-    if (!cap.isOpened()) {
-      LOG(FATAL) << "Failed to open video: " << file;
-    }
-    cv::Mat img;
-    int frame_count = 0;
-    while (true) {
-      bool success = cap.read(img);
-      if (!success) {
-        LOG(INFO) << "Process " << frame_count << " frames from " << file;
-        break;
-      }
-      CHECK(!img.empty()) << "Error when read frame";
-      std::vector<vector<float> > detections = detector.Detect(img);
-
-      /* Print the detection results. */
-      for (int i = 0; i < detections.size(); ++i) {
-        const vector<float>& d = detections[i];
-        // Detection format: [image_id, label, score, xmin, ymin, xmax, ymax].
-        CHECK_EQ(d.size(), 7);
-        const float score = d[2];
-        if (score >= confidence_threshold) {
-          out << file << "_";
-          out << std::setfill('0') << std::setw(6) << frame_count << " ";
-          out << static_cast<int>(d[1]) << " ";
-          out << score << " ";
-          out << static_cast<int>(d[3] * img.cols) << " ";
-          out << static_cast<int>(d[4] * img.rows) << " ";
-          out << static_cast<int>(d[5] * img.cols) << " ";
-          out << static_cast<int>(d[6] * img.rows) << std::endl;
-        }
-      }
-      ++frame_count;
-    }
-    if (cap.isOpened()) {
-      cap.release();
-    }
+  if (continuous_mode) {
+    detect_continuously(detector, file, out, confidence_threshold);
   } else {
-    LOG(FATAL) << "Unknown file_type: " << file_type;
+    detect_single_image(detector, file, out, confidence_threshold);
   }
 
 #ifdef XOPENME
