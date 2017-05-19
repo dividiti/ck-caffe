@@ -1,5 +1,5 @@
 {
-  "cmd_keys":["time_cpu","time_cuda"],
+  "cmd_keys":["time_cpu","time_gpu"],
   "experiment_0_pipeline_update": {
     "pipeline":{"choices":{"env":{"BATCH_SIZE":8}}}
   },

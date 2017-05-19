@@ -188,6 +188,21 @@ If you forget this link, you can open this website from command line:
  $ ck browse experiment.bench.caffe
 ```
 
+## Unified, multi-dimensional and multi-objective autotuning
+
+It is also possible to take advantage of our [universal multi-objective CK autotuner](https://github.com/ctuning/ck/wiki/Autotuning)
+to optimize Caffe. As a first simple example, we added batch size tuning via CK. You can invoke it as following:
+
+```
+$ ck autotune caffe
+```
+
+All results will be recorded in the local CK repository and 
+you will be given command lines to plot graphs or replay experiments such as:
+```
+$ ck plot graph:{experiment UID}
+$ ck replay experiment:{experiment UID} --point={specific optimization point}
+
 ### Creating dataset subsets
 
 The ILSVRC2012 validation dataset contains 50K images. For quick experiments,
