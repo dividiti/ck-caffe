@@ -3,17 +3,19 @@ import ck.kernel as ck
 import copy
 import re
 
+# Platform tags.
+platform_tags='samsung-chromebook2'
 # Batch size iteration parameters.
 bs={
-  'start':2,
-  'stop':32,
-  'step':2,
-  'default':2
+  'start':1,
+  'stop':4,
+  'step':1,
+  'default':1
 }
 # OpenBLAS number of threads iteration parameters.
 nt={
   'start':1,
-  'stop':20,
+  'stop':4,
   'step':1,
   'default':1
 }
@@ -253,7 +255,7 @@ def do(i):
                 'record_repo':record_repo,
                 'record_uoa':record_uoa,
 
-                'tags':[ 'explore-batch-size-openblas-threads', program, model_tags, lib_tags ],
+                'tags':[ 'explore-batch-size-openblas-threads', program, model_tags, lib_tags, platform_tags ],
 
                 'pipeline':cpipeline,
                 'out':'con'}
