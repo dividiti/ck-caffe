@@ -158,7 +158,9 @@ def do(i, arg):
         lib_tags=re.match('BVLC Caffe framework \((?P<tags>.*)\)', lib_name)
         lib_tags=lib_tags.group('tags').replace(' ', '').replace(',', '-')
         # Skip some libs with "in [..]" or "not in [..]".
-        if lib_tags not in ['opencl-clblast-tune', 'opencl-clblast']: continue
+        if lib_tags not in ['opencl-clblast-tune']: continue
+
+#        if lib_tags not in ['opencl-clblast-tune', 'opencl-clblast']: continue
 #        if lib_tags not in ['opencl-libdnn-clblast-tune', 'opencl-libdnn-clblast']: continue
 #        if lib_tags not in ['opencl-libdnn-viennacl', 'opencl-viennacl']: continue
         
