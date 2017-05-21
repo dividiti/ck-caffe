@@ -5,7 +5,7 @@
     "skip_file_check": "yes",
     "force_ask_path":"yes",
     "no_os_in_suggested_path": "yes",
-    "no_ver_in_suggested_path": "yes", 
+    "no_ver_in_suggested_path": "no",
     "file_with_weights": "bvlc_alexnet.caffemodel",
     "install_env": {
       "MODEL_URL": "http://dl.caffe.berkeleyvision.org/bvlc_alexnet.caffemodel",
@@ -40,7 +40,7 @@
         }
       }
     },
-    "version": "trunk"
+    "version": "bvlc-alexnet"
   },
   "only_for_host_os_tags": [
     "windows",
@@ -57,7 +57,7 @@
     "win": "bvlc_alexnet.caffemodel",
     "linux": "bvlc_alexnet.caffemodel"
   }, 
-  "suggested_path": "caffemodel-bvlc-alexnet",
+  "suggested_path": "caffemodel",
   "features":{
     "accuracy":0.568279,
     "accuracy_top5":0.799501,
