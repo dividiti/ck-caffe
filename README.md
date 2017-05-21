@@ -189,7 +189,7 @@ If you forget this link, you can open this website from command line:
  $ ck browse experiment.bench.caffe
 ```
 
-## Unified, multi-dimensional and multi-objective autotuning
+## Unifying multi-dimensional and multi-objective autotuning
 
 It is also possible to take advantage of our [universal multi-objective CK autotuner](https://github.com/ctuning/ck/wiki/Autotuning)
 to optimize Caffe. As a first simple example, we added batch size tuning via CK. You can invoke it as following:
@@ -204,6 +204,29 @@ you will be given command lines to plot graphs or replay experiments such as:
 $ ck plot graph:{experiment UID}
 $ ck replay experiment:{experiment UID} --point={specific optimization point}
 
+## Unifying AI API
+
+CK allows us to unify AI interfaces while collaboratively optimizing underneath engines.
+For example, we added similar support to install, use and evaluate 
+[Caffe2](https://github.com/ctuning/ck-caffe2) and [TensorFlow](https://github.com/ctuning/ck-tensorflow) via CK:
+
+```
+$ ck pull repo:ck-caffe2
+$ ck pull repo:ck-tensorflow
+
+$ ck install package:lib-caffe2-master-eigen-cpu-universal --env.CAFFE_BUILD_PYTHON=ON
+$ ck install package:lib-tensorflow-1.1.0-cpu
+$ ck install package:lib-tensorflow-1.1.0-cuda
+
+$ ck run program:caffe2 --cmd_key=classify
+$ ck run program:tensorflow --cmd_key=classify
+
+$ ck crowdbench caffe2 --env.BATCH_SIZE=5 --user=i_want_to_ack_my_contribution
+$ ck crowdbench tensorflow --env.BATCH_SIZE=5 --user=i_want_to_ack_my_contribution
+
+$ ck autotune caffe2
+$ ck autotune tensorflow
+```
 ### Creating dataset subsets
 
 The ILSVRC2012 validation dataset contains 50K images. For quick experiments,
@@ -216,6 +239,13 @@ $ ck install package:imagenet-2012-val-lmdb-256
 When prompted, enter the number of images to convert to LMDB, say, `N` = 100.
 The first `N` images will be taken.
 
+### Creating realistic/representative training sets
+
+We provided an option in all our AI crowd-tuning tools to let the community report 
+and share mispredictions (images, correct label and wrong misprediction) 
+to gradually and collaboratively build realistic data/training sets:
+* [Public repository (see "mispredictions and unexpected behavior)](http://cknowledge.org/repo/web.php?action=index&module_uoa=wfe&native_action=show&native_module_uoa=program.optimization)
+* [Misclassified images via CK-based AI web-service](http://cknowledge.org/repo/web.php?action=index&module_uoa=wfe&native_action=show&native_module_uoa=program.optimization)
 
 ### Customizing caffe benchmarking via CK command line
 
