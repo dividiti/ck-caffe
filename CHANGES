@@ -1,3 +1,5 @@
+2017.05.22 - improved Caffe library detection on non-standard platforms (lib64 vs lib)
+
 2017.05.18 - added customizable autotuning example (script:explore-batch-size-unified-and-customized)
 
 2017.04.28 - added support to create binary package distro (particularly for Windows crowd-benchmarking)
