@@ -13,6 +13,7 @@
 //    folder/video2.mp4
 //
 #include <caffe/caffe.hpp>
+#include <caffe/util/bbox_util.hpp>
 #ifdef USE_OPENCV
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
@@ -25,6 +26,7 @@
 #include <string>
 #include <utility>
 #include <vector>
+#include <sstream>
 
 #include <regex>
 #include <boost/algorithm/string.hpp>
@@ -268,10 +270,14 @@ DEFINE_string(out_file, "",
     "If provided, store the detection results in the out_file.");
 DEFINE_double(confidence_threshold, 0.5,
     "Only store detections with score higher than the threshold.");
+DEFINE_double(iou_threshold, 0.7,
+    "Threshold for IoU metric to determine false positives.");
 DEFINE_bool(continuous, false, 
     "Run continuously for each image from the dataset");
 DEFINE_string(labelmap_file, "",
     "If provided, should point to the file with labels.");
+DEFINE_string(label_dir, "",
+    "Directory with image labels (the ground truth data).");
 DEFINE_string(out_images_dir, "out",
     "In continuous mode, puts processed images into this directory (recreates the directory first).");
 
@@ -336,16 +342,24 @@ std::map<int, std::string> read_labelmap(const std::string& file) {
   return labelmap;
 }
 
+std::map<std::string, int> flip_labelmap(const std::map<int, std::string>& labelmap) {
+  std::map<std::string, int> ret;
+  for (auto it = labelmap.begin(); it != labelmap.end(); ++it) {
+    ret[it->second] = it->first;
+  }
+  return ret;
+}
+
 cv::Scalar get_color(const std::string& label) {
   static const std::map<std::string, cv::Scalar> colors = {
     {"background", CV_RGB(0, 0, 0)},
     {"aeroplane", CV_RGB(128, 0, 0)},
-    {"bicycle", CV_RGB(0, 128, 0)},
+    {"bicycle", CV_RGB(0, 191, 255)},
     {"bird", CV_RGB(128, 128, 0)},
     {"boat", CV_RGB(0, 0, 128)},
     {"bottle", CV_RGB(128, 0, 128)},
     {"bus", CV_RGB(0, 128, 128)},
-    {"car", CV_RGB(128, 128, 128)},
+    {"car", CV_RGB(255, 191, 0)},
     {"cat", CV_RGB(64, 0, 0)},
     {"chair", CV_RGB(192, 0, 0)},
     {"cow", CV_RGB(64, 128, 0)},
@@ -353,21 +367,144 @@ cv::Scalar get_color(const std::string& label) {
     {"dog", CV_RGB(64, 0, 128)},
     {"horse", CV_RGB(192, 0, 128)},
     {"motorbike", CV_RGB(64, 128, 128)},
-    {"person", CV_RGB(192, 128, 128)},
+    {"person", CV_RGB(255, 0, 191)},
     {"pottedplant", CV_RGB(0, 64, 0)},
     {"sheep", CV_RGB(128, 64, 0)},
     {"sofa", CV_RGB(0, 192, 0)},
     {"train", CV_RGB(128, 192, 0)},
     {"tvmonitor", CV_RGB(0, 64, 128)}
   };
-  static const cv::Scalar default_color = CV_RGB(200, 200, 200);
+  static const cv::Scalar default_color = CV_RGB(255, 255, 255);
 
   auto it = colors.find(label);
   return it == colors.end() ? default_color : it->second;
 }
 
+fs::path label_file(const fs::path& label_dir, const fs::path& image_file) {
+  if (label_dir.empty()) {
+    return fs::path("");
+  }
+  fs::path ret = label_dir / image_file.filename();
+  ret.replace_extension(".txt");
+  return ret;
+}
+
+struct object {
+  std::string label;
+  int label_id = -1;
+  float score = 1;
+  float xmin = 0;
+  float ymin = 0;
+  float xmax = 0;
+  float ymax = 0;
+
+  bool empty() const { 
+    return label.empty() || -1 == label_id;
+  }
+
+  NormalizedBBox to_bbox() const {
+    NormalizedBBox ret;
+    ret.set_xmin(xmin);
+    ret.set_ymin(ymin);
+    ret.set_xmax(xmax);
+    ret.set_ymax(ymax);
+    ret.set_label(label_id);
+    return ret;
+  }
+};
+
+float iou(const object& o1, const object& o2) {
+  return JaccardOverlap(o1.to_bbox(), o2.to_bbox(), false);
+}
+
+object parse_ground_truth(const std::string& line, const std::map<std::string, int>& reverse_labelmap) {
+  static const std::map<std::string, std::string> label_aliases = {
+    {"pedestrian", "person"},
+    {"cyclist", "bicycle"}
+  };
+  object ret;
+  std::string& label = ret.label;
+  std::istringstream iss(line);
+  float _;
+  iss >> label >> _ >> _ >> _ >> ret.xmin >> ret.ymin >> ret.xmax >> ret.ymax;
+  if (iss) {
+    boost::algorithm::to_lower(label);
+    auto it = label_aliases.find(label);
+    if (it != label_aliases.end()) {
+      label = it->second;
+    }
+    auto it2 = reverse_labelmap.find(label);
+    ret.label_id = it2 == reverse_labelmap.end() ? -1 : it2->second;
+  }
+  return ret;
+}
+
+object parse_detections(const cv::Mat& img, const std::vector<float>& d, const std::map<int, std::string>& labelmap) {
+  // Detection format: [image_id, label, score, xmin, ymin, xmax, ymax].
+  CHECK_EQ(d.size(), 7);
+  object ret;
+  ret.score = d[2];
+  ret.label_id = static_cast<int>(d[1]);
+  auto label_it = labelmap.find(ret.label_id);
+  ret.label = label_it == labelmap.end() ? "" : label_it->second;
+  boost::algorithm::to_lower(ret.label);
+  ret.xmin = static_cast<int>(d[3] * img.cols);
+  ret.ymin = static_cast<int>(d[4] * img.rows);
+  ret.xmax = static_cast<int>(d[5] * img.cols);
+  ret.ymax = static_cast<int>(d[6] * img.rows);
+  return ret;
+}
+
+std::vector<object> read_label_file(const fs::path& file, const std::map<std::string, int>& reverse_labelmap) {
+  std::vector<object> ret;
+  std::ifstream f(file.string());
+  std::string line;
+  while (std::getline(f, line)) {
+    object o = parse_ground_truth(line, reverse_labelmap);
+    if (!o.empty()) {
+      ret.push_back(o);
+    }
+  }
+  return ret;
+}
+
+void draw_rect(cv::Mat& img, const object& o, const cv::Scalar& color, bool bottom_label = true) {
+  cv::rectangle(img, cv::Point(o.xmin, o.ymin), cv::Point(o.xmax, o.ymax), color, 1);
+
+  const auto font = cv::FONT_HERSHEY_SIMPLEX;
+  const float scale = 0.3;
+  const int thickness = 1;
+  int baseline = 0;
+  cv::Size text_size = cv::getTextSize(o.label, font, scale, thickness, &baseline);
+  const cv::Point text_point(o.xmin, bottom_label ? o.ymax : o.ymin);
+  cv::rectangle(img, text_point, text_point + cv::Point(text_size.width + 2, -text_size.height - 4), color, CV_FILLED);
+  cv::putText(img, o.label, text_point + cv::Point(1, -2), font, scale, CV_RGB(255, 255, 255), thickness);
+}
+
+void draw_rect(cv::Mat& img, const object& o) {
+  draw_rect(img, o, get_color(o.label));
+}
+
+void count_object(const object& o, std::map<std::string, int>& counter_map) {
+  auto it = counter_map.find(o.label);
+  if (it == counter_map.end()) {
+    counter_map[o.label] = 1;
+  } else {
+    it->second++;
+  }
+}
+
+void print_counter_map(std::ostream& out, std::map<std::string, int>& counter_map, const std::string& prefix) {
+  for (auto it = counter_map.begin(); it != counter_map.end(); ++it) {
+    out << prefix << " " << it->first << ": " << it->second << std::endl;
+  }
+}
+
 void detect_continuously(Detector& detector, const string& dir, std::ostream& out, float confidence_threshold) {
+  static const cv::Scalar ground_truth_color = CV_RGB(200, 200, 200);
+
   auto labelmap = read_labelmap(FLAGS_labelmap_file);
+  auto reverse_labelmap = flip_labelmap(labelmap);
 
   const int timer = 2;
   fs::directory_iterator end_iter;
@@ -381,11 +518,13 @@ void detect_continuously(Detector& detector, const string& dir, std::ostream& ou
   }
   std::sort(paths.begin(), paths.end());
 
+  fs::path label_dir(FLAGS_label_dir);
+
   fs::path out_dir(FLAGS_out_images_dir);
   fs::remove_all(out_dir);
   CHECK(fs::create_directory(out_dir)) << "Unable to create output directory " << out_dir;
 
-  for (auto& p : paths) {
+  for (const auto& p : paths) {
     std::string file = p.string();
     cv::Mat img = cv::imread(file, -1);
     CHECK(!img.empty()) << "Unable to decode image " << file;
@@ -396,48 +535,41 @@ void detect_continuously(Detector& detector, const string& dir, std::ostream& ou
 
     std::string out_file = fs::absolute((out_dir / p.filename())).string();
     std::map<std::string, int> recognized;
+    std::map<std::string, int> expected;
+    std::map<std::string, int> false_positive;
+
+    // read expected results
+    std::vector<object> ground_truth = read_label_file(label_file(label_dir, p), reverse_labelmap);
+    for (auto const& o: ground_truth) {
+      draw_rect(img, o, ground_truth_color, false);
+      count_object(o, expected);
+    }
 
     /* Print the detection results. */
     for (int i = 0; i < detections.size(); ++i) {
-      const vector<float>& d = detections[i];
-      // Detection format: [image_id, label, score, xmin, ymin, xmax, ymax].
-      CHECK_EQ(d.size(), 7);
-      const float score = d[2];
-      if (score >= confidence_threshold) {
-        const int class_id = static_cast<int>(d[1]);
-        auto label_it = labelmap.find(class_id);
-        const std::string label = label_it == labelmap.end() ? std::to_string(class_id) : label_it->second;
-        const int xmin = static_cast<int>(d[3] * img.cols);
-        const int ymin = static_cast<int>(d[4] * img.rows);
-        const int xmax = static_cast<int>(d[5] * img.cols);
-        const int ymax = static_cast<int>(d[6] * img.rows);
-
-        auto recognized_it = recognized.find(label);
-        if (recognized_it == recognized.end()) {
-          recognized[label] = 1;
-        } else {
-          recognized_it->second++;
+      object o = parse_detections(img, detections[i], labelmap);
+      if (o.score >= confidence_threshold) {
+        count_object(o, recognized);
+        draw_rect(img, o);
+        bool miss = true;
+        for (auto& gto: ground_truth) {
+          if (gto.label == o.label && iou(gto, o) >= FLAGS_iou_threshold) {
+            miss = false;
+            gto.label = ""; // empty the object to not pick it up in the future
+            break;
+          }
         }
-
-        const auto color = get_color(label);
-        cv::rectangle(img, cv::Point(xmin, ymin), cv::Point(xmax, ymax), color, 2);
-
-        const auto font = cv::FONT_HERSHEY_SIMPLEX;
-        const float scale = 0.7;
-        const int thickness = 1;
-        int baseline = 0;
-        cv::Size textSize = cv::getTextSize(label, font, scale, thickness, &baseline);
-        const cv::Point text_point(xmin, ymax);
-        cv::rectangle(img, text_point, text_point + cv::Point(textSize.width + 6, -textSize.height - 10), color, CV_FILLED);
-        cv::putText(img, label, text_point + cv::Point(3, -5), font, scale, CV_RGB(255, 255, 255), thickness);
+        if (miss) {
+          count_object(o, false_positive);
+        }
       }
     }
     CHECK(cv::imwrite(out_file, img)) << "Failed to write file " << out_file;
     out << "File: " << out_file << std::endl;
     out << "Duration: " << x_get_time(timer) << " sec" << std::endl;
-    for (auto it = recognized.begin(); it != recognized.end(); ++it) {
-      out << "Recognized " << it->first << ": " << it->second << std::endl;
-    }
+    print_counter_map(out, recognized, "Recognized");
+    print_counter_map(out, expected, "Expected");
+    print_counter_map(out, false_positive, "False positive");
     out << std::endl;
     out.flush();
   }
