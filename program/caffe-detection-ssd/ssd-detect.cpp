@@ -13,6 +13,7 @@
 //    folder/video2.mp4
 //
 #include <caffe/caffe.hpp>
+#include <caffe/util/bbox_util.hpp>
 #ifdef USE_OPENCV
 #include <opencv2/core/core.hpp>
 #include <opencv2/highgui/highgui.hpp>
@@ -269,6 +270,8 @@ DEFINE_string(out_file, "",
     "If provided, store the detection results in the out_file.");
 DEFINE_double(confidence_threshold, 0.5,
     "Only store detections with score higher than the threshold.");
+DEFINE_double(iou_threshold, 0.7,
+    "Threshold for IoU metric to determine false positives.");
 DEFINE_bool(continuous, false, 
     "Run continuously for each image from the dataset");
 DEFINE_string(labelmap_file, "",
@@ -395,10 +398,24 @@ struct object {
   float xmax = 0;
   float ymax = 0;
 
-  bool empty() { 
+  bool empty() const { 
     return label.empty() || -1 == label_id;
   }
+
+  NormalizedBBox to_bbox() const {
+    NormalizedBBox ret;
+    ret.set_xmin(xmin);
+    ret.set_ymin(ymin);
+    ret.set_xmax(xmax);
+    ret.set_ymax(ymax);
+    ret.set_label(label_id);
+    return ret;
+  }
 };
+
+float iou(const object& o1, const object& o2) {
+  return JaccardOverlap(o1.to_bbox(), o2.to_bbox(), false);
+}
 
 object parse_ground_truth(const std::string& line, const std::map<std::string, int>& reverse_labelmap) {
   static const std::map<std::string, std::string> label_aliases = {
@@ -430,6 +447,7 @@ object parse_detections(const cv::Mat& img, const std::vector<float>& d, const s
   ret.label_id = static_cast<int>(d[1]);
   auto label_it = labelmap.find(ret.label_id);
   ret.label = label_it == labelmap.end() ? "" : label_it->second;
+  boost::algorithm::to_lower(ret.label);
   ret.xmin = static_cast<int>(d[3] * img.cols);
   ret.ymin = static_cast<int>(d[4] * img.rows);
   ret.xmax = static_cast<int>(d[5] * img.cols);
@@ -467,6 +485,21 @@ void draw_rect(cv::Mat& img, const object& o) {
   draw_rect(img, o, get_color(o.label));
 }
 
+void count_object(const object& o, std::map<std::string, int>& counter_map) {
+  auto it = counter_map.find(o.label);
+  if (it == counter_map.end()) {
+    counter_map[o.label] = 1;
+  } else {
+    it->second++;
+  }
+}
+
+void print_counter_map(std::ostream& out, std::map<std::string, int>& counter_map, const std::string& prefix) {
+  for (auto it = counter_map.begin(); it != counter_map.end(); ++it) {
+    out << prefix << " " << it->first << ": " << it->second << std::endl;
+  }
+}
+
 void detect_continuously(Detector& detector, const string& dir, std::ostream& out, float confidence_threshold) {
   static const cv::Scalar ground_truth_color = CV_RGB(200, 200, 200);
 
@@ -502,32 +535,41 @@ void detect_continuously(Detector& detector, const string& dir, std::ostream& ou
 
     std::string out_file = fs::absolute((out_dir / p.filename())).string();
     std::map<std::string, int> recognized;
+    std::map<std::string, int> expected;
+    std::map<std::string, int> false_positive;
 
     // read expected results
     std::vector<object> ground_truth = read_label_file(label_file(label_dir, p), reverse_labelmap);
     for (auto const& o: ground_truth) {
       draw_rect(img, o, ground_truth_color, false);
+      count_object(o, expected);
     }
 
     /* Print the detection results. */
     for (int i = 0; i < detections.size(); ++i) {
       object o = parse_detections(img, detections[i], labelmap);
       if (o.score >= confidence_threshold) {
-        auto recognized_it = recognized.find(o.label);
-        if (recognized_it == recognized.end()) {
-          recognized[o.label] = 1;
-        } else {
-          recognized_it->second++;
-        }
+        count_object(o, recognized);
         draw_rect(img, o);
+        bool miss = true;
+        for (auto& gto: ground_truth) {
+          if (gto.label == o.label && iou(gto, o) >= FLAGS_iou_threshold) {
+            miss = false;
+            gto.label = ""; // empty the object to not pick it up in the future
+            break;
+          }
+        }
+        if (miss) {
+          count_object(o, false_positive);
+        }
       }
     }
     CHECK(cv::imwrite(out_file, img)) << "Failed to write file " << out_file;
     out << "File: " << out_file << std::endl;
     out << "Duration: " << x_get_time(timer) << " sec" << std::endl;
-    for (auto it = recognized.begin(); it != recognized.end(); ++it) {
-      out << "Recognized " << it->first << ": " << it->second << std::endl;
-    }
+    print_counter_map(out, recognized, "Recognized");
+    print_counter_map(out, expected, "Expected");
+    print_counter_map(out, false_positive, "False positive");
     out << std::endl;
     out.flush();
   }
