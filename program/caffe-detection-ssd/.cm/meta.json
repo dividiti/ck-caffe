@@ -133,11 +133,11 @@
     },
     "use_continuous": {
       "run_deps": {
-        "dataset-kitti-val": {
+        "detection-dataset": {
           "local": "yes",
-          "name": "KITTI dataset",
+          "name": "Detection dataset",
           "sort": 10,
-          "tags": "dataset,kitti,val"
+          "tags": "dataset,images,object-detection"
         }
       },
       "ignore_return_code": "no",
@@ -151,7 +151,7 @@
           "data_uoa": "569404c41618603a",
           "script_name": "preprocess"
         },
-        "run_cmd_main": "$#BIN_FILE#$ --continuous --labelmap_file=$<<CK_ENV_MODEL_CAFFE_LABELMAP>>$ --label_dir=$<<CK_ENV_DATASET_KITTI_LABELS_DIR>>$ $<<CK_CAFFE_MODEL_FILE>>$ $<<CK_CAFFE_MODEL_WEIGHTS>>$ $<<CK_ENV_DATASET_KITTI_IMAGE_DIR>>$",
+        "run_cmd_main": "$#BIN_FILE#$ --continuous --labelmap_file=$<<CK_ENV_MODEL_CAFFE_LABELMAP>>$ --label_dir=$<<CK_ENV_DATASET_LABELS_DIR>>$ $<<CK_CAFFE_MODEL_FILE>>$ $<<CK_CAFFE_MODEL_WEIGHTS>>$ $<<CK_ENV_DATASET_IMAGE_DIR>>$",
         "run_cmd_out1": "tmp-output1.tmp",
         "run_cmd_out2": "tmp-output2.tmp",
         "run_correctness_output_files": [],

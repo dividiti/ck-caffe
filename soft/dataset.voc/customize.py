@@ -105,9 +105,33 @@ def setup(i):
         abs_path = os.path.join(pi, x['dirname'], voc_dir1, voc_dir2)
         full_env = ep + "_" + x['env']
         for key, value in envs_dict.iteritems():
-            env[full_env + '_' + key] = os.path.join(abs_path, value)
+            full_key = full_env + '_' + key
+            env[full_key] = os.path.join(abs_path, value)
+            if 'LABELS_DIR' == key:
+                annotations_to_labels(env[full_key])
+                env['CK_ENV_DATASET_LABELS_DIR'] = env[full_key]
+            if 'IMAGE_DIR' == key:
+                env['CK_ENV_DATASET_IMAGE_DIR'] = env[full_key]
 
     env[ep]=pi
 
     return {'return':0, 'bat':s}
 
+def annotations_to_labels(d):
+    import xml.etree.ElementTree as ET
+
+    print('Converting XML annotations to text in ' + d)
+
+    file_list = [os.path.join(d, f) for f in os.listdir(d) if os.path.isfile(os.path.join(d, f)) and f.endswith(".xml")]
+    for f in file_list:
+        tree = ET.parse(f)
+        root = tree.getroot()
+        with open(os.path.splitext(f)[0] + '.txt', 'w') as tf:
+            for obj in root.iter('object'):
+                name = obj.find('name').text
+                bndbox = obj.find('bndbox')
+                xmin = bndbox.find('xmin').text
+                ymin = bndbox.find('ymin').text
+                xmax = bndbox.find('xmax').text
+                ymax = bndbox.find('ymax').text
+                tf.write(name + ' 0 0 0 ' + xmin + ' ' + ymin + ' ' + xmax + ' ' + ymax + '\n')
