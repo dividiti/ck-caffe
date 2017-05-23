@@ -420,7 +420,8 @@ float iou(const object& o1, const object& o2) {
 object parse_ground_truth(const std::string& line, const std::map<std::string, int>& reverse_labelmap) {
   static const std::map<std::string, std::string> label_aliases = {
     {"pedestrian", "person"},
-    {"cyclist", "bicycle"}
+    {"cyclist", "bicycle"},
+    {"motorcycle", "motorbike"}
   };
   object ret;
   std::string& label = ret.label;

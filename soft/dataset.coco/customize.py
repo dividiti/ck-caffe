@@ -128,7 +128,7 @@ def annotations_to_labels(d, f, images_dir):
         label_file = os.path.join(d, os.path.splitext(os.path.basename(image_file))[0] + '.txt')
         with open(label_file, 'w') as lf:
             for ann in images_anns[image_id]:
-                name = re.sub(r'\s+', '_', categories[ann['category_id']])
+                name = re.sub(r'\s+', '', categories[ann['category_id']])
                 bbox = ann['bbox']
                 xmin = bbox[0]
                 ymin = bbox[1]
