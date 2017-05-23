@@ -35,7 +35,7 @@
       "sort": 13,
       "tags": "lib,boost"
     },
-    "lib-caffe-ssd": {
+    "lib-caffe": {
       "local": "yes",
       "name": "Caffe library",
       "skip_pruning_by_other_deps": "yes",
@@ -195,7 +195,8 @@
     "ssd",
     "demo",
     "vcpu",
-    "continuous"
+    "continuous",
+    "object-detection"
   ],
   "target_file": "ssd-detect",
   "version": "1.0.0",
