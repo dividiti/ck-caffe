@@ -8,17 +8,11 @@
     "instances_train_file": "instances_train2014.json",
     "instances_val_file": "instances_val2014.json",
     "install_env": {
-      "TRAIN_DIR": "train2014",
       "VAL_DIR": "val2014",
-      "TEST_DIR": "test2014",
       "LABELS_DIR": "annotations",
-      "TRAIN_IMAGE_ARCHIVE": "train2014.zip",
       "VAL_IMAGE_ARCHIVE": "val2014.zip",
-      "TEST_IMAGE_ARCHIVE": "test2014.zip",
       "IMAGE_URL": "http://msvocds.blob.core.windows.net/coco2014",
       "TRAINVAL_OBJ_INSTANCES_ARCHIVE": "instances_train-val2014.zip",
-      "TRAINVAL_PERSON_KEYPOINTS_ARCHIVE": "person_keypoints_trainval2014.zip",
-      "TRAINVAL_IMG_CAPTIONS_ARCHIVE": "captions_train-val2014.zip",
       "ANNOTATION_URL": "http://msvocds.blob.core.windows.net/annotations-1-0-3"
     },
     "version": "2014"
@@ -30,7 +24,7 @@
   },
   "process_script": "install",
   "soft_uoa": "2439499e39a313b5",
-  "suggested_path": "dataset-coco-2014-full",
+  "suggested_path": "dataset-coco-2014",
   "tags": [
     "dataset",
     "coco",

@@ -80,30 +80,58 @@ def setup(i):
 
     ep=cus.get('env_prefix','')
 
-    train_dir = cus.get('install_env', '').get('TRAIN_DIR', '')
     val_dir = cus.get('install_env', '').get('VAL_DIR', '')
-    test_dir = cus.get('install_env', '').get('TEST_DIR', '')
     labels_dir = cus.get('install_env', '').get('LABELS_DIR', '')
 
-    if train_dir != '':
-        env[ep + '_TRAIN_IMAGE_DIR'] = train_dir
     if val_dir != '':
         env[ep + '_VAL_IMAGE_DIR'] = val_dir
-    if test_dir != '':
-        env[ep + '_TEST_IMAGE_DIR'] = test_dir
+        env['CK_ENV_DATASET_IMAGE_DIR'] = p1
+
     if labels_dir != '':
-        full_path = os.path.join(ep, labels_dir)
+        full_path = os.path.join(pi, labels_dir)
         train_file = cus.get('instances_train_file', '')
         val_file = cus.get('instances_val_file', '')
         env[ep + '_LABELS_DIR'] = full_path
-        env[ep + 'TRAIN_LABELS_DIR'] = os.path.join(full_path, train_file)
-        env[ep + 'TRAIN_LABELS_FILE'] = train_file
-        env[ep + 'VAL_LABELS_DIR'] = os.path.join(full_path, val_file)
-        env[ep + 'VAL_LABELS_FILE'] = val_file
+        val_labels_dir = os.path.join(full_path, val_dir)
+        if not os.path.exists(val_labels_dir):
+            os.mkdir(val_labels_dir)
+        env['CK_ENV_DATASET_LABELS_DIR'] = val_labels_dir
+        annotations_to_labels(val_labels_dir, os.path.join(full_path, val_file), p1)
+
     env[ep] = pi
-
-
-
 
     return {'return':0, 'bat':s}
 
+def annotations_to_labels(d, f, images_dir):
+    import json
+    import re
+
+    print('Converting annotations from ' + f + ' to text in ' + d)
+
+    dataset = json.load(open(f, 'r'))
+
+    images = dict()
+    images_anns = dict()
+    categories = dict()
+
+    for img in dataset['images']:
+        images[img['id']] = os.path.join(images_dir, img['file_name'])
+        images_anns[img['id']] = list()
+
+    for ann in dataset['annotations']:
+        images_anns[ann['image_id']].append(ann)
+
+    for cat in dataset['categories']:
+        categories[cat['id']] = cat['name']
+
+    for image_id, image_file in images.items():
+        label_file = os.path.join(d, os.path.splitext(os.path.basename(image_file))[0] + '.txt')
+        with open(label_file, 'w') as lf:
+            for ann in images_anns[image_id]:
+                name = re.sub(r'\s+', '_', categories[ann['category_id']])
+                bbox = ann['bbox']
+                xmin = bbox[0]
+                ymin = bbox[1]
+                xmax = xmin + bbox[2]
+                ymax = ymin + bbox[3]
+                lf.write(name + ' 0 0 0 ' + str(xmin) + ' ' + str(ymin) + ' ' + str(xmax) + ' ' + str(ymax) + '\n')

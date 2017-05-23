@@ -17,6 +17,8 @@
   "tags": [
     "dataset",
     "coco",
-    "COCO"
+    "COCO",
+    "object-detection",
+    "images"
   ]
 }

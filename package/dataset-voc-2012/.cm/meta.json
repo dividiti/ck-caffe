@@ -29,7 +29,7 @@
   },
   "process_script": "install",
   "soft_uoa": "041cf4753bed7c62",
-  "suggested_path": "dataset-voc-2012-full",
+  "suggested_path": "dataset-voc-2012",
   "tags": [
     "dataset",
     "voc",
