@@ -4,8 +4,9 @@ import copy
 import re
 import argparse
 
+
 # Platform tags.
-platform_tags='samsung-chromebook2'
+platform_tags='mediatek-x20'
 # Batch size iteration parameters.
 bs={
   'start':1,
@@ -22,7 +23,7 @@ nt={
 }
 # Number of statistical repetitions.
 num_repetitions=3
-platform_tags='mediatek-x20'
+
 
 def do(i, arg):
     # Detect basic platform info.
@@ -173,7 +174,7 @@ def do(i, arg):
         lib_tags=re.match('BVLC Caffe framework \((?P<tags>.*)\)', lib_name)
         lib_tags=lib_tags.group('tags').replace(' ', '').replace(',', '-')
         # Skip some libs with "in [..]" or "not in [..]".
-        if lib_tags not in ['cpu']: continue
+        if lib_tags not in [ 'cpu' ]: continue
 
         skip_compile='no'
 
@@ -284,5 +285,4 @@ myarg=parser.parse_args()
 
 
 r=do({}, myarg)
-
 if r['return']>0: ck.err(r)
