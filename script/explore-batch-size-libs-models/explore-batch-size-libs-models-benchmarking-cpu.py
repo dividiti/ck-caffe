@@ -4,6 +4,9 @@ import copy
 import re
 import argparse
 
+
+# Platform tags.
+platform_tags='samsung-s7'
 # Batch size iteration parameters.
 bs={
   'start':2,
@@ -11,9 +14,17 @@ bs={
   'step':2,
   'default':2
 }
+# OpenBLAS number of threads iteration parameters.
+nt={
+  'start':4,
+  'stop':4,
+  'step':1,
+  'default':4
+}
 # Number of statistical repetitions.
 num_repetitions=3
-platform_tags='mediatek-x20'
+
+
 def do(i, arg):
     # Detect basic platform info.
     ii={'action':'detect',
@@ -29,10 +40,10 @@ def do(i, arg):
     tos=r['os_uoa']
     tosd=r['os_dict']
     tdid=r['device_id']
+
     # Program and command.
     program='caffe-time'
     cmd_key='default'
-    tp='opencl'
 
     # Load Caffe program meta and desc to check deps.
     ii={'action':'load',
@@ -158,18 +169,9 @@ def do(i, arg):
         lib_tags=re.match('BVLC Caffe framework \((?P<tags>.*)\)', lib_name)
         lib_tags=lib_tags.group('tags').replace(' ', '').replace(',', '-')
         # Skip some libs with "in [..]" or "not in [..]".
-        if lib_tags in []: continue
+        if lib_tags not in [ 'cpu' ]: continue
 
         skip_compile='no'
-
-        # Use the 'time_cpu' command for the CPU only lib, 'time_gpu' for all the rest.
-#        if r['dict']['customize']['params']['cpu_only']==1:
-#            cmd_key='time_cpu'
-#        else:
-#            cmd_key='time_gpu'
-#        # FIXME: Customise cmd for NVIDIA's experimental fp16 branch.
-#        if lib_tags in [ 'nvidia-fp16-cuda', 'nvidia-fp16-cudnn' ]:
-#            cmd_key='time_gpu_fp16'
 
         # For each Caffe model.*************************************************
         for model_uoa in udepm:
@@ -229,10 +231,14 @@ def do(i, arg):
                 'choices_order':[
                     [
                         '##choices#env#CK_CAFFE_BATCH_SIZE'
+                    ],
+                    [
+                        '##choices#env#OPENBLAS_NUM_THREADS'
                     ]
                 ],
                 'choices_selection':[
-                    {'type':'loop', 'start':bs['start'], 'stop':bs['stop'], 'step':bs['step'], 'default':bs['default']}
+                    {'type':'loop', 'start':bs['start'], 'stop':bs['stop'], 'step':bs['step'], 'default':bs['default']},
+                    {'type':'loop', 'start':nt['start'], 'stop':nt['stop'], 'step':nt['step'], 'default':nt['default']}
                 ],
 
                 'features_keys_to_process':['##choices#*'],
