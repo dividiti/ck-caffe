@@ -11,5 +11,5 @@
       "7"
     ]
   }, 
-  "data_name": "caffe-classification-ssd"
+  "data_name": "caffe-detection-ssd"
 }
