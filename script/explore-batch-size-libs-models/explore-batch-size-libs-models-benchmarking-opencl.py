@@ -13,11 +13,12 @@ bs={
 }
 # Number of statistical repetitions.
 num_repetitions=3
-platform_tags='mediatek-x20'
+platform_tags='samsung-s7'
 def do(i, arg):
     # Detect basic platform info.
     ii={'action':'detect',
         'module_uoa':'platform',
+        'target_os':'android21-arm64',
         'out':'out'}
     r=ck.access(ii)
     if r['return']>0: return r
@@ -110,6 +111,11 @@ def do(i, arg):
         'no_compiler_description':'yes',
         'skip_calibration':'yes',
 
+        'env':{
+          'CK_CAFFE_SKIP_BACKWARD':1,
+          'OPENBLAS_NUM_THREAD':4
+        },
+
         'cpu_freq':'max',
         'gpu_freq':'max',
 
@@ -158,7 +164,10 @@ def do(i, arg):
         lib_tags=re.match('BVLC Caffe framework \((?P<tags>.*)\)', lib_name)
         lib_tags=lib_tags.group('tags').replace(' ', '').replace(',', '-')
         # Skip some libs with "in [..]" or "not in [..]".
-        if lib_tags not in ['opencl-clblast-tune']: continue
+
+#        if lib_tags in ['opencl-clblast-tune']: continue
+
+#        if lib_tags not in ['opencl-clblast']: continue
 
 #        if lib_tags not in ['opencl-clblast-tune', 'opencl-clblast']: continue
 #        if lib_tags not in ['opencl-libdnn-clblast-tune', 'opencl-libdnn-clblast']: continue

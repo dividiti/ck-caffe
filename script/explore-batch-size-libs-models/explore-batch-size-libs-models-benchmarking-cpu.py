@@ -29,6 +29,7 @@ def do(i, arg):
     # Detect basic platform info.
     ii={'action':'detect',
         'module_uoa':'platform',
+        'target_os':'android21-arm64',
         'out':'out'}
     r=ck.access(ii)
     if r['return']>0: return r
@@ -116,6 +117,11 @@ def do(i, arg):
 
         'target_os':tos,
         'device_id':tdid,
+
+        'env':{
+          'CK_CAFFE_SKIP_BACKWARD':1,
+          'OPENBLAS_NUM_THREAD':4
+        },
 
         'no_state_check':'yes',
         'no_compiler_description':'yes',
