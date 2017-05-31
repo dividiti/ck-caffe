@@ -1,3 +1,16 @@
+# [cknowledge.org/ai](http://cknowledge.org/ai): Crowdsourcing benchmarking and optimisation of AI
+
+A suite of open-source tools for [collecting knowledge on optimising AI](http://bit.ly/hipeac49-ckdl):
+* [Android app](https://play.google.com/store/apps/details?id=openscience.crowdsource.video.experiments&hl=en_GB)
+* [Desktop app](https://github.com/dividiti/ck-crowdsource-dnn-optimization)
+* [CK-Caffe](https://github.com/dividiti/ck-caffe)
+* [CK-Caffe2](https://github.com/ctuning/ck-caffe2)
+* [CK-TensorFlow](https://github.com/ctuning/ck-tensorflow)
+* [CK-TinyDNN](https://github.com/ctuning/ck-tiny-dnn)
+* [CK-TensorRT](https://github.com/dividiti/ck-tensorrt)
+* [CK-KaNN](https://github.com/dividiti/ck-kann)
+* etc.
+
 # Collective Knowledge repository for collaboratively optimising Caffe-based designs
 
 [![logo](https://github.com/ctuning/ck-guide-images/blob/master/logo-powered-by-ck.png)](http://cKnowledge.org)
@@ -129,27 +142,27 @@ $ ck run program:caffe
  $ ck run program:caffe-classification
 ```
 
-Note, that you will be asked to select a jpeg image from available CK data sets.
-We added standard demo images (cat.jpg, catgrey.jpg, fish-bike.jpg, computer_mouse.jpg)
+Note that you will be asked to select a JPEG image from available CK data sets.
+We have added standard demo images (`cat.jpg`, `catgrey.jpg`, `fish-bike.jpg`, `computer_mouse.jpg`)
 to the ['ctuning-datasets-min' repository](https://github.com/ctuning/ctuning-datasets-min).
 
-You can list them via
+You can list them via:
 ```
  $ ck pull repo:ctuning-datasets-min
  $ ck search dataset --tags=dnn
 ```
 
 ### Participating in collaborative evaluation and optimization of various Caffe engines and models (on-going crowd-benchmarking)
-It is now possible to participate in crowd-benchmarking of Caffe via
+You can participate in crowd-benchmarking of Caffe via:
 ```
 $ ck crowdbench caffe --user={your email or ID to acknowledge contributions} --env.CK_CAFFE_BATCH_SIZE=5
 ```
 
-During collaborative benchmarking, you can select various engines (will be build on your machine)
+During collaborative benchmarking, you can select various engines (which will be built on your machine)
 and models for evaluation.
 
 You can also manually install additional flavours of Caffe engines across diverse hardware
-and OS (Linux/Windows/Android on odroid, RPi, ARM, Intel, AMD, NVIDIA, etc)
+and OS (Linux/Windows/Android on Odroid, Raspberry Pi, ARM, Intel, AMD, NVIDIA, etc.)
 as described [here](https://github.com/dividiti/ck-caffe/wiki/Installation).
 
 You can also install extra models as following:
@@ -158,13 +171,13 @@ You can also install extra models as following:
  $ ck install package:{name of above packages}
 ```
 
-You can even evaluate DNN engines on Android mobile devices connected via adb to your host machine via:
+You can even evaluate DNN engines on Android mobile devices connected via `adb` to your host machine via:
 
 ```
 $ ck crowdbench caffe --target_os=android21-arm64 --env.CK_CAFFE_BATCH_SIZE=1
 ```
 
-Feel free to try different batch sizes by changing command line option --env.CK_CAFFE_BATCH_SIZE.
+Feel free to try different batch sizes by changing command line option `--env.CK_CAFFE_BATCH_SIZE`.
 
 You can crowd-benchmark Caffe on Windows without re-compilation,
 i.e. using Caffe CPU or OpenCL binaries pre-built by the CK.
@@ -184,7 +197,7 @@ to crowdsource benchmarking of ARM-based Caffe libraries for image recognition.
 You can see continuously aggregated results in the
 [public Collective Knowledge repository](http://cknowledge.org/repo/web.php?native_action=show&native_module_uoa=program.optimization&scenario=1eb2f50d4620903e).
 
-If you forget this link, you can open this website from command line:
+You can also open this website from the command line:
 ```
  $ ck browse experiment.bench.caffe
 ```
@@ -203,6 +216,7 @@ you will be given command lines to plot graphs or replay experiments such as:
 ```
 $ ck plot graph:{experiment UID}
 $ ck replay experiment:{experiment UID} --point={specific optimization point}
+```
 
 ## Unifying AI API
 
@@ -280,15 +294,14 @@ hardware price and other costs
 [CPC'15](http://arxiv.org/abs/1506.06256)).
 
 We are working with the community to unify and crowdsource performance analysis
-and tuning of various DNN frameworks (or any realistic workload)
+and tuning of various DNN frameworks (or any representative workloads)
 using Collective Knowledge Technology:
 * [CK-TensorFlow](https://github.com/dividiti/ck-tensorflow)
 * [CK-Caffe2](https://github.com/ctuning/ck-caffe2)
-* [CK-TinyDNN](https://github.com/ctuning/ck-tiny-dnn)
 * [Android app for DNN crowd-benchmarking and crowd-tuning](https://play.google.com/store/apps/details?id=openscience.crowdsource.video.experiments)
 * [CK-powered ARM workload automation](https://github.com/ctuning/ck-wa)
 
-We continue gradually exposing various design and optimization
+We continue to gradually expose various design and optimization
 choices including full parameterization of existing models.
 
 ## Open R&D challenges
@@ -297,7 +310,7 @@ We use crowd-benchmarking and crowd-tuning of such realistic workloads across di
 [open academic and industrial R&D challenges](https://github.com/ctuning/ck/wiki/Research-and-development-challenges.mediawiki) -
 join this community effort!
 
-## Related Publications with long term vision
+## Related publications with long-term vision
 
 ```
 @inproceedings{Lokhmotov:2016:OCN:2909437.2909449,
