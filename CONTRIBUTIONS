@@ -1,6 +1,6 @@
 CK-Caffe is provided under a standard (3-clause) BSD license.
 
-Contributions (as pull requests or patches) are most welcome)! 
+Contributions (as pull requests or patches) are most welcome)!
 Please document them below.
 
 ================================================================================
@@ -28,25 +28,33 @@ C: Concept, feedback.
 W:
 
 ================================================================================
+N: Dmitry Savenko
+E:
+H:
+O: Xored
+C: Desktop demo. Models, datasets.
+W:
+
+================================================================================
 N: Daniil Efremov
 E:
 H:
 O: Xored
-C: Improving support to build Caffe for Android
+C: Android demo. Improving support to build Caffe for Android.
 W:
 
 ================================================================================
-N: Nicolay Chunosov
+N: Nikolay Chunosov
 E:
 H:
 O: Xored
-C: Preparing classification demo for CK-Caffe
+C: Desktop demo.
 W:
 
 ================================================================================
 N: Rahul Atlury
 E:
 H:
-O: 
+O:
 C: Hints to compile Caffe OpenCL on Intel GPU (Ubuntu 17.04)
 W:

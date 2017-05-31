@@ -50,6 +50,8 @@ and [online demo of CK AI API with self-optimizing DNN](http://cKnowledge.org/ai
 * Anton Lokhmotov, [dividiti](http://dividiti.com)
 * Unmesh Bordoloi, [General Motors](http://gm.com)
 * Grigori Fursin, [dividiti](http://dividiti.com) / [cTuning foundation](http://ctuning.org)
+* Dmitry Savenko, [Xored](http://xored.com)
+* Daniil Efremov, [Xored](http://xored.com)
 * Flavio Vella, [dividiti](http://dividiti.com)
 
 ## Public benchmarking results
