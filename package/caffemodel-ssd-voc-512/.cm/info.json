@@ -1,0 +1,15 @@
+{
+  "backup_data_uid": "01a873a305f644e7", 
+  "backup_module_uid": "1dc07ee0f4742028", 
+  "backup_module_uoa": "package", 
+  "control": {
+    "engine": "CK", 
+    "iso_datetime": "2017-04-12T17:17:31.837418", 
+    "version": [
+      "1", 
+      "8", 
+      "7"
+    ]
+  }, 
+  "data_name": "caffemodel-ssd-voc-512"
+}

@@ -1,0 +1,179 @@
+{
+    "customize": {
+      "extra_dir": "", 
+      "git_src_dir": "src", 
+      "install_env": {
+        "PACKAGE_GIT": "YES", 
+        "PACKAGE_GIT_CHECKOUT": "ssd",
+        "PACKAGE_SUB_DIR": "src",
+        "PACKAGE_URL": "https://github.com/weiliu89/caffe",
+        "PACKAGE_SKIP_CLEAN_OBJ": "YES",
+        "CPU_ONLY": "OFF",
+        "PACKAGE_CONFIGURE_FLAGS": "-DCUDA_USE_STATIC_CUDA_RUNTIME=OFF -DCUDA_TOOLKIT_ROOT_DIR=$<<CK_ENV_COMPILER_CUDA>>$ -DCUDA_NVCC_FLAGS=\"-D_FORCE_INLINES -Wno-deprecated-gpu-targets\""
+      },
+      "use_git_revision": "yes", 
+      "version": "ssd"
+    },
+    "deps": {
+      "cmake": {
+        "force_target_as_host": "yes",
+        "local": "yes",
+        "name": "cmake",
+        "skip_from_bat": "yes",
+        "sort": 5,
+        "tags": "tool,cmake"
+      },
+      "compiler": {
+        "local": "yes",
+        "name": "C++ compiler",
+        "sort": 10,
+        "tags": "compiler,lang-cpp",
+        "update_tags_by_target_platform2": {
+          "android": "gcc",
+          "linux": "gcc",
+          "win": "mcl"
+        }
+      },
+      "compiler-cuda": {
+        "local": "yes",
+        "name": "CUDA compiler >=7.0",
+        "sort": 16,
+        "tags": "compiler,lang-c-cuda"
+      },
+      "python": {
+        "local": "yes",
+        "name": "Python interpreter",
+        "sort": 5,
+        "tags": "compiler,python"
+      },
+      "lib-blas": {
+        "local": "yes",
+        "name": "BLAS library",
+        "skip_default": "yes",
+        "sort": 30,
+        "tags": "lib,blas,openblas"
+      },
+      "lib-boost": {
+        "local": "yes",
+        "name": "Boost library",
+        "skip_installed": {
+          "android": "yes",
+          "win": "yes"
+        },
+        "sort": 25,
+        "tags": "lib,boost"
+      },
+      "lib-gflags": {
+        "force_env_init": "yes",
+        "local": "yes",
+        "name": "GFlags library",
+        "skip_installed": {
+          "android": "yes",
+          "win": "yes"
+        },
+        "sort": 12,
+        "tags": "lib,gflags",
+        "update_tags_by_target_platform2": {
+          "android": "v2.2.0",
+          "win": "v2.2.0"
+        }
+      },
+      "lib-glog": {
+        "local": "yes",
+        "name": "GLog library",
+        "skip_installed": {
+          "android": "yes",
+          "win": "yes"
+        },
+        "sort": 14,
+        "tags": "lib,glog"
+      },
+      "lib-hdf5": {
+        "local": "yes",
+        "name": "HDF5 library",
+        "only_for_target_os_tags": [
+          "linux",
+          "windows"
+        ],
+        "skip_installed": {
+          "win": "yes"
+        },
+        "sort": 19,
+        "tags": "lib,hdf5"
+      },
+      "lib-lmdb": {
+        "local": "yes",
+        "name": "LMDB library",
+        "only_for_target_os_tags": [
+          "linux"
+        ],
+        "sort": 18,
+        "tags": "lib,lmdb"
+      },
+      "lib-opencv": {
+        "local": "yes",
+        "name": "OpenCV library",
+        "skip_installed": {
+          "android": "yes",
+          "win": "yes"
+        },
+        "sort": 20,
+        "tags": "lib,opencv"
+      },
+      "lib-protobuf": {
+        "local": "yes",
+        "name": "ProtoBuf library",
+        "only_for_target_os_tags": [
+          "android"
+        ],
+        "skip_installed": {
+          "android": "yes",
+          "win": "yes"
+        },
+        "sort": 110,
+        "tags": "lib,protobuf,v3.1.0"
+      },
+      "lib-protobuf-host": {
+        "force_target_as_host": "yes",
+        "local": "yes",
+        "name": "ProtoBuf host compiler",
+        "skip_installed": {
+          "android": "yes",
+          "win": "yes"
+        },
+        "sort": 115,
+        "tags": "lib,protobuf-host,v3.1.0"
+      }
+    }, 
+    "end_full_path": {
+      "linux": "install/bin/caffe",
+      "win": "install/bin/caffe.exe"
+    },
+    "only_for_host_os_tags": [
+      "linux"
+    ],
+    "only_for_target_os_tags": [
+      "linux"
+    ],
+    "need_cpu_info": "yes",
+    "package_extra_name": " (cuda ssd)", 
+    "process_script": "install",
+    "soft_uoa": "04ab08137582bd03", 
+    "suggested_path": "lib-caffe-cuda", 
+    "tags": [
+      "lib", 
+      "caffe", 
+      "caffe-ssd", 
+      "ssd", 
+      "vcuda",
+      "vno-cudnn"
+    ], 
+    "use_preprocess_scripts_from_another_entry": {
+      "data_uoa": "fd44428fbc77f77f",
+      "module_uoa": "84e27ad9dd12e734"
+    },
+    "use_scripts_from_another_entry": {
+      "data_uoa": "cd9ccc74060b3d18", 
+      "module_uoa": "script"
+    }
+}
