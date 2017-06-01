@@ -1,0 +1,16 @@
+{
+  "backup_data_uid": "155b014d7af749ce", 
+  "backup_module_uid": "1dc07ee0f4742028", 
+  "backup_module_uoa": "package", 
+  "control": {
+    "engine": "CK", 
+    "iso_datetime": "2017-04-07T16:29:19.181093", 
+    "version": [
+      "1", 
+      "8", 
+      "7", 
+      "1"
+    ]
+  }, 
+  "data_name": "lib-caffe-ssd-cpu"
+}

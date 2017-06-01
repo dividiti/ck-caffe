@@ -1,0 +1,24 @@
+{
+  "auto_detect": "yes",
+  "customize": {
+    "check_that_exists": "yes",
+    "ck_version": 10,
+    "env_prefix": "CK_ENV_DATASET_COCO",
+    "limit_recursion_dir_search": {
+      "linux": 5
+    },
+    "soft_file": {
+      "linux": ""
+    }
+  },
+  "deps": {
+  },
+  "soft_name": "COCO dataset",
+  "tags": [
+    "dataset",
+    "coco",
+    "COCO",
+    "object-detection",
+    "images"
+  ]
+}

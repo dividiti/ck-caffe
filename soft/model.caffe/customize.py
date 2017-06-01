@@ -89,6 +89,11 @@ def setup(i):
       env[ep + '_MEAN_BIN'] = os.path.join(pi, mean_bin_file)
       env[ep + '_MEAN_BIN_FILE'] = mean_bin_file
 
+    labelmap_file = cus.get('file_with_labelmap','')
+    if (labelmap_file != ''):
+      env[ep + '_LABELMAP'] = os.path.join(pi, labelmap_file)
+      env[ep + '_LABELMAP_FILE'] = labelmap_file
+
     # record params
     pff=cus['ck_params_file']
     pf=os.path.join(pi, pff)
