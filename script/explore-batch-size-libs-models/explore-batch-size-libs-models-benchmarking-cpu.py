@@ -120,7 +120,7 @@ def do(i, arg):
 
         'env':{
           'CK_CAFFE_SKIP_BACKWARD':1,
-          'OPENBLAS_NUM_THREAD':4
+          'OPENBLAS_NUM_THREADS':4
         },
 
         'no_state_check':'yes',

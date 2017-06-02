@@ -206,7 +206,12 @@ def setup(i):
        env[ep+'_CXXFLAGS']='/D CMAKE_WINDOWS_BUILD'
 
        env[ep+'_LFLAG']=os.path.join(pl,'caffe.lib')
-       env[ep+'_LFLAG_PROTO']=os.path.join(pl,'proto.lib')
+
+       x=os.path.join(pl,'proto.lib')
+       if not os.path.isfile(x):
+          x=os.path.join(pl,'caffeproto.lib')
+
+       env[ep+'_LFLAG_PROTO']=x
 
        # HACK - need to check BOOST version and vc ...
        env[ep+'_LINK_FLAGS']='/link /NODEFAULTLIB:libboost_date_time-vc140-mt-1_62.lib /NODEFAULTLIB:libboost_filesystem-vc140-mt-1_62.lib /NODEFAULTLIB:libboost_system-vc140-mt-1_62.lib'
