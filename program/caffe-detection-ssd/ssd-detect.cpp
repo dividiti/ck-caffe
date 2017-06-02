@@ -501,6 +501,14 @@ void print_counter_map(std::ostream& out, std::map<std::string, int>& counter_ma
   }
 }
 
+bool interrupt_requested() {
+  const char* finisher = getenv("FINISHER_FILE");
+  if (NULL == finisher || strcmp(finisher, "") == 0) {
+    return false;
+  }
+  return fs::exists(finisher);
+}
+
 void detect_continuously(Detector& detector, const string& dir, std::ostream& out, float confidence_threshold) {
   static const cv::Scalar ground_truth_color = CV_RGB(200, 200, 200);
 
@@ -526,6 +534,9 @@ void detect_continuously(Detector& detector, const string& dir, std::ostream& ou
   CHECK(fs::create_directory(out_dir)) << "Unable to create output directory " << out_dir;
 
   for (const auto& p : paths) {
+    if (interrupt_requested()) {
+      return;
+    }
     std::string file = p.string();
     cv::Mat img = cv::imread(file, -1);
     CHECK(!img.empty()) << "Unable to decode image " << file;
