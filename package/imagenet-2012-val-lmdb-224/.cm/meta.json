@@ -51,6 +51,6 @@
     "caffe", 
     "ilsvrc2012",
     "v224",
-    "bvlc-alexnet"
+    "bvlc-googlenet"
   ]
 }

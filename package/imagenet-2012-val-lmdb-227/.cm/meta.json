@@ -51,6 +51,8 @@
     "caffe", 
     "ilsvrc2012",
     "v227",
-    "bvlc-googlenet"
+    "bvlc-alexnet",
+    "deepscale-squeezenet-1.0",
+    "deepscale-squeezenet-1.1"
   ]
 }
