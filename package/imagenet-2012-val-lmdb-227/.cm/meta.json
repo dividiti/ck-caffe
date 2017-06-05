@@ -51,7 +51,6 @@
     "caffe", 
     "ilsvrc2012",
     "resize-227",
-    "bvlc-alexnet",
     "deepscale-squeezenet-1.0",
     "deepscale-squeezenet-1.1"
   ]

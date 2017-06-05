@@ -50,6 +50,7 @@
     "lmdb",
     "caffe", 
     "default",
+    "bvlc-alexnet",
     "ilsvrc2012"
   ]
 }
