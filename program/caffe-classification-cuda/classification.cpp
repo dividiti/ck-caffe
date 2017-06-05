@@ -293,6 +293,14 @@ void classify_single_image(Classifier& classifier, const fs::path& file_path) {
   }
 }
 
+bool interrupt_requested() {
+  const char* finisher = getenv("FINISHER_FILE");
+  if (NULL == finisher || strcmp(finisher, "") == 0) {
+    return false;
+  }
+  return fs::exists(finisher);
+}
+
 void classify_continuously(Classifier& classifier, const fs::path& val_path, const fs::path& dir) {
   std::map<std::string, std::string> correct_labels;
 
@@ -313,6 +321,9 @@ void classify_continuously(Classifier& classifier, const fs::path& val_path, con
   fs::directory_iterator end_iter;
   while (true) {
     for (fs::directory_iterator dir_iter(dir) ; dir_iter != end_iter ; ++dir_iter){
+      if (interrupt_requested()) {
+        return;
+      }
       if (!fs::is_regular_file(dir_iter->status())) {
         // skip non-images
         continue;
