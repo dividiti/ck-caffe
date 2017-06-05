@@ -49,6 +49,7 @@
     "val-lmdb", 
     "lmdb",
     "caffe", 
+    "default",
     "ilsvrc2012"
   ]
 }

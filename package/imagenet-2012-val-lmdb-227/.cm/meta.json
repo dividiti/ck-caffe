@@ -50,7 +50,7 @@
     "lmdb", 
     "caffe", 
     "ilsvrc2012",
-    "v227",
+    "resize-227",
     "bvlc-alexnet",
     "deepscale-squeezenet-1.0",
     "deepscale-squeezenet-1.1"

@@ -50,7 +50,7 @@
     "lmdb", 
     "caffe", 
     "ilsvrc2012",
-    "v224",
+    "resize-224",
     "bvlc-googlenet"
   ]
 }
