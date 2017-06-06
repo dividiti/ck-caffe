@@ -257,7 +257,7 @@ def do(i, arg):
                 'module_uoa':'pipeline',
                 'data_uoa':'program',
                 
-                'iterations':-1,
+                'iterations':1,
                 'repetitions':num_repetitions,
 
                 'record':'yes',
@@ -272,13 +272,13 @@ def do(i, arg):
 
                 'pipeline':cpipeline,
                 'out':'con'}
-#
-#            r=ck.access(ii)
-#            if r['return']>0: return r
-#
-#            fail=r.get('fail','')
-#            if fail=='yes':
-#                return {'return':10, 'error':'pipeline failed ('+r.get('fail_reason','')+')'}
+
+            r=ck.access(ii)
+            if r['return']>0: return r
+
+            fail=r.get('fail','')
+            if fail=='yes':
+                return {'return':10, 'error':'pipeline failed ('+r.get('fail_reason','')+')'}
 #
             skip_compile='yes'
 
