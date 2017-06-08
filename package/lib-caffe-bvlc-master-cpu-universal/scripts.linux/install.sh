@@ -82,29 +82,17 @@ cmake -DCMAKE_BUILD_TYPE=${CK_ENV_CMAKE_BUILD_TYPE:-Release} \
       -DOpenCV_DIR="${OPENCV_DIR}" \
       -DPROTOBUF_INCLUDE_DIR="${CK_ENV_LIB_PROTOBUF_HOST_INCLUDE}" \
       -DPROTOBUF_PROTOC_EXECUTABLE="${CK_ENV_LIB_PROTOBUF_HOST}/bin/protoc" \
+      -DPROTOBUF_LIBRARY="${CK_ENV_LIB_PROTOBUF_HOST_LIB}/libprotobuf.a" \
       -DCMAKE_INSTALL_PREFIX="${INSTALL_DIR}/install" \
       -DCMAKE_VERBOSE_MAKEFILE=ON \
       ../src
-
-#      -DGFLAGS_LIBRARY="${CK_ENV_LIB_GFLAGS_LIB}/libgflags.so" \
-#      -DGLOG_LIBRARY="${CK_ENV_LIB_GLOG_LIB}/libglog.a" \
-
 
 #      -DOpenCV_INSTALL_PATH="${CK_ENV_LIB_OPENCV}" \
 #      -DOpenCV_INCLUDE_DIRS="${CK_ENV_LIB_OPENCV_INCLUDE}" \
 #      -DOpenCV_LIB_DIR_OPT="${CK_ENV_LIB_OPENCV_LIB}" \
 
-
-#      -DPROTOBUF_LIBRARY="${CK_ENV_LIB_PROTOBUF_HOST_LIB}/${CK_ENV_LIB_PROTOBUF_HOST_STATIC_NAME}" \
-
 #      -DBoost_USE_STATIC_LIBS=ON \
 #      -DBoost_NO_SYSTEM_PATHS=ON \
-#      -DGFLAGS_LIBRARY="${CK_ENV_LIB_GFLAGS_LIB}/libgflags.a" \
-#      -DGLOG_LIBRARY="${CK_ENV_LIB_GLOG_LIB}/libglog.a" \
-#      -DLMDB_LIBRARIES="${CK_ENV_LIB_LMDB_LIB}/liblmdb.a" \
-#      -DPROTOBUF_LIBRARY="${CK_ENV_LIB_PROTOBUF_HOST_LIB}/libprotobuf.a" \
-
-
 
 if [ "${?}" != "0" ] ; then
   echo "Error: cmake failed!"
