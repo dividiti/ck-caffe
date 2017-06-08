@@ -40,7 +40,7 @@
       "USE_CUDA": 1, 
       "USE_CUDNN": 0, 
       "USE_FFT": 0, 
-      "USE_GREENTEA": 1, 
+      "USE_GREENTEA": 0, 
       "USE_INTEL_SPATIAL": "OFF", 
       "USE_ISAAC": 0, 
       "USE_LEVELDB": "ON", 
@@ -75,13 +75,13 @@
       "sort": 5, 
       "tags": "tool,cmake"
     }, 
-    "compiler": {
+    "compiler-cuda": {
       "local": "yes",
       "name": "CUDA compiler >=7.0",
-      "sort": 9,
+      "sort": 11,
       "tags": "compiler,lang-c-cuda"
     },
-    "compiler-extra": {
+    "compiler": {
       "local": "yes", 
       "name": "C++ compiler", 
       "sort": 10, 
