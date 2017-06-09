@@ -601,7 +601,6 @@ void detect_continuously(detect_context& ctx, const string& dir) {
 void flush(cv::VideoCapture& camera) {
   static const int timer = 3;
 
-  int framesWithDelayCount = 0;
   int skipped = 0;
   while (skipped < FLAGS_webcam_max_skipped_frames) {
     x_clock_start(timer);
