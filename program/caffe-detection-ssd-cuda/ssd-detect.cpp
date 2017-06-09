@@ -603,6 +603,7 @@ void flush(cv::VideoCapture& camera) {
 
   int skipped = 0;
   while (skipped < FLAGS_webcam_max_skipped_frames) {
+    ++skipped;
     x_clock_start(timer);
     camera.grab();
     x_clock_end(timer);
