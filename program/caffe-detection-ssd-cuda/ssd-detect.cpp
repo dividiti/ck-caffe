@@ -274,14 +274,18 @@ DEFINE_double(iou_threshold, 0.7,
     "Threshold for IoU metric to determine false positives.");
 DEFINE_bool(continuous, false, 
     "Run continuously for each image from the dataset");
+DEFINE_bool(webcam, false, 
+    "Run continuously for webcam snapshots");
 DEFINE_string(labelmap_file, "",
     "If provided, should point to the file with labels.");
 DEFINE_string(label_dir, "",
     "Directory with image labels (the ground truth data).");
 DEFINE_string(out_images_dir, "out",
     "In continuous mode, puts processed images into this directory (recreates the directory first).");
+DEFINE_int32(webcam_max_image_count, 10000,
+    "Maximum image count generated in the webcam mode.");
 
-void detect_single_image(Detector& detector, const string& file, std::ostream& out, float confidence_threshold) {
+void detect_single_image(Detector& detector, const string& file, std::ostream& out) {
   long ct_repeat=0;
   long ct_repeat_max=1;
   int ct_return=0;
@@ -303,7 +307,7 @@ void detect_single_image(Detector& detector, const string& file, std::ostream& o
     // Detection format: [image_id, label, score, xmin, ymin, xmax, ymax].
     CHECK_EQ(d.size(), 7);
     const float score = d[2];
-    if (score >= confidence_threshold) {
+    if (score >= FLAGS_confidence_threshold) {
       out << file << " ";
       out << static_cast<int>(d[1]) << " ";
       out << score << " ";
@@ -380,11 +384,11 @@ cv::Scalar get_color(const std::string& label) {
   return it == colors.end() ? default_color : it->second;
 }
 
-fs::path label_file(const fs::path& label_dir, const fs::path& image_file) {
+fs::path label_file(const fs::path& label_dir, const std::string& image_file_name) {
   if (label_dir.empty()) {
     return fs::path("");
   }
-  fs::path ret = label_dir / image_file.filename();
+  fs::path ret = label_dir / image_file_name;
   ret.replace_extension(".txt");
   return ret;
 }
@@ -420,7 +424,8 @@ float iou(const object& o1, const object& o2) {
 object parse_ground_truth(const std::string& line, const std::map<std::string, int>& reverse_labelmap) {
   static const std::map<std::string, std::string> label_aliases = {
     {"pedestrian", "person"},
-    {"cyclist", "bicycle"}
+    {"cyclist", "bicycle"},
+    {"motorcycle", "motorbike"}
   };
   object ret;
   std::string& label = ret.label;
@@ -508,13 +513,65 @@ bool interrupt_requested() {
   return fs::exists(finisher);
 }
 
-void detect_continuously(Detector& detector, const string& dir, std::ostream& out, float confidence_threshold) {
+struct detect_context {
+  Detector* detector;
+  std::ostream* out;
+  fs::path out_dir;
+  fs::path label_dir;
+  std::map<int, std::string> labelmap;
+  std::map<std::string, int> reverse_labelmap;
+};
+
+void detect_img(const detect_context& ctx, cv::Mat& img, const std::string& filename) {
   static const cv::Scalar ground_truth_color = CV_RGB(200, 200, 200);
 
-  auto labelmap = read_labelmap(FLAGS_labelmap_file);
-  auto reverse_labelmap = flip_labelmap(labelmap);
-
   const int timer = 2;
+  x_clock_start(timer);
+  std::vector<vector<float> > detections = ctx.detector->Detect(img);
+  x_clock_end(timer);
+
+  std::string out_file = fs::absolute((ctx.out_dir / filename)).string();
+  std::map<std::string, int> recognized;
+  std::map<std::string, int> expected;
+  std::map<std::string, int> false_positive;
+
+  // read expected results
+  std::vector<object> ground_truth = read_label_file(label_file(ctx.label_dir, filename), ctx.reverse_labelmap);
+  for (auto const& o: ground_truth) {
+    draw_rect(img, o, ground_truth_color, false);
+    count_object(o, expected);
+  }
+
+  /* Print the detection results. */
+  for (int i = 0; i < detections.size(); ++i) {
+    object o = parse_detections(img, detections[i], ctx.labelmap);
+    if (o.score >= FLAGS_confidence_threshold) {
+      count_object(o, recognized);
+      draw_rect(img, o);
+      bool miss = true;
+      for (auto& gto: ground_truth) {
+        if (gto.label == o.label && iou(gto, o) >= FLAGS_iou_threshold) {
+          miss = false;
+          gto.label = ""; // empty the object to not pick it up in the future
+          break;
+        }
+      }
+      if (miss) {
+        count_object(o, false_positive);
+      }
+    }
+  }
+  CHECK(cv::imwrite(out_file, img)) << "Failed to write file " << out_file;
+  *ctx.out << "File: " << out_file << std::endl;
+  *ctx.out << "Duration: " << x_get_time(timer) << " sec" << std::endl;
+  print_counter_map(*ctx.out, recognized, "Recognized");
+  print_counter_map(*ctx.out, expected, "Expected");
+  print_counter_map(*ctx.out, false_positive, "False positive");
+  *ctx.out << std::endl;
+  ctx.out->flush();
+}
+
+void detect_continuously(detect_context& ctx, const string& dir) {
   fs::directory_iterator end_iter;
   std::vector<fs::path> paths;
   for (fs::directory_iterator dir_iter(dir) ; dir_iter != end_iter ; ++dir_iter) {
@@ -526,12 +583,6 @@ void detect_continuously(Detector& detector, const string& dir, std::ostream& ou
   }
   std::sort(paths.begin(), paths.end());
 
-  fs::path label_dir(FLAGS_label_dir);
-
-  fs::path out_dir(FLAGS_out_images_dir);
-  fs::remove_all(out_dir);
-  CHECK(fs::create_directory(out_dir)) << "Unable to create output directory " << out_dir;
-
   for (const auto& p : paths) {
     if (interrupt_requested()) {
       return;
@@ -539,51 +590,22 @@ void detect_continuously(Detector& detector, const string& dir, std::ostream& ou
     std::string file = p.string();
     cv::Mat img = cv::imread(file, -1);
     CHECK(!img.empty()) << "Unable to decode image " << file;
-
-    x_clock_start(timer);
-    std::vector<vector<float> > detections = detector.Detect(img);
-    x_clock_end(timer);
-
-    std::string out_file = fs::absolute((out_dir / p.filename())).string();
-    std::map<std::string, int> recognized;
-    std::map<std::string, int> expected;
-    std::map<std::string, int> false_positive;
-
-    // read expected results
-    std::vector<object> ground_truth = read_label_file(label_file(label_dir, p), reverse_labelmap);
-    for (auto const& o: ground_truth) {
-      draw_rect(img, o, ground_truth_color, false);
-      count_object(o, expected);
-    }
-
-    /* Print the detection results. */
-    for (int i = 0; i < detections.size(); ++i) {
-      object o = parse_detections(img, detections[i], labelmap);
-      if (o.score >= confidence_threshold) {
-        count_object(o, recognized);
-        draw_rect(img, o);
-        bool miss = true;
-        for (auto& gto: ground_truth) {
-          if (gto.label == o.label && iou(gto, o) >= FLAGS_iou_threshold) {
-            miss = false;
-            gto.label = ""; // empty the object to not pick it up in the future
-            break;
-          }
-        }
-        if (miss) {
-          count_object(o, false_positive);
-        }
-      }
-    }
-    CHECK(cv::imwrite(out_file, img)) << "Failed to write file " << out_file;
-    out << "File: " << out_file << std::endl;
-    out << "Duration: " << x_get_time(timer) << " sec" << std::endl;
-    print_counter_map(out, recognized, "Recognized");
-    print_counter_map(out, expected, "Expected");
-    print_counter_map(out, false_positive, "False positive");
-    out << std::endl;
-    out.flush();
+    detect_img(ctx, img, p.filename().string());
   }
+}
+
+void detect_webcam(detect_context& ctx) {
+  cv::VideoCapture cap(0);
+  for (int i = 0; !interrupt_requested(); i = (i + 1) % FLAGS_webcam_max_image_count) {
+    cv::Mat img;
+    if (!cap.read(img)) {
+      break;
+    }
+    std::ostringstream ss;
+    ss << std::setw(6) << std::setfill('0') << i;
+    detect_img(ctx, img, "webcam_" + ss.str() + ".jpg");
+  }
+  cap.release();
 }
 
 int main(int argc, char** argv) {
@@ -602,22 +624,19 @@ int main(int argc, char** argv) {
 
   gflags::SetUsageMessage("Do detection using SSD mode.\n"
         "Usage:\n"
-        "    ssd_detect [FLAGS] model_file weights_file list_file\n");
+        "    ssd_detect [FLAGS] model_file weights_file [list_file]\n");
   gflags::ParseCommandLineFlags(&argc, &argv, true);
 
-  if (argc < 4) {
-    gflags::ShowUsageWithFlagsRestrict(argv[0], "examples/ssd/ssd_detect");
+  if (argc < 3) {
+    gflags::ShowUsageWithFlagsRestrict(argv[0], "ck run");
     return 1;
   }
 
-  const bool continuous_mode = FLAGS_continuous;
   const string& model_file = argv[1];
   const string& weights_file = argv[2];
   const string& mean_file = FLAGS_mean_file;
   const string& mean_value = FLAGS_mean_value;
   const string& out_file = FLAGS_out_file;
-  const string& labelmap_file = FLAGS_labelmap_file;
-  const float confidence_threshold = FLAGS_confidence_threshold;
 
   // Initialize the network.
   x_clock_start(0);
@@ -635,12 +654,24 @@ int main(int argc, char** argv) {
   }
   std::ostream out(buf);
 
-  std::string file = argv[3];
+  if (FLAGS_continuous || FLAGS_webcam) {
+    detect_context ctx;
+    ctx.detector = &detector;
+    ctx.out = &out;
+    ctx.out_dir = fs::path(FLAGS_out_images_dir);
+    fs::remove_all(ctx.out_dir);
+    CHECK(fs::create_directory(ctx.out_dir)) << "Unable to create output directory " << ctx.out_dir;
+    ctx.label_dir = fs::path(FLAGS_label_dir);
+    ctx.labelmap = read_labelmap(FLAGS_labelmap_file);
+    ctx.reverse_labelmap = flip_labelmap(ctx.labelmap);
 
-  if (continuous_mode) {
-    detect_continuously(detector, file, out, confidence_threshold);
+    if (FLAGS_continuous) {
+      detect_continuously(ctx, argv[3]);
+    } else {
+      detect_webcam(ctx);
+    }
   } else {
-    detect_single_image(detector, file, out, confidence_threshold);
+    detect_single_image(detector, argv[3], out);
   }
 
 #ifdef XOPENME

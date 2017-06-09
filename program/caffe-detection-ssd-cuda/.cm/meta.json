@@ -170,6 +170,32 @@
           "tmp-ck-timer.json"
         ]
       }
+    },
+    "use_webcam": {
+      "ignore_return_code": "no",
+      "run_time": {
+        "fine_grain_timer_file": "tmp-ck-timer.json",
+        "params": {
+          "caffemodel_key": "deploy",
+          "classification": "yes"
+        },
+        "pre_process_via_ck": {
+          "data_uoa": "569404c41618603a",
+          "script_name": "preprocess"
+        },
+        "run_cmd_main": "$#BIN_FILE#$ --webcam --labelmap_file=$<<CK_ENV_MODEL_CAFFE_LABELMAP>>$ $<<CK_CAFFE_MODEL_FILE>>$ $<<CK_CAFFE_MODEL_WEIGHTS>>$",
+        "run_cmd_out1": "tmp-output1.tmp",
+        "run_cmd_out2": "tmp-output2.tmp",
+        "run_correctness_output_files": [],
+        "run_input_files": [
+          "$<<CK_CAFFE_MODEL_FILE>>$",
+          "$<<CK_ENV_MODEL_CAFFE_WEIGHTS>>$"
+        ],
+        "run_output_files": [
+          "tmp-output.tmp",
+          "tmp-ck-timer.json"
+        ]
+      }
     }
   },
   "run_deps": {
@@ -202,7 +228,8 @@
     "demo",
     "vcuda",
     "continuous",
-    "object-detection"
+    "object-detection",
+    "webcam"
   ],
   "target_file": "ssd-detect",
   "version": "1.0.0"

@@ -282,6 +282,8 @@ DEFINE_string(label_dir, "",
     "Directory with image labels (the ground truth data).");
 DEFINE_string(out_images_dir, "out",
     "In continuous mode, puts processed images into this directory (recreates the directory first).");
+DEFINE_int32(webcam_max_image_count, 10000,
+    "Maximum image count generated in the webcam mode.");
 
 void detect_single_image(Detector& detector, const string& file, std::ostream& out) {
   long ct_repeat=0;
@@ -594,7 +596,7 @@ void detect_continuously(detect_context& ctx, const string& dir) {
 
 void detect_webcam(detect_context& ctx) {
   cv::VideoCapture cap(0);
-  for (int i = 0; !interrupt_requested(); ++i) {
+  for (int i = 0; !interrupt_requested(); i = (i + 1) % FLAGS_webcam_max_image_count) {
     cv::Mat img;
     if (!cap.read(img)) {
       break;
