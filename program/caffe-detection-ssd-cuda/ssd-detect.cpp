@@ -282,8 +282,12 @@ DEFINE_string(label_dir, "",
     "Directory with image labels (the ground truth data).");
 DEFINE_string(out_images_dir, "out",
     "In continuous mode, puts processed images into this directory (recreates the directory first).");
-DEFINE_int32(webcam_max_image_count, 10000,
+DEFINE_int32(webcam_max_image_count, 5000,
     "Maximum image count generated in the webcam mode.");
+DEFINE_int32(webcam_max_skipped_frames, 20,
+    "Maximum frames skipped.");
+DEFINE_double(webcam_skip_frames_delay, 0.009,
+    "Maximum frame skipped frame delay.");
 
 void detect_single_image(Detector& detector, const string& file, std::ostream& out) {
   long ct_repeat=0;
@@ -594,10 +598,27 @@ void detect_continuously(detect_context& ctx, const string& dir) {
   }
 }
 
+void flush(cv::VideoCapture& camera) {
+  static const int timer = 3;
+
+  int framesWithDelayCount = 0;
+  int skipped = 0;
+  while (skipped < FLAGS_webcam_max_skipped_frames) {
+    x_clock_start(timer);
+    camera.grab();
+    x_clock_end(timer);
+    auto delay = x_get_time(timer);
+    if (delay > FLAGS_webcam_skip_frames_delay) {
+      break;
+    }
+  }
+}
+
 void detect_webcam(detect_context& ctx) {
   cv::VideoCapture cap(0);
   for (int i = 0; !interrupt_requested(); i = (i + 1) % FLAGS_webcam_max_image_count) {
     cv::Mat img;
+    flush(cap);
     if (!cap.read(img)) {
       break;
     }
@@ -611,7 +632,7 @@ void detect_webcam(detect_context& ctx) {
 int main(int argc, char** argv) {
 
 #ifdef XOPENME
-  xopenme_init(3,0);
+  xopenme_init(4,0);
 #endif
 
   ::google::InitGoogleLogging(argv[0]);
