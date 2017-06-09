@@ -50,7 +50,7 @@
       "use_opencv": 1
     },
     "use_git_revision": "yes",
-    "version": "trunk"
+    "version": "master"
   },
   "deps": {
     "cmake": {

@@ -1,0 +1,23 @@
+diff -ruN src/examples/CMakeLists.txt src.new/examples/CMakeLists.txt
+--- src/examples/CMakeLists.txt	2016-12-22 23:50:41.956044652 +0100
++++ src.new/examples/CMakeLists.txt	2016-12-28 18:47:44.911196594 +0100
+@@ -1,5 +1,7 @@
+ file(GLOB_RECURSE examples_srcs "${PROJECT_SOURCE_DIR}/examples/*.cpp")
+ 
++set(CMAKE_CXX_LINK_EXECUTABLE "${CMAKE_CXX_LINK_EXECUTABLE} ${CMAKE_EXE_LINKER_LIBS}")
++
+ foreach(source_file ${examples_srcs})
+   # get file name
+   get_filename_component(name ${source_file} NAME_WE)
+diff -ruN src/tools/CMakeLists.txt src.new/tools/CMakeLists.txt
+--- src/tools/CMakeLists.txt	2016-12-22 23:50:42.076044647 +0100
++++ src.new/tools/CMakeLists.txt	2016-12-28 18:47:48.959196521 +0100
+@@ -1,6 +1,8 @@
+ # Collect source files
+ file(GLOB_RECURSE srcs ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp)
+ 
++set(CMAKE_CXX_LINK_EXECUTABLE "${CMAKE_CXX_LINK_EXECUTABLE} ${CMAKE_EXE_LINKER_LIBS}")
++
+ # Build each source file independently
+ foreach(source ${srcs})
+   get_filename_component(name ${source} NAME_WE)
