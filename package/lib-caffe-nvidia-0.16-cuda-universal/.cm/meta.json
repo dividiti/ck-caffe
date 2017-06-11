@@ -64,7 +64,7 @@
     "no_ver_in_suggested_path": "yes",
     "skip_file_check": "yes",
     "use_git_revision": "yes",
-    "version": "0.16"
+    "version": "caffe-0.16"
   },
   "deps": {
     "cmake": {
@@ -191,16 +191,18 @@
     "linux",
     "windows"
   ],
-  "package_extra_name": " (nvidia,cuda,fp32)",
+  "package_extra_name": " (nvidia,cuda)",
   "process_script": "install",
   "soft_uoa": "04ab08137582bd03",
-  "suggested_path": "lib-caffe-nvidia-0.16-cuda-fp32",
+  "suggested_path": "lib-caffe-nvidia-0.16-cuda",
   "tags": [
     "lib",
     "caffe",
     "nvidia",
+    "vcaffe-0.16",
     "v0.16",
     "vfp32",
+    "vfp16",
     "vcuda",
     "vno-cudnn"
   ],
