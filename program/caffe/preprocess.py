@@ -1,7 +1,9 @@
 #
 # Preprocessing Caffe templates
 #
-# Developer: Grigori Fursin, cTuning foundation, 2016
+# Developers:
+# - Grigori Fursin, cTuning foundation, 2016
+# - Anton Lokhmotov, dividiti, 2017
 #
 
 import json
@@ -57,12 +59,12 @@ def ck_preprocess(i):
     if deps.get('imagenet-aux', '') != '':
         aux_mean_bin = deps['imagenet-aux']['dict']['env'].get('CK_CAFFE_IMAGENET_MEAN_BIN', '')
     model_mean_bin = x['dict']['env'].get('CK_ENV_MODEL_CAFFE_MEAN_BIN', '')
-   
+
     if aux_mean_bin != '':
         mean_bin = aux_mean_bin
     if model_mean_bin != '':
         mean_bin = model_mean_bin
-    
+
     nenv['CK_CAFFE_MODEL_MEAN_BIN'] = mean_bin
 
     if remote=='yes':
@@ -77,7 +79,7 @@ def ck_preprocess(i):
 
     template=cus['template']
 
-    # load network topology template
+    # Load network topology template
     pp=os.path.join(cm_path,template)
 
     r=ck.load_text_file({'text_file':pp})
@@ -115,6 +117,7 @@ def ck_preprocess(i):
 
     nenv['CK_CAFFE_BATCH_SIZE']=bs # FGG added recently to save final BATCH SIZE (for stats)
 
+    # Check iterations
     iters=env.get('CK_CAFFE_ITERATIONS','')
 
     if iters=='':
@@ -144,6 +147,17 @@ def ck_preprocess(i):
     st=st.replace('$#train_lmdb#$', plmdb)
     st=st.replace('$#val_lmdb#$', plmdb)
     st=st.replace('$#path_to_labelmap#$', path_to_labelmap)
+
+    # Check default type and math for forward and backward propagation
+    # (for NVIDIA's caffe-0.16+ branch)
+    default_forward_type=env.get('CK_CAFFE_DEFAULT_FORWARD_TYPE','')
+    if default_forward_type!='': st='default_forward_type:'+default_forward_type+'\n'+st
+    default_backward_type=env.get('CK_CAFFE_DEFAULT_BACKWARD_TYPE','')
+    if default_backward_type!='': st='default_backward_type:'+default_backward_type+'\n'+st
+    default_forward_math=env.get('CK_CAFFE_DEFAULT_FORWARD_MATH','')
+    if default_forward_math!='': st='default_forward_math:'+default_forward_math+'\n'+st
+    default_backward_math=env.get('CK_CAFFE_DEFAULT_BACKWARD_MATH','')
+    if default_backward_math!='': st='default_backward_math:'+default_backward_math+'\n'+st
 
     # Record template
     r=ck.save_text_file({'text_file':fn, 'string':st})
