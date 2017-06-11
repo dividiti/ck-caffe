@@ -1,3 +1,5 @@
+2017.06.11 - moved outdated ck-caffe:package:lib-caffe-nvidia-fp16-cuda & ck-caffe:package:lib-caffe-nvidia-fp16-cudnn to ck-old-packages
+
 2017.06.01 - fixed Caffe soft description on Windows (now detects both proto.lib or recently changed caffeproto.lib)
 
 2017.05.22 - improved Caffe library detection on non-standard platforms (lib64 vs lib)
