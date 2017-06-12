@@ -91,6 +91,7 @@ cmake -DCMAKE_BUILD_TYPE=${CK_ENV_CMAKE_BUILD_TYPE:-Release} \
       -DPROTOBUF_PROTOC_EXECUTABLE="${CK_ENV_LIB_PROTOBUF_HOST}/bin/protoc" \
       -DPROTOBUF_LIBRARY="${CK_ENV_LIB_PROTOBUF_HOST_LIB}/libprotobuf.a" \
       -DCMAKE_INSTALL_PREFIX="${INSTALL_DIR}/install" \
+      -DNO_NVML=ON \
       ../src
 
 if [ "${?}" != "0" ] ; then
