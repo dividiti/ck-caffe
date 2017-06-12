@@ -32,12 +32,16 @@ fi
 if [ "${CAFFE_BUILD_PYTHON}" == "ON" ] ; then
   echo ""
   echo "You are compiling Caffe with Python support!"
-  echo "To use it you need to set up CK env as following (after installation)":
+  echo "To use it you need to set up CK env after installation as follows:"
   echo ""
   echo "ck xset env tags=lib,caffe2 ; . ./tmp-ck-env.bat ; ipython2"
   echo ""
   read -p "Press enter to continue"
 fi
+
+# For a non-standard CUDA installation path, CUDA_BIN_PATH must be set BEFORE
+# running CMake (see https://cmake.org/cmake/help/v3.5/module/FindCUDA.html).
+export CUDA_BIN_PATH=${CK_ENV_COMPILER_CUDA}
 
 # Check extra stuff
 EXTRA_FLAGS=""
@@ -52,7 +56,6 @@ cmake -DCMAKE_BUILD_TYPE=${CK_ENV_CMAKE_BUILD_TYPE:-Release} \
       -DCMAKE_AR="${CK_AR_PATH_FOR_CMAKE}" \
       -DCMAKE_LINKER="${CK_LD_PATH_FOR_CMAKE}" \
       -DCMAKE_SHARED_LINKER_FLAGS="$CK_OPENMP" \
-      -DCUDA_USE_STATIC_CUDA_RUNTIME=OFF \
       -DBUILD_python=${CAFFE_BUILD_PYTHON} \
       -DBUILD_docs=OFF \
       -DCPU_ONLY=OFF \
@@ -62,8 +65,8 @@ cmake -DCMAKE_BUILD_TYPE=${CK_ENV_CMAKE_BUILD_TYPE:-Release} \
       -DUSE_LEVELDB=${USE_LEVELDB} \
       -DUSE_HDF5=ON \
       -DBLAS=open \
-      -DCUDA_TOOLKIT_ROOT_DIR="${CK_ENV_COMPILER_CUDA}" \
       -DCUDA_NVCC_FLAGS="-D_FORCE_INLINES -Wno-deprecated-gpu-targets" \
+      -DCUDA_USE_STATIC_CUDA_RUNTIME=OFF \
       -DGFLAGS_INCLUDE_DIR="${CK_ENV_LIB_GFLAGS_INCLUDE}" \
       -DGLOG_INCLUDE_DIR="${CK_ENV_LIB_GLOG_INCLUDE}" \
       -DGFLAGS_LIBRARY="${CK_ENV_LIB_GFLAGS_LIB}/libgflags.so" \
