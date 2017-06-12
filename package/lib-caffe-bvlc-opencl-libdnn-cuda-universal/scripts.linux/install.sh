@@ -3,12 +3,12 @@
 #
 # Installation script for Caffe.
 #
-# See CK LICENSE for licensing details.
-# See CK COPYRIGHT for copyright details.
+# See CK LICENSE.txt for licensing details.
+# See CK COPYRIGHT.txt for copyright details.
 #
 # Developer(s):
 # - Grigori Fursin, 2015;
-# - Anton Lokhmotov, 2016.
+# - Anton Lokhmotov, 2016-2017.
 #
 
 # PACKAGE_DIR
@@ -31,16 +31,19 @@ fi
 if [ "${CAFFE_BUILD_PYTHON}" == "ON" ] ; then
   echo ""
   echo "You are compiling Caffe with Python support!"
-  echo "To use it you need to set up CK env as following (after installation)":
+  echo "To use it you need to set up CK env after installation as follows:"
   echo ""
   echo "ck xset env tags=lib,caffe2 ; . ./tmp-ck-env.bat ; ipython2"
   echo ""
   read -p "Press enter to continue"
 fi
 
+# For a non-standard CUDA installation path, CUDA_BIN_PATH must be set BEFORE
+# running CMake (see https://cmake.org/cmake/help/v3.5/module/FindCUDA.html).
+export CUDA_BIN_PATH=${CK_ENV_COMPILER_CUDA}
+
 # Check extra stuff
 EXTRA_FLAGS=""
-
 
 
 cd ${INSTALL_DIR}/obj
@@ -62,7 +65,6 @@ cmake -DCMAKE_BUILD_TYPE=${CK_ENV_CMAKE_BUILD_TYPE:-Release} \
       -DCPU_ONLY=OFF \
       -DUSE_CUDA=${USE_CUDA} \
       -DCUDA_USE_STATIC_CUDA_RUNTIME=OFF \
-      -DCUDA_TOOLKIT_ROOT_DIR="${CK_ENV_COMPILER_CUDA}" \
       -DCUDA_NVCC_FLAGS="-D_FORCE_INLINES -Wno-deprecated-gpu-targets" \
       -DUSE_LIBDNN:BOOL=${USE_LIBDNN} \
       -DUSE_CLBLAS:BOOL=${USE_CLBLAS} \

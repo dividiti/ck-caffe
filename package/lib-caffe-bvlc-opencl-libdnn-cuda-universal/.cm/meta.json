@@ -62,7 +62,7 @@
       "use_lmdb": 1, 
       "use_opencv": 1, 
       "viennacl_debug": 0
-    }, 
+    },
     "use_git_revision": "yes", 
     "version": "trunk"
   }, 
@@ -77,7 +77,7 @@
     }, 
     "compiler-cuda": {
       "local": "yes",
-      "name": "CUDA compiler >=7.0",
+      "name": "CUDA compiler >= 7.0",
       "sort": 11,
       "tags": "compiler,lang-c-cuda"
     },
