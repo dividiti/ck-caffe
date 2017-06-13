@@ -35,6 +35,10 @@ if [ "${CK_LD_PATH_FOR_CMAKE}" != "" ] ; then
     XCMAKE_LD=" -DCMAKE_LINKER=${CK_LD_PATH_FOR_CMAKE} "
 fi
 
+# For a non-standard CUDA installation path, CUDA_BIN_PATH must be set BEFORE
+# running CMake (see https://cmake.org/cmake/help/v3.5/module/FindCUDA.html).
+export CUDA_BIN_PATH=${CK_ENV_COMPILER_CUDA}
+
 cd ${INSTALL_DIR}/obj
 
 cmake -DCMAKE_BUILD_TYPE=${CK_ENV_CMAKE_BUILD_TYPE:-Release} \
@@ -74,6 +78,8 @@ cmake -DCMAKE_BUILD_TYPE=${CK_ENV_CMAKE_BUILD_TYPE:-Release} \
       -DPROTOBUF_PROTOC_EXECUTABLE="${CK_ENV_LIB_PROTOBUF_HOST}/bin/protoc" \
       -DCMAKE_INSTALL_PREFIX="${INSTALL_DIR}/install" \
       -DCMAKE_VERBOSE_MAKEFILE=ON \
+      -DCUDA_USE_STATIC_CUDA_RUNTIME=OFF \
+      -DCUDA_NVCC_FLAGS="-D_FORCE_INLINES" \
       ${PACKAGE_CONFIGURE_FLAGS} \
       ${INSTALL_DIR}/${PACKAGE_SUB_DIR}
 
