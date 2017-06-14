@@ -614,8 +614,8 @@ void flush(cv::VideoCapture& camera) {
   }
 }
 
-void detect_webcam(detect_context& ctx) {
-  cv::VideoCapture cap(0);
+void detect_webcam(detect_context& ctx, int input_device) {
+  cv::VideoCapture cap(input_device);
   for (int i = 0; !interrupt_requested(); i = (i + 1) % FLAGS_webcam_max_image_count) {
     cv::Mat img;
     flush(cap);
@@ -689,7 +689,8 @@ int main(int argc, char** argv) {
     if (FLAGS_continuous) {
       detect_continuously(ctx, argv[3]);
     } else {
-      detect_webcam(ctx);
+      const char* source_str = getenv("IMAGE_SOURCE_DEVICE");
+      detect_webcam(ctx, NULL == source_str ? 0 : atoi(source_str));
     }
   } else {
     detect_single_image(detector, argv[3], out);
