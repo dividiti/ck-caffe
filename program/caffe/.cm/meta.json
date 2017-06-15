@@ -190,9 +190,15 @@
         "pre_process_via_ck": {
           "script_name": "preprocess"
         }, 
-        "run_cmd_main": "caffe_fp16.bin test --model=$<<CK_CAFFE_MODEL>>$ --weights=$<<CK_ENV_MODEL_CAFFE_WEIGHTS>>$ --iterations=$<<CK_CAFFE_ITERATIONS>>$ --gpu=$<<CAFFE_COMPUTE_DEVICE_ID>>$", 
+        "run_cmd_main": "$<<CK_CAFFE_BIN>>$ test --model=$<<CK_CAFFE_MODEL>>$ --weights=$<<CK_ENV_MODEL_CAFFE_WEIGHTS>>$ --iterations=$<<CK_CAFFE_ITERATIONS>>$ --gpu=$<<CAFFE_COMPUTE_DEVICE_ID>>$",
         "run_cmd_out1": "stdout.log", 
         "run_cmd_out2": "stderr.log", 
+        "run_set_env2": {
+          "CK_CAFFE_DEFAULT_FORWARD_TYPE": "FLOAT16",
+          "CK_CAFFE_DEFAULT_BACKWARD_TYPE": "FLOAT16",
+          "CK_CAFFE_DEFAULT_FORWARD_MATH": "FLOAT16",
+          "CK_CAFFE_DEFAULT_BACKWARD_MATH": "FLOAT16"
+        },
         "run_correctness_output_files": [], 
         "run_input_files": [], 
         "run_output_files": [
@@ -278,9 +284,15 @@
         "pre_process_via_ck": {
           "script_name": "preprocess"
         }, 
-        "run_cmd_main": "caffe_fp16.bin time --model=$<<CK_CAFFE_MODEL>>$ --gpu=$<<CAFFE_COMPUTE_DEVICE_ID>>$ --iterations=1", 
+        "run_cmd_main": "$<<CK_CAFFE_BIN>>$ time --model=$<<CK_CAFFE_MODEL>>$ --gpu=$<<CAFFE_COMPUTE_DEVICE_ID>>$ --iterations=1",
         "run_cmd_out1": "stdout.log", 
         "run_cmd_out2": "stderr.log", 
+        "run_set_env2": {
+          "CK_CAFFE_DEFAULT_FORWARD_TYPE": "FLOAT16",
+          "CK_CAFFE_DEFAULT_BACKWARD_TYPE": "FLOAT16",
+          "CK_CAFFE_DEFAULT_FORWARD_MATH": "FLOAT16",
+          "CK_CAFFE_DEFAULT_BACKWARD_MATH": "FLOAT16"
+        },
         "run_correctness_output_files": [], 
         "run_input_files": [], 
         "run_output_files": [

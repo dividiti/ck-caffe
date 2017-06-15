@@ -8,8 +8,7 @@
         "PACKAGE_SUB_DIR": "src",
         "PACKAGE_URL": "https://github.com/weiliu89/caffe",
         "PACKAGE_SKIP_CLEAN_OBJ": "YES",
-        "CPU_ONLY": "OFF",
-        "PACKAGE_CONFIGURE_FLAGS": "-DCUDA_USE_STATIC_CUDA_RUNTIME=OFF -DCUDA_TOOLKIT_ROOT_DIR=$<<CK_ENV_COMPILER_CUDA>>$ -DCUDA_NVCC_FLAGS=\"-D_FORCE_INLINES -Wno-deprecated-gpu-targets\""
+        "CPU_ONLY": "OFF"
       },
       "use_git_revision": "yes", 
       "version": "ssd"

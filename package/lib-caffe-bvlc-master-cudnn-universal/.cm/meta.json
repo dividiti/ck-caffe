@@ -111,7 +111,7 @@
     "lib-cudnn": {
       "local": "yes",
       "name": "CUDA DNN library",
-      "sort": 12,
+      "sort": 17,
       "tags": "lib,cudnn"
     },
     "lib-gflags": {

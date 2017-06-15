@@ -6,14 +6,14 @@ import argparse
 
 # Batch size iteration parameters.
 bs={
-  'start':2,
-  'stop':16,
+  'start':1,
+  'stop':8,
   'step':2,
   'default':2
 }
 # Number of statistical repetitions.
 num_repetitions=3
-platform_tags='samsung-s7'
+platform_tags='mediatek-x20'
 def do(i, arg):
     # Detect basic platform info.
     ii={'action':'detect',
@@ -164,7 +164,7 @@ def do(i, arg):
         lib_tags=lib_tags.group('tags').replace(' ', '').replace(',', '-')
         # Skip some libs with "in [..]" or "not in [..]".
 
-#        if lib_tags in ['opencl-clblast-tune']: continue
+        if lib_tags in ['opencl-clblast-tune']: continue
 
 #        if lib_tags not in ['opencl-clblast']: continue
 
@@ -196,7 +196,7 @@ def do(i, arg):
             model_tags = re.match('Caffe model \(net and weights\) \((?P<tags>.*)\)', model_name)
             model_tags = model_tags.group('tags').replace(' ', '').replace(',', '-')
             # Skip some models with "in [..]" or "not in [..]".
-            if model_tags in []: continue
+            if model_tags not in ['bvlc-alexnet']: continue
 
             record_repo='local'
             record_uoa=model_tags+'-'+lib_tags
