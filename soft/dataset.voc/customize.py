@@ -104,7 +104,7 @@ def setup(i):
     for x in dirs:
         abs_path = os.path.join(pi, x['dirname'], voc_dir1, voc_dir2)
         full_env = ep + "_" + x['env']
-        for key, value in envs_dict.iteritems():
+        for key, value in envs_dict.items():
             full_key = full_env + '_' + key
             env[full_key] = os.path.join(abs_path, value)
             if 'LABELS_DIR' == key:
