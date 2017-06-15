@@ -20,7 +20,8 @@
   "deps": {},
   "need_cpu_info": "no",
   "end_full_path": {
-    "linux": "val2014/COCO_val2014_000000000042.jpg"
+    "linux": "val2014/COCO_val2014_000000000042.jpg",
+    "win": "val2014/COCO_val2014_000000000042.jpg"
   },
   "process_script": "install",
   "soft_uoa": "2439499e39a313b5",
