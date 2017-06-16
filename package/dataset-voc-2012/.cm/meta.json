@@ -25,7 +25,8 @@
   "deps": {},
   "need_cpu_info": "no",
   "end_full_path": {
-    "linux": "train/VOCdevkit/VOC2012/JPEGImages/2007_000123.jpg"
+    "linux": "train/VOCdevkit/VOC2012/JPEGImages/2007_000123.jpg",
+    "win": "train/VOCdevkit/VOC2012/JPEGImages/2007_000123.jpg"
   },
   "process_script": "install",
   "soft_uoa": "041cf4753bed7c62",
