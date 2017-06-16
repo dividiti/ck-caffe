@@ -7,22 +7,20 @@
     "force_ask_path": "yes", 
     "install_env": { 
       "PACKAGE_WGET": "YES",
-      "PACKAGE_UNGZIP": "YES",
-      "PACKAGE_UNTAR": "YES",
-      "PACKAGE_NAME": "models_VGGNet_coco_SSD_300x300.tar.gz",
-      "PACKAGE_NAME1": "models_VGGNet_coco_SSD_300x300.tar",
-      "SUBPACKAGE_NAME1": "models",
-      "SUBPACKAGE_NAME2": "VGGNet",
-      "SUBPACKAGE_NAME3": "coco",
-      "SUBPACKAGE_NAME4": "SSD_300x300",
-      "PACKAGE_GOOGLE_DRIVE_ID": "0BzKzrI_SkD1_dUY1Ml9GRTFpUWc"
+      "PACKAGE_SKIP_CLEAN_SRC_DIR": "YES", 
+      "PACKAGE_SKIP_LINUX_MAKE": "YES", 
+      "PACKAGE_SKIP_CLEAN_OBJ": "YES",
+      "PACKAGE_UNZIP": "YES",
+      "PACKAGE_URL": "https://www.dropbox.com/s/cmexrffa1p6djyt", 
+      "PACKAGE_NAME": "caffemodel-ssd-coco-300.zip",
+      "PACKAGE_WGET_EXTRA": "-O caffemodel-ssd-coco-300.zip"
     }, 
     "no_os_in_suggested_path": "yes", 
     "no_ver_in_suggested_path": "yes", 
     "params": { 
       "deploy": { 
         "template": "deploy.prototxt",
-          "substitute": { 
+          "substitute": {
             "batch_size": 10 
           }
       } 
@@ -31,7 +29,7 @@
     "version": "trunk" 
   }, 
   "end_full_path": { 
-    "linux": "VGG_coco_SSD_300x300_iter_400000.caffemodel", 
+    "linux": "VGG_coco_SSD_300x300_iter_400000.caffemodel",
     "win": "VGG_coco_SSD_300x300_iter_400000.caffemodel" 
   }, 
   "only_for_host_os_tags": [ 
@@ -53,5 +51,9 @@
     "ssd", 
     "ssd-coco",
     "ssd-300" 
-  ]
+  ],
+  "use_scripts_from_another_entry": {
+    "data_uoa": "cd9ccc74060b3d18",
+    "module_uoa": "script"
+  }
 }
