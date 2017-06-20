@@ -289,6 +289,19 @@ DEFINE_int32(webcam_max_skipped_frames, 20,
 DEFINE_double(webcam_skip_frames_delay, 0.009,
     "Maximum frame skipped frame delay.");
 
+bool draw_boxes() {
+  const char* s = getenv("DRAW_BOXES");
+  return NULL == s || strcmp(s, "1") == 0 || strcmp(s, "") == 0;
+}
+
+int float_precision() {
+  const char* s = getenv("FLOAT_PRECISION");
+  if (NULL == s || strcmp(s, "") == 0) {
+    return 3;
+  }
+  return atoi(s);
+}
+
 void detect_single_image(Detector& detector, const string& file, std::ostream& out) {
   long ct_repeat=0;
   long ct_repeat_max=1;
@@ -405,6 +418,7 @@ struct object {
   float ymin = 0;
   float xmax = 0;
   float ymax = 0;
+  bool assigned = false;
 
   bool empty() const { 
     return label.empty() || -1 == label_id;
@@ -509,6 +523,13 @@ void print_counter_map(std::ostream& out, std::map<std::string, int>& counter_ma
   }
 }
 
+void print_objects(std::ostream& out, std::vector<object> objects, const std::string& prefix) {
+  for (auto o : objects) {
+    out << prefix << " " << o.label << ": " 
+      << o.xmin << " " << o.ymin << " " << o.xmax << " " << o.ymax << " " << o.score << std::endl;
+  }
+}
+
 bool interrupt_requested() {
   const char* finisher = getenv("FINISHER_FILE");
   if (NULL == finisher || strcmp(finisher, "") == 0) {
@@ -524,6 +545,7 @@ struct detect_context {
   fs::path label_dir;
   std::map<int, std::string> labelmap;
   std::map<std::string, int> reverse_labelmap;
+  bool draw_boxes;
 };
 
 void detect_img(const detect_context& ctx, cv::Mat& img, const std::string& filename) {
@@ -542,21 +564,27 @@ void detect_img(const detect_context& ctx, cv::Mat& img, const std::string& file
   // read expected results
   std::vector<object> ground_truth = read_label_file(label_file(ctx.label_dir, filename), ctx.reverse_labelmap);
   for (auto const& o: ground_truth) {
-    draw_rect(img, o, ground_truth_color, false);
+    if (ctx.draw_boxes) {
+      draw_rect(img, o, ground_truth_color, false);
+    }
     count_object(o, expected);
   }
 
+  std::vector<object> recognized_objects;
   /* Print the detection results. */
   for (int i = 0; i < detections.size(); ++i) {
     object o = parse_detections(img, detections[i], ctx.labelmap);
     if (o.score >= FLAGS_confidence_threshold) {
       count_object(o, recognized);
-      draw_rect(img, o);
+      recognized_objects.push_back(o);
+      if (ctx.draw_boxes) {
+        draw_rect(img, o);
+      }
       bool miss = true;
       for (auto& gto: ground_truth) {
-        if (gto.label == o.label && iou(gto, o) >= FLAGS_iou_threshold) {
+        if (!gto.assigned && gto.label == o.label && iou(gto, o) >= FLAGS_iou_threshold) {
           miss = false;
-          gto.label = ""; // empty the object to not pick it up in the future
+          gto.assigned = true; // mark as assigned to not pick it up in the future
           break;
         }
       }
@@ -571,6 +599,8 @@ void detect_img(const detect_context& ctx, cv::Mat& img, const std::string& file
   print_counter_map(*ctx.out, recognized, "Recognized");
   print_counter_map(*ctx.out, expected, "Expected");
   print_counter_map(*ctx.out, false_positive, "False positive");
+  print_objects(*ctx.out, recognized_objects, "Detection");
+  print_objects(*ctx.out, ground_truth, "Ground truth");
   *ctx.out << std::endl;
   ctx.out->flush();
 }
@@ -685,6 +715,8 @@ int main(int argc, char** argv) {
     ctx.label_dir = fs::path(FLAGS_label_dir);
     ctx.labelmap = read_labelmap(FLAGS_labelmap_file);
     ctx.reverse_labelmap = flip_labelmap(ctx.labelmap);
+    ctx.draw_boxes = draw_boxes();
+    *ctx.out << std::setprecision(float_precision());
 
     if (FLAGS_continuous) {
       detect_continuously(ctx, argv[3]);
