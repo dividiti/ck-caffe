@@ -538,6 +538,11 @@ bool interrupt_requested() {
   return fs::exists(finisher);
 }
 
+std::string skip_files_including() {
+  const char* f = getenv("SKIP_FILES_INCLUDING");
+  return NULL == f || strcmp(f, "") == 0 ? "" : f;
+}
+
 struct detect_context {
   Detector* detector;
   std::ostream* out;
@@ -548,7 +553,7 @@ struct detect_context {
   bool draw_boxes;
 };
 
-void detect_img(const detect_context& ctx, cv::Mat& img, const std::string& filename) {
+void detect_img(const detect_context& ctx, cv::Mat& img, const std::string& filename, const fs::path& original_path = "") {
   static const cv::Scalar ground_truth_color = CV_RGB(200, 200, 200);
 
   const int timer = 2;
@@ -595,6 +600,9 @@ void detect_img(const detect_context& ctx, cv::Mat& img, const std::string& file
   }
   CHECK(cv::imwrite(out_file, img)) << "Failed to write file " << out_file;
   *ctx.out << "File: " << out_file << std::endl;
+  if (!original_path.empty()) {
+    *ctx.out << "Original file: " << original_path.string() << std::endl;
+  }
   *ctx.out << "Duration: " << x_get_time(timer) << " sec" << std::endl;
   print_counter_map(*ctx.out, recognized, "Recognized");
   print_counter_map(*ctx.out, expected, "Expected");
@@ -617,6 +625,17 @@ void detect_continuously(detect_context& ctx, const string& dir) {
   }
   std::sort(paths.begin(), paths.end());
 
+  std::string start = skip_files_including();
+  if (!start.empty()) {
+    fs::path start_path(start);
+    auto begin = paths.begin();
+    auto end = paths.end();
+    auto it = std::find(begin, end, start_path);
+    if (it != begin && it != end) {
+      paths.erase(begin, ++it);
+    }
+  }
+
   for (const auto& p : paths) {
     if (interrupt_requested()) {
       return;
@@ -624,7 +643,7 @@ void detect_continuously(detect_context& ctx, const string& dir) {
     std::string file = p.string();
     cv::Mat img = cv::imread(file, -1);
     CHECK(!img.empty()) << "Unable to decode image " << file;
-    detect_img(ctx, img, p.filename().string());
+    detect_img(ctx, img, p.filename().string(), p);
   }
 }
 
