@@ -163,7 +163,7 @@
       "add_to_path": "yes",
       "name": "ViennaCL library", 
       "sort": 35, 
-      "tags": "lib,viennacl,src"
+      "tags": "lib,viennacl,vsrc"
     }
   }, 
   "end_full_path": {
