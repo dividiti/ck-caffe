@@ -8,12 +8,12 @@ import argparse
 bs={
   'start':1,
   'stop':8,
-  'step':2,
+  'step':1,
   'default':2
 }
 # Number of statistical repetitions.
 num_repetitions=3
-platform_tags='mediatek-x20'
+platform_tags='platform-name'
 def do(i, arg):
     # Detect basic platform info.
     ii={'action':'detect',

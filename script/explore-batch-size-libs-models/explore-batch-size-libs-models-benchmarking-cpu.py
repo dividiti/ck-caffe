@@ -6,13 +6,13 @@ import argparse
 
 
 # Platform tags.
-platform_tags='samsung-s7'
+platform_tags='platform_name'
 # Batch size iteration parameters.
 bs={
-  'start':2,
-  'stop':16,
-  'step':2,
-  'default':2
+  'start':1,
+  'stop':8,
+  'step':1,
+  'default':1
 }
 # OpenBLAS number of threads iteration parameters.
 nt={
@@ -29,7 +29,6 @@ def do(i, arg):
     # Detect basic platform info.
     ii={'action':'detect',
         'module_uoa':'platform',
-        'target_os':'android21-arm64',
         'out':'out'}
     r=ck.access(ii)
     if r['return']>0: return r
