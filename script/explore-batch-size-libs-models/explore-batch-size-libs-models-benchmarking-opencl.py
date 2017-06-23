@@ -7,13 +7,13 @@ import argparse
 # Batch size iteration parameters.
 bs={
   'start':1,
-  'stop':8,
+  'stop':4,
   'step':1,
   'default':2
 }
 # Number of statistical repetitions.
 num_repetitions=3
-platform_tags='platform-name'
+platform_tags='salvator-x'
 def do(i, arg):
     # Detect basic platform info.
     ii={'action':'detect',
@@ -112,7 +112,7 @@ def do(i, arg):
 
         'env':{
           'CK_CAFFE_SKIP_BACKWARD':1,
-          'OPENBLAS_NUM_THREADS':4
+          'OPENBLAS_NUM_THREADS':2
         },
 
         'cpu_freq':'max',
@@ -196,7 +196,7 @@ def do(i, arg):
             model_tags = re.match('Caffe model \(net and weights\) \((?P<tags>.*)\)', model_name)
             model_tags = model_tags.group('tags').replace(' ', '').replace(',', '-')
             # Skip some models with "in [..]" or "not in [..]".
-            if model_tags not in ['bvlc-alexnet']: continue
+            if model_tags in ['deepscale-squeezenet-1.1']: continue
 
             record_repo='local'
             record_uoa=model_tags+'-'+lib_tags

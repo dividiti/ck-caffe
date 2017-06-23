@@ -6,11 +6,11 @@ import argparse
 
 
 # Platform tags.
-platform_tags='platform_name'
+platform_tags='salvator-x'
 # Batch size iteration parameters.
 bs={
   'start':1,
-  'stop':8,
+  'stop':4,
   'step':1,
   'default':1
 }
@@ -191,7 +191,7 @@ def do(i, arg):
             model_tags = re.match('Caffe model \(net and weights\) \((?P<tags>.*)\)', model_name)
             model_tags = model_tags.group('tags').replace(' ', '').replace(',', '-')
             # Skip some models with "in [..]" or "not in [..]".
-            if model_tags in []: continue
+            if model_tags in ['deepscale-squeezenet-1.1']: continue
 
             record_repo='local'
             record_uoa=model_tags+'-'+lib_tags
