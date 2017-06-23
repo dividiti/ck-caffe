@@ -7,7 +7,7 @@ import argparse
 # Batch size iteration parameters.
 # Number of statistical repetitions.
 num_repetitions=3
-platform_tags='mediatek-x20'
+platform_tags='platform_name'
 def do(i, arg):
     # Detect basic platform info.
     ii={'action':'detect',
@@ -38,7 +38,6 @@ def do(i, arg):
     # Get compile-time and run-time deps.
     cdeps=mm.get('compile_deps',{})
     rdeps=mm.get('run_deps',{})
-    print rdeps
     # Merge rdeps with cdeps for setting up the pipeline (which uses
     # common deps), but tag them as "for_run_time".
     for k in rdeps:
@@ -122,7 +121,7 @@ def do(i, arg):
         'skip_calibration':'yes',
 
         'env':{
-          'CK_CAFFE_BATCH_SIZE':1,
+          'CK_CAFFE_BATCH_SIZE':2,
           'CK_CAFFE_ITERATIONS':1,
           'OPENBLAS_NUM_THREADS':4
         },
@@ -215,8 +214,7 @@ def do(i, arg):
             if (myit == 'None'): continue
             img_tags=myit              
             record_repo='local'
-            record_uoa=model_tags+'-'+lib_tags
-
+            record_uoa=img_name+'-'+model_tags+'-'+lib_tags
             # Prepare pipeline.
             ck.out('---------------------------------------------------------------------------------------')
             ck.out('%s - %s' % (lib_name, lib_uoa))
@@ -232,7 +230,7 @@ def do(i, arg):
                       'caffemodel':copy.deepcopy(depm),
                       'dataset-imagenet-lmdb':copy.deepcopy(depimg)}
 
-### maybe hera    exit(1)
+### maybe here    exit(1)
             new_deps['lib-caffe']['uoa']=lib_uoa
             new_deps['caffemodel']['uoa']=model_uoa
             new_deps['dataset-imagenet-lmdb']['uoa']=img_uoa
@@ -279,7 +277,7 @@ def do(i, arg):
             fail=r.get('fail','')
             if fail=='yes':
                 return {'return':10, 'error':'pipeline failed ('+r.get('fail_reason','')+')'}
-#
+
             skip_compile='yes'
 
     return {'return':0}
