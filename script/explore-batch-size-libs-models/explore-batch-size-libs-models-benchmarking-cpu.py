@@ -6,7 +6,7 @@ import argparse
 
 
 # Platform tags.
-platform_tags='salvator-x'
+platform_tags='platform_name'
 # Batch size iteration parameters.
 bs={
   'start':1,

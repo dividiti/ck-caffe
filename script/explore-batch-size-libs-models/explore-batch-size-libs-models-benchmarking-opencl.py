@@ -13,7 +13,7 @@ bs={
 }
 # Number of statistical repetitions.
 num_repetitions=3
-platform_tags='salvator-x'
+platform_tags='platform_name'
 def do(i, arg):
     # Detect basic platform info.
     ii={'action':'detect',
