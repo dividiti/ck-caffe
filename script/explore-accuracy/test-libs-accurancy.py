@@ -7,13 +7,13 @@ import argparse
 # Batch size iteration parameters.
 bs={
   'start':2,
-  'stop':16,
+  'stop':2,
   'step':2,
   'default':2
 }
 # Number of statistical repetitions.
 num_repetitions=3
-platform_tags='mediatek-x20'
+platform_tags='platform-name'
 def do(i, arg):
     # Detect basic platform info.
     ii={'action':'detect',
@@ -44,13 +44,11 @@ def do(i, arg):
     # Get compile-time and run-time deps.
     cdeps=mm.get('compile_deps',{})
     rdeps=mm.get('run_deps',{})
-    print rdeps
     # Merge rdeps with cdeps for setting up the pipeline (which uses
     # common deps), but tag them as "for_run_time".
     for k in rdeps:
         cdeps[k]=rdeps[k]
         cdeps[k]['for_run_time']='yes'
-    exit(1)
     # Caffe libs.
     depl=copy.deepcopy(cdeps['lib-caffe'])
     if (arg.tos is not None) and (arg.did is not None):
@@ -173,14 +171,7 @@ def do(i, arg):
         
         skip_compile='no'
 
-        # Use the 'time_cpu' command for the CPU only lib, 'time_gpu' for all the rest.
-#        if r['dict']['customize']['params']['cpu_only']==1:
-#            cmd_key='time_cpu'
-#        else:
-#            cmd_key='time_gpu'
-#        # FIXME: Customise cmd for NVIDIA's experimental fp16 branch.
-#        if lib_tags in [ 'nvidia-fp16-cuda', 'nvidia-fp16-cudnn' ]:
-#            cmd_key='time_gpu_fp16'
+        cmd_key='time_gpu_fp16'
 
         # For each Caffe model.*************************************************
         for model_uoa in udepm:

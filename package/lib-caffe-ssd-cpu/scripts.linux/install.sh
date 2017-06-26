@@ -9,6 +9,7 @@
 # Developer(s):
 # - Grigori Fursin, 2015;
 # - Anton Lokhmotov, 2016.
+# - Dmitry Savenko, 2017.
 #
 
 # PACKAGE_DIR
@@ -45,7 +46,7 @@ cmake -DCMAKE_BUILD_TYPE=${CK_ENV_CMAKE_BUILD_TYPE:-Release} \
       ${XCMAKE_AR} \
       ${XCMAKE_LD} \
       -DCMAKE_SHARED_LINKER_FLAGS="$CK_OPENMP" \
-      -DBUILD_python=ON \
+      -DBUILD_python=OFF \
       -DPYTHON_EXECUTABLE:FILEPATH="$CK_ENV_COMPILER_PYTHON_FILE" \
       -DBUILD_docs=OFF \
       -DCPU_ONLY=$CPU_ONLY \
@@ -66,6 +67,8 @@ cmake -DCMAKE_BUILD_TYPE=${CK_ENV_CMAKE_BUILD_TYPE:-Release} \
       -DHDF5_DIR="${CK_ENV_LIB_HDF5}/cmake" \
       -DHDF5_ROOT_DIR="${CK_ENV_LIB_HDF5}/cmake" \
       -DHDF5_INCLUDE_DIRS="${CK_ENV_LIB_HDF5_INCLUDE}" \
+      -DHDF5_LIBRARIES="${CK_ENV_LIB_HDF5_LIB}/libhdf5.so" \
+      -DHDF5_HL_LIBRARIES="${CK_ENV_LIB_HDF5_LIB}/libhdf5_hl.so" \
       -DOpenBLAS_INCLUDE_DIR="${CK_ENV_LIB_OPENBLAS_INCLUDE}" \
       -DOpenBLAS_LIB="${CK_ENV_LIB_OPENBLAS_LIB}/libopenblas.a" \
       -DLMDB_INCLUDE_DIR="${CK_ENV_LIB_LMDB_INCLUDE}" \
