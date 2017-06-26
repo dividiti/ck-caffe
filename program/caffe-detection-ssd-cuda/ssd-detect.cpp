@@ -32,6 +32,9 @@
 #include <boost/algorithm/string.hpp>
 #include <boost/filesystem.hpp>
 
+#include <boost/thread.hpp>
+#include <boost/atomic.hpp>
+
 namespace fs = boost::filesystem;
 
 #ifdef USE_OPENCV
@@ -284,10 +287,6 @@ DEFINE_string(out_images_dir, "out",
     "In continuous mode, puts processed images into this directory (recreates the directory first).");
 DEFINE_int32(webcam_max_image_count, 5000,
     "Maximum image count generated in the webcam mode.");
-DEFINE_int32(webcam_max_skipped_frames, 20,
-    "Maximum frames skipped.");
-DEFINE_double(webcam_skip_frames_delay, 0.009,
-    "Maximum frame skipped frame delay.");
 
 bool draw_boxes() {
   const char* s = getenv("DRAW_BOXES");
@@ -467,6 +466,10 @@ object parse_detections(const cv::Mat& img, const std::vector<float>& d, const s
   CHECK_EQ(d.size(), 7);
   object ret;
   ret.score = d[2];
+  if (ret.score < FLAGS_confidence_threshold) {
+    // don't bother anymore
+    return ret;
+  }
   ret.label_id = static_cast<int>(d[1]);
   auto label_it = labelmap.find(ret.label_id);
   ret.label = label_it == labelmap.end() ? "" : label_it->second;
@@ -523,7 +526,7 @@ void print_counter_map(std::ostream& out, std::map<std::string, int>& counter_ma
   }
 }
 
-void print_objects(std::ostream& out, std::vector<object> objects, const std::string& prefix) {
+void print_objects(std::ostream& out, const std::vector<object>& objects, const std::string& prefix) {
   for (auto o : objects) {
     out << prefix << " " << o.label << ": " 
       << o.xmin << " " << o.ymin << " " << o.xmax << " " << o.ymax << " " << o.score << std::endl;
@@ -647,35 +650,39 @@ void detect_continuously(detect_context& ctx, const string& dir) {
   }
 }
 
-void flush(cv::VideoCapture& camera) {
-  static const int timer = 3;
+static boost::atomic<cv::Mat*> camera_frame(NULL);
+static boost::atomic<bool> camera_ok(true);
+static boost::atomic<bool> stop_camera(false);
 
-  int skipped = 0;
-  while (skipped < FLAGS_webcam_max_skipped_frames) {
-    ++skipped;
-    x_clock_start(timer);
-    camera.grab();
-    x_clock_end(timer);
-    auto delay = x_get_time(timer);
-    if (delay > FLAGS_webcam_skip_frames_delay) {
+void camera_reader(int input_device) {
+  cv::VideoCapture cap(input_device);
+  while (!stop_camera) {
+    cv::Mat* img = new cv::Mat;
+    if (!cap.read(*img)) {
+      camera_ok = false;
       break;
     }
+    cv::Mat* old = camera_frame.exchange(img);
+    if (old) {
+      delete old;
+    }
   }
+  cap.release();
 }
 
 void detect_webcam(detect_context& ctx, int input_device) {
-  cv::VideoCapture cap(input_device);
-  for (int i = 0; !interrupt_requested(); i = (i + 1) % FLAGS_webcam_max_image_count) {
-    cv::Mat img;
-    flush(cap);
-    if (!cap.read(img)) {
-      break;
+  boost::thread camera_thread(camera_reader, input_device);
+  for (int i = 0; camera_ok && !interrupt_requested(); i = (i + 1) % FLAGS_webcam_max_image_count) {
+    cv::Mat* frame = camera_frame.exchange(NULL);
+    if (frame) {
+      std::ostringstream ss;
+      ss << std::setw(6) << std::setfill('0') << i;
+      detect_img(ctx, *frame, "webcam_" + ss.str() + ".jpg");
+      delete frame;
     }
-    std::ostringstream ss;
-    ss << std::setw(6) << std::setfill('0') << i;
-    detect_img(ctx, img, "webcam_" + ss.str() + ".jpg");
   }
-  cap.release();
+  stop_camera = true;
+  camera_thread.join();
 }
 
 int main(int argc, char** argv) {
