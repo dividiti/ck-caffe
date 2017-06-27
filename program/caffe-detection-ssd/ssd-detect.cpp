@@ -736,8 +736,12 @@ int main(int argc, char** argv) {
     ctx.detector = &detector;
     ctx.out = &out;
     ctx.out_dir = fs::path(FLAGS_out_images_dir);
-    fs::remove_all(ctx.out_dir);
-    CHECK(fs::create_directory(ctx.out_dir)) << "Unable to create output directory " << ctx.out_dir;
+
+    if (skip_files_including().empty()) {
+      fs::remove_all(ctx.out_dir);
+    }
+    fs::create_directory(ctx.out_dir);
+
     ctx.label_dir = fs::path(FLAGS_label_dir);
     ctx.labelmap = read_labelmap(FLAGS_labelmap_file);
     ctx.reverse_labelmap = flip_labelmap(ctx.labelmap);
