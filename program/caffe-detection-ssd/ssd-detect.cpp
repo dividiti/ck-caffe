@@ -288,11 +288,6 @@ DEFINE_string(out_images_dir, "out",
 DEFINE_int32(webcam_max_image_count, 5000,
     "Maximum image count generated in the webcam mode.");
 
-bool draw_boxes() {
-  const char* s = getenv("DRAW_BOXES");
-  return NULL == s || strcmp(s, "1") == 0 || strcmp(s, "") == 0;
-}
-
 int float_precision() {
   const char* s = getenv("FLOAT_PRECISION");
   if (NULL == s || strcmp(s, "") == 0) {
@@ -553,41 +548,38 @@ struct detect_context {
   fs::path label_dir;
   std::map<int, std::string> labelmap;
   std::map<std::string, int> reverse_labelmap;
-  bool draw_boxes;
 };
 
-void detect_img(const detect_context& ctx, cv::Mat& img, const std::string& filename, const fs::path& original_path = "") {
+void detect_img(const detect_context& ctx, cv::Mat& orig_img, const std::string& filename, const fs::path& original_path = "") {
   static const cv::Scalar ground_truth_color = CV_RGB(200, 200, 200);
 
   const int timer = 2;
   x_clock_start(timer);
-  std::vector<vector<float> > detections = ctx.detector->Detect(img);
+  std::vector<vector<float> > detections = ctx.detector->Detect(orig_img);
   x_clock_end(timer);
 
   std::string out_file = fs::absolute((ctx.out_dir / filename)).string();
+  std::string boxed_out_file = fs::absolute((ctx.out_dir / ("boxed_" + filename))).string();
   std::map<std::string, int> recognized;
   std::map<std::string, int> expected;
   std::map<std::string, int> false_positive;
 
   // read expected results
   std::vector<object> ground_truth = read_label_file(label_file(ctx.label_dir, filename), ctx.reverse_labelmap);
+  cv::Mat boxed_img = orig_img.clone();
   for (auto const& o: ground_truth) {
-    if (ctx.draw_boxes) {
-      draw_rect(img, o, ground_truth_color, false);
-    }
+    draw_rect(boxed_img, o, ground_truth_color, false);
     count_object(o, expected);
   }
 
   std::vector<object> recognized_objects;
   /* Print the detection results. */
   for (int i = 0; i < detections.size(); ++i) {
-    object o = parse_detections(img, detections[i], ctx.labelmap);
+    object o = parse_detections(orig_img, detections[i], ctx.labelmap);
     if (o.score >= FLAGS_confidence_threshold) {
       count_object(o, recognized);
       recognized_objects.push_back(o);
-      if (ctx.draw_boxes) {
-        draw_rect(img, o);
-      }
+      draw_rect(boxed_img, o);
       bool miss = true;
       for (auto& gto: ground_truth) {
         if (!gto.assigned && gto.label == o.label && iou(gto, o) >= FLAGS_iou_threshold) {
@@ -601,7 +593,8 @@ void detect_img(const detect_context& ctx, cv::Mat& img, const std::string& file
       }
     }
   }
-  CHECK(cv::imwrite(out_file, img)) << "Failed to write file " << out_file;
+  CHECK(cv::imwrite(out_file, orig_img)) << "Failed to write file " << out_file;
+  CHECK(cv::imwrite(boxed_out_file, boxed_img)) << "Failed to write file " << boxed_out_file;
   *ctx.out << "File: " << out_file << std::endl;
   if (!original_path.empty()) {
     *ctx.out << "Original file: " << original_path.string() << std::endl;
@@ -745,7 +738,6 @@ int main(int argc, char** argv) {
     ctx.label_dir = fs::path(FLAGS_label_dir);
     ctx.labelmap = read_labelmap(FLAGS_labelmap_file);
     ctx.reverse_labelmap = flip_labelmap(ctx.labelmap);
-    ctx.draw_boxes = draw_boxes();
     *ctx.out << std::setprecision(float_precision());
 
     if (FLAGS_continuous) {
