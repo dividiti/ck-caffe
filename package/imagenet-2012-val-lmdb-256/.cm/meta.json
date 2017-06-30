@@ -44,13 +44,14 @@
   "soft_uoa": "092da4cabb3b7f8c", 
   "suggested_path": "dataset-imagenet-ilsvrc2012-val-lmdb", 
   "tags": [
-    "dataset", 
-    "imagenet", 
-    "val-lmdb", 
+    "dataset",
+    "imagenet",
+    "val-lmdb",
     "lmdb",
-    "caffe", 
-    "default",
+    "caffe",
+    "ilsvrc2012",
+    "resize-256",
     "bvlc-alexnet",
-    "ilsvrc2012"
+    "default"
   ]
 }
