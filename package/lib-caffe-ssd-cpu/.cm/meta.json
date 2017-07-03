@@ -150,10 +150,10 @@
       "linux"
     ],
     "need_cpu_info": "yes",
-    "package_extra_name": " (cpu ssd)", 
+    "package_extra_name": " (ssd, cpu)",
     "process_script": "install", 
     "soft_uoa": "04ab08137582bd03", 
-    "suggested_path": "lib-caffe", 
+    "suggested_path": "lib-caffe-cpu",
     "tags": [
       "lib", 
       "caffe", 
