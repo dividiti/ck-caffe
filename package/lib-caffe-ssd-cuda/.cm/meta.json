@@ -155,7 +155,7 @@
       "linux"
     ],
     "need_cpu_info": "yes",
-    "package_extra_name": " (cuda ssd)", 
+    "package_extra_name": " (ssd, cuda)",
     "process_script": "install",
     "soft_uoa": "04ab08137582bd03", 
     "suggested_path": "lib-caffe-cuda", 
