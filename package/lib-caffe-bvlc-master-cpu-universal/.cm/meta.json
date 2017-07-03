@@ -50,6 +50,7 @@
       "use_opencv": 1
     },
     "use_git_revision": "yes",
+    "no_ver_in_suggested_path": "yes",
     "version": "master"
   },
   "deps": {
