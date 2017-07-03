@@ -27,6 +27,8 @@
 #include <utility>
 #include <vector>
 #include <sstream>
+#include <limits>
+#include <cmath>
 
 #include <regex>
 #include <boost/algorithm/string.hpp>
@@ -288,6 +290,18 @@ DEFINE_string(out_images_dir, "out",
 DEFINE_int32(webcam_max_image_count, 5000,
     "Maximum image count generated in the webcam mode.");
 
+enum Category {
+  UNASSIGNED = -2,
+  UNKNOWN = -1,
+  EASY = 0,
+  MODERATE = 1,
+  HARD = 2
+};
+
+static const float MIN_HEIGHT[] = { 40, 25, 25 };
+static const float MAX_OCCLUSION[] = {0, 1, 2};
+static const float MAX_TRUNCATION[] = { 0.15, 0.3, 0.5 };
+
 int float_precision() {
   const char* s = getenv("FLOAT_PRECISION");
   if (NULL == s || strcmp(s, "") == 0) {
@@ -404,6 +418,21 @@ fs::path label_file(const fs::path& label_dir, const std::string& image_file_nam
   return ret;
 }
 
+static bool eq(float a, float b) {
+  return std::fabs(a - b) < std::numeric_limits<float>::epsilon();
+}
+
+static bool gr(float a, float b) {
+  return a - b > (std::fabs(a) < std::fabs(b) ? std::fabs(b) : std::fabs(a)) * std::numeric_limits<float>::epsilon();
+}
+
+static bool grEq(float a, float b) {
+  return eq(a, b) || gr(a, b);
+}
+
+static const int DONTCARE_LABEL_ID = -2;
+static const std::string DONTCARE_LABEL = "dontcare";
+
 struct object {
   std::string label;
   int label_id = -1;
@@ -413,9 +442,16 @@ struct object {
   float xmax = 0;
   float ymax = 0;
   bool assigned = false;
+  float occlusion = 0;
+  float truncation = 0;
+  int assigned_difficulty = UNASSIGNED;
 
   bool empty() const { 
     return label.empty() || -1 == label_id;
+  }
+
+  bool dontcare() const {
+    return label_id == DONTCARE_LABEL_ID || label == DONTCARE_LABEL;
   }
 
   NormalizedBBox to_bbox() const {
@@ -427,10 +463,133 @@ struct object {
     ret.set_label(label_id);
     return ret;
   }
+
+  float height() const {
+    return ymax - ymin;
+  }
+
+  bool should_ignore(int difficulty) const {
+    return grEq(occlusion, MAX_OCCLUSION[difficulty]) || grEq(truncation, MAX_TRUNCATION[difficulty]) || grEq(MIN_HEIGHT[difficulty], height());
+  }
+
+  int difficulty() const {
+    if (!should_ignore(EASY)) {
+      return EASY;
+    }
+    if (!should_ignore(MODERATE)) {
+      return MODERATE;
+    }
+    if (!should_ignore(HARD)) {
+      return HARD;
+    }
+    return UNKNOWN;
+  }
 };
 
 float iou(const object& o1, const object& o2) {
   return JaccardOverlap(o1.to_bbox(), o2.to_bbox(), false);
+}
+
+bool care(const object& o, const std::vector<object>& dontcare) {
+  const float threshold = "car" == o.label ? 0.7 : 0.5;
+  for (auto dc : dontcare) {
+    if (grEq(iou(o, dc), threshold)) {
+      return false;
+    }
+  }
+  return true;
+}
+
+struct Eval {
+  int tp = 0;
+  int all_gt = 0;
+};
+
+Eval eval_boxes(std::vector<object>& expected, std::vector<object>& recognized, const std::string& label, const int difficulty) {
+  std::vector<object*> gt;
+  for (object& o : expected) {
+    if (o.label == label && o.difficulty() == difficulty) {
+      gt.push_back(&o);
+    }
+  }
+  std::vector<object*> rec;
+  for (object& o : recognized) {
+    if ((UNKNOWN == difficulty && o.label == label) ||
+        (UNKNOWN != difficulty && o.label == label && UNASSIGNED == o.assigned_difficulty && grEq(o.height(), MIN_HEIGHT[difficulty]))
+    ) {
+      rec.push_back(&o);
+    }
+  }
+  //std::cout << "Objects with difficulty " << difficulty << ": rec=" << rec.size() << ", gt=" << gt.size() << std::endl;
+  std::vector<bool> assigned_rec(rec.size());
+  std::vector<bool> assigned_gt(gt.size());
+  Eval ret;
+  ret.all_gt = gt.size();
+  for (int r_index = 0; r_index < rec.size(); ++r_index) {
+    object* r_box = rec[r_index];
+    float threshold = "car" == r_box->label ? 0.7 : 0.5;
+    for (int gt_index = 0; gt_index < gt.size(); ++gt_index) {
+      if (assigned_gt[gt_index]) {
+        continue;
+      }
+      object* gt_box = gt[gt_index];
+      if (grEq(iou(*r_box, *gt_box), threshold)) {
+        assigned_rec[r_index] = true;
+        assigned_gt[gt_index] = true;
+        r_box->assigned_difficulty = difficulty;
+        break;
+      }
+    }
+    if (assigned_rec[r_index]) {
+      ret.tp++;
+    }
+  }
+  return ret;
+}
+
+struct Stat {
+  float avg = 0;
+  float min = 0;
+  float max = 0;
+  int count = 0;
+
+  void clear() {
+    avg = 0;
+    min = 0;
+    max = 0;
+    count = 0;
+  }
+
+  void add(float v) {
+    ++count;
+    avg = (avg*(count - 1) + v)/count;
+    min = 0 == min || gr(min, v) ? v : min;
+    max = 0 == max || gr(v, max) ? v : max;
+  }
+
+  void addIf(float v, bool condition) {
+    if (!eq(v, 0) || condition) {
+      add(v);
+    }
+  }
+};
+
+float calc_mAP(const std::map<std::string, std::vector<Stat>>& avg_precision) {
+  float s = 0;
+  int count = 0;
+  for (const auto& e : avg_precision) {
+    for (const auto& stat: e.second) {
+      if (0 < stat.count) {
+        s += stat.avg;
+        ++count;
+      }
+    }
+  }
+  return 0 == count ? 0 : s / static_cast<float>(count);
+}
+
+float safe_div(int all_rec, int tp) {
+  return 0 == all_rec ? 0 : static_cast<float>(tp) / static_cast<float>(all_rec);
 }
 
 object parse_ground_truth(const std::string& line, const std::map<std::string, int>& reverse_labelmap) {
@@ -446,12 +605,16 @@ object parse_ground_truth(const std::string& line, const std::map<std::string, i
   iss >> label >> _ >> _ >> _ >> ret.xmin >> ret.ymin >> ret.xmax >> ret.ymax;
   if (iss) {
     boost::algorithm::to_lower(label);
-    auto it = label_aliases.find(label);
-    if (it != label_aliases.end()) {
-      label = it->second;
+    if (DONTCARE_LABEL == label) {
+      ret.label_id = DONTCARE_LABEL_ID;
+    } else {
+      auto it = label_aliases.find(label);
+      if (it != label_aliases.end()) {
+        label = it->second;
+      }
+      auto it2 = reverse_labelmap.find(label);
+      ret.label_id = it2 == reverse_labelmap.end() ? -1 : it2->second;
     }
-    auto it2 = reverse_labelmap.find(label);
-    ret.label_id = it2 == reverse_labelmap.end() ? -1 : it2->second;
   }
   return ret;
 }
@@ -476,17 +639,17 @@ object parse_detections(const cv::Mat& img, const std::vector<float>& d, const s
   return ret;
 }
 
-std::vector<object> read_label_file(const fs::path& file, const std::map<std::string, int>& reverse_labelmap) {
-  std::vector<object> ret;
+void read_label_file(const fs::path& file, const std::map<std::string, int>& reverse_labelmap, std::vector<object>& gt, std::vector<object>& dontcare) {
   std::ifstream f(file.string());
   std::string line;
   while (std::getline(f, line)) {
     object o = parse_ground_truth(line, reverse_labelmap);
-    if (!o.empty()) {
-      ret.push_back(o);
+    if (o.dontcare()) {
+      dontcare.push_back(o);
+    } else if (!o.empty()) {
+      gt.push_back(o);
     }
   }
-  return ret;
 }
 
 void draw_rect(cv::Mat& img, const object& o, const cv::Scalar& color, bool bottom_label = true) {
@@ -548,9 +711,20 @@ struct detect_context {
   fs::path label_dir;
   std::map<int, std::string> labelmap;
   std::map<std::string, int> reverse_labelmap;
+  std::map<std::string, std::vector<Stat>> avg_precision;
 };
 
-void detect_img(const detect_context& ctx, cv::Mat& orig_img, const std::string& filename, const fs::path& original_path = "") {
+static int count_label(const std::vector<object>& objects, const std::string& label) {
+  int ret = 0;
+  for (const auto& o : objects) {
+    if (o.label == label) {
+      ++ret;
+    }
+  }
+  return ret;
+}
+
+void detect_img(detect_context& ctx, cv::Mat& orig_img, const std::string& filename, const fs::path& original_path = "") {
   static const cv::Scalar ground_truth_color = CV_RGB(200, 200, 200);
 
   const int timer = 2;
@@ -562,10 +736,11 @@ void detect_img(const detect_context& ctx, cv::Mat& orig_img, const std::string&
   std::string boxed_out_file = fs::absolute((ctx.out_dir / ("boxed_" + filename))).string();
   std::map<std::string, int> recognized;
   std::map<std::string, int> expected;
-  std::map<std::string, int> false_positive;
 
   // read expected results
-  std::vector<object> ground_truth = read_label_file(label_file(ctx.label_dir, filename), ctx.reverse_labelmap);
+  std::vector<object> ground_truth;
+  std::vector<object> dontcare;
+  read_label_file(label_file(ctx.label_dir, filename), ctx.reverse_labelmap, ground_truth, dontcare);
   cv::Mat boxed_img = orig_img.clone();
   for (auto const& o: ground_truth) {
     draw_rect(boxed_img, o, ground_truth_color, false);
@@ -573,24 +748,12 @@ void detect_img(const detect_context& ctx, cv::Mat& orig_img, const std::string&
   }
 
   std::vector<object> recognized_objects;
-  /* Print the detection results. */
   for (int i = 0; i < detections.size(); ++i) {
     object o = parse_detections(orig_img, detections[i], ctx.labelmap);
     if (o.score >= FLAGS_confidence_threshold) {
       count_object(o, recognized);
       recognized_objects.push_back(o);
       draw_rect(boxed_img, o);
-      bool miss = true;
-      for (auto& gto: ground_truth) {
-        if (!gto.assigned && gto.label == o.label && iou(gto, o) >= FLAGS_iou_threshold) {
-          miss = false;
-          gto.assigned = true; // mark as assigned to not pick it up in the future
-          break;
-        }
-      }
-      if (miss) {
-        count_object(o, false_positive);
-      }
     }
   }
   CHECK(cv::imwrite(out_file, orig_img)) << "Failed to write file " << out_file;
@@ -602,9 +765,59 @@ void detect_img(const detect_context& ctx, cv::Mat& orig_img, const std::string&
   *ctx.out << "Duration: " << x_get_time(timer) << " sec" << std::endl;
   print_counter_map(*ctx.out, recognized, "Recognized");
   print_counter_map(*ctx.out, expected, "Expected");
-  print_counter_map(*ctx.out, false_positive, "False positive");
   print_objects(*ctx.out, recognized_objects, "Detection");
   print_objects(*ctx.out, ground_truth, "Ground truth");
+
+  std::vector<object> filtered_recognized;
+  std::copy_if(recognized_objects.begin(), recognized_objects.end(), std::back_inserter(filtered_recognized), [&](const object& o){ return care(o, dontcare); });
+  std::vector<object> filtered_expected;
+  std::copy_if(ground_truth.begin(), ground_truth.end(), std::back_inserter(filtered_expected), [&](const object& o){ return care(o, dontcare); });
+
+  for (const auto& e : ctx.labelmap) {
+    const std::string& k = e.second;
+    int all_rec = count_label(filtered_recognized, k);
+    int all_gt = count_label(filtered_expected, k);
+
+    bool report = 0 != all_rec || 0 != all_gt;  // don't report not found and actually unexpected labels, but still count them for mAP
+
+    eval_boxes(filtered_expected, filtered_recognized, k, UNKNOWN);
+    auto easy = eval_boxes(filtered_expected, filtered_recognized, k, EASY);
+    auto mod = eval_boxes(filtered_expected, filtered_recognized, k, MODERATE);
+    auto hard = eval_boxes(filtered_expected, filtered_recognized, k, HARD);
+    int tp = easy.tp + mod.tp + hard.tp;
+    int fp = all_rec - tp;
+    if (report) {
+      *ctx.out << "True positive " << k << ": " << easy.tp << " easy, " << mod.tp << " moderate, " << hard.tp << " hard" << std::endl;
+      *ctx.out << "False positive " << k << ": " << fp << std::endl;
+    }
+
+    std::vector<float> precision = {
+      safe_div(easy.tp + fp, easy.tp),
+      safe_div(mod.tp + fp, mod.tp),
+      safe_div(hard.tp + fp, hard.tp)
+    };
+
+    float recall = 0;
+    if (0 == all_gt) {
+      recall = 0 == all_rec ? 1 : 0;
+    } else {
+      recall = static_cast<float>(tp) / static_cast<float>(all_gt);
+    }
+
+    if (report) {
+      *ctx.out << "Precision " << k << ": " << precision[EASY] << " easy, " << precision[MODERATE] << " moderate, " << precision[HARD] << " hard" << std::endl;
+      *ctx.out << "Recall " << k << ": " << recall << std::endl;
+    }
+
+    auto& ap = ctx.avg_precision[k];
+    ap[EASY].addIf(precision[EASY], 0 < easy.all_gt);
+    ap[MODERATE].addIf(precision[MODERATE], 0 < mod.all_gt);
+    ap[HARD].addIf(precision[HARD], 0 < hard.all_gt);
+    if (report) {
+      *ctx.out << "Rolling AP " << k << ": " << ap[EASY].avg << " easy, " << ap[MODERATE].avg << " moderate, " << ap[HARD].avg << " hard" << std::endl;
+    }
+  }
+  *ctx.out << "Rolling mAP: " << calc_mAP(ctx.avg_precision) << std::endl;
   *ctx.out << std::endl;
   ctx.out->flush();
 }
@@ -738,6 +951,9 @@ int main(int argc, char** argv) {
     ctx.label_dir = fs::path(FLAGS_label_dir);
     ctx.labelmap = read_labelmap(FLAGS_labelmap_file);
     ctx.reverse_labelmap = flip_labelmap(ctx.labelmap);
+    for (const auto& e : ctx.labelmap) {
+      ctx.avg_precision[e.second] = {Stat(), Stat(), Stat()};
+    }
     *ctx.out << std::setprecision(float_precision());
 
     if (FLAGS_continuous) {
