@@ -4,10 +4,8 @@ import copy
 import re
 import argparse
 
-# Batch size iteration parameters.
-# Number of statistical repetitions.
-num_repetitions=3
-platform_tags='platform_name'
+platform_tags='nvidia-gtx1080'
+
 def do(i, arg):
     # Detect basic platform info.
     ii={'action':'detect',
@@ -82,7 +80,7 @@ def do(i, arg):
     if len(udepm)==0:
         return {'return':1, 'error':'no installed Caffe models'}
 
-    ###choose imagenet
+    # ImageNet LMDBs.
     depimg=copy.deepcopy(cdeps['dataset-imagenet-lmdb'])
     ii={'action':'resolve',
         'module_uoa':'env',
@@ -94,15 +92,15 @@ def do(i, arg):
     }
     r=ck.access(ii)
     if r['return']>0: return r
-    c = r['deps'] 
-#    ck.out_debug(c)
-    udepimg=r['deps']['dataset-imagenet-lmdb'].get('choices',[])
-    if len(udepimg)==0:
-       return {'return':1, 'error':'no installed dataset imagenet lmdb'}
+    c = r['deps']
+    udepi=r['deps']['dataset-imagenet-lmdb'].get('choices',[]) # All UOAs of env for ImageNet LMDBs.
+    if len(udepi)==0:
+       return {'return':1, 'error':'no installed ImageNet LMDB'}
+
     # Prepare pipeline.
     cdeps['lib-caffe']['uoa']=udepl[0]
     cdeps['caffemodel']['uoa']=udepm[0]
-    cdeps['dataset-imagenet-lmdb']['uoa']=udepimg[0]
+    cdeps['dataset-imagenet-lmdb']['uoa']=udepi[0]
 
 
     ii={'action':'pipeline',
@@ -174,10 +172,8 @@ def do(i, arg):
         lib_tags=re.match('BVLC Caffe framework \((?P<tags>.*)\)', lib_name)
         lib_tags=lib_tags.group('tags').replace(' ', '').replace(',', '-')
         # Skip some libs with "in [..]" or "not in [..]".
+        if lib_tags not in ['cudnn']: continue
 
-
-        if lib_tags in []: continue
-       
         skip_compile='no'
 
         # For each Caffe model.*************************************************
@@ -190,31 +186,29 @@ def do(i, arg):
             if r['return']>0: return r
             # Get the tags from e.g. 'Caffe model (net and weights) (deepscale, squeezenet, 1.1)'
             model_name=r['data_name']
-            model_tags = re.match('Caffe model \(net and weights\) \((?P<tags>.*)\)', model_name)
-            model_tags = model_tags.group('tags').replace(' ', '').replace(',', '-')
+            model_tags=re.match('Caffe model \(net and weights\) \((?P<tags>.*)\)', model_name)
+            model_tags=model_tags.group('tags').replace(' ', '').replace(',', '-')
             # Skip some models with "in [..]" or "not in [..]".
-            if model_tags in []: continue
+            if model_tags not in ['bvlc-alexnet', 'bvlc-googlenet', 'deepscale-squeezenet-1.1']: continue
 
-            for img_uoa in udepimg:
+            # For each ImageNet LMDB.*******************************************
+            for img_uoa in udepi:
                 ii={'action':'load',
                 'module_uoa':'env',
                 'data_uoa':img_uoa}
                 r=ck.access(ii)
                 if r['return']>0: return r
                 img_name=r['data_name']
-                img_tags= r.get('dict').get('tags')
-                myit='None'
-        #        print model_tags, img_tags
-                for it in img_tags:
-                     if (it == model_tags):
-                         myit = model_tags
-                         break
-                if myit is not 'None':
-                   break
-            if (myit == 'None'): continue
-            img_tags=myit              
+                img_tags=r.get('dict',{}).get('tags',[])
+                if model_tags in img_tags: break
+            # Skip models having no compatible LMDBs.
+            if model_tags not in img_tags: continue
+            resize_tags = [ tag for tag in img_tags if tag.find('resize-')!=-1 ]
+            resize_tag = resize_tags[0] if resize_tags else 'resize-unknown'
+            img_tags = 'imagenet-val-lmdb-'+resize_tag
+
             record_repo='local'
-            record_uoa=img_name+'-'+model_tags+'-'+lib_tags
+            record_uoa=model_tags+'-'+lib_tags+'-'+img_tags
             # Prepare pipeline.
             ck.out('---------------------------------------------------------------------------------------')
             ck.out('%s - %s' % (lib_name, lib_uoa))
@@ -254,9 +248,9 @@ def do(i, arg):
 
                 'module_uoa':'pipeline',
                 'data_uoa':'program',
-                
+
                 'iterations':1,
-                'repetitions':num_repetitions,
+                'repetitions':1,
 
                 'record':'yes',
                 'record_failed':'yes',
@@ -266,7 +260,7 @@ def do(i, arg):
                 'record_repo':record_repo,
                 'record_uoa':record_uoa,
 
-                'tags':['test-libs-accuracy', cmd_key, model_tags, lib_tags, img_tags, platform_tags ],
+                'tags':['test-accuracy', cmd_key, model_tags, lib_tags, img_tags, platform_tags ],
 
                 'pipeline':cpipeline,
                 'out':'con'}
