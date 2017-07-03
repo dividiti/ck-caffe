@@ -64,7 +64,8 @@
     },
     "skip_file_check": "yes",
     "use_git_revision": "yes",
-    "version": "trunk"
+    "no_ver_in_suggested_path": "yes",
+    "version": "master"
   },
   "deps": {
     "cmake": {
