@@ -32,7 +32,7 @@
       "force_add_static_lib_path": "yes", 
       "local": "yes", 
       "name": "Boost library", 
-      "sort": 13, 
+      "sort": 4,
       "tags": "lib,boost"
     }, 
     "lib-caffe": {
