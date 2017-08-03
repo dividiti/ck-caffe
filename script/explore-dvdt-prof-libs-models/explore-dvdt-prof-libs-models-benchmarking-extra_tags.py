@@ -7,13 +7,13 @@ import argparse
 # Batch size iteration parameters.
 bs={
   'start':1,
-  'stop':8,
+  'stop':1,
   'step':1,
-  'default':2
+  'default':1
 }
 # Number of statistical repetitions.
 num_repetitions=3
-platform_tags='platform_name'
+
 def do(i, arg):
     # Detect basic platform info.
     ii={'action':'detect',
@@ -29,10 +29,14 @@ def do(i, arg):
     tos=r['os_uoa']
     tosd=r['os_dict']
     tdid=r['device_id']
+
     # Program and command.
-    program='caffe-time-opencl'
+    program='caffe-time'
     cmd_key='default'
     tp='opencl'
+
+    if tp=='opencl' or tp=='cuda':
+      program=program+'-'+tp
 
     # Load Caffe program meta and desc to check deps.
     ii={'action':'load',
@@ -75,7 +79,6 @@ def do(i, arg):
 
     # Caffe models.
     depm=copy.deepcopy(cdeps['caffemodel'])
-
     ii={'action':'resolve',
         'module_uoa':'env',
         'host_os':hos,
@@ -86,7 +89,6 @@ def do(i, arg):
     }
     r=ck.access(ii)
     if r['return']>0: return r
-
     udepm=r['deps']['caffemodel'].get('choices',[]) # All UOAs of env for Caffe models.
     if len(udepm)==0:
         return {'return':1, 'error':'no installed Caffe models'}
@@ -94,7 +96,6 @@ def do(i, arg):
     # Prepare pipeline.
     cdeps['lib-caffe']['uoa']=udepl[0]
     cdeps['caffemodel']['uoa']=udepm[0]
-
     ii={'action':'pipeline',
         'prepare':'yes',
         'dependencies':cdeps,
@@ -106,14 +107,14 @@ def do(i, arg):
         'target_os':tos,
         'device_id':tdid,
 
+        'dvdt_prof':'yes',
+        'env':{
+          'CK_CAFFE_SKIP_BACKWARD':1
+        },
+
         'no_state_check':'yes',
         'no_compiler_description':'yes',
         'skip_calibration':'yes',
-
-        'env':{
-          'CK_CAFFE_SKIP_BACKWARD':1,
-          'OPENBLAS_NUM_THREADS':2
-        },
 
         'cpu_freq':'max',
         'gpu_freq':'max',
@@ -123,9 +124,9 @@ def do(i, arg):
         'energy':'no',
 
         'skip_print_timers':'yes',
+        'skip_file_print':'yes',
         'out':'con'
     }
-
     r=ck.access(ii)
     if r['return']>0: return r
 
@@ -151,7 +152,7 @@ def do(i, arg):
     pipeline=copy.deepcopy(r)
     lib_tags_to_skip = [
         "caffe",
-	"32bits",
+        "32bits",
         "bvlc",
         "host-os-linux-32",
         "lib",
@@ -166,31 +167,14 @@ def do(i, arg):
             'data_uoa':lib_uoa}
         r=ck.access(ii)
         if r['return']>0: return r
+
         # Get the tags from e.g. 'BVLC Caffe framework (libdnn,viennacl)'
         lib_tags = ""
         for t in r['dict']['tags']:
             if t not in lib_tags_to_skip:
                 lib_tags += t + '-'
         lib_tags = lib_tags[:-1]
-        # Skip some libs with "in [..]" or "not in [..]".
-        print lib_tags 
-
-#        if lib_tags not in ['opencl-clblast']: continue
-
-#        if lib_tags not in ['opencl-clblast-tune', 'opencl-clblast']: continue
-#        if lib_tags not in ['opencl-libdnn-clblast-tune', 'opencl-libdnn-clblast']: continue
-#        if lib_tags not in ['opencl-libdnn-viennacl', 'opencl-viennacl']: continue
-        
         skip_compile='no'
-
-        # Use the 'time_cpu' command for the CPU only lib, 'time_gpu' for all the rest.
-#        if r['dict']['customize']['params']['cpu_only']==1:
-#            cmd_key='time_cpu'
-#        else:
-#            cmd_key='time_gpu'
-#        # FIXME: Customise cmd for NVIDIA's experimental fp16 branch.
-#        if lib_tags in [ 'nvidia-fp16-cuda', 'nvidia-fp16-cudnn' ]:
-#            cmd_key='time_gpu_fp16'
 
         # For each Caffe model.*************************************************
         for model_uoa in udepm:
@@ -200,14 +184,17 @@ def do(i, arg):
                 'data_uoa':model_uoa}
             r=ck.access(ii)
             if r['return']>0: return r
+
             # Get the tags from e.g. 'Caffe model (net and weights) (deepscale, squeezenet, 1.1)'
             model_name=r['data_name']
             model_tags = re.match('Caffe model \(net and weights\) \((?P<tags>.*)\)', model_name)
             model_tags = model_tags.group('tags').replace(' ', '').replace(',', '-')
+
             # Skip some models with "in [..]" or "not in [..]".
+            if model_tags not in [ 'bvlc-alexnet', 'bvlc-googlenet', 'deepscale-squeezenet-1.1', 'deepscale-squeezenet-1.0' ]: continue
 
             record_repo='local'
-            record_uoa=model_tags+'-'+lib_tags
+            record_uoa='dvdt-prof-'+model_tags+'-'+lib_tags
 
             # Prepare pipeline.
             ck.out('---------------------------------------------------------------------------------------')
@@ -257,6 +244,8 @@ def do(i, arg):
 
                 'features_keys_to_process':['##choices#*'],
 
+                'process_multi_keys':['##choices#env#CK_CAFFE_BATCH_SIZE'],
+
                 'iterations':-1,
                 'repetitions':num_repetitions,
 
@@ -268,7 +257,7 @@ def do(i, arg):
                 'record_repo':record_repo,
                 'record_uoa':record_uoa,
 
-                'tags':[ 'explore-batch-size-libs-models', cmd_key, model_tags, lib_tags, platform_tags ],
+                'tags':[ 'dvdt-prof', program, model_tags, lib_tags ],
 
                 'pipeline':cpipeline,
                 'out':'con'}
@@ -284,6 +273,7 @@ def do(i, arg):
 
     return {'return':0}
 
+
 parser = argparse.ArgumentParser(description='Pipeline')
 parser.add_argument("--target_os", action="store", dest="tos")
 parser.add_argument("--device_id", action="store", dest="did")
@@ -292,3 +282,4 @@ myarg=parser.parse_args()
 
 r=do({}, myarg)
 if r['return']>0: ck.err(r)
+
