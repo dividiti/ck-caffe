@@ -293,8 +293,7 @@ project to enable collaborative and systematic optimization
 of realistic workloads across diverse hardware
 in terms of performance, energy usage, accuracy, reliability,
 hardware price and other costs
-([ARM TechCon'16 talk](http://schedule.armtechcon.com/session/know-your-workloads-design-more-efficient-systems),
-[ARM TechCon'16 demo](https://github.com/ctuning/ck/wiki/Demo-ARM-TechCon'16),
+([ARM TechCon'16 talk and demo](https://github.com/ctuning/ck/wiki/Demo-ARM-TechCon'16),
 [DATE'16](http://tinyurl.com/zyupd5v),
 [CPC'15](http://arxiv.org/abs/1506.06256)).
 
@@ -346,7 +345,7 @@ join this community effort!
 
 ## Testimonials and awards
 
-* 2015: ARM and the cTuning foundation use CK to accelerate computer engineering: [HiPEAC Info'45 page 17](https://www.hipeac.net/assets/public/publications/newsletter/hipeacinfo45.pdf), [ARM TechCon'16 presentation and demo](http://schedule.armtechcon.com/session/know-your-workloads-design-more-efficient-systems), [public CK repo](https://github.com/ctuning/ck-wa)
+* 2015: ARM and the cTuning foundation use CK to accelerate computer engineering: [HiPEAC Info'45 page 17](https://www.hipeac.net/assets/public/publications/newsletter/hipeacinfo45.pdf), [ARM TechCon'16 presentation and demo](https://github.com/ctuning/ck/wiki/Demo-ARM-TechCon'16), [public CK repo](https://github.com/ctuning/ck-wa)
 
 ## Feedback
 
