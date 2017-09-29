@@ -1,4 +1,5 @@
 {
+  "comment":"build Caffe CPU from master",
   "check_exit_status": "yes",
   "customize": {
     "extra_dir": "",
@@ -250,7 +251,9 @@
     "caffe",
     "bvlc",
     "vmaster",
-    "vcpu"
+    "vcpu",
+    "channel-dev",
+    "channel-stable"
   ],
   "use_preprocess_scripts_from_another_entry": {
     "data_uoa": "fd44428fbc77f77f",

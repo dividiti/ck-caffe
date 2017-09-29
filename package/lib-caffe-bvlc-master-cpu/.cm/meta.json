@@ -83,6 +83,7 @@
     "caffe",
     "bvlc",
     "vmaster",
-    "vcpu"
+    "vcpu",
+    "channel-dev"
   ]
 }

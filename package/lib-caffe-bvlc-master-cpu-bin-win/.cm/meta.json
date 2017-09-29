@@ -1,4 +1,5 @@
 {
+  "comment":"download pre-built Caffe",
   "check_exit_status": "yes",
   "customize": {
     "install_env": {
@@ -28,7 +29,9 @@
     "vmaster",
     "vcpu",
     "vbin",
-    "v1c1be4c4592468c7"
+    "v1c1be4c4592468c7",
+    "channel-dev",
+    "channel-stable"
   ],
   "use_scripts_from_another_entry": {
     "data_uoa": "cd9ccc74060b3d18",
