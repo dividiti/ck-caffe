@@ -1,3 +1,5 @@
+2017.10.04 - moved non-universal packages to ck-old-packages (you can get it via ck pull repo:ck-old-packages)
+
 2017.06.11 - moved outdated ck-caffe:package:lib-caffe-nvidia-fp16-cuda & ck-caffe:package:lib-caffe-nvidia-fp16-cudnn to ck-old-packages
 
 2017.06.01 - fixed Caffe soft description on Windows (now detects both proto.lib or recently changed caffeproto.lib)
