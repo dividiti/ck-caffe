@@ -84,12 +84,10 @@
     "lib-boost": {
       "local": "yes",
       "name": "Boost library",
-      "skip_installed": {
-        "android": "yes",
-        "win": "yes"
-      },
+      "skip_default": "yes",
       "sort": 25,
-      "tags": "lib,boost"
+      "tags": "lib,boost",
+      "version_from":[1,64,0]
     },
     "lib-gflags": {
       "force_env_init": "yes",

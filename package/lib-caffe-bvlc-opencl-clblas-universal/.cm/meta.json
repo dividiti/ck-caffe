@@ -96,14 +96,12 @@
       "tags": "lib,blas,openblas"
     }, 
     "lib-boost": {
-      "local": "yes", 
-      "name": "Boost library", 
-      "skip_installed": {
-        "android": "yes", 
-        "win": "yes"
-      }, 
-      "sort": 25, 
-      "tags": "lib,boost"
+      "local": "yes",
+      "name": "Boost library",
+      "skip_default": "yes",
+      "sort": 25,
+      "tags": "lib,boost",
+      "version_from":[1,64,0]
     }, 
     "lib-clblas": {
       "local": "yes", 
