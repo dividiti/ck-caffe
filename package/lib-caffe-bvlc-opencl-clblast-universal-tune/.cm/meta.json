@@ -212,6 +212,8 @@
     "win": "install/bin/caffe.exe"
   },
   "need_cpu_info": "yes",
+  "need_gpgpu_info":"yes",
+  "need_gpgpu_type":"opencl",
   "only_for_host_os_tags": [
     "windows",
     "linux"
@@ -234,7 +236,7 @@
     "vtune"
   ],
   "use_preprocess_scripts_from_another_entry": {
-    "data_uoa": "fd44428fbc77f77f",
+    "data_uoa": "34479ac968f42cfc",
     "module_uoa": "84e27ad9dd12e734"
   },
   "use_scripts_from_another_entry": {

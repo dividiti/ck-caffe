@@ -184,23 +184,17 @@
       "only_for_target_os_tags": [
         "android"
       ],
-      "skip_installed": {
-        "android": "yes",
-        "win": "yes"
-      },
+      "skip_default": "yes",
       "sort": 110,
-      "tags": "lib,protobuf,v3.1.0"
+      "tags": "lib,protobuf,v3.2.0"
     },
     "lib-protobuf-host": {
       "force_target_as_host": "yes",
       "local": "yes",
       "name": "ProtoBuf host compiler",
-      "skip_installed": {
-        "android": "yes",
-        "win": "yes"
-      },
+      "skip_default": "yes",
       "sort": 115,
-      "tags": "lib,protobuf-host"
+      "tags": "lib,protobuf-host,v3.2.0"
     },
     "lib-viennacl": {
       "local": "yes",
@@ -216,6 +210,8 @@
     "win": "install/bin/caffe.exe"
   },
   "need_cpu_info": "yes",
+  "need_gpgpu_info":"yes",
+  "need_gpgpu_type":"opencl",
   "only_for_host_os_tags": [
     "windows",
     "linux"
@@ -237,7 +233,7 @@
     "vclblast"
   ],
   "use_preprocess_scripts_from_another_entry": {
-    "data_uoa": "fd44428fbc77f77f",
+    "data_uoa": "34479ac968f42cfc",
     "module_uoa": "84e27ad9dd12e734"
   },
   "use_scripts_from_another_entry": {

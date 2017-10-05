@@ -1,3 +1,6 @@
+2017.10.05 - added check on OpenCL device to remind user to disable unified memory 
+             (useful for embedded GPU)
+
 2017.10.04 - moved non-universal packages to ck-old-packages (you can get it via ck pull repo:ck-old-packages)
            - forcing Boost to be installed from package (with version >= 1.64.0)
 
