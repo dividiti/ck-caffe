@@ -1,6 +1,5 @@
 {
   "check_exit_status": "yes",
-  "comment":"RECOMMENDED",
   "customize": {
     "extra_dir": "",
     "git_src_dir": "src",
@@ -228,7 +227,6 @@
   "package_extra_name": " (opencl,libdnn,clblast)",
   "process_script": "install",
   "soft_uoa": "04ab08137582bd03",
-  "sort":100,
   "suggested_path": "lib-caffe-bvlc-opencl-libdnn-clblast",
   "tags": [
     "lib",
