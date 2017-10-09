@@ -187,7 +187,7 @@
       ],
       "skip_default": "yes",
       "sort": 110,
-      "tags": "lib,protobuf,v3.2.0"
+      "tags": "lib,protobuf,v3.1.0"
     },
     "lib-protobuf-host": {
       "force_target_as_host": "yes",
@@ -195,7 +195,7 @@
       "name": "ProtoBuf host compiler",
       "skip_default": "yes",
       "sort": 115,
-      "tags": "lib,protobuf-host,v3.2.0"
+      "tags": "lib,protobuf-host,v3.1.0"
     },
     "lib-viennacl": {
       "local": "yes",
