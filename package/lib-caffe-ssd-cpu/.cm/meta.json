@@ -8,7 +8,8 @@
         "PACKAGE_URL": "https://github.com/weiliu89/caffe",
         "PACKAGE_SUB_DIR": "src",
         "PACKAGE_SKIP_CLEAN_OBJ": "YES",
-        "CPU_ONLY": "ON"
+        "CPU_ONLY": "ON",
+        "USE_OPENMP": 0
       }, 
       "use_git_revision": "yes", 
       "version": "ssd"
