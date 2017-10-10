@@ -54,7 +54,7 @@ cmake -DCMAKE_BUILD_TYPE=${CK_ENV_CMAKE_BUILD_TYPE:-Release} \
       ${XCMAKE_AR} \
       ${XCMAKE_LD} \
       -DCMAKE_SHARED_LINKER_FLAGS="$CK_OPENMP" \
-      -DBUILD_python=ON \
+      -DBUILD_python=OFF \
       -DPYTHON_EXECUTABLE:FILEPATH="$CK_ENV_COMPILER_PYTHON_FILE" \
       -DBUILD_docs=OFF \
       -DCPU_ONLY=$CPU_ONLY \
