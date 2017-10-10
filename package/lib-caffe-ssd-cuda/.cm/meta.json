@@ -158,6 +158,7 @@
     "package_extra_name": " (ssd, cuda)",
     "process_script": "install",
     "soft_uoa": "04ab08137582bd03", 
+    "sort":-100,
     "suggested_path": "lib-caffe-cuda", 
     "tags": [
       "lib", 
