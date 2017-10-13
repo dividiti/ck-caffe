@@ -37,6 +37,7 @@
       "RUN_INSTALL": 0,
       "RUN_LINT": 0,
       "RUN_TESTS": 0,
+      "SUBSTITUTE_ORIGINAL_PACKAGE_DIR":"$#path_to_cid=package:b39f40abfd34f10b#$",
       "USE_LEVELDB": "ON",
       "USE_LMDB": "ON",
       "USE_OPENMP": 0,
@@ -98,26 +99,16 @@
       "force_env_init": "yes",
       "local": "yes",
       "name": "GFlags library",
-      "skip_installed": {
-        "android": "yes",
-        "win": "yes"
-      },
+      "skip_default":"yes",
       "sort": 12,
-      "tags": "lib,gflags",
-      "update_tags_by_target_platform2": {
-        "android": "v2.2.0",
-        "win": "v2.2.0"
-      }
+      "tags": "lib,gflags,v2.2.0"
     },
     "lib-glog": {
       "local": "yes",
       "name": "GLog library",
-      "skip_installed": {
-        "android": "yes",
-        "win": "yes"
-      },
+      "skip_default":"yes",
       "sort": 14,
-      "tags": "lib,glog"
+      "tags": "lib,glog,v0.3.5"
     },
     "lib-hdf5": {
       "local": "yes",
@@ -126,11 +117,9 @@
         "linux",
         "windows"
       ],
-      "skip_installed": {
-        "win": "yes"
-      },
+      "skip_default":"yes",
       "sort": 19,
-      "tags": "lib,hdf5"
+      "tags": "lib,hdf5,v1.10.1"
     },
     "lib-lmdb": {
       "local": "yes",
@@ -140,17 +129,14 @@
         "windows"
       ],
       "sort": 18,
-      "tags": "lib,lmdb"
+      "tags": "lib,lmdb,v0.9.21"
     },
     "lib-opencv": {
       "local": "yes",
       "name": "OpenCV library",
-      "skip_installed": {
-        "android": "yes",
-        "win": "yes"
-      },
+      "skip_default":"yes",
       "sort": 20,
-      "tags": "lib,opencv"
+      "tags": "lib,opencv,v3.3.0"
     },
     "lib-protobuf": {
       "local": "yes",
@@ -158,10 +144,7 @@
       "only_for_target_os_tags": [
         "android"
       ],
-      "skip_installed": {
-        "android": "yes",
-        "win": "yes"
-      },
+      "skip_default":"yes",
       "sort": 110,
       "tags": "lib,protobuf,v3.1.0"
     },
@@ -169,10 +152,7 @@
       "force_target_as_host": "yes",
       "local": "yes",
       "name": "ProtoBuf host compiler",
-      "skip_installed": {
-        "android": "yes",
-        "win": "yes"
-      },
+      "skip_default":"yes",
       "sort": 115,
       "tags": "lib,protobuf-host,v3.1.0"
     }
@@ -262,6 +242,9 @@
   "use_preprocess_scripts_from_another_entry": {
     "data_uoa": "fd44428fbc77f77f",
     "module_uoa": "84e27ad9dd12e734"
+  },
+  "cids_in_env_as_paths":{
+     "SUBSTITUTE_ORIGINAL_PACKAGE_DIR":"b39f40abfd34f10b"
   },
   "use_scripts_from_another_entry": {
     "data_uoa": "cd9ccc74060b3d18",

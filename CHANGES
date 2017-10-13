@@ -1,3 +1,5 @@
+2017.10.13 - started adding stable Caffe packages (snapshots and fixed CK dependencies)
+
 2017.10.05 - added check on OpenCL device to remind user to disable unified memory 
              (useful for embedded GPU)
 
