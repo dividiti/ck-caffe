@@ -81,6 +81,9 @@
       "name": "BLAS library",
       "skip_default": "yes",
       "sort": 30,
+      "update_tags_by_target_platform2": {
+        "android": "v0.2.19"
+      },
       "tags": "lib,blas,openblas"
     },
     "lib-boost": {
