@@ -1,6 +1,6 @@
 {
-  "comment":"build Caffe CPU from master",
   "check_exit_status": "yes",
+  "comment": "build Caffe CPU from master",
   "customize": {
     "extra_dir": "",
     "git_src_dir": "src",
@@ -21,7 +21,8 @@
       "PACKAGE_COPY": "NO",
       "PACKAGE_GIT": "YES",
       "PACKAGE_GIT_CHECKOUT_ANDROID": "-b opencl c61d487",
-      "PACKAGE_GIT_CHECKOUT_WINDOWS": "windows",
+      "PACKAGE_GIT_CHECKOUT_LINUX": "691febc",
+      "PACKAGE_GIT_CHECKOUT_WINDOWS": "-b windows 28ca814",
       "PACKAGE_PATCH": "YES",
       "PACKAGE_SKIP_BUILD_ERROR": "YES",
       "PACKAGE_SKIP_CLEAN_INSTALL": "NO",
@@ -42,6 +43,7 @@
       "USE_PREBUILT_DEPENDENCIES": "OFF",
       "WITH_NINJA": 0
     },
+    "no_ver_in_suggested_path": "yes",
     "params": {
       "cpu_only": 1,
       "debug": 0,
@@ -51,8 +53,7 @@
       "use_opencv": 1
     },
     "use_git_revision": "yes",
-    "no_ver_in_suggested_path": "yes",
-    "version": "master"
+    "version": "master-20171013"
   },
   "deps": {
     "cmake": {
@@ -87,7 +88,11 @@
       "skip_default": "yes",
       "sort": 25,
       "tags": "lib,boost",
-      "version_from":[1,64,0]
+      "version_from": [
+        1,
+        64,
+        0
+      ]
     },
     "lib-gflags": {
       "force_env_init": "yes",
@@ -240,17 +245,19 @@
     "windows",
     "android"
   ],
-  "package_extra_name": " (cpu)",
+  "package_extra_name": " (cpu, snapshot 20171013)",
   "process_script": "install",
   "soft_uoa": "04ab08137582bd03",
-  "suggested_path": "lib-caffe-bvlc-master-cpu",
+  "suggested_path": "lib-caffe-bvlc-master-cpu-20171013",
   "tags": [
     "lib",
     "caffe",
     "bvlc",
     "vmaster",
+    "v20171013",
     "vcpu",
-    "channel-dev"
+    "channel-dev",
+    "channel-stable"
   ],
   "use_preprocess_scripts_from_another_entry": {
     "data_uoa": "fd44428fbc77f77f",
