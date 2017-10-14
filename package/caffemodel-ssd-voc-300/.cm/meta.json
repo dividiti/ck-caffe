@@ -50,7 +50,8 @@
     "caffemodel", 
     "ssd", 
     "ssd-voc",
-    "ssd-300" 
+    "ssd-300",
+    "channel-stable"
   ],
   "use_scripts_from_another_entry": {
     "data_uoa": "cd9ccc74060b3d18",

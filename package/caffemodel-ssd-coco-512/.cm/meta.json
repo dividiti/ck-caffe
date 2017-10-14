@@ -50,7 +50,8 @@
     "caffemodel", 
     "ssd", 
     "ssd-coco",
-    "ssd-512" 
+    "ssd-512" ,
+    "channel-stable"
   ],
   "use_scripts_from_another_entry": {
     "data_uoa": "cd9ccc74060b3d18",

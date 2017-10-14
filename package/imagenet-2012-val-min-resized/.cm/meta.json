@@ -31,6 +31,7 @@
     "ilsvrc2012min",
     "ilsvrc2012resized",
     "small_dataset",
-    "resized"
+    "resized",
+    "channel-stable"
   ]
 }

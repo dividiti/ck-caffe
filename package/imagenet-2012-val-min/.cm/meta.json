@@ -29,6 +29,7 @@
     "caffe",
     "ilsvrc2012",
     "ilsvrc2012min",
-    "small_dataset"
+    "small_dataset",
+    "channel-stable"
   ]
 }

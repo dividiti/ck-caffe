@@ -145,7 +145,8 @@
       "local": "yes", 
       "name": "Caffe model (net and weights)", 
       "sort": 40, 
-      "tags": "caffemodel"
+      "tags": "caffemodel",
+      "no_tags": "caffemodel2"
     }
   }, 
   "run_vars": {

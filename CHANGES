@@ -1,3 +1,7 @@
+2017.10.14 - added stable Caffe version (CPU) with all dependencies compiled by the CK
+           - fixed compilation on Windows and Android
+           - added channel-stable tag
+
 2017.10.13 - started adding stable Caffe packages (snapshots and fixed CK dependencies)
 
 2017.10.05 - added check on OpenCL device to remind user to disable unified memory 

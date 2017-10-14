@@ -52,6 +52,7 @@
     "ilsvrc2012",
     "resize-256",
     "bvlc-alexnet",
-    "default"
+    "default",
+    "channel-stable"
   ]
 }

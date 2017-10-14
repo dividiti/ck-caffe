@@ -27,6 +27,7 @@
     "imagenet", 
     "aux", 
     "caffe", 
-    "ilsvrc2012"
+    "ilsvrc2012",
+    "channel-stable"
   ]
 }

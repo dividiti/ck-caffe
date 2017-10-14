@@ -65,7 +65,8 @@
     "deepscale",
     "squeezenet",
     "v1.0",
-    "v1"
+    "v1",
+    "channel-stable"
   ],
   "use_scripts_from_another_entry": {
     "repo_uoa": "ck-caffe",

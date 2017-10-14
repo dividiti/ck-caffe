@@ -51,6 +51,7 @@
     "caffe", 
     "ilsvrc2012",
     "resize-224",
-    "bvlc-googlenet"
+    "bvlc-googlenet",
+    "channel-stable"
   ]
 }

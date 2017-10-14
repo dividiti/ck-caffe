@@ -70,7 +70,8 @@
     "caffemodel",
     "tidsp",
     "jacintonet11",
-    "non-sparse"
+    "non-sparse",
+    "channel-stable"
   ],
   "use_scripts_from_another_entry": {
     "data_uoa": "download-caffemodel",

@@ -52,6 +52,7 @@
     "ilsvrc2012",
     "resize-227",
     "deepscale-squeezenet-1.0",
-    "deepscale-squeezenet-1.1"
+    "deepscale-squeezenet-1.1",
+    "channel-stable"
   ]
 }

@@ -32,6 +32,7 @@
     "COCO",
     "2014",
     "val",
-    "full"
+    "full",
+    "channel-stable"
   ]
 }

@@ -37,6 +37,7 @@
     "VOC",
     "2012",
     "val",
-    "full"
+    "full",
+    "channel-stable"
   ]
 }

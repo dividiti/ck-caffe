@@ -68,7 +68,8 @@
     "weights",
     "caffemodel",
     "bvlc",
-    "googlenet"
+    "googlenet",
+    "channel-stable"
   ],
   "use_scripts_from_another_entry": {
     "repo_uoa": "ck-caffe",

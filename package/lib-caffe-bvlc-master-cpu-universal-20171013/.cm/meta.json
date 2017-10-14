@@ -82,7 +82,9 @@
       "skip_default": "yes",
       "sort": 30,
       "update_tags_by_target_platform2": {
-        "android": "v0.2.19"
+        "android": "v0.2.19",
+        "win": "v0.2.20",
+        "linux": "v0.2.20"
       },
       "tags": "lib,blas,openblas"
     },
@@ -92,11 +94,7 @@
       "skip_default": "yes",
       "sort": 25,
       "tags": "lib,boost",
-      "version_from": [
-        1,
-        64,
-        0
-      ]
+      "version_from":[1,64,0]
     },
     "lib-gflags": {
       "force_env_init": "yes",
@@ -239,15 +237,11 @@
     "vmaster",
     "v20171013",
     "vcpu",
-    "channel-dev",
     "channel-stable"
   ],
   "use_preprocess_scripts_from_another_entry": {
     "data_uoa": "fd44428fbc77f77f",
     "module_uoa": "84e27ad9dd12e734"
-  },
-  "cids_in_env_as_paths":{
-     "SUBSTITUTE_ORIGINAL_PACKAGE_DIR":"b39f40abfd34f10b"
   },
   "use_scripts_from_another_entry": {
     "data_uoa": "cd9ccc74060b3d18",

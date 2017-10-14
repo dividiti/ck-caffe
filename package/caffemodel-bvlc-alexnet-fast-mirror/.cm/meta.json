@@ -73,7 +73,8 @@
     "caffemodel",
     "bvlc",
     "alexnet",
-    "mirror"
+    "mirror",
+    "channel-stable"
   ],
   "use_scripts_from_another_entry": {
     "data_uoa": "download-caffemodel",
