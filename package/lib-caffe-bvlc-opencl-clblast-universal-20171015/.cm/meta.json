@@ -108,7 +108,7 @@
       "name": "CLBlast library",
       "skip_default": "yes",
       "sort": 40,
-      "tags": "lib,clblast,no-tune,v1.0.1"
+      "tags": "lib,clblast,no-tune,v1.1.0"
     },
     "lib-gflags": {
       "force_env_init": "yes",
