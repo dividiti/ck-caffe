@@ -360,6 +360,10 @@ join this community effort!
 
 * 2015: ARM and the cTuning foundation use CK to accelerate computer engineering: [HiPEAC Info'45 page 17](https://www.hipeac.net/assets/public/publications/newsletter/hipeacinfo45.pdf), [ARM TechCon'16 presentation and demo](https://github.com/ctuning/ck/wiki/Demo-ARM-TechCon'16), [public CK repo](https://github.com/ctuning/ck-wa)
 
+## Troubleshooting
+
+* When compiling OpenCL version of Caffe on Linux targeting NVidia GPU, select generic x86_64/libOpenCL.so rather than NVidia OpenCL driver when asked by the CK.
+
 ## Feedback
 
 Feel free to engage with our community via this mailing list:
