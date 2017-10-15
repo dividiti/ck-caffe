@@ -1,0 +1,14 @@
+diff -ruN src\cmake\Dependencies.cmake src-new\cmake\Dependencies.cmake
+--- src\cmake\Dependencies.cmake	Sat Oct 14 18:29:48 2017
++++ src-new\cmake\Dependencies.cmake	Sat Oct 14 18:32:28 2017
+@@ -54,8 +54,8 @@
+     list(APPEND CMAKE_MODULE_PATH ${HDF5_DIR})
+   endif()
+   find_package(HDF5 COMPONENTS C HL REQUIRED)
+-  set(HDF5_LIBRARIES hdf5-shared)
+-  set(HDF5_HL_LIBRARIES hdf5_hl-shared)
++  set(HDF5_LIBRARIES)
++  set(HDF5_HL_LIBRARIES)
+ else()
+   find_package(HDF5 COMPONENTS HL REQUIRED)
+ endif()

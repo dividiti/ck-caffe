@@ -124,6 +124,8 @@ $ sudo pip install ck
 $ ck version
 ```
 
+Skip "sudo" if installing on Windows.
+
 ### Installing CK-Caffe repository
 
 ```
@@ -132,13 +134,16 @@ $ ck pull repo:ck-caffe --url=https://github.com/dividiti/ck-caffe
 
 ### Building Caffe and all dependencies via CK
 
-The first time you run caffe benchmark, CK will
-build and install all missing dependencies for your machine,
+The first time you run caffe benchmark (on Linux or Windows), 
+CK will build and install all missing dependencies for your machine,
 download required data sets and will start benchmark:
 
 ```
 $ ck run program:caffe
 ```
+
+CK may ask you to select some detected software and packages to be used for installation (when multiple choices are available).
+In such cases, we suggest you to either use a default value (just press Enter) or stable (recommended) versions.
 
 ### Testing installation via image classification
 
@@ -155,6 +160,14 @@ You can list them via:
 ```
  $ ck pull repo:ctuning-datasets-min
  $ ck search dataset --tags=dnn
+```
+
+If you have Android SDK and NDK installed, you can compile and run the same classification example on your Android device 
+connected to a host machine via ADB as following:
+
+```
+ $ ck compile program:caffe-classification --speed --target_os=android21-arm64
+ $ ck run program:caffe-classification --target_os=android21-arm64
 ```
 
 ### Participating in collaborative evaluation and optimization of various Caffe engines and models (on-going crowd-benchmarking)
