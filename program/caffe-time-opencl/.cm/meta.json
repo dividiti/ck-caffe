@@ -82,7 +82,7 @@
     },
     "lib-opencl": {
       "local": "yes",
-      "name": "OpenCL stubs library",
+      "name": "OpenCL library (stubs on Android)",
       "skip_default": "yes",
       "sort": 15,
       "tags": "lib,opencl"
