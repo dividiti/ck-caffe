@@ -94,7 +94,10 @@
       "skip_linking": "yes",
       "skip_copy_to_remote": "yes",
       "sort": 35,
-      "tags": "lib,viennacl,vsrc"
+      "update_tags_by_target_platform2": {
+        "linux": "vsrc"
+      },
+      "tags": "lib,viennacl"
     },
     "xopenme": {
       "local": "yes",
