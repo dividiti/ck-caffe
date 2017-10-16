@@ -95,7 +95,7 @@
       "name": "Boost library",
       "skip_default": "yes",
       "sort": 25,
-      "tags": "lib,boost",
+      "tags": "lib,boost,min-for-caffe",
       "version_from": [
         1,
         64,

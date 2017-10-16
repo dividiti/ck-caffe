@@ -53,6 +53,7 @@
       "use_lmdb": 1,
       "use_opencv": 1
     },
+    "sort":10000,
     "use_git_revision": "yes",
     "version": "master-20171013"
   },
@@ -93,7 +94,7 @@
       "name": "Boost library",
       "skip_default": "yes",
       "sort": 25,
-      "tags": "lib,boost",
+      "tags": "lib,boost,min-for-caffe",
       "version_from":[1,64,0]
     },
     "lib-gflags": {
