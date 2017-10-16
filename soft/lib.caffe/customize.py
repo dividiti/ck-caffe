@@ -214,6 +214,11 @@ def setup(i):
        env[ep+'_LFLAG_PROTO']=x
 
        # HACK - need to check BOOST version and vc ...
-       env[ep+'_LINK_FLAGS']='/link /NODEFAULTLIB:libboost_date_time-vc140-mt-1_62.lib /NODEFAULTLIB:libboost_filesystem-vc140-mt-1_62.lib /NODEFAULTLIB:libboost_system-vc140-mt-1_62.lib /NODEFAULTLIB:libboost_date_time-vc140-mt-1_64.lib /NODEFAULTLIB:libboost_filesystem-vc140-mt-1_64.lib /NODEFAULTLIB:libboost_system-vc140-mt-1_64.lib'
+       x='/link /NODEFAULTLIB:libboost_date_time-vc140-mt-1_62.lib /NODEFAULTLIB:libboost_filesystem-vc140-mt-1_62.lib /NODEFAULTLIB:libboost_system-vc140-mt-1_62.lib /NODEFAULTLIB:libboost_date_time-vc140-mt-1_64.lib /NODEFAULTLIB:libboost_filesystem-vc140-mt-1_64.lib /NODEFAULTLIB:libboost_system-vc140-mt-1_64.lib'
+
+       if cus.get('extra_link_win','')!='':
+          x+=' '+cus['extra_link_win']
+
+       env[ep+'_LINK_FLAGS']=x
 
     return {'return':0, 'bat':s}
