@@ -1,6 +1,6 @@
 {
   "check_exit_status": "yes",
-  "comment": "build Caffe CPU from master",
+  "comment": "build stable Caffe CPU from master snapshot 20171013",
   "customize": {
     "extra_dir": "",
     "git_src_dir": "src",
@@ -126,6 +126,7 @@
     "lib-lmdb": {
       "local": "yes",
       "name": "LMDB library",
+      "skip_default": "yes",
       "only_for_target_os_tags": [
         "linux",
         "windows"

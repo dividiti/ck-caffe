@@ -140,6 +140,7 @@
     "lib-lmdb": {
       "local": "yes",
       "name": "LMDB library",
+      "skip_default": "yes",
       "only_for_target_os_tags": [
         "linux",
         "windows"
