@@ -1,0 +1,271 @@
+{
+  "backup_data_uid": "ddd837b39cc45fd5", 
+  "build_compiler_vars": {
+    "ANDROID_USE_OPENMP": "ON", 
+    "USE_ACL": "ON",
+    "BLAS": "Open", 
+    "USE_GREENTEA": "ON", 
+    "USE_LMDB": "OFF", 
+    "USE_OPENCV": "ON", 
+    "XOPENME": "ON"
+  }, 
+  "compile_deps": {
+    "boost": {
+      "issue": "https://github.com/dividiti/ck-caffe/issues/113", 
+      "local": "yes", 
+      "name": "Boost C++ libraries", 
+      "skip_from_bat": "yes", 
+      "sort": 30, 
+      "tags": "lib,boost"
+    }, 
+    "compiler": {
+      "local": "yes", 
+      "name": "C++ compiler", 
+      "sort": 0, 
+      "tags": "compiler,lang-cpp"
+    }, 
+    "lib-blas": {
+      "local": "yes", 
+      "name": "BLAS library", 
+      "sort": 8, 
+      "tags": "lib,blas,openblas"
+    }, 
+    "lib-boost": {
+      "force_add_static_lib_path": "yes", 
+      "issue": "https://github.com/dividiti/ck-caffe/issues/113", 
+      "local": "yes", 
+      "name": "Boost library", 
+      "sort": 4, 
+      "tags": "lib,boost"
+    }, 
+    "lib-caffe": {
+      "local": "yes", 
+      "name": "Caffe library", 
+      "skip_pruning_by_other_deps": "yes", 
+      "sort": 1, 
+      "tags": "lib,caffe,vopencl"
+    }, 
+    "lib-gflags": {
+      "local": "yes", 
+      "name": "GFlags library", 
+      "sort": 5, 
+      "tags": "lib,gflags"
+    }, 
+    "lib-glog": {
+      "force_add_static_lib_path": "yes", 
+      "local": "yes", 
+      "name": "GLog library", 
+      "sort": 7, 
+      "tags": "lib,glog"
+    }, 
+    "lib-lmdb": {
+      "local": "yes", 
+      "name": "LMDB library", 
+      "only_for_target_os_tags": [
+        "windows"
+      ], 
+      "sort": 5, 
+      "tags": "lib,lmdb"
+    }, 
+    "lib-opencl": {
+      "local": "yes", 
+      "name": "OpenCL library (stubs on Android)", 
+      "skip_default": "yes", 
+      "sort": 15, 
+      "tags": "lib,opencl"
+    }, 
+    "lib-opencv": {
+      "local": "yes", 
+      "name": "OpenCV library", 
+      "sort": 10, 
+      "tags": "lib,opencv"
+    }, 
+    "lib-protobuf": {
+      "local": "yes", 
+      "name": "ProtoBuf library", 
+      "only_for_target_os_tags": [
+        "android"
+      ], 
+      "sort": 9, 
+      "tags": "lib,protobuf"
+    }, 
+    "lib-protobuf-host": {
+      "local": "yes", 
+      "name": "ProtoBuf HOST library", 
+      "only_for_target_os_tags": [
+        "linux", 
+        "windows"
+      ], 
+      "sort": 9, 
+      "tags": "lib,protobuf-host"
+    }, 
+    "lib-viennacl": {
+      "local": "yes", 
+      "name": "ViennaCL library", 
+      "skip_copy_to_remote": "yes", 
+      "skip_default": "yes", 
+      "skip_linking": "yes", 
+      "sort": 35, 
+      "tags": "lib,viennacl", 
+      "update_tags_by_target_platform2": {
+        "linux": "vsrc"
+      }
+    }, 
+    "xopenme": {
+      "local": "yes", 
+      "name": "xOpenME library", 
+      "sort": 100, 
+      "tags": "lib,xopenme"
+    }
+  }, 
+  "compiler_add_include_as_env_from_deps": [
+    "CK_ENV_LIB_STDCPP_INCLUDE", 
+    "CK_ENV_LIB_STDCPP_INCLUDE_EXTRA", 
+    "CK_ENV_LIB_CAFFE_EXTRA_INCLUDE"
+  ], 
+  "compiler_env": "CK_CXX", 
+  "compiler_flags_as_env": "$<<CK_OPT_UNWIND>>$ $<<CK_ENV_LIB_CAFFE_CXXFLAGS>>$ $<<CK_COMPILER_FLAG_CPP11>>$", 
+  "data_name": "caffe-classification-opencl-armcl", 
+  "extra_ld_vars": "$<<CK_ENV_LIB_HDF5_LFLAG>>$ $<<CK_ENV_LIB_HDF5_LFLAG_HL>>$ $<<CK_ENV_LIB_GLOG_LFLAG>>$ $<<CK_ENV_LIB_BOOST_LFLAG_THREAD>>$ $<<CK_ENV_LIB_BOOST_LFLAG_DATE_TIME>>$ $<<CK_ENV_LIB_BOOST_LFLAG_FILESYSTEM>>$ $<<CK_ENV_LIB_BOOST_LFLAG_SYSTEM>>$ $<<CK_ENV_LIB_OPENCV_LFLAG_IMGPROC>>$ $<<CK_ENV_LIB_OPENCV_LFLAG_HIGHGUI>>$ $<<CK_ENV_LIB_OPENCV_LFLAG_CORE>>$ $<<CK_ENV_LIB_OPENCV_LFLAG_IMGCODECS>>$ $<<CK_EXTRA_LIB_Z>>$ $<<CK_EXTRA_LIB_LOG>>$ $<<CK_EXTRA_LIB_M>>$  $<<CK_ENV_LIB_CAFFE_LFLAG_PROTO>>$ $<<CK_ENV_LIB_CAFFE_LINK_FLAGS>>$ $<<CK_ENV_LIB_STDCPP_STATIC>>$", 
+  "main_language": "cpp", 
+  "only_for_target_os_tags": [
+    "windows", 
+    "linux", 
+    "android"
+  ], 
+  "print_files_after_run": [
+    "tmp-output1.tmp", 
+    "tmp-output2.tmp"
+  ], 
+  "process_in_tmp": "yes", 
+  "program": "yes", 
+  "run_cmds": {
+    "default": {
+      "dataset_tags": [
+        "image", 
+        "jpeg", 
+        "dataset"
+      ], 
+      "ignore_return_code": "no", 
+      "run_time": {
+        "fine_grain_timer_file": "tmp-ck-timer.json", 
+        "params": {
+          "caffemodel_key": "deploy", 
+          "classification": "yes"
+        }, 
+        "pre_process_via_ck": {
+          "data_uoa": "569404c41618603a", 
+          "script_name": "preprocess"
+        }, 
+        "run_cmd_main": "$#BIN_FILE#$ $<<CK_CAFFE_MODEL_FILE>>$ $<<CK_CAFFE_MODEL_WEIGHTS>>$ $#up_dir#$imagenet_mean.binaryproto $#up_dir#$synset_words.txt $#dataset_path#$$#dataset_filename#$ $<<CAFFE_COMPUTE_DEVICE_ID>>$", 
+        "run_cmd_out1": "tmp-output1.tmp", 
+        "run_cmd_out2": "tmp-output2.tmp", 
+        "run_correctness_output_files": [], 
+        "run_input_files": [
+          "$<<CK_CAFFE_MODEL_FILE>>$", 
+          "$<<CK_ENV_MODEL_CAFFE_WEIGHTS>>$", 
+          "imagenet_mean.binaryproto", 
+          "synset_words.txt"
+        ], 
+        "run_output_files": [
+          "tmp-output.tmp", 
+          "tmp-ck-timer.json"
+        ]
+      }
+    }, 
+    "use_continuous": {
+      "ignore_return_code": "no", 
+      "run_deps": {
+        "imagenet-aux": {
+          "local": "yes", 
+          "name": "ImageNet (aux)", 
+          "sort": 50, 
+          "tags": "imagenet,aux"
+        }, 
+        "imagenet-val": {
+          "local": "yes", 
+          "name": "ImageNet (val)", 
+          "sort": 60, 
+          "tags": "imagenet,val"
+        }
+      }, 
+      "run_time": {
+        "fine_grain_timer_file": "tmp-ck-timer.json", 
+        "params": {
+          "caffemodel_key": "deploy", 
+          "classification": "yes"
+        }, 
+        "pre_process_via_ck": {
+          "data_uoa": "569404c41618603a", 
+          "script_name": "preprocess"
+        }, 
+        "run_cmd_main": "$#BIN_FILE#$ $<<CK_CAFFE_MODEL_FILE>>$ $<<CK_CAFFE_MODEL_WEIGHTS>>$ $<<CK_CAFFE_IMAGENET_MEAN_BIN>>$ $<<CK_CAFFE_IMAGENET_SYNSET_WORDS_TXT>>$ --continuous $<<CK_CAFFE_IMAGENET_VAL>>$ $<<CK_CAFFE_IMAGENET_VAL_TXT>>$ $<<CAFFE_COMPUTE_DEVICE_ID>>$", 
+        "run_cmd_out1": "tmp-output1.tmp", 
+        "run_cmd_out2": "tmp-output2.tmp", 
+        "run_correctness_output_files": [], 
+        "run_input_files": [
+          "$<<CK_CAFFE_MODEL_FILE>>$", 
+          "$<<CK_ENV_MODEL_CAFFE_WEIGHTS>>$", 
+          "$<<CK_CAFFE_IMAGENET_MEAN_BIN>>$", 
+          "$<<CK_CAFFE_IMAGENET_SYNSET_WORDS_TXT>>$"
+        ], 
+        "run_output_files": [
+          "tmp-output.tmp", 
+          "tmp-ck-timer.json"
+        ]
+      }
+    }, 
+    "use_external_image": {
+      "ignore_return_code": "no", 
+      "run_time": {
+        "fine_grain_timer_file": "tmp-ck-timer.json", 
+        "params": {
+          "caffemodel_key": "deploy", 
+          "classification": "yes"
+        }, 
+        "pre_process_via_ck": {
+          "data_uoa": "569404c41618603a", 
+          "script_name": "preprocess"
+        }, 
+        "run_cmd_main": "$#BIN_FILE#$ $<<CK_CAFFE_MODEL_FILE>>$ $<<CK_CAFFE_MODEL_WEIGHTS>>$ $#up_dir#$imagenet_mean.binaryproto $#up_dir#$synset_words.txt $<<CK_CAFFE_PATH_TO_IMAGE>>$ $<<CAFFE_COMPUTE_DEVICE_ID>>$", 
+        "run_correctness_output_files": [], 
+        "run_input_files": [
+          "$<<CK_CAFFE_MODEL_FILE>>$", 
+          "$<<CK_ENV_MODEL_CAFFE_WEIGHTS>>$", 
+          "imagenet_mean.binaryproto", 
+          "synset_words.txt"
+        ], 
+        "run_output_files": [
+          "tmp-output.tmp", 
+          "tmp-ck-timer.json"
+        ]
+      }
+    }
+  }, 
+  "run_deps": {
+    "caffemodel": {
+      "force_target_as_host": "yes", 
+      "local": "yes", 
+      "name": "Caffe model (net and weights)", 
+      "no_tags": "caffemodel2", 
+      "sort": 40, 
+      "tags": "caffemodel"
+    }
+  }, 
+  "run_vars": {
+    "CAFFE_COMPUTE_DEVICE_ID": 0, 
+    "CK_CAFFE_BATCH_SIZE": "1"
+  }, 
+  "skip_bin_ext": "yes", 
+  "source_files": [
+    "classification.cpp"
+  ], 
+  "tags": [
+    "caffe-classification", 
+    "demo", 
+    "vcuda", 
+    "continuous"
+  ], 
+  "target_file": "classification", 
+  "version": "1.0.0"
+}

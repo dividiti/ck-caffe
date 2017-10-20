@@ -1,3 +1,5 @@
+2017.10.20 - added Caffe ARMCL branch (not yet completely working)
+
 2017.10.14 - added stable Caffe version (CPU) with all dependencies compiled by the CK
            - fixed compilation on Windows and Android
            - added channel-stable tag
