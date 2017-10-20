@@ -51,10 +51,10 @@ make all distribute -j ${CK_HOST_CPU_NUMBER_OF_PROCESSORS} V=1 \
           BLAS_INCLUDE="${CK_ENV_LIB_OPENBLAS_INCLUDE}" \
           BLAS_LIB="${CK_ENV_LIB_OPENBLAS_LIB}"
 
-#if [ "${?}" != "0" ] ; then
-#  echo "Error: make failed!"
-#  exit 1
-#fi
+if [ "${?}" != "0" ] ; then
+  echo "Error: make failed!"
+  exit 1
+fi
 
 mkdir ../install
 mkdir ../install/lib
