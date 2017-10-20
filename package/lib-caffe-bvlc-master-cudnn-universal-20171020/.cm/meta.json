@@ -1,5 +1,6 @@
 {
   "check_exit_status": "yes", 
+  "comment": "build stable Caffe CUDNN from master snapshot 20171020",
   "customize": {
     "extra_dir": "", 
     "git_src_dir": "src", 
@@ -19,16 +20,14 @@
       "PACKAGE_CONFIGURE_FLAGS_WINDOWS": "", 
       "PACKAGE_COPY": "NO", 
       "PACKAGE_GIT": "YES", 
-      "PACKAGE_GIT_CHECKOUT_LINUX": "master", 
-      "PACKAGE_GIT_CHECKOUT_WINDOWS": "windows", 
+      "PACKAGE_GIT_CHECKOUT": "b4ffad8", 
       "PACKAGE_SKIP_BUILD_ERROR": "YES", 
       "PACKAGE_SKIP_CLEAN_INSTALL": "NO", 
       "PACKAGE_SKIP_CLEAN_OBJ": "NO", 
       "PACKAGE_SKIP_CLEAN_SRC_DIR": "YES", 
       "PACKAGE_SUB_DIR": "src", 
       "PACKAGE_SUB_DIR1": "src", 
-      "PACKAGE_URL_LINUX": "https://github.com/BVLC/caffe", 
-      "PACKAGE_URL_WINDOWS": "https://github.com/BVLC/caffe", 
+      "PACKAGE_URL": "https://github.com/BVLC/caffe", 
       "PYTHON_EXE": "python", 
       "RUN_INSTALL": 0, 
       "RUN_LINT": 0, 
@@ -50,6 +49,7 @@
       "USE_PREBUILT_DEPENDENCIES": "OFF", 
       "WITH_NINJA": 0
     }, 
+    "sort":10000,
     "no_ver_in_suggested_path": "yes", 
     "params": {
       "cpu_only": 0, 
@@ -91,20 +91,21 @@
       "local": "yes", 
       "name": "CUDA compiler >=7.0", 
       "sort": 16, 
-      "tags": "compiler,lang-c-cuda"
+      "tags": "compiler,lang-c-cuda",
+      "version_from":[7,0,0]
     }, 
     "lib-blas": {
       "local": "yes", 
       "name": "BLAS library", 
       "sort": 30, 
-      "tags": "lib,blas,openblas"
+      "tags": "lib,blas,openblas,v0.2.20"
     }, 
     "lib-boost": {
       "local": "yes", 
       "name": "Boost library", 
       "skip_default": "yes", 
       "sort": 10, 
-      "tags": "lib,boost", 
+      "tags": "lib,boost,min-for-caffe", 
       "version_from": [
         1, 
         64, 
@@ -118,72 +119,55 @@
       "tags": "lib,cudnn"
     }, 
     "lib-gflags": {
-      "force_env_init": "yes", 
-      "local": "yes", 
-      "name": "GFlags library", 
-      "skip_installed": {
-        "android": "yes", 
-        "win": "yes"
-      }, 
-      "sort": 12, 
-      "tags": "lib,gflags", 
-      "update_tags_by_target_platform2": {
-        "android": "v2.2.0", 
-        "win": "v2.2.0"
-      }
+      "force_env_init": "yes",
+      "local": "yes",
+      "name": "GFlags library",
+      "skip_default":"yes",
+      "sort": 12,
+      "tags": "lib,gflags,v2.2.0"
     }, 
     "lib-glog": {
-      "local": "yes", 
-      "name": "GLog library", 
-      "skip_installed": {
-        "android": "yes", 
-        "win": "yes"
-      }, 
-      "sort": 14, 
-      "tags": "lib,glog"
+      "local": "yes",
+      "name": "GLog library",
+      "skip_default":"yes",
+      "sort": 14,
+      "tags": "lib,glog,v0.3.5"
     }, 
     "lib-hdf5": {
-      "local": "yes", 
-      "name": "HDF5 library", 
+      "local": "yes",
+      "name": "HDF5 library",
       "only_for_target_os_tags": [
-        "linux", 
+        "linux",
         "windows"
-      ], 
-      "skip_installed": {
-        "win": "yes"
-      }, 
-      "sort": 25, 
-      "tags": "lib,hdf5"
+      ],
+      "skip_default":"yes",
+      "sort": 19,
+      "tags": "lib,hdf5,v1.10.1"
     }, 
     "lib-lmdb": {
-      "local": "yes", 
-      "name": "LMDB library", 
+      "local": "yes",
+      "name": "LMDB library",
+      "skip_default": "yes",
       "only_for_target_os_tags": [
-        "linux", 
+        "linux",
         "windows"
-      ], 
-      "sort": 21, 
-      "tags": "lib,lmdb"
+      ],
+      "sort": 18,
+      "tags": "lib,lmdb,v0.9.21"
     }, 
     "lib-opencv": {
-      "local": "yes", 
-      "name": "OpenCV library", 
-      "skip_installed": {
-        "android": "yes", 
-        "win": "yes"
-      }, 
-      "sort": 20, 
-      "tags": "lib,opencv"
+      "local": "yes",
+      "name": "OpenCV library",
+      "skip_default":"yes",
+      "sort": 20,
+      "tags": "lib,opencv,v3.3.0"
     }, 
     "lib-protobuf-host": {
-      "force_target_as_host": "yes", 
-      "local": "yes", 
-      "name": "ProtoBuf host compiler", 
-      "skip_installed": {
-        "android": "yes", 
-        "win": "yes"
-      }, 
-      "sort": 115, 
+      "force_target_as_host": "yes",
+      "local": "yes",
+      "name": "ProtoBuf host compiler",
+      "skip_default":"yes",
+      "sort": 115,
       "tags": "lib,protobuf-host,v3.1.0"
     }
   }, 
@@ -200,7 +184,7 @@
     "linux", 
     "windows"
   ], 
-  "package_extra_name": " (cudnn)", 
+  "package_extra_name": " (cudnn, v20171020)", 
   "process_script": "install", 
   "soft_uoa": "04ab08137582bd03", 
   "suggested_path": "lib-caffe-bvlc-master-cudnn", 
@@ -208,9 +192,10 @@
     "lib", 
     "caffe", 
     "bvlc", 
-    "vmaster", 
+    "v20171020", 
     "vcuda", 
-    "vcudnn"
+    "vcudnn",
+    "channel-stable"
   ], 
   "use_preprocess_scripts_from_another_entry": {
     "data_uoa": "fd44428fbc77f77f", 
