@@ -49,6 +49,7 @@
       "USE_PREBUILT_DEPENDENCIES": "OFF", 
       "WITH_NINJA": 0
     }, 
+    "sort":10000,
     "no_ver_in_suggested_path": "yes", 
     "skip_file_check": "yes", 
     "use_git_revision": "yes", 
