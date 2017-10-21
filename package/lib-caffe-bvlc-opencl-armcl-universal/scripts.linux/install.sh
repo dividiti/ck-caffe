@@ -58,10 +58,13 @@ fi
 
 mkdir ../install
 mkdir ../install/lib
+mkdir ../install/include
+mkdir ../install/include/caffe
+mkdir ../install/include/caffe/proto
 
 cp -rf .build_release/lib/* ../install/lib
 cp -rf include ../install
-cp -rf src/caffe/proto ../install/include
+cp -rf .build_release/src/caffe/proto/*.h ../install/include/caffe/proto
 
 return 0
 
