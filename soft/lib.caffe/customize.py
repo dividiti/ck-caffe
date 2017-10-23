@@ -69,6 +69,7 @@ def setup(i):
 
     # Check platform
     tplat=tosd.get('ck_name','')
+    tplat2=tosd.get('ck_name2','')
     hplat=hosd.get('ck_name','')
 
     hproc=hosd.get('processor','')
@@ -194,9 +195,9 @@ def setup(i):
     # Check if compiled with Python
     ppy=os.path.join(pi,'python')
     ppy1=os.path.join(ppy,'caffe')
-    if os.path.isdir(ppy) and os.path.isdir(ppy1):
+    if tplat2!='android' and os.path.isdir(ppy) and os.path.isdir(ppy1):
        env[ep+'_PYTHON']=ppy
-       if tplat=='win':
+       if hplat=='win':
           s+='\n\nset PYTHONPATH='+ppy+';%PYTHONPATH%\n\n'
        else:
           s+='\n\nexport PYTHONPATH='+ppy+':$PYTHONPATH\n\n'
