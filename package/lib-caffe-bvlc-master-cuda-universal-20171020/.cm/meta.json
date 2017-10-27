@@ -22,7 +22,7 @@
       "PACKAGE_GIT": "YES", 
       "PACKAGE_GIT_CHECKOUT_LINUX": "691febc",
       "PACKAGE_GIT_CHECKOUT_WINDOWS": "-b windows 28ca814",
-        "PACKAGE_SKIP_BUILD_ERROR": "YES", 
+      "PACKAGE_SKIP_BUILD_ERROR": "YES", 
       "PACKAGE_SKIP_CLEAN_INSTALL": "NO", 
       "PACKAGE_SKIP_CLEAN_OBJ": "NO", 
       "PACKAGE_SKIP_CLEAN_SRC_DIR": "YES", 
@@ -81,7 +81,8 @@
       "name": "CUDA compiler >=7.0", 
       "sort": 16, 
       "tags": "compiler,lang-c-cuda",
-      "version_from":[7,0,0]
+      "version_from":[7,0,0],
+      "version_to":[8,99,99]
     }, 
     "lib-blas": {
       "local": "yes", 
