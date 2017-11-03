@@ -6,6 +6,7 @@ A suite of open-source tools for [collecting knowledge on optimising AI](http://
 * [CK-Caffe](https://github.com/dividiti/ck-caffe)
 * [CK-Caffe2](https://github.com/ctuning/ck-caffe2)
 * [CK-TensorFlow](https://github.com/ctuning/ck-tensorflow)
+* [CK-MXNet](https://github.com/ctuning/ck-mxnet)
 * [CK-TinyDNN](https://github.com/ctuning/ck-tiny-dnn)
 * [CK-TensorRT](https://github.com/dividiti/ck-tensorrt)
 * [CK-KaNN](https://github.com/dividiti/ck-kann)
@@ -42,7 +43,9 @@ options, and so on; exchange experimental data in a flexible JSON-based format;
 and apply leading-edge predictive analytics to extract valuable insights from
 the experimental data.
 
-See [cKnowledge.org/ai](http://cKnowledge.org/ai), [shared optimization statistics](http://cKnowledge.org/repo)
+See [cKnowledge.org/ai](http://cKnowledge.org/ai), 
+[shared optimization statistics](http://cKnowledge.org/repo),
+[reusable AI artifact in the CK format](http://cKnowledge.org/ai-artifacts)
 and [online demo of CK AI API with self-optimizing DNN](http://cKnowledge.org/ai/ck-api-demo) for more details.
 
 ## Authors/contributors
