@@ -7,6 +7,7 @@ A suite of open-source tools for [collecting knowledge on optimising AI](http://
 * [CK-Caffe2](https://github.com/ctuning/ck-caffe2)
 * [CK-TensorFlow](https://github.com/ctuning/ck-tensorflow)
 * [CK-MXNet](https://github.com/ctuning/ck-mxnet)
+* [CK-CNTK](https://github.com/ctuning/ck-cntk)
 * [CK-TinyDNN](https://github.com/ctuning/ck-tiny-dnn)
 * [CK-TensorRT](https://github.com/dividiti/ck-tensorrt)
 * [CK-KaNN](https://github.com/dividiti/ck-kann)
