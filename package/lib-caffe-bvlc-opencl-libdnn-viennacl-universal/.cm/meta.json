@@ -88,6 +88,7 @@
       "PYTHON_EXE": "python",
       "RUN_INSTALL": 0,
       "RUN_LINT": 0,
+      "SUBSTITUTE_ORIGINAL_PACKAGE_DIR":"$#path_to_cid=package:4d2c936d65a4213c#$",
       "USE_LMDB": "ON",
       "USE_LEVELDB": "ON",
       "RUN_TESTS": 0,

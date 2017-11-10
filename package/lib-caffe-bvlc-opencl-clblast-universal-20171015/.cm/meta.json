@@ -1,6 +1,6 @@
 {
   "check_exit_status": "yes",
-  "comment": "RECOMMENDED",
+  "comment": "RECOMMENDED for Linux and Android",
   "customize": {
     "extra_dir": "",
     "git_src_dir": "src",

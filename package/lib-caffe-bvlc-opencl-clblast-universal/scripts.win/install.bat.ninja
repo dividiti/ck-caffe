@@ -92,6 +92,8 @@ set CK_CMAKE_EXTRA=%CK_CMAKE_EXTRA% ^
  -DCLBlast_DIR="%CK_ENV_LIB_CLBLAST%" ^
  -DCLBLAST_LIB="%CK_ENV_LIB_CLBLAST_LIB%" ^
  -DCLBLAST_INCLUDE="%CK_ENV_LIB_CLBLAST_INCLUDE%" ^
+ -DCMAKE_C_COMPILER="C:/Program Files (x86)/Microsoft Visual Studio 14.0/VC/bin/amd64/cl.exe" ^
+ -DCMAKE_CXX_COMPILER="C:/Program Files (x86)/Microsoft Visual Studio 14.0/VC/bin/amd64/cl.exe" ^
  %CK_CMAKE_EXTRA% 
 
 rem -DHDF5_ROOT_DIR="%CK_ENV_LIB_HDF5%\cmake" ^
