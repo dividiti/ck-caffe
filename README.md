@@ -9,6 +9,7 @@ A suite of open-source tools for [collecting knowledge on optimising AI](http://
 * [CK-MXNet](https://github.com/ctuning/ck-mxnet)
 * [CK-CNTK](https://github.com/ctuning/ck-cntk)
 * [CK-TinyDNN](https://github.com/ctuning/ck-tiny-dnn)
+* [CK-MVNC (Movidius Neural Compute Stick)](https://github.com/ctuning/ck-mvnc)
 * [CK-TensorRT](https://github.com/dividiti/ck-tensorrt)
 * [CK-KaNN](https://github.com/dividiti/ck-kann)
 * etc.
