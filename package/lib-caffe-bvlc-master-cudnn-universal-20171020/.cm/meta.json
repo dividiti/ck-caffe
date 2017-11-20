@@ -121,7 +121,7 @@
       "sort": 17, 
       "tags": "lib,cudnn",
       "version_from":[5,0,0],
-      "version_to":[5,99,99]
+      "version_to":[6,99,99]
     }, 
     "lib-gflags": {
       "force_env_init": "yes",
