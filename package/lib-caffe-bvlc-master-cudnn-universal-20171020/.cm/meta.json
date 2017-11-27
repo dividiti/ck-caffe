@@ -1,6 +1,6 @@
 {
   "check_exit_status": "yes", 
-  "comment": "build stable Caffe CUDNN from master snapshot 20171020",
+  "comment": "build stable Caffe cuDNN from master snapshot 20171020",
   "customize": {
     "extra_dir": "", 
     "git_src_dir": "src", 
@@ -190,10 +190,10 @@
     "linux", 
     "windows"
   ], 
-  "package_extra_name": " (cudnn, v20171020)", 
+  "package_extra_name": " (cudnn, snapshot 20171020)",
   "process_script": "install", 
   "soft_uoa": "04ab08137582bd03", 
-  "suggested_path": "lib-caffe-bvlc-master-cudnn", 
+  "suggested_path": "lib-caffe-bvlc-master-cudnn-20171020",
   "tags": [
     "lib", 
     "caffe", 
