@@ -170,10 +170,10 @@
     "linux", 
     "windows"
   ], 
-  "package_extra_name": " (cuda, v20171020)", 
+  "package_extra_name": " (cuda, snapshot 20171020)",
   "process_script": "install", 
   "soft_uoa": "04ab08137582bd03", 
-  "suggested_path": "lib-caffe-bvlc-master-cuda", 
+  "suggested_path": "lib-caffe-bvlc-master-cuda-20171020",
   "tags": [
     "lib", 
     "caffe", 
