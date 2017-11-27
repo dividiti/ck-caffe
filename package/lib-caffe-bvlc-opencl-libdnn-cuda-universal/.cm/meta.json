@@ -56,7 +56,7 @@
       "use_clblas": 0, 
       "use_clblast": 0, 
       "use_cuda": 1, 
-      "use_greentea": 0, 
+      "use_greentea": 1,
       "use_leveldb": 1, 
       "use_libdnn": 1, 
       "use_lmdb": 1, 
@@ -155,15 +155,6 @@
       "sort": 18, 
       "tags": "lib,lmdb"
     }, 
-    "lib-opencl": {
-      "local": "yes", 
-      "name": "OpenCL library (stubs on Android)",
-      "skip_installed": {
-        "android": "yes"
-      }, 
-      "sort": 11, 
-      "tags": "lib,opencl"
-    }, 
     "lib-opencv": {
       "local": "yes", 
       "name": "OpenCV library", 
@@ -197,13 +188,6 @@
       }, 
       "sort": 115, 
       "tags": "lib,protobuf-host"
-    }, 
-    "lib-viennacl": {
-      "local": "yes", 
-      "name": "ViennaCL library", 
-      "skip_default": "yes", 
-      "sort": 35, 
-      "tags": "lib,viennacl,vsrc"
     }
   }, 
   "end_full_path": {
@@ -213,7 +197,7 @@
   }, 
   "need_cpu_info": "yes", 
   "need_gpgpu_info":"yes",
-  "need_gpgpu_type":"opencl",
+  "need_gpgpu_type":"cuda",
   "only_for_host_os_tags": [
     "windows", 
     "linux"
@@ -223,19 +207,17 @@
     "windows", 
     "android"
   ], 
-  "package_extra_name": " (opencl,libdnn,cuda)", 
+  "package_extra_name": " (opencl, libdnn, cuda)",
   "process_script": "install", 
   "soft_uoa": "04ab08137582bd03", 
-  "suggested_path": "lib-caffe-bvlc-opencl-libdnn-cuda", 
+  "suggested_path": "lib-caffe-bvlc-opencl-libdnn-cuda",
   "tags": [
     "lib", 
     "caffe", 
     "bvlc", 
     "vmaster", 
     "vlibdnn", 
-    "vclblast",
-    "vcuda",
-    "vopencl"
+    "vcuda"
   ], 
   "use_preprocess_scripts_from_another_entry": {
     "data_uoa": "34479ac968f42cfc",
