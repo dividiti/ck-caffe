@@ -201,7 +201,7 @@
     "linux",
     "android"
   ],
-  "package_extra_name": " (opencl,viennacl, snapshot 20171015)",
+  "package_extra_name": " (opencl, viennacl, snapshot 20171015)",
   "process_script": "install",
   "soft_uoa": "04ab08137582bd03",
   "suggested_path": "lib-caffe-bvlc-opencl-viennacl-20171015",

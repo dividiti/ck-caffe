@@ -210,7 +210,7 @@
     "linux",
     "android"
   ],
-  "package_extra_name": " (opencl,clblast, snapshot 20171015)",
+  "package_extra_name": " (opencl, clblast, snapshot 20171015)",
   "process_script": "install",
   "soft_uoa": "04ab08137582bd03",
   "sort": 100,

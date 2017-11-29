@@ -107,17 +107,24 @@ $ sudo apt install coreutils \
                    python-pip
 ```
 
-### Installing Caffe dependencies
+### Installing essential Caffe dependencies
+```
+$ sudo apt install libleveldb-dev \
+                   libsnappy-dev \
+                   gfortran
+```
+
+### Installing optional Caffe dependencies
+CK can automatically build the following dependencies from source using versions that should work well together. Installing via `apt`, however, is somewhat faster.
+
 ```
 $ sudo apt install libboost-all-dev \
                    libgflags-dev \
                    libgoogle-glog-dev \
                    libhdf5-serial-dev \
                    liblmdb-dev \
-                   libleveldb-dev \
                    libprotobuf-dev \
                    protobuf-compiler \
-                   libsnappy-dev \
                    libopencv-dev
 $ sudo pip install protobuf
 ```
