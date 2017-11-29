@@ -58,3 +58,11 @@ H:
 O:
 C: Hints to compile Caffe OpenCL on Intel GPU (Ubuntu 17.04)
 W:
+
+================================================================================
+N: GitHub user bxk-sonavex
+E:
+H:
+O:
+C: Issue with Caffe compilation on Windows
+W:

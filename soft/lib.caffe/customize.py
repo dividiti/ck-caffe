@@ -219,7 +219,7 @@ def setup(i):
        # WAS A HACK - need to check BOOST version and vc ...
        # x='/link /NODEFAULTLIB:libboost_date_time-vc140-mt-1_62.lib /NODEFAULTLIB:libboost_filesystem-vc140-mt-1_62.lib /NODEFAULTLIB:libboost_system-vc140-mt-1_62.lib /NODEFAULTLIB:libboost_date_time-vc140-mt-1_64.lib /NODEFAULTLIB:libboost_filesystem-vc140-mt-1_64.lib /NODEFAULTLIB:libboost_system-vc140-mt-1_64.lib'
        x='/link'
-       all_vc=['vc120','vc140','vc141']
+       all_vc=['120','140','141']
        all_boost=['1_60','1_62','1_64']
        all_lb=['boost_date_time', 'boost_filesystem', 'boost_system']
 

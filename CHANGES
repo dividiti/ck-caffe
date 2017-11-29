@@ -1,3 +1,5 @@
+2017.11.29 - fixing Caffe compliation of time client on Windows (#121)
+
 2017.11.20 - improved Caffe OpenCL/CUDA installation on Windows
 
 2017.11.11 - improved Caffe compilation with CLBlast 1.2.0 and Lib DNN across all platforms
