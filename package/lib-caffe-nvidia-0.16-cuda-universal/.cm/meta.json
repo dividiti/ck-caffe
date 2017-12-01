@@ -192,7 +192,7 @@
     "linux",
     "windows"
   ],
-  "package_extra_name": " (nvidia,cuda)",
+  "package_extra_name": " (nvidia, cuda)",
   "process_script": "install",
   "soft_uoa": "04ab08137582bd03",
   "suggested_path": "lib-caffe-nvidia-0.16-cuda",
