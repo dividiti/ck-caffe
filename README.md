@@ -46,6 +46,7 @@ and apply leading-edge predictive analytics to extract valuable insights from
 the experimental data.
 
 See [cKnowledge.org/ai](http://cKnowledge.org/ai), 
+[reproducible and CK-powered AI/SW/HW co-design competitions at ACM/IEEE conferences](http://cKnowledge.org/request),
 [shared optimization statistics](http://cKnowledge.org/repo),
 [reusable AI artifact in the CK format](http://cKnowledge.org/ai-artifacts)
 and [online demo of CK AI API with self-optimizing DNN](http://cKnowledge.org/ai/ck-api-demo) for more details.
