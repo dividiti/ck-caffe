@@ -8,8 +8,12 @@
         "PACKAGE_SUB_DIR": "src",
         "PACKAGE_URL": "https://github.com/weiliu89/caffe",
         "PACKAGE_SKIP_CLEAN_OBJ": "YES",
-        "CPU_ONLY": "OFF"
+        "CPU_ONLY": "OFF",
+        "USE_LMDB": "ON"
       },
+     "params": {
+      "use_lmdb": 1
+     },
       "use_git_revision": "yes", 
       "version": "ssd"
     },
