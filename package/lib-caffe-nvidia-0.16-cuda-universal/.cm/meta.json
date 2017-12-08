@@ -67,7 +67,7 @@
     "no_ver_in_suggested_path": "yes",
     "skip_file_check": "yes",
     "use_git_revision": "yes",
-    "version": "caffe-0.16"
+    "version": "nvidia-0.16"
   },
   "deps": {
     "cmake": {
@@ -201,6 +201,7 @@
     "caffe",
     "nvidia",
     "vcaffe-0.16",
+    "vnvidia-0.16",
     "v0.16",
     "vfp32",
     "vfp16",
