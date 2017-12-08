@@ -64,7 +64,7 @@
       "viennacl_debug": 0
     },
     "use_git_revision": "yes", 
-    "version": "trunk"
+    "version": "opencl"
   }, 
   "deps": {
     "cmake": {
@@ -215,7 +215,7 @@
     "lib", 
     "caffe", 
     "bvlc", 
-    "vmaster", 
+    "vopencl", 
     "vlibdnn", 
     "vcuda"
   ], 
