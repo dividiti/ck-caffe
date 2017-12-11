@@ -7,6 +7,7 @@
         "PACKAGE_GIT_CHECKOUT": "ssd",
         "PACKAGE_SUB_DIR": "src",
         "PACKAGE_URL": "https://github.com/weiliu89/caffe",
+        "PACKAGE_PATCH": "YES",
         "PACKAGE_SKIP_CLEAN_OBJ": "YES",
         "CPU_ONLY": "OFF",
         "USE_LMDB": "ON"
