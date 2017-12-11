@@ -59,10 +59,7 @@
       "lib-boost": {
         "local": "yes",
         "name": "Boost library",
-        "skip_installed": {
-          "android": "yes",
-          "win": "yes"
-        },
+        "skip_default": "yes",
         "sort": 25,
         "tags": "lib,boost"
       },
@@ -70,10 +67,7 @@
         "force_env_init": "yes",
         "local": "yes",
         "name": "GFlags library",
-        "skip_installed": {
-          "android": "yes",
-          "win": "yes"
-        },
+        "skip_default": "yes",
         "sort": 12,
         "tags": "lib,gflags",
         "update_tags_by_target_platform2": {
@@ -84,10 +78,7 @@
       "lib-glog": {
         "local": "yes",
         "name": "GLog library",
-        "skip_installed": {
-          "android": "yes",
-          "win": "yes"
-        },
+        "skip_default": "yes",
         "sort": 14,
         "tags": "lib,glog"
       },
