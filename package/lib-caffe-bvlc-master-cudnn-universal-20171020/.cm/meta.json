@@ -96,7 +96,7 @@
       "sort": 16, 
       "tags": "compiler,lang-c-cuda",
       "version_from":[7,0,0],
-      "version_to":[8,99,99]
+      "version_to":[9,99,99]
     }, 
     "lib-blas": {
       "local": "yes", 
