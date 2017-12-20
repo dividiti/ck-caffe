@@ -67,5 +67,16 @@ fi
 
 #####################################################################
 echo ""
+echo "Removing '${IMAGENET_VAL_TAR}' ..."
+
+cd ${INSTALL_DIR}
+rm ${IMAGENET_VAL_TAR}
+if [ "${?}" != "0" ] ; then
+  echo "Error: Removing '${IMAGENET_VAL_TAR}' failed!"
+  exit 1
+fi
+
+#####################################################################
+echo ""
 echo "Successfully installed the ILSVRC'12 validation dataset ..."
 exit 0
