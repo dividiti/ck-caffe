@@ -1,0 +1,236 @@
+{
+  "backup_data_uid": "3baa134302c90a1d", 
+  "build_compiler_vars": {
+    "ANDROID_USE_OPENMP": "ON", 
+    "BLAS": "Open", 
+    "CPU_ONLY": "ON", 
+    "USE_LMDB": "OFF", 
+    "USE_OPENCV": "ON", 
+    "XOPENME": ""
+  }, 
+  "compile_deps": {
+    "boost": {
+      "issue": "https://github.com/dividiti/ck-caffe/issues/113", 
+      "local": "yes", 
+      "name": "Boost C++ libraries", 
+      "skip_from_bat": "yes", 
+      "sort": 30, 
+      "tags": "lib,boost"
+    }, 
+    "compiler": {
+      "local": "yes", 
+      "name": "C++ compiler", 
+      "sort": 0, 
+      "tags": "compiler,lang-cpp"
+    }, 
+    "lib-blas": {
+      "local": "yes", 
+      "name": "BLAS library", 
+      "sort": 8, 
+      "tags": "lib,blas,openblas"
+    }, 
+    "lib-boost": {
+      "force_add_static_lib_path": "yes", 
+      "issue": "https://github.com/dividiti/ck-caffe/issues/113", 
+      "local": "yes", 
+      "name": "Boost library", 
+      "sort": 4, 
+      "tags": "lib,boost"
+    }, 
+    "lib-caffe": {
+      "local": "yes", 
+      "name": "Caffe library", 
+      "skip_pruning_by_other_deps": "yes", 
+      "sort": 1, 
+      "tags": "lib,caffe,vcpu,ssd"
+    }, 
+    "lib-gflags": {
+      "local": "yes", 
+      "name": "GFlags library", 
+      "sort": 5, 
+      "tags": "lib,gflags"
+    }, 
+    "lib-glog": {
+      "force_add_static_lib_path": "yes", 
+      "local": "yes", 
+      "name": "GLog library", 
+      "sort": 7, 
+      "tags": "lib,glog"
+    }, 
+    "lib-opencv": {
+      "local": "yes", 
+      "name": "OpenCV library", 
+      "sort": 10, 
+      "tags": "lib,opencv"
+    }, 
+    "lib-protobuf": {
+      "local": "yes", 
+      "name": "ProtoBuf library", 
+      "only_for_target_os_tags": [
+        "android"
+      ], 
+      "sort": 9, 
+      "tags": "lib,protobuf"
+    }, 
+    "lib-protobuf-host": {
+      "local": "yes", 
+      "name": "ProtoBuf HOST library", 
+      "only_for_target_os_tags": [
+        "linux", 
+        "windows"
+      ], 
+      "sort": 9, 
+      "tags": "lib,protobuf-host"
+    }, 
+    "xopenme": {
+      "local": "yes", 
+      "name": "xOpenME library", 
+      "sort": 100, 
+      "tags": "lib,xopenme"
+    }
+  }, 
+  "compiler_add_include_as_env_from_deps": [
+    "CK_ENV_LIB_STDCPP_INCLUDE", 
+    "CK_ENV_LIB_STDCPP_INCLUDE_EXTRA", 
+    "CK_ENV_LIB_CAFFE_EXTRA_INCLUDE"
+  ], 
+  "compiler_env": "CK_CXX", 
+  "compiler_flags_as_env": "$<<CK_OPT_UNWIND>>$ $<<CK_ENV_LIB_CAFFE_CXXFLAGS>>$ $<<CK_COMPILER_FLAG_CPP11>>$", 
+  "data_name": "caffe-fine-tuning-ssd", 
+  "extra_ld_vars": "$<<CK_ENV_LIB_HDF5_LFLAG>>$ $<<CK_ENV_LIB_HDF5_LFLAG_HL>>$ $<<CK_ENV_LIB_GLOG_LFLAG>>$ $<<CK_ENV_LIB_BOOST_LFLAG_THREAD>>$ $<<CK_ENV_LIB_BOOST_LFLAG_DATE_TIME>>$ $<<CK_ENV_LIB_BOOST_LFLAG_FILESYSTEM>>$ $<<CK_ENV_LIB_BOOST_LFLAG_SYSTEM>>$ $<<CK_ENV_LIB_OPENCV_LFLAG_IMGPROC>>$ $<<CK_ENV_LIB_OPENCV_LFLAG_HIGHGUI>>$ $<<CK_ENV_LIB_OPENCV_LFLAG_CORE>>$ $<<CK_ENV_LIB_OPENCV_LFLAG_IMGCODECS>>$ $<<CK_EXTRA_LIB_Z>>$ $<<CK_EXTRA_LIB_LOG>>$ $<<CK_EXTRA_LIB_M>>$  $<<CK_ENV_LIB_CAFFE_LFLAG_PROTO>>$ $<<CK_ENV_LIB_CAFFE_LINK_FLAGS>>$ $<<CK_ENV_LIB_STDCPP_STATIC>>$", 
+  "main_language": "cpp", 
+  "only_for_host_os_tags": [
+    "linux"
+  ], 
+  "only_for_target_os_tags": [
+    "linux"
+  ], 
+  "process_in_tmp": "yes", 
+  "program": "yes", 
+  "run_cmds": {
+    "default": {
+      "dataset_tags": [
+        "image", 
+        "jpeg", 
+        "dataset"
+      ], 
+      "ignore_return_code": "no", 
+      "run_time": {
+        "fine_grain_timer_file": "tmp-ck-timer.json", 
+        "params": {
+          "caffemodel_key": "deploy", 
+          "classification": "yes"
+        }, 
+        "pre_process_via_ck": {
+          "data_uoa": "569404c41618603a", 
+          "script_name": "preprocess"
+        }, 
+        "run_cmd_main": "$#BIN_FILE#$ train -solver $<<CK_CAFFE_MODEL_FILE>>$ -weights $<<CK_CAFFE_MODEL_WEIGHTS>>$ $#dataset_path#$$#dataset_filename#$", 
+        "run_cmd_out1": "tmp-output1.tmp", 
+        "run_cmd_out2": "tmp-output2.tmp", 
+        "run_correctness_output_files": [], 
+        "run_input_files": [
+          "$<<CK_CAFFE_MODEL_FILE>>$", 
+          "$<<CK_ENV_MODEL_CAFFE_WEIGHTS>>$"
+        ], 
+        "run_output_files": [
+          "tmp-output.tmp", 
+          "tmp-ck-timer.json"
+        ]
+      }
+    }, 
+    "use_continuous": {
+      "ignore_return_code": "no", 
+      "run_deps": {
+        "detection-dataset": {
+          "local": "yes", 
+          "name": "Detection dataset", 
+          "sort": 10, 
+          "tags": "dataset,images,object-detection"
+        }
+      }, 
+      "run_time": {
+        "fine_grain_timer_file": "tmp-ck-timer.json", 
+        "params": {
+          "caffemodel_key": "deploy", 
+          "classification": "yes"
+        }, 
+        "pre_process_via_ck": {
+          "data_uoa": "569404c41618603a", 
+          "script_name": "preprocess"
+        }, 
+        "run_cmd_main": "$#BIN_FILE#$ --continuous --labelmap_file=$<<CK_ENV_MODEL_CAFFE_LABELMAP>>$ --label_dir=$<<CK_ENV_DATASET_LABELS_DIR>>$ $<<CK_CAFFE_MODEL_FILE>>$ $<<CK_CAFFE_MODEL_WEIGHTS>>$ $<<CK_ENV_DATASET_IMAGE_DIR>>$", 
+        "run_cmd_out1": "tmp-output1.tmp", 
+        "run_cmd_out2": "tmp-output2.tmp", 
+        "run_correctness_output_files": [], 
+        "run_input_files": [
+          "$<<CK_CAFFE_MODEL_FILE>>$", 
+          "$<<CK_ENV_MODEL_CAFFE_WEIGHTS>>$"
+        ], 
+        "run_output_files": [
+          "tmp-output.tmp", 
+          "tmp-ck-timer.json"
+        ]
+      }
+    }, 
+    "use_webcam": {
+      "ignore_return_code": "no", 
+      "run_time": {
+        "fine_grain_timer_file": "tmp-ck-timer.json", 
+        "params": {
+          "caffemodel_key": "deploy", 
+          "classification": "yes"
+        }, 
+        "pre_process_via_ck": {
+          "data_uoa": "569404c41618603a", 
+          "script_name": "preprocess"
+        }, 
+        "run_cmd_main": "$#BIN_FILE#$ --webcam --labelmap_file=$<<CK_ENV_MODEL_CAFFE_LABELMAP>>$ $<<CK_CAFFE_MODEL_FILE>>$ $<<CK_CAFFE_MODEL_WEIGHTS>>$", 
+        "run_cmd_out1": "tmp-output1.tmp", 
+        "run_cmd_out2": "tmp-output2.tmp", 
+        "run_correctness_output_files": [], 
+        "run_input_files": [
+          "$<<CK_CAFFE_MODEL_FILE>>$", 
+          "$<<CK_ENV_MODEL_CAFFE_WEIGHTS>>$"
+        ], 
+        "run_output_files": [
+          "tmp-output.tmp", 
+          "tmp-ck-timer.json"
+        ]
+      }
+    }
+  }, 
+  "run_deps": {
+    "caffemodel": {
+      "force_target_as_host": "yes", 
+      "local": "yes", 
+      "name": "Caffe model (net and weights)", 
+      "sort": 40, 
+      "tags": "caffemodel, ssd"
+    }
+  }, 
+  "run_vars": {
+    "CK_CAFFE_BATCH_SIZE": "1", 
+    "GLOG_minloglevel": "2"
+  }, 
+  "skip_bin_ext": "yes", 
+  "source_files": [
+    "ssd-detect.cpp"
+  ], 
+  "tags": [
+    "caffe-detection", 
+    "caffe-detection-ssd", 
+    "ssd", 
+    "demo", 
+    "vcpu", 
+    "continuous", 
+    "object-detection", 
+    "webcam"
+  ], 
+  "target_file": "ssd-detect", 
+  "use_preprocess_compilation_scripts": {
+    "data_uoa": "fd44428fbc77f77f", 
+    "module_uoa": "84e27ad9dd12e734"
+  }, 
+  "version": "1.0.0"
+}
