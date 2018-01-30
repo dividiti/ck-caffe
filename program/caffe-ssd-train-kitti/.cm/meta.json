@@ -1,0 +1,54 @@
+{
+  "backup_data_uid": "925820da925b422d", 
+  "data_name": "caffe-ssd-train-kitti",
+  "no_compile": "yes", 
+  "process_in_tmp": "yes", 
+  "program": "yes", 
+  "run_cmds": {
+    "prepare": {
+      "run_time": {
+        "run_cmd_main": "$<<CK_ENV_COMPILER_PYTHON_FILE>>$ ../prepare.py"
+      }
+    },
+    "train": {
+      "run_time": {
+        "run_cmd_main": "$<<CK_ENV_COMPILER_PYTHON_FILE>>$ ../train.py"
+      }
+    }
+  },
+  "run_deps": {
+    "kitti-dataset": {
+      "force_target_as_host": "yes", 
+      "local": "yes", 
+      "name": "Kitti dataset", 
+      "sort": 20, 
+      "tags": "dataset,kitti,val"
+    },
+    "caffemodel": {
+      "force_target_as_host": "yes", 
+      "local": "yes", 
+      "name": "Caffe model (net and pretrained weights)", 
+      "sort": 40, 
+      "tags": "caffemodel,ssd"
+    },
+    "lib-caffe": {
+      "local": "yes",
+      "name": "Caffe library",
+      "skip_pruning_by_other_deps": "yes",
+      "sort": 1,
+      "tags": "lib,caffe,ssd"
+    }
+  }, 
+  "run_vars": {
+    "CK_TRAIN_IMAGES_PERCENT": 70
+  }, 
+  "tags": [
+    "caffe-detection", 
+    "caffe-detection-ssd", 
+    "ssd", 
+    "demo", 
+    "training", 
+    "object-detection" 
+  ], 
+  "version": "1.0.0"
+}

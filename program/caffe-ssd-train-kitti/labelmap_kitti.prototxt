@@ -1,0 +1,15 @@
+item {
+  name: "Car"
+  label: 0
+  display_name: "Car"
+}
+item {
+  name: "Cyclist"
+  label: 1
+  display_name: "Cyclist"
+}
+item {
+  name: "Pedestrian"
+  label: 2
+  display_name: "Pedestrian"
+}

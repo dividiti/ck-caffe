@@ -1,0 +1,16 @@
+{
+  "backup_data_uid": "925820da925b422d", 
+  "backup_module_uid": "b0ac08fe1d3c2615", 
+  "backup_module_uoa": "program", 
+  "control": {
+    "engine": "CK", 
+    "iso_datetime": "2018-01-30T16:37:54.518580", 
+    "version": [
+      "1", 
+      "9", 
+      "3", 
+      "1"
+    ]
+  }, 
+  "data_name": "caffe-ssd-train-kitti"
+}
