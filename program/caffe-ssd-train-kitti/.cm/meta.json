@@ -8,6 +8,15 @@
     "prepare": {
       "run_time": {
         "run_cmd_main": "$<<CK_ENV_COMPILER_PYTHON_FILE>>$ ../prepare.py"
+      },
+      "run_deps": {
+        "kitti-dataset": {
+          "force_target_as_host": "yes", 
+          "local": "yes", 
+          "name": "Kitti dataset", 
+          "sort": 20, 
+          "tags": "dataset,kitti,val"
+        }
       }
     },
     "train": {
@@ -17,13 +26,6 @@
     }
   },
   "run_deps": {
-    "kitti-dataset": {
-      "force_target_as_host": "yes", 
-      "local": "yes", 
-      "name": "Kitti dataset", 
-      "sort": 20, 
-      "tags": "dataset,kitti,val"
-    },
     "caffemodel": {
       "force_target_as_host": "yes", 
       "local": "yes", 
@@ -42,7 +44,9 @@
   "run_vars": {
     "CK_TRAIN_IMAGES_PERCENT": 70,
     "CK_DEVICE_ID": 0,
-    "CK_BATCH_SIZE": 16
+    "CK_BATCH_SIZE": 8,
+    "CK_SNAPSHOT_INTERVAL": 1000,
+    "CK_TEST_INTERVAL": 250
   }, 
   "tags": [
     "caffe-detection", 
