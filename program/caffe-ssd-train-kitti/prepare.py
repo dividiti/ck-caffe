@@ -33,10 +33,8 @@ TRAIN_LMDB = os.path.join(CUR_DIR, 'train_lmdb')
 TEST_LMDB = os.path.join(CUR_DIR, 'test_lmdb')
 NAME_SIZE_FILE = os.path.join(CUR_DIR, 'test_name_size.txt')
 
-LABEL_MAP = {}
+LABEL_MAP = { 'background': 0 }
 LABEL_MAP_FILE = os.path.join(CUR_DIR, 'labelmap_kitti.prototxt')
-DONTCARE_LABEL_ID = 0 # to be assigned
-DONTCARE_LABEL = 'DontCare'
 
 
 def save_label_to_map(label):
@@ -51,9 +49,6 @@ def save_label_to_map(label):
     return LABEL_MAP[label]
   label_id = len(LABEL_MAP)
   LABEL_MAP[label] = label_id
-  if label == DONTCARE_LABEL:
-    global DONTCARE_LABEL_ID
-    DONTCARE_LABEL_ID = label_id
   return label_id
 
 
@@ -192,8 +187,7 @@ if __name__ == '__main__':
     'img_width': TARGET_IMG_W,
     'img_height': TARGET_IMG_H,
     'train_img_count': TRAIN_IMG_COUNT,
-    'test_img_count': TEST_IMG_COUNT,
-    'dontcare_label_id': DONTCARE_LABEL_ID,
+    'test_img_count': TEST_IMG_COUNT
   })
 
   print('\nOK')

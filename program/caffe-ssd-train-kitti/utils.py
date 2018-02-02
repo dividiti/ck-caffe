@@ -17,8 +17,8 @@ from google.protobuf import text_format
 
 
 # Should be more robust criterion, may be lib should proivde some env var
-def model_img_w(model_path): return 300 if '-300' in model_path else 500
-def model_img_h(model_path): return 300 if '-300' in model_path else 500
+def model_img_w(model_path): return 300 if '-300' in model_path else 512
+def model_img_h(model_path): return 300 if '-300' in model_path else 512
 
 
 def run_command(args_list):

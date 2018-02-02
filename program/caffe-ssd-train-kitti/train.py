@@ -24,6 +24,7 @@ RUN_MODE = 'CPU' if '-cpu' in CAFFE_BIN_DIR else 'GPU'
 def is_cpu(): return RUN_MODE == 'CPU'
 def is_gpu(): return RUN_MODE == 'GPU'
 
+CUR_DIR = os.path.realpath('.')
 BATCH_SIZE = int(os.getenv('CK_BATCH_SIZE', 8))
 DEVICE_ID = int(os.getenv('CK_DEVICE_ID', 0))
 SNAPSHOTS_DIR = 'snapshots'
@@ -34,7 +35,7 @@ SOLVER_PROTOTXT = 'solver.prototxt'
 TRAIN_PROTOTXT = 'train.prototxt'
 TEST_PROTOTXT = 'test.prototxt'
 TRAIN_LMDB = 'train_lmdb'
-TEST_LMDB = 'val_lmdb'
+TEST_LMDB = 'test_lmdb'
 LABEL_MAP_FILE = 'labelmap_kitti.prototxt'
 NAME_SIZE_FILE = 'test_name_size.txt'
 
@@ -42,14 +43,6 @@ PREPARED_INFO = utils.read_json('info.json')
 PREPARED_IMG_W = int(PREPARED_INFO['img_width'])
 PREPARED_IMG_H = int(PREPARED_INFO['img_height'])
 NUM_CLASSES = int(PREPARED_INFO['num_classes'])
-BACKGROUND_LABEL_ID = int(PREPARED_INFO['dontcare_label_id'])
-
-TRAIN_LMDB='/home/nikolay/data/VOCdevkit/VOC0712/lmdb/VOC0712_trainval_lmdb'
-TEST_LMDB='/home/nikolay/data/VOCdevkit/VOC0712/lmdb/VOC0712_test_lmdb'
-LABEL_MAP_FILE='/home/nikolay/CK-TOOLS/lib-caffe-cpu-ssd-gcc-6.3.0-linux-64/src/data/VOC0712/labelmap_voc.prototxt'
-NAME_SIZE_FILE='/home/nikolay/CK-TOOLS/lib-caffe-cpu-ssd-gcc-6.3.0-linux-64/src/data/VOC0712/test_name_size.txt'
-NUM_CLASSES = 21
-BACKGROUND_LABEL_ID = 0
 
 
 def read_prototxt_net(file_name):
@@ -74,6 +67,30 @@ def prepare_solver_prototxt():
   utils.write_prototxt(SOLVER_PROTOTXT, params)
 
 
+def change_layers_for_num_classes(layers):
+  def change_layer(name, new_outs):
+    new_name = name + '_kitti'
+    layers[name].convolution_param.num_output = new_outs
+    layers[name].name = new_name
+    # correct layer references
+    for layer in layers.values():
+      for i in range(len(layer.bottom)):
+        if layer.bottom[i] == name:
+          layer.bottom[i] = new_name
+      for i in range(len(layer.top)):
+        if layer.top[i] == name:
+          layer.top[i] = new_name
+
+  change_layer('conv4_3_norm_mbox_conf', NUM_CLASSES * 4)
+  change_layer('fc7_mbox_conf', NUM_CLASSES * 6)
+  change_layer('conv6_2_mbox_conf', NUM_CLASSES * 6)
+  change_layer('conv7_2_mbox_conf', NUM_CLASSES * 6)
+  change_layer('conv8_2_mbox_conf', NUM_CLASSES * 4)
+  change_layer('conv9_2_mbox_conf', NUM_CLASSES * 4)
+  if PREPARED_IMG_W == 512:
+    change_layer('conv10_2_mbox_conf', NUM_CLASSES * 4)
+
+
 def prepare_train_prototxt():
   net, layers = read_prototxt_net(SRC_TRAIN_PROTOTXT)
 
@@ -84,7 +101,8 @@ def prepare_train_prototxt():
   layers['data'].annotated_data_param.label_map_file = LABEL_MAP_FILE
 
   layers['mbox_loss'].multibox_loss_param.num_classes = NUM_CLASSES
-  layers['mbox_loss'].multibox_loss_param.background_label_id = BACKGROUND_LABEL_ID
+
+  change_layers_for_num_classes(layers)
 
   utils.write_prototxt(TRAIN_PROTOTXT, net)
 
@@ -110,10 +128,11 @@ def prepare_test_prototxt():
   p = layers['detection_eval'].detection_evaluate_param
   p.name_size_file = NAME_SIZE_FILE
   p.num_classes = NUM_CLASSES
-  p.background_label_id = BACKGROUND_LABEL_ID
-  
+
   layers['mbox_conf_reshape'].reshape_param.shape.dim[2] = NUM_CLASSES
   
+  change_layers_for_num_classes(layers)
+
   utils.write_prototxt(TEST_PROTOTXT, net)
     
 
