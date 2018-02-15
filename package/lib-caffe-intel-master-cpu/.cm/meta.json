@@ -117,7 +117,7 @@
         "win": "yes"
       },
       "sort": 19,
-      "tags": "lib,hdf5,v1.8"
+      "tags": "lib,hdf5"
     },
     "lib-lmdb": {
       "local": "yes",
