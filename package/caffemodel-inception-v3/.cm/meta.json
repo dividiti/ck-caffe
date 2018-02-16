@@ -14,6 +14,16 @@
     "no_os_in_suggested_path": "yes", 
     "no_ver_in_suggested_path": "yes", 
     "params": {
+      "val": {
+        "template": "train_val.prototxt",
+        "substitute":{
+          "train_mean": "$#path_to_imagenet_aux#$imagenet_mean.binaryproto",
+          "train_batch_size": 256,
+          "val_mean": "$#path_to_imagenet_aux#$imagenet_mean.binaryproto",
+          "val_batch_size": 50
+        },
+        "accuracy_layers": [ "acc/top-1", "acc/top-5", "loss" ]
+      },
       "deploy": {
         "substitute": {
           "batch_size": 10

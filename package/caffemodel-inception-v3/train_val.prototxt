@@ -1,10 +1,24 @@
 name: "InceptionV3"
-input: "data"
-input_shape: {
-  dim: $#batch_size#$
-  dim: 3
-  dim: 229
-  dim: 229
+layer {
+  name: "data"
+  type: "Data"
+  top: "data"
+  top: "label"
+  data_param {
+    source: "$#val_lmdb#$"
+    backend: LMDB
+    batch_size: $#val_batch_size#$
+  }
+  transform_param {
+    mean_file: "$#val_mean#$"
+    crop_size: 299
+    mirror: false
+    resize_param {
+        width: 320
+        height: 320
+    }
+  }
+  include: { phase: TEST }
 }
 layer {
   name: "conv_conv2d"
@@ -3709,8 +3723,32 @@ layer {
   }
 }
 layer {
-  name: "prob"
-  type: "Softmax"
+  name: "loss"
+  type: "SoftmaxWithLoss"
   bottom: "fc1"
-  top: "prob"
+  bottom: "label"
+  top: "loss"
+}
+layer {
+  name: "acc/top-1"
+  type: "Accuracy"
+  bottom: "fc1"
+  bottom: "label"
+  top: "acc/top-1"
+  include {
+    phase: TEST
+  }
+}
+layer {
+  name: "acc/top-5"
+  type: "Accuracy"
+  bottom: "fc1"
+  bottom: "label"
+  top: "acc/top-5"
+  include {
+    phase: TEST
+  }
+  accuracy_param {
+    top_k: 5
+  }
 }
