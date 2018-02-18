@@ -53,12 +53,7 @@
       "local": "yes",
       "name": "C++ compiler",
       "sort": 10,
-      "tags": "compiler,lang-cpp",
-      "update_tags_by_target_platform2": {
-        "android": "gcc",
-        "linux": "gcc",
-        "win": "mcl"
-      }
+      "tags": "compiler,lang-cpp"
     },
     "lib-boost": {
       "local": "yes",
