@@ -3,8 +3,8 @@
 #
 # Installation script for Caffe.
 #
-# See CK LICENSE for licensing details.
-# See CK COPYRIGHT for copyright details.
+# See CK LICENSE.txt for licensing details.
+# See CK COPYRIGHT.txt for copyright details.
 #
 # Developer(s):
 # - Grigori Fursin, 2015;
@@ -59,7 +59,7 @@ cmake -DCMAKE_BUILD_TYPE=${CK_ENV_CMAKE_BUILD_TYPE:-Release} \
       -DUSE_LMDB=ON \
       -DUSE_LEVELDB=${USE_LEVELDB} \
       -DUSE_HDF5=ON \
-      -DBLAS=open \
+      -DBLAS=mkl \
       -DGFLAGS_INCLUDE_DIR="${CK_ENV_LIB_GFLAGS_INCLUDE}" \
       -DGLOG_INCLUDE_DIR="${CK_ENV_LIB_GLOG_INCLUDE}" \
       -DGFLAGS_LIBRARY="${CK_ENV_LIB_GFLAGS_LIB}/libgflags.so" \
