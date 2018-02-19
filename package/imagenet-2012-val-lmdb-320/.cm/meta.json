@@ -2,11 +2,11 @@
   "aux_uoa": "4e3e9dd897f125bb", 
   "check_exit_status": "yes", 
   "customize": {
-    "extra_suggested_path": "-resize-299", 
+    "extra_suggested_path": "-resize-320", 
     "force_ask_path": "yes", 
     "install_env": {
-      "RESIZE_HEIGHT": "299", 
-      "RESIZE_WIDTH": "299", 
+      "RESIZE_HEIGHT": "320", 
+      "RESIZE_WIDTH": "320", 
       "SHUFFLE": ""
     }, 
     "no_os_in_suggested_path": "yes", 
@@ -39,7 +39,7 @@
     "win": "data\\data.mdb"
   }, 
   "need_cpu_info": "no", 
-  "package_extra_name": " (resize 299)",
+  "package_extra_name": " (resize 320)",
   "process_script": "install", 
   "remove_deps": "yes", 
   "soft_uoa": "092da4cabb3b7f8c", 
@@ -51,7 +51,7 @@
     "lmdb", 
     "caffe", 
     "ilsvrc2012", 
-    "resize-299", 
+    "resize-320", 
     "inception-v3", 
     "default", 
     "channel-stable"
