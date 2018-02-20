@@ -1,7 +1,25 @@
 diff --git a/scripts/calibrator.py b/scripts/calibrator.py
-index ccdf420..d6f98da 100644
+index ccdf420..6d2f3c0 100644
 --- a/scripts/calibrator.py
 +++ b/scripts/calibrator.py
+@@ -51,7 +51,7 @@ def check_existence(path):
+ 
+ def setup_env():
+     os.chdir(os.path.dirname(os.path.abspath(params.root)))
+-    caffe.set_mode_cpu()
++#    caffe.set_mode_cpu()
+ 
+ 
+ def read_prototxt(prototxt):
+@@ -382,7 +382,7 @@ if __name__ == '__main__':
+     if not check_existence(pycaffe_path):
+         print "Please check the pycaffe existence.Suggest to rebuild pycaffe via 'make pycaffe'"
+     sys.path.insert(0, pycaffe_path)
+-    import caffe
++#    import caffe
+     from caffe.proto import caffe_pb2
+     
+     try:
 @@ -433,12 +433,12 @@ if __name__ == '__main__':
          print 'Please check weights: {} existence.'.format(user_input_weights)
          sys.exit(-1)
