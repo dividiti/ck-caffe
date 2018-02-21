@@ -58,6 +58,7 @@
     "inception", 
     "inception-v3", 
     "channel-stable",
+    "vfloat32",
     "intel"
   ], 
   "use_scripts_from_another_entry": {
