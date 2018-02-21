@@ -2,17 +2,16 @@
   "check_exit_status": "yes",
   "customize": {
     "extra_dir": "",
-    "skip_file_check": "yes",
-    "force_ask_path":"yes",
-    "no_os_in_suggested_path": "yes",
-    "no_ver_in_suggested_path": "no",
     "file_with_weights": "bvlc_googlenet.caffemodel",
+    "force_ask_path": "yes",
     "install_env": {
       "MODEL_URL": "http://dl.caffe.berkeleyvision.org/bvlc_googlenet.caffemodel",
       "MODEL_FILE": "bvlc_googlenet.caffemodel",
       "MODEL_HASH_CALCULATOR": "sha1sum",
       "MODEL_HASH_REF": "405fc5acd08a3bb12de8ee5e23a96bec22f08204"
     },
+    "no_os_in_suggested_path": "yes",
+    "no_ver_in_suggested_path": "no",
     "params": {
       "train": {
         "template": "train_val.prototxt",
@@ -40,6 +39,7 @@
         }
       }
     },
+    "skip_file_check": "yes",
     "version": "bvlc-googlenet"
   },
   "only_for_host_os_tags": [
@@ -57,10 +57,10 @@
     "win": "bvlc_googlenet.caffemodel",
     "linux": "bvlc_googlenet.caffemodel"
   },
-  "features":{
-    "accuracy":0.689299,
-    "accuracy_top5":0.891441,
-    "model_size_mb":54
+  "features": {
+    "accuracy": 0.689299,
+    "accuracy_top5": 0.891441,
+    "model_size_mb": 54
   },
   "suggested_path": "caffemodel",
   "tags": [
@@ -72,8 +72,8 @@
     "channel-stable"
   ],
   "use_scripts_from_another_entry": {
-    "repo_uoa": "ck-caffe",
+    "data_uoa": "download-caffemodel",
     "module_uoa": "script",
-    "data_uoa": "download-caffemodel"
+    "repo_uoa": "ck-caffe"
   }
 }

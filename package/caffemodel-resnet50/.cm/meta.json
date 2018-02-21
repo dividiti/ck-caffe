@@ -12,24 +12,44 @@
       "MODEL_URL": "https://deepdetect.com/models/resnet/ResNet-50-model.caffemodel"
     },
     "no_os_in_suggested_path": "yes",
-    "no_ver_in_suggested_path": "yes",
+    "no_ver_in_suggested_path": "no",
     "params": {
+      "train": {
+        "template": "train_val.prototxt",
+        "substitute":{
+          "train_batch_size": 50,
+          "val_batch_size": 50
+        }
+      },
+      "val": {
+        "template": "train_val.prototxt",
+        "substitute":{
+          "train_batch_size": 50,
+          "val_batch_size": 50
+        },
+        "accuracy_layers": [
+          "accuracy/top-1",
+          "accuracy/top-5"
+        ]
+      },
       "deploy": {
         "substitute": {
-          "batch_size": 10
+          "batch_size": 1
         },
         "template": "deploy.prototxt"
       }
     },
     "skip_file_check": "yes",
-    "version": "deploy"
+    "version": "resnet50"
   },
   "end_full_path": {
     "linux": "ResNet-50-model.caffemodel",
     "win": "ResNet-50-model.caffemodel"
   },
-  "features":{
-    "model_size_mb":100
+  "features": {
+    "accuracy": 0.0,
+    "accuracy_top5": 0.0,
+    "model_size_mb": 98
   },
   "only_for_host_os_tags": [
     "windows",
@@ -42,7 +62,7 @@
   "package_extra_name": " (resnet, resnet50)",
   "process_script": "download",
   "soft_uoa": "e2400aabc11d6cd1",
-  "suggested_path": "caffemodel-resnet50",
+  "suggested_path": "caffemodel",
   "tags": [
     "caffe",
     "weights",

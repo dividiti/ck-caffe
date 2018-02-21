@@ -3,25 +3,19 @@
 #
 # Installation script for Caffe.
 #
-# See CK LICENSE for licensing details.
-# See CK COPYRIGHT for copyright details.
+# See CK LICENSE.txt for licensing details.
+# See CK COPYRIGHT.txt for copyright details.
 #
 # Developer(s):
-# - Grigori Fursin, 2017
+# - Grigori Fursin, 2017;
+# - Anton Lokhmotov, 2018.
 #
 
 # PACKAGE_DIR
 # INSTALL_DIR
 
-CAFFE_LIB1=${INSTALL_DIR}/install/lib
-CAFFE_LIB2=${INSTALL_DIR}/install/lib64
-
-if [ ! -d "${CAFFE_LIB1}" ] && [ -d "${CAFFE_LIB2}" ] ; then
-  echo ""
-  echo "Renaming lib64 to lib "
-  echo ""
-
-  mv ${CAFFE_LIB2} ${CAFFE_LIB1}
-fi
+ln -s ${INSTALL_DIR}/src/external/mkldnn/install/lib/libmkldnn.so.0 ${INSTALL_DIR}/install/lib
+ln -s ${INSTALL_DIR}/src/external/mkl/*/lib/libmklml_intel.so ${INSTALL_DIR}/install/lib
+ln -s ${INSTALL_DIR}/src/external/mkl/*/lib/libiomp5.so ${INSTALL_DIR}/install/lib
 
 return 0

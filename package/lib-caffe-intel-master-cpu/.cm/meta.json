@@ -4,7 +4,7 @@
     "extra_dir": "",
     "git_src_dir": "src",
     "install_env": {
-      "BLAS_TYPE": "Open",
+      "BLAS_TYPE": "mkl",
       "BUILD_MATLAB": 0,
       "BUILD_PYTHON": 0,
       "BUILD_PYTHON_LAYER": 0,
@@ -40,7 +40,7 @@
       "WITH_NINJA": 0
     },
     "use_git_revision": "yes",
-    "version": "trunk"
+    "version": "master"
   },
   "deps": {
     "cmake": {
@@ -55,19 +55,7 @@
       "local": "yes",
       "name": "C++ compiler",
       "sort": 10,
-      "tags": "compiler,lang-cpp",
-      "update_tags_by_target_platform2": {
-        "android": "gcc",
-        "linux": "gcc",
-        "win": "mcl"
-      }
-    },
-    "lib-blas": {
-      "local": "yes",
-      "name": "BLAS library",
-      "skip_default": "yes",
-      "sort": 30,
-      "tags": "lib,blas,openblas"
+      "tags": "compiler,lang-cpp"
     },
     "lib-boost": {
       "local": "yes",
