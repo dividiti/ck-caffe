@@ -38,7 +38,8 @@
     "linux": "data/data.mdb", 
     "win": "data\\data.mdb"
   }, 
-  "need_cpu_info": "no", 
+  "need_cpu_info": "no",
+  "package_extra_name": " (resize 224)",
   "process_script": "install", 
   "remove_deps": "yes", 
   "soft_uoa": "092da4cabb3b7f8c", 

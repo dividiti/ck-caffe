@@ -94,7 +94,9 @@ def pre_path(i):
           x='-img'+str(s)
           cus['extra_suggested_path']=esp+x
 
-          cus['package_extra_name']=' ('+str(s)+' images)'
+          extra_name = cfg.get('package_extra_name') + ' ('+str(s)+' images)'
+          cus['package_extra_name'] = extra_name
+          cfg['package_extra_name'] = extra_name
 
     return {'return':0, 'install_env':ie}
 
