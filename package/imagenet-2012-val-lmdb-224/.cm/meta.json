@@ -53,6 +53,7 @@
     "ilsvrc2012",
     "resize-224",
     "bvlc-googlenet",
+    "resnet",
     "channel-stable"
   ]
 }
