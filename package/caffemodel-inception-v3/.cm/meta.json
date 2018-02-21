@@ -57,7 +57,8 @@
     "caffemodel", 
     "inception", 
     "inception-v3", 
-    "channel-stable"
+    "channel-stable",
+    "intel"
   ], 
   "use_scripts_from_another_entry": {
     "data_uoa": "download-caffemodel", 
