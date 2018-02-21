@@ -321,7 +321,7 @@
         "time_gpu", 
         "time_gpu_fp16"
       ], 
-      "sort": 40, 
+      "sort": 20, 
       "tags": "caffemodel"
     }, 
     "dataset-imagenet-aux": {
@@ -345,7 +345,7 @@
         "test_gpu", 
         "test_gpu_fp16"
       ], 
-      "sort": 20, 
+      "sort": 40, 
       "tags": "dataset,imagenet,val-lmdb"
     }, 
     "lib-caffe": {
