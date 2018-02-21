@@ -2,7 +2,7 @@
   "check_exit_status": "yes", 
   "customize": {
     "extra_dir": "", 
-    "file_mean_bin": "", 
+    "file_mean_bin": "inceptionv3_mean.binaryproto", 
     "file_with_weights": "inceptionv3.caffemodel", 
     "force_ask_path": "yes", 
     "install_env": {
@@ -17,9 +17,7 @@
       "val": {
         "template": "train_val.prototxt",
         "substitute":{
-          "train_mean": "$#path_to_imagenet_aux#$imagenet_mean.binaryproto",
           "train_batch_size": 256,
-          "val_mean": "$#path_to_imagenet_aux#$imagenet_mean.binaryproto",
           "val_batch_size": 50
         },
         "accuracy_layers": [ "acc/top-1", "acc/top-5", "loss" ]

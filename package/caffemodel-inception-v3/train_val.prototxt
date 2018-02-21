@@ -13,10 +13,6 @@ layer {
     mean_file: "$#val_mean#$"
     crop_size: 299
     mirror: false
-    resize_param {
-        width: 320
-        height: 320
-    }
   }
   include: { phase: TEST }
 }
