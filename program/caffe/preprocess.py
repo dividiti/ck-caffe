@@ -143,6 +143,8 @@ def ck_preprocess(i):
         paux=deps['dataset-imagenet-aux']['dict']['env']['CK_ENV_DATASET_IMAGENET_AUX']+'/'
         plmdb=deps['dataset-imagenet-lmdb']['dict']['env']['CK_ENV_DATASET_IMAGENET_VAL_LMDB']
 
+    st=st.replace('$#train_mean#$', mean_bin)
+    st=st.replace('$#val_mean#$', mean_bin)
     st=st.replace('$#path_to_imagenet_aux#$', paux)
     st=st.replace('$#train_lmdb#$', plmdb)
     st=st.replace('$#val_lmdb#$', plmdb)

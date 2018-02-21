@@ -17,18 +17,14 @@
       "train": {
         "template": "train_val.prototxt",
         "substitute":{
-          "train_mean": "$#path_to_imagenet_aux#$imagenet_mean.binaryproto",
           "train_batch_size": 50,
-          "val_mean": "$#path_to_imagenet_aux#$imagenet_mean.binaryproto",
           "val_batch_size": 50
         }
       },
       "val": {
         "template": "train_val.prototxt",
         "substitute":{
-          "train_mean": "$#path_to_imagenet_aux#$imagenet_mean.binaryproto",
           "train_batch_size": 50,
-          "val_mean": "$#path_to_imagenet_aux#$imagenet_mean.binaryproto",
           "val_batch_size": 50
         },
         "accuracy_layers": [
