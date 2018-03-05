@@ -147,6 +147,12 @@
       "sort": 20,
       "tags": "lib,opencv"
     },
+    "lib-leveldb": {
+      "local": "yes",
+      "name": "LevelDB library",
+      "sort": 40,
+      "tags": "lib,leveldb"
+    },
     "lib-protobuf": {
       "local": "yes",
       "name": "ProtoBuf library",
