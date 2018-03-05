@@ -8,7 +8,8 @@
 #
 # Developer(s):
 # - Grigori Fursin, 2015;
-# - Anton Lokhmotov, 2016.
+# - Anton Lokhmotov, 2016;
+# - Leo Gordon, 2018.
 #
 
 # PACKAGE_DIR
@@ -38,8 +39,13 @@ if [ "${CAFFE_BUILD_PYTHON}" == "ON" ] ; then
   read -p "Press enter to continue"
 fi
 
-# Check extra stuff
-EXTRA_FLAGS=""
+    # on a Mac and compiling with LLVM:
+if [ -n "$CK_ENV_COMPILER_LLVM_SET" ] && [ "$CK_DLL_EXT" = ".dylib" ]
+then
+    EXTRA_FLAGS="-flax-vector-conversions"
+else
+    EXTRA_FLAGS=""
+fi
 
 cd ${INSTALL_DIR}/obj
 
@@ -47,8 +53,9 @@ cmake -DCMAKE_BUILD_TYPE=${CK_ENV_CMAKE_BUILD_TYPE:-Release} \
       -DCMAKE_C_COMPILER="${CK_CC_PATH_FOR_CMAKE}" \
       -DCMAKE_C_FLAGS="${CK_CC_FLAGS_FOR_CMAKE} ${EXTRA_FLAGS}" \
       -DCMAKE_CXX_COMPILER="${CK_CXX_PATH_FOR_CMAKE}" \
-      -DCMAKE_CXX_FLAGS="${CK_CXX_FLAGS_FOR_CMAKE} ${EXTRA_FLAGS} -I${CK_ENV_LIB_OPENCV_INCLUDE}" \
+      -DCMAKE_CXX_FLAGS="${CK_CXX_FLAGS_FOR_CMAKE} ${EXTRA_FLAGS} -I${CK_ENV_LIB_OPENCV_INCLUDE} ${CK_EXTRA_MISC_CXX_FLAGS}" \
       -DCMAKE_AR="${CK_AR_PATH_FOR_CMAKE}" \
+      -DCMAKE_RANLIB="${CK_RANLIB_PATH_FOR_CMAKE}" \
       -DCMAKE_LINKER="${CK_LD_PATH_FOR_CMAKE}" \
       -DCMAKE_SHARED_LINKER_FLAGS="$CK_OPENMP" \
       -DBUILD_python=${CAFFE_BUILD_PYTHON} \
@@ -65,8 +72,8 @@ cmake -DCMAKE_BUILD_TYPE=${CK_ENV_CMAKE_BUILD_TYPE:-Release} \
       -DBLAS=open \
       -DGFLAGS_INCLUDE_DIR="${CK_ENV_LIB_GFLAGS_INCLUDE}" \
       -DGLOG_INCLUDE_DIR="${CK_ENV_LIB_GLOG_INCLUDE}" \
-      -DGFLAGS_LIBRARY="${CK_ENV_LIB_GFLAGS_LIB}/libgflags.so" \
-      -DGLOG_LIBRARY="${CK_ENV_LIB_GLOG_LIB}/libglog.so" \
+      -DGFLAGS_LIBRARY="${CK_ENV_LIB_GFLAGS_LIB}/libgflags${CK_DLL_EXT}" \
+      -DGLOG_LIBRARY="${CK_ENV_LIB_GLOG_LIB}/libglog${CK_DLL_EXT}" \
       -DBoost_ADDITIONAL_VERSIONS="1.62" \
       -DBOOST_ROOT=${CK_ENV_LIB_BOOST} \
       -DBOOST_INCLUDEDIR="${CK_ENV_LIB_BOOST_INCLUDE}" \
@@ -76,12 +83,12 @@ cmake -DCMAKE_BUILD_TYPE=${CK_ENV_CMAKE_BUILD_TYPE:-Release} \
       -DHDF5_DIR="${CK_ENV_LIB_HDF5}/share/cmake" \
       -DHDF5_ROOT_DIR="${CK_ENV_LIB_HDF5}/share/cmake" \
       -DHDF5_INCLUDE_DIRS="${CK_ENV_LIB_HDF5_INCLUDE}" \
-      -DHDF5_LIBRARIES="${CK_ENV_LIB_HDF5_LIB}/libhdf5.so" \
-      -DHDF5_HL_LIBRARIES="${CK_ENV_LIB_HDF5_LIB}/libhdf5_hl.so" \
+      -DHDF5_LIBRARIES="${CK_ENV_LIB_HDF5_LIB}/libhdf5${CK_DLL_EXT}" \
+      -DHDF5_HL_LIBRARIES="${CK_ENV_LIB_HDF5_LIB}/libhdf5_hl${CK_DLL_EXT}" \
       -DOpenBLAS_INCLUDE_DIR="${CK_ENV_LIB_OPENBLAS_INCLUDE}" \
       -DOpenBLAS_LIB="${CK_ENV_LIB_OPENBLAS_LIB}/libopenblas.a" \
       -DLMDB_INCLUDE_DIR="${CK_ENV_LIB_LMDB_INCLUDE}" \
-      -DLMDB_LIBRARIES="${CK_ENV_LIB_LMDB_LIB}/liblmdb.so" \
+      -DLMDB_LIBRARIES="${CK_ENV_LIB_LMDB_LIB}/liblmdb${CK_DLL_EXT}" \
       -DOpenCV_DIR="${OPENCV_DIR}" \
       -DPROTOBUF_INCLUDE_DIR="${CK_ENV_LIB_PROTOBUF_HOST_INCLUDE}" \
       -DPROTOBUF_PROTOC_EXECUTABLE="${CK_ENV_LIB_PROTOBUF_HOST}/bin/protoc" \
