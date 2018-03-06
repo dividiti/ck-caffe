@@ -141,6 +141,15 @@
       "sort": 20,
       "tags": "lib,opencv,v3.3.0"
     },
+    "lib-leveldb": {
+      "local": "yes",
+      "name": "LevelDB library",
+      "sort": 40,
+      "only_for_target_os_tags": [
+        "linux"
+      ],
+      "tags": "lib,leveldb"
+    },
     "lib-protobuf": {
       "local": "yes",
       "name": "ProtoBuf library",

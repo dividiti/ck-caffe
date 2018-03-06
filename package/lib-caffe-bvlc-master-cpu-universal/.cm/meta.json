@@ -151,6 +151,9 @@
       "local": "yes",
       "name": "LevelDB library",
       "sort": 40,
+      "only_for_target_os_tags": [
+        "linux"
+      ],
       "tags": "lib,leveldb"
     },
     "lib-protobuf": {
