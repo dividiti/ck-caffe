@@ -67,6 +67,16 @@
     "version": "opencl"
   }, 
   "deps": {
+    "python": {
+      "local": "yes",
+      "name": "Python for interfacing",
+      "only_for_target_os_tags": [
+        "windows"
+      ],
+      "skip_from_bat": "yes",
+      "sort": 0,
+      "tags": "compiler,python"
+    },
     "cmake": {
       "force_target_as_host": "yes", 
       "local": "yes", 
@@ -176,7 +186,7 @@
         "win": "yes"
       }, 
       "sort": 110, 
-      "tags": "lib,protobuf,v3.1.0"
+      "tags": "lib,protobuf"
     }, 
     "lib-protobuf-host": {
       "force_target_as_host": "yes", 

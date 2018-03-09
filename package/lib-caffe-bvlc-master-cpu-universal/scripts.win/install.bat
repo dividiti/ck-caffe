@@ -22,9 +22,11 @@ if "%CAFFE_BUILD_PYTHON%" == "ON" (
   echo You are compiling Caffe with Python support!
   echo To use it you need to set up CK env as following ^(after installation^)^:
   echo.
-  echo "ck xset env tags=lib,caffe & call tmp-ck-env.bat & ipython2"
+  echo $ ck virtual env --tags=lib,caffe
+  echo $ ipython
   echo.
   set /p id="Press enter to continue"
+
 )
 
 echo **************************************************************
@@ -55,13 +57,14 @@ set CK_CMAKE_EXTRA=%CK_CMAKE_EXTRA% -DCPU_ONLY:BOOL=%CPU_ONLY% ^
  -DHDF5_HL_LIBRARIES="%CK_ENV_LIB_HDF5_LIB%\hdf5_hl.lib" ^
  -DOpenBLAS_INCLUDE_DIR="%CK_ENV_LIB_OPENBLAS_INCLUDE%" ^
  -DOpenBLAS_LIB="%CK_ENV_LIB_OPENBLAS_LIB%\%CK_ENV_LIB_OPENBLAS_STATIC_NAME%" ^
- -DBoost_ADDITIONAL_VERSIONS="1.62" ^
+ -DBoost_ADDITIONAL_VERSIONS="1.62;1.64;1.65;1.66" ^
  -DBoost_NO_SYSTEM_PATHS=ON ^
  -DBOOST_ROOT=%CK_ENV_LIB_BOOST% ^
  -DBOOST_INCLUDEDIR="%CK_ENV_LIB_BOOST_INCLUDE%" ^
  -DBOOST_LIBRARYDIR="%CK_ENV_LIB_BOOST_LIB%" ^
  -DBoost_INCLUDE_DIR="%CK_ENV_LIB_BOOST_INCLUDE%" ^
  -DBoost_LIBRARY_DIR="%CK_ENV_LIB_BOOST_LIB%" ^
+ %CK_CMAKE_EXTRA_BOOST_PYTHON% ^
  -DOpenCV_DIR="%CK_ENV_LIB_OPENCV%" ^
  -DOpenCV_LIB_PATH="%CK_ENV_LIB_OPENCV_LIB%"
 

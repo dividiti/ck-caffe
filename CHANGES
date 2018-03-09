@@ -1,3 +1,9 @@
+2018.03.09 - added support for latest protobuf, boost 1.65.x
+           - improved unification (started adding custom.py to some Caffe packages)
+           - improved build on Windows with latest visual studio
+           - added "ck virtual env" for Python-based Caffe built via CK
+           - improved cross-compilation for CK CUDA clients
+
 2017.11.29 - fixing Caffe compliation of time client on Windows (#121)
 
 2017.11.20 - improved Caffe OpenCL/CUDA installation on Windows

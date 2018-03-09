@@ -135,6 +135,8 @@ $ sudo pip install protobuf
 ```
 $ sudo pip install ck
 $ ck version
+$ ck set kernel var.install_to_env=yes
+
 ```
 
 Skip "sudo" if installing on Windows.
@@ -173,6 +175,12 @@ You can list them via:
 ```
  $ ck pull repo:ctuning-datasets-min
  $ ck search dataset --tags=dnn
+```
+
+You can minimize interactive selection of multiple software dependencies by adding "--reuse_deps" flag during compilation, i.e.
+```
+ $ ck compile program:caffe-classification --speed --reuse_deps
+ $ ck run program:caffe-classification
 ```
 
 If you have Android SDK and NDK installed, you can compile and run the same classification example on your Android device 

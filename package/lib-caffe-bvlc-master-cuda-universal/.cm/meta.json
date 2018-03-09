@@ -22,6 +22,7 @@
       "PACKAGE_GIT": "YES",
       "PACKAGE_GIT_CHECKOUT_LINUX": "master",
       "PACKAGE_GIT_CHECKOUT_WINDOWS": "windows",
+      "PACKAGE_PATCH": "YES",
       "PACKAGE_SKIP_BUILD_ERROR": "YES",
       "PACKAGE_SKIP_CLEAN_INSTALL": "NO",
       "PACKAGE_SKIP_CLEAN_OBJ": "NO",
@@ -68,6 +69,16 @@
     "version": "master"
   },
   "deps": {
+    "python": {
+      "local": "yes",
+      "name": "Python for interfacing",
+      "only_for_target_os_tags": [
+        "windows"
+      ],
+      "skip_from_bat": "yes",
+      "sort": 0,
+      "tags": "compiler,python"
+    },
     "cmake": {
       "force_target_as_host": "yes",
       "local": "yes",
@@ -174,7 +185,7 @@
         "win": "yes"
       },
       "sort": 115,
-      "tags": "lib,protobuf-host,v3.1.0"
+      "tags": "lib,protobuf-host"
     }
   },
   "end_full_path": {

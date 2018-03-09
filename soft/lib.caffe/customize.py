@@ -220,18 +220,33 @@ def setup(i):
        # x='/link /NODEFAULTLIB:libboost_date_time-vc140-mt-1_62.lib /NODEFAULTLIB:libboost_filesystem-vc140-mt-1_62.lib /NODEFAULTLIB:libboost_system-vc140-mt-1_62.lib /NODEFAULTLIB:libboost_date_time-vc140-mt-1_64.lib /NODEFAULTLIB:libboost_filesystem-vc140-mt-1_64.lib /NODEFAULTLIB:libboost_system-vc140-mt-1_64.lib'
        x='/link'
        all_vc=['120','140','141']
-       all_boost=['1_60','1_62','1_64']
+       all_boost=['1_60','1_62','1_64','1_65','1_66']
        all_lb=['boost_date_time', 'boost_filesystem', 'boost_system']
 
        x1=deps.get('compiler',{}).get('dict',{}).get('env',{}).get('CK_ENV_COMPILER_MVSC_VC_MSBUILD','')
        if x1!='':
           all_vc=[x1]
           x2=deps.get('lib-boost',{})
-          x3=x2.get('dict',{}).get('env',{}).get('CK_ENV_LIB_BOOST_SHORT_VER','')
+
+          x3=x2.get('dict',{}).get('env',{}).get('CK_ENV_LIB_BOOST_VER','')
+          if x3=='':
+             x2uoa=x2.get('uoa','')
+             if x2uoa!='':
+                # Load deps
+                rx=ck.access({'action':'load',
+                              'module_uoa':'env',
+                              'data_uoa':x2uoa})
+                if rx['return']==0:
+                   x2d=rx['dict']
+                   x3=x2d.get('env',{}).get('CK_ENV_LIB_BOOST_VER','')
+                   if x3=='':
+                      x3=x2d.get('env',{}).get('CK_ENV_LIB_BOOST_SHORT_VER','')
+
           if x3=='':
              x4=x2.get('version_from',[])
              if len(x4)>1:
                 x3=str(x4[0])+'.'+str(x4[1])
+
           if x3!='':
              x3=x3.replace('.','_')
 
@@ -241,6 +256,8 @@ def setup(i):
            for q2 in all_boost:
                for q3 in all_vc:
                    x+=' /NODEFAULTLIB:lib'+q1+'-vc'+q3+'-mt-'+q2+'.lib'
+                   if tbits=='64':
+                      x+=' /NODEFAULTLIB:lib'+q1+'-vc'+q3+'-mt-x64-'+q2+'.lib'
 
        if cus.get('extra_link_win','')!='':
           x+=' '+cus['extra_link_win']

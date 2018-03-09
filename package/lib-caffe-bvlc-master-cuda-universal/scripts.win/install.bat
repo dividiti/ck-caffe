@@ -17,7 +17,8 @@ if "%CAFFE_BUILD_PYTHON%" == "ON" (
   echo You are compiling Caffe with Python support!
   echo To use it you need to set up CK env as following ^(after installation^)^:
   echo.
-  echo "ck xset env tags=lib,caffe & call tmp-ck-env.bat & ipython2"
+  echo $ ck virtual env --tags=lib,caffe
+  echo $ ipython
   echo.
   set /p id="Press enter to continue"
 )
@@ -38,7 +39,7 @@ set CK_CMAKE_EXTRA=%CK_CMAKE_EXTRA% -DCPU_ONLY:BOOL=%CPU_ONLY% ^
  -DBUILD_matlab:BOOL=%BUILD_MATLAB% ^
  -DGFLAGS_INCLUDE_DIR="%CK_ENV_LIB_GFLAGS_INCLUDE%" ^
  -DGFLAGS_LIBRARY="%CK_ENV_LIB_GFLAGS_LIB%\gflags.lib" ^
- -DCUDA_TOOLKIT_ROOT_DIR="%CK_ENV_COMPILER_CUDA%" ^
+ -DCUDA_TOOLKIT_ROOT_DIR="%CK_ENV_COMPILER_CUDA_WIN%" ^
  -DCUDA_NVCC_FLAGS="-D_FORCE_INLINES -Wno-deprecated-gpu-targets" ^
  -DGLOG_INCLUDE_DIR="%CK_ENV_LIB_GLOG_INCLUDE%" ^
  -DGLOG_LIBRARY="%CK_ENV_LIB_GLOG_LIB%\glog.lib" ^
@@ -59,6 +60,7 @@ set CK_CMAKE_EXTRA=%CK_CMAKE_EXTRA% -DCPU_ONLY:BOOL=%CPU_ONLY% ^
  -DBOOST_LIBRARYDIR="%CK_ENV_LIB_BOOST_LIB%" ^
  -DBoost_INCLUDE_DIR="%CK_ENV_LIB_BOOST_INCLUDE%" ^
  -DBoost_LIBRARY_DIR="%CK_ENV_LIB_BOOST_LIB%" ^
+ %CK_CMAKE_EXTRA_BOOST_PYTHON% ^
  -DOpenCV_DIR="%CK_ENV_LIB_OPENCV%" ^
  -DOpenCV_LIB_PATH="%CK_ENV_LIB_OPENCV_LIB%"
 

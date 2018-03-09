@@ -1,0 +1,17 @@
+diff -ruN src\CMakeLists.txt src.new\CMakeLists.txt
+--- src\CMakeLists.txt	Mon Mar 05 18:13:10 2018
++++ src.new\CMakeLists.txt	Tue Mar 06 17:03:28 2018
+@@ -40,12 +40,7 @@
+ caffe_option(CPU_ONLY  "Build Caffe without CUDA support" OFF) # TODO: rename to USE_CUDA
+ caffe_option(USE_CUDNN "Build Caffe with cuDNN library support" ON IF NOT CPU_ONLY)
+ caffe_option(USE_NCCL "Build Caffe with NCCL library support" OFF)
+-if(MSVC)
+-  # default to static libs
+-  caffe_option(BUILD_SHARED_LIBS "Build shared libraries" OFF)
+-else()
+-  caffe_option(BUILD_SHARED_LIBS "Build shared libraries" ON)
+-endif()
++caffe_option(BUILD_SHARED_LIBS "Build shared libraries" ON)
+ caffe_option(BUILD_python "Build Python wrapper" ON)
+ set(python_version "2" CACHE STRING "Specify which Python version to use")
+ caffe_option(BUILD_matlab "Build Matlab wrapper" OFF)

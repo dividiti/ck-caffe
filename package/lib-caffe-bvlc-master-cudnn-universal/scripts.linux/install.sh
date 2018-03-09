@@ -33,7 +33,8 @@ if [ "${CAFFE_BUILD_PYTHON}" == "ON" ] ; then
   echo "You are compiling Caffe with Python support!"
   echo "To use it you need to set up CK env after installation as follows:"
   echo ""
-  echo "ck xset env tags=lib,caffe ; . ./tmp-ck-env.bat ; ipython2"
+  echo "$ ck virtual env --tags=lib,caffe"
+  echo "$ ipython"
   echo ""
   read -p "Press enter to continue"
 fi
@@ -73,7 +74,7 @@ cmake -DCMAKE_BUILD_TYPE=${CK_ENV_CMAKE_BUILD_TYPE:-Release} \
       -DUSE_CUDNN=ON \
       -DCUDA_NVCC_FLAGS="-D_FORCE_INLINES -Wno-deprecated-gpu-targets" \
       -DCUDA_USE_STATIC_CUDA_RUNTIME=OFF \
-      -DCUDA_ARCH_NAME=${CK_CUDA_ARCH_NAME} \
+      -DCUDA_ARCH_NAME="${CK_CUDA_ARCH_NAME}" \
       -DCUDNN_ROOT="${CK_ENV_LIB_CUDNN}" \
       -DCUDNN_INCLUDE="${CK_ENV_LIB_CUDNN_INCLUDE}" \
       -DCUDNN_LIBRARY="${CK_ENV_LIB_CUDNN_LIB}/${CK_ENV_LIB_CUDNN_DYNAMIC_NAME}" \
