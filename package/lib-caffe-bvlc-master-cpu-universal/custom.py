@@ -9,6 +9,16 @@ import sys
 import json
 
 ##############################################################################
+def pre_path(i):
+    tags=i['tags']
+    env=i.get('install_env',{})
+
+    # Add tags depending on env
+    if env.get('CAFFE_BUILD_PYTHON','').lower()=='on' and 'vpython' not in tags: tags.append('vpython')
+
+    return {'return':0}
+
+##############################################################################
 # customize installation
 
 def setup(i):
