@@ -80,8 +80,12 @@
       "tags": "compiler,lang-cpp",
       "update_tags_by_target_platform2": {
         "android": "gcc",
-        "linux": "gcc",
         "win": "mcl"
+      },
+      "update_tags_by_target_os_uoa": {
+        "linux-64": "gcc",
+        "linux-32": "gcc",
+        "macos-64": "llvm"
       }
     },
     "lib-blas": {

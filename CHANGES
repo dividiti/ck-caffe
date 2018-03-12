@@ -1,8 +1,16 @@
+2018.03.13 - [LG] using new update_tags_by_target_os_uos{} feature from ck-env for MacOSX support
+
 2018.03.09 - added support for latest protobuf, boost 1.65.x
            - improved unification (started adding custom.py to some Caffe packages)
            - improved build on Windows with latest visual studio
            - added "ck virtual env" for Python-based Caffe built via CK
            - improved cross-compilation for CK CUDA clients
+
+2018.03.06 - [LG] make LevelDB only a Linux+MacOSX dependency (MacOSX support)
+
+2018.03.05 - [LG] adding the explicit dependency of Caffe on LevelDB library (MacOSX support)
+
+2018.02.21 - [LG] make sure we pass CK_RANLIB_PATH_FOR_CMAKE to cmake (to make Intel Caffe compilable with ICC)
 
 2017.11.29 - fixing Caffe compliation of time client on Windows (#121)
 
