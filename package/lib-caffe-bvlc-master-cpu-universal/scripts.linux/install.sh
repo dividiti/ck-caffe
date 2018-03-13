@@ -32,10 +32,10 @@ fi
 if [ "${CAFFE_BUILD_PYTHON}" == "ON" ] ; then
   echo ""
   echo "You are compiling Caffe with Python support!"
-  echo "To use it you need to set up CK env as following (after installation)":
+  echo "To use it you need to set up CK env as follows (after installation)":
   echo ""
   echo "$ ck virtual env --tags=lib,caffe"
-  echo "$ ipython"
+  echo "$ python -c 'import caffe' && echo 'Caffe for Python seems to be healthy'"
   echo ""
   read -p "Press enter to continue"
 fi
