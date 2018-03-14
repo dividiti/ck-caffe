@@ -53,7 +53,7 @@ def setup(i):
 
     # Get variables
     ck=i['ck_kernel']
-    s=''
+    shell_setup_script_contents = ''
 
     iv=i.get('interactive','')
 
@@ -97,8 +97,7 @@ def setup(i):
        env['CK_CAFFE_BIN']=fp0
     else:
        # Check extra .so extensions to be copied to Android device
-       x=os.listdir(fp1)
-       for y in x:
+       for y in os.listdir(fp1):
            y1=os.path.join(fp1,y)
            if y1.startswith(fp):
               if 'adb_extra_files' not in cus: 
@@ -139,6 +138,9 @@ def setup(i):
     cus['path_lib'] = path_lib
     cus['path_include']=os.path.join(pi,'include')
 
+    sext = file_extensions.get('lib','')
+    dext = file_extensions.get('dll','')
+
     if hplat=='win':
        fp5=os.path.dirname(pi)
        fp6=os.path.join(fp5,'libraries','libraries')
@@ -153,19 +155,14 @@ def setup(i):
           sext='.a'
           dext='.so'
 
-          s+='set LD_LIBRARY_PATH="'+path_lib+'":$LD_LIBRARY_PATH\n'
+          shell_setup_script_contents += 'set LD_LIBRARY_PATH="'+path_lib+'":$LD_LIBRARY_PATH\n'
 
        else:
-          sext = file_extensions.get('lib','')
-          dext = file_extensions.get('dll','')
-
           env['CK_CAFFE_CLASSIFICATION_BIN']='classification.exe'
 
-       s+='set PATH='+path_bin+fp8+';%PATH%\n'
+       shell_setup_script_contents += 'set PATH='+path_bin+fp8+';%PATH%\n'
 
     else:
-       sext = file_extensions.get('lib','')
-       dext = file_extensions.get('dll','')
 
        path_example_classification=os.path.join(os.path.dirname(path_bin),'examples','cpp_classification')
 
@@ -175,16 +172,18 @@ def setup(i):
               env['CK_CAFFE_CLASSIFICATION_BIN']=ppx
               break
 
-       s+='export PATH='+path_bin+':'+path_example_classification+':$PATH\n'
+       shell_setup_script_contents += 'export PATH='+path_bin+':'+path_example_classification+':$PATH\n'
        if path_lib:
-          s+='export LD_LIBRARY_PATH="'+path_lib+'":$LD_LIBRARY_PATH\n'
-          s+='export LIBRARY_PATH="'+path_lib+'":$LIBRARY_PATH\n\n'
+            r = ck.access({ 'action': 'lib_path_export_script',
+                            'module_uoa': 'os',
+                            'host_os_dict': hosd,
+                            'lib_path': path_lib })
+            if r['return']>0: return r
+            shell_setup_script_contents += r['script']
 
-    x=''
-    if win!='yes': x='lib'
-
-    cus['static_lib']=x+'caffe'+sext
-    cus['dynamic_lib']=x+'caffe'+dext
+    lib_prefix = '' if win=='yes' else 'lib'
+    cus['static_lib']  = lib_prefix +'caffe' + sext
+    cus['dynamic_lib'] = lib_prefix +'caffe' + dext
 
     env[ep+'_STATIC_NAME']=cus.get('static_lib','')
     env[ep+'_DYNAMIC_NAME']=cus.get('dynamic_lib','')
@@ -201,9 +200,9 @@ def setup(i):
     if tplat2!='android' and os.path.isdir(ppy) and os.path.isdir(ppy1):
        env[ep+'_PYTHON']=ppy
        if hplat=='win':
-          s+='\n\nset PYTHONPATH='+ppy+';%PYTHONPATH%\n\n'
+          shell_setup_script_contents += '\n\nset PYTHONPATH='+ppy+';%PYTHONPATH%\n\n'
        else:
-          s+='\n\nexport PYTHONPATH='+ppy+':$PYTHONPATH\n\n'
+          shell_setup_script_contents += '\n\nexport PYTHONPATH='+ppy+':$PYTHONPATH\n\n'
 
     if tplat=='win':
        env[ep+'_CFLAGS']='/D CMAKE_WINDOWS_BUILD'
@@ -265,4 +264,4 @@ def setup(i):
 
        env[ep+'_LINK_FLAGS']=x
 
-    return {'return':0, 'bat':s}
+    return {'return':0, 'bat':shell_setup_script_contents}
