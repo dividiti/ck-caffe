@@ -68,6 +68,7 @@ def setup(i):
     win=tosd.get('windows_base','')
     remote=tosd.get('remote','')
     mingw=tosd.get('mingw','')
+    file_extensions = tosd.get('file_extensions',{})
 
     # Check platform
     tplat=tosd.get('ck_name','')
@@ -118,24 +119,24 @@ def setup(i):
     if not found:
        return {'return':1, 'error':'can\'t find root dir of the CAFFE installation'}
 
-#    p1=os.path.dirname(fp)
-    p1=os.path.join(pi,'bin')
+#    path_bin=os.path.dirname(fp)
+    path_bin=os.path.join(pi,'bin')
 
-    cus['path_bin']=p1
+    cus['path_bin']=path_bin
 
-    pl=os.path.join(pi,'lib')
-    if fpr!='': pl=os.path.join(pl,fpr)
+    path_lib = os.path.join(pi,'lib')
+    if fpr!='': path_lib = os.path.join(path_lib,fpr)
 
-    if not os.path.isdir(pl):
-       pl=os.path.join(pi,'lib')
-       if not os.path.isdir(pl):
-          pl=os.path.join(pi,'.build_release','lib')
-          if not os.path.isdir(pl):
+    if not os.path.isdir(path_lib):
+       path_lib = os.path.join(pi,'lib')
+       if not os.path.isdir(path_lib):
+          path_lib = os.path.join(pi,'.build_release','lib')
+          if not os.path.isdir(path_lib):
              return {'return':1, 'error':'can\'t find lib dir of the CAFFE installation'}
 
     ep=cus.get('env_prefix','')
 
-    cus['path_lib']=pl
+    cus['path_lib'] = path_lib
     cus['path_include']=os.path.join(pi,'include')
 
     if hplat=='win':
@@ -152,32 +153,32 @@ def setup(i):
           sext='.a'
           dext='.so'
 
-          s+='set LD_LIBRARY_PATH="'+cus['path_lib']+'":$LD_LIBRARY_PATH\n'
+          s+='set LD_LIBRARY_PATH="'+path_lib+'":$LD_LIBRARY_PATH\n'
 
        else:
-          sext='.lib'
-          dext='.dll'
+          sext = file_extensions.get('lib','')
+          dext = file_extensions.get('dll','')
 
           env['CK_CAFFE_CLASSIFICATION_BIN']='classification.exe'
 
-       s+='set PATH='+cus['path_bin']+fp8+';%PATH%\n'
+       s+='set PATH='+path_bin+fp8+';%PATH%\n'
 
     else:
-       sext='.a'
-       dext='.so'
+       sext = file_extensions.get('lib','')
+       dext = file_extensions.get('dll','')
 
-       path_example_classification=os.path.join(os.path.dirname(cus['path_bin']),'examples','cpp_classification')
+       path_example_classification=os.path.join(os.path.dirname(path_bin),'examples','cpp_classification')
 
        for ppx in ['classification.bin', 'classification']:
-           ppy=os.path.join(cus['path_bin'],ppx)
+           ppy=os.path.join(path_bin,ppx)
            if os.path.isfile(ppy):
               env['CK_CAFFE_CLASSIFICATION_BIN']=ppx
               break
 
-       s+='export PATH='+cus['path_bin']+':'+path_example_classification+':$PATH\n'
-       if cus.get('path_lib','')!='':
-          s+='export LD_LIBRARY_PATH="'+cus['path_lib']+'":$LD_LIBRARY_PATH\n'
-          s+='export LIBRARY_PATH="'+cus['path_lib']+'":$LIBRARY_PATH\n\n'
+       s+='export PATH='+path_bin+':'+path_example_classification+':$PATH\n'
+       if path_lib:
+          s+='export LD_LIBRARY_PATH="'+path_lib+'":$LD_LIBRARY_PATH\n'
+          s+='export LIBRARY_PATH="'+path_lib+'":$LIBRARY_PATH\n\n'
 
     x=''
     if win!='yes': x='lib'
@@ -208,11 +209,11 @@ def setup(i):
        env[ep+'_CFLAGS']='/D CMAKE_WINDOWS_BUILD'
        env[ep+'_CXXFLAGS']='/D CMAKE_WINDOWS_BUILD'
 
-       env[ep+'_LFLAG']=os.path.join(pl,'caffe.lib')
+       env[ep+'_LFLAG']=os.path.join(path_lib,'caffe.lib')
 
-       x=os.path.join(pl,'proto.lib')
+       x=os.path.join(path_lib,'proto.lib')
        if not os.path.isfile(x):
-          x=os.path.join(pl,'caffeproto.lib')
+          x=os.path.join(path_lib,'caffeproto.lib')
 
        env[ep+'_LFLAG_PROTO']=x
 
