@@ -41,11 +41,27 @@ if [ "${CAFFE_BUILD_PYTHON}" == "ON" ] ; then
 fi
 
     # on a Mac and compiling with LLVM:
-if [ -n "$CK_ENV_COMPILER_LLVM_SET" ] && [ "$CK_DLL_EXT" = ".dylib" ]
+if [ "$CK_DLL_EXT" = ".dylib" ] && [ -n "$CK_ENV_COMPILER_LLVM_SET" ]
 then
     EXTRA_FLAGS="-flax-vector-conversions"
 else
     EXTRA_FLAGS=""
+fi
+
+    # on a Mac and compiled with Python support:
+if [ "$CK_DLL_EXT" = ".dylib" ] && [ "${CAFFE_BUILD_PYTHON}" == "ON" ]
+then
+    PYTHON_ROOT=`python -c 'import sysconfig ; print(sysconfig.get_paths()["data"])'`
+    #PYTHON_INCLUDE=`python -c 'import sysconfig ; print(sysconfig.get_paths()["include"])'`
+
+    if [ "${?}" != "0" ] ; then
+        echo "Error: cannot detect Python paths, which likely means your Python is <2.7 and not supported by Caffe"
+        exit 1
+    fi
+
+    SPECIFIC_PYTHON_PATHS=" -DPYTHON_EXECUTABLE=${PYTHON_ROOT}/bin/python -DPYTHON_LIBRARY=${PYTHON_ROOT}/Python -DPYTHON_INCLUDE_DIR=${PYTHON_ROOT}/Headers"
+else
+    SPECIFIC_PYTHON_PATHS=""
 fi
 
 cd ${INSTALL_DIR}/obj
@@ -60,6 +76,7 @@ cmake -DCMAKE_BUILD_TYPE=${CK_ENV_CMAKE_BUILD_TYPE:-Release} \
       -DCMAKE_LINKER="${CK_LD_PATH_FOR_CMAKE}" \
       -DCMAKE_SHARED_LINKER_FLAGS="$CK_OPENMP" \
       -DBUILD_python=${CAFFE_BUILD_PYTHON} \
+      ${SPECIFIC_PYTHON_PATHS} \
       -DBUILD_docs=OFF \
       -DCPU_ONLY=ON \
       -DUSE_OPENMP:BOOL=${USE_OPENMP} \
