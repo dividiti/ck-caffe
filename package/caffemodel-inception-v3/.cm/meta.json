@@ -47,10 +47,10 @@
     "windows", 
     "linux"
   ],
-  "package_extra_name": " (inception-v3)",
+  "package_extra_name": " (inception-v3, fp32)",
   "process_script": "download", 
   "soft_uoa": "e2400aabc11d6cd1", 
-  "suggested_path": "caffemodel-inceptionv-v3", 
+  "suggested_path": "caffemodel-inception-v3",
   "tags": [
     "caffe", 
     "weights", 
