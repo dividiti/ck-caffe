@@ -62,7 +62,7 @@
   "package_extra_name": " (resnet50, fp32)",
   "process_script": "download",
   "soft_uoa": "e2400aabc11d6cd1",
-  "suggested_path": "caffemodel",
+  "suggested_path": "caffemodel-resnet50",
   "tags": [
     "caffe",
     "weights",
