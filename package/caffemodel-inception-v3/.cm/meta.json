@@ -12,7 +12,7 @@
       "MODEL_URL": "https://www.dropbox.com/s/1iqkultyfpfr1nw/inceptionv3.caffemodel"
     }, 
     "no_os_in_suggested_path": "yes", 
-    "no_ver_in_suggested_path": "yes", 
+    "no_ver_in_suggested_path": "no",
     "params": {
       "val": {
         "template": "train_val.prototxt",
