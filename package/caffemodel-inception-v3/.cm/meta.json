@@ -30,7 +30,7 @@
       }
     }, 
     "skip_file_check": "yes", 
-    "version": "deploy"
+    "version": "fp32"
   }, 
   "end_full_path": {
     "linux": "inceptionv3.caffemodel", 
@@ -55,11 +55,11 @@
     "caffe", 
     "weights", 
     "caffemodel", 
-    "inception", 
-    "inception-v3", 
-    "channel-stable",
+    "inception",
+    "inception-v3",
     "vfloat32",
-    "intel"
+    "vfp32",
+    "channel-stable"
   ], 
   "use_scripts_from_another_entry": {
     "data_uoa": "download-caffemodel", 

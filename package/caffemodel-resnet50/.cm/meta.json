@@ -40,7 +40,7 @@
       }
     },
     "skip_file_check": "yes",
-    "version": "resnet50"
+    "version": "fp32"
   },
   "end_full_path": {
     "linux": "ResNet-50-model.caffemodel",
@@ -59,7 +59,7 @@
     "windows",
     "linux"
   ],
-  "package_extra_name": " (resnet, resnet50)",
+  "package_extra_name": " (resnet50, fp32)",
   "process_script": "download",
   "soft_uoa": "e2400aabc11d6cd1",
   "suggested_path": "caffemodel",
@@ -69,6 +69,8 @@
     "caffemodel",
     "resnet",
     "resnet50",
+    "vfloat32",
+    "vfp32",
     "channel-stable"
   ],
   "use_scripts_from_another_entry": {
