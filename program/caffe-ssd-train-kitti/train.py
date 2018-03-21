@@ -19,7 +19,7 @@ SRC_SOLVER_PROTOTXT = os.path.join(CAFFE_MODEL_DIR, 'solver.prototxt')
 SRC_TRAIN_PROTOTXT = os.path.join(CAFFE_MODEL_DIR, 'train.prototxt')
 SRC_TEST_PROTOTXT = os.path.join(CAFFE_MODEL_DIR, 'test.prototxt')
 
-# Should be more robust criterion, may be lib should proivde some env var
+# Should be more robust criterion, perhaps lib should provide some env var
 RUN_MODE = 'CPU' if '-cpu' in CAFFE_BIN_DIR else 'GPU'
 def is_cpu(): return RUN_MODE == 'CPU'
 def is_gpu(): return RUN_MODE == 'GPU'

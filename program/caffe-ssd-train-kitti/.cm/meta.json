@@ -13,7 +13,7 @@
         "kitti-dataset": {
           "force_target_as_host": "yes", 
           "local": "yes", 
-          "name": "Kitti dataset", 
+          "name": "KITTI dataset",
           "sort": 20, 
           "tags": "dataset,kitti,val"
         }

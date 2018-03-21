@@ -66,7 +66,7 @@ Trained weights are saved into `tmp/snapshots` directory.
 
 ### TODO
 
-- Models `*-512` are failed with message `Check failed: num_priors_ * num_classes_ == bottom[1]->channels()`, it is because of dimensions of final layers are depend on number of detection classes. Though that layers are modified in program but something is missed for `*-512` models (they have more layers than `*-300`s have).
+- Models `*-512` fail with message `Check failed: num_priors_ * num_classes_ == bottom[1]->channels()`, it is because of dimensions of final layers depend on the number of detection classes. Though that layers are modified in program but something is missed for `*-512` models (they have more layers than `*-300`s have).
 
 - We could implement continued training by loading not the pretrained weights of the selected caffemodel but latest snapshot instead. 
 

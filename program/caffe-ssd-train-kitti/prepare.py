@@ -138,7 +138,7 @@ def make_train_test_file_lists():
   # Generate image name and size infomation.
   cmd = []
   cmd.append(os.path.join(CAFFE_BIN_DIR, 'get_image_size'))
-  cmd.append('') # we can leave root path empty as our file list contains absolute pathes
+  cmd.append('') # we can leave root path empty as our file list contains absolute paths
   cmd.append(TEST_FILE_LIST)
   cmd.append(NAME_SIZE_FILE)
   utils.run_command(cmd)
