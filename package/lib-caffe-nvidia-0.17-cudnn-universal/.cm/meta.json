@@ -154,7 +154,12 @@
         "win": "yes"
       }, 
       "sort": 25, 
-      "tags": "lib,hdf5"
+      "tags": "lib,hdf5",
+      "version_to": [
+        1,
+        8,
+        99
+      ]
     }, 
     "lib-lmdb": {
       "local": "yes", 
