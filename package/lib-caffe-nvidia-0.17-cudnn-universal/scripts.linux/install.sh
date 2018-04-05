@@ -28,6 +28,13 @@ if [ "${OPENCV_DIR}" == "" ]; then
   OPENCV_DIR=${CK_ENV_LIB_OPENCV}/share/OpenCV
 fi
 
+MACHINE=$(uname -m)
+if [ "${MACHINE}" == "aarch64" ] ; then
+  JPEGTurbo_LIBRARIES=/usr/lib/${MACHINE}-linux-gnu/libturbojpeg.a
+else
+  JPEGTurbo_LIBRARIES=/usr/lib/${MACHINE}-linux-gnu/libturbojpeg.so
+fi
+
 # Print about python
 if [ "${CAFFE_BUILD_PYTHON}" == "ON" ] ; then
   echo ""
@@ -85,7 +92,7 @@ cmake -DCMAKE_BUILD_TYPE=${CK_ENV_CMAKE_BUILD_TYPE:-Release} \
       -DHDF5_INCLUDE_DIRS="${CK_ENV_LIB_HDF5_INCLUDE}" \
       -DHDF5_LIBRARIES="${CK_ENV_LIB_HDF5_LIB}/libhdf5.so" \
       -DHDF5_HL_LIBRARIES="${CK_ENV_LIB_HDF5_LIB}/libhdf5_hl.so" \
-      -DJPEGTurbo_LIBRARIES="/usr/lib/aarch64-linux-gnu/libturbojpeg.a" \
+      -DJPEGTurbo_LIBRARIES="${JPEGTurbo_LIBRARIES}" \
       -DOpenBLAS_INCLUDE_DIR="${CK_ENV_LIB_OPENBLAS_INCLUDE}" \
       -DOpenBLAS_LIB="${CK_ENV_LIB_OPENBLAS_LIB}/libopenblas.a" \
       -DLMDB_INCLUDE_DIR="${CK_ENV_LIB_LMDB_INCLUDE}" \
