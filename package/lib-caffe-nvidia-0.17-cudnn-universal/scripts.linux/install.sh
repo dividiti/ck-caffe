@@ -32,7 +32,7 @@ MACHINE=$(uname -m)
 if [ "${MACHINE}" == "aarch64" ] ; then
   JPEGTurbo_LIBRARIES=/usr/lib/${MACHINE}-linux-gnu/libturbojpeg.a
 else
-  JPEGTurbo_LIBRARIES=/usr/lib/${MACHINE}-linux-gnu/libturbojpeg.so
+  JPEGTurbo_LIBRARIES=/usr/lib/${MACHINE}-linux-gnu/libturbojpeg.so.0
 fi
 
 # Print about python
