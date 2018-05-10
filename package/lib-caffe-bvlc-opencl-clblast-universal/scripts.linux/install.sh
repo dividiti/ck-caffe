@@ -29,14 +29,20 @@ fi
 
 # Print about python
 if [ "${CAFFE_BUILD_PYTHON}" == "ON" ] ; then
-  echo ""
-  echo "You are compiling Caffe with Python support!"
-  echo "To use it you need to set up CK env as following (after installation)":
-  echo ""
-  echo "$ ck virtual env --tags=lib,caffe"
-  echo "$ ipython"
-  echo ""
-  read -p "Press enter to continue"
+    echo ""
+    echo "You are compiling Caffe with Python support!"
+
+    if [ -z "$CK_ENV_COMPILER_PYTHON_FILE" ]; then
+        echo "CK_ENV_COMPILER_PYTHON_FILE is not defined -- make sure Python is set as a dependency"
+        exit 1
+    fi
+
+    echo "To use it you need to set up CK env as following (after installation)":
+    echo ""
+    echo "$ ck virtual env --tags=lib,caffe"
+    echo "$ ipython"
+    echo ""
+    read -p "Press enter to continue"
 fi
 
 # Check extra stuff
@@ -83,6 +89,8 @@ cmake -DCMAKE_BUILD_TYPE=${CK_ENV_CMAKE_BUILD_TYPE:-Release} \
       -DBOOST_LIBRARYDIR="${CK_ENV_LIB_BOOST_LIB}" \
       -DBoost_INCLUDE_DIR="${CK_ENV_LIB_BOOST_INCLUDE}" \
       -DBoost_LIBRARY_DIR="${CK_ENV_LIB_BOOST_LIB}" \
+      ${CK_ENV_COMPILER_PYTHON_FILE:+"-DPYTHON_EXECUTABLE=${CK_ENV_COMPILER_PYTHON_FILE}"} \
+      ${CK_ENV_LIB_BOOST_PYTHON_LIBRARY:+"-DBoost_PYTHON_LIBRARY=${CK_ENV_LIB_BOOST_PYTHON_LIBRARY}"} \
       -DGFLAGS_INCLUDE_DIR="${CK_ENV_LIB_GFLAGS_INCLUDE}" \
       -DGLOG_INCLUDE_DIR="${CK_ENV_LIB_GLOG_INCLUDE}" \
       -DGFLAGS_LIBRARY="${CK_ENV_LIB_GFLAGS_LIB}/libgflags.so" \

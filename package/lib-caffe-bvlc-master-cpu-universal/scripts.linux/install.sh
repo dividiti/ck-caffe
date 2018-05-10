@@ -30,18 +30,24 @@ fi
 
 # Print about python
 if [ "${CAFFE_BUILD_PYTHON}" == "ON" ] ; then
-  echo ""
-  echo "You are compiling Caffe with Python support!"
-  echo "To use it you need to set up CK env as follows (after installation)":
-  echo ""
-  echo "$ ck virtual env --tags=lib,caffe"
-  echo "$ python -c 'import caffe' && echo 'Caffe for Python seems to be healthy'"
-  echo ""
-  read -p "Press enter to continue"
+    echo ""
+    echo "You are compiling Caffe with Python support!"
+
+    if [ -z "$CK_ENV_COMPILER_PYTHON_FILE" ]; then
+        echo "CK_ENV_COMPILER_PYTHON_FILE is not defined -- make sure Python is set as a dependency"
+        exit 1
+    fi
+
+    echo "To use it you need to set up CK env as follows (after installation)":
+    echo ""
+    echo "$ ck virtual env --tags=lib,caffe"
+    echo "$ python -c 'import caffe' && echo 'Caffe for Python seems to be healthy'"
+    echo ""
+    read -p "Press enter to continue"
 fi
 
     # on a Mac and compiling with LLVM:
-if [ "$CK_DLL_EXT" = ".dylib" ] && [ -n "$CK_ENV_COMPILER_LLVM_SET" ]
+if [ "$CK_DLL_EXT" == ".dylib" ] && [ -n "$CK_ENV_COMPILER_LLVM_SET" ]
 then
     EXTRA_FLAGS="-flax-vector-conversions"
 else
@@ -49,17 +55,16 @@ else
 fi
 
     # on a Mac and compiled with Python support:
-if [ "$CK_DLL_EXT" = ".dylib" ] && [ "${CAFFE_BUILD_PYTHON}" == "ON" ]
+if [ "$CK_DLL_EXT" == ".dylib" ] && [ "${CAFFE_BUILD_PYTHON}" == "ON" ]
 then
-    PYTHON_ROOT=`python -c 'import sysconfig ; print(sysconfig.get_paths()["data"])'`
-    #PYTHON_INCLUDE=`python -c 'import sysconfig ; print(sysconfig.get_paths()["include"])'`
+    PYTHON_ROOT=`${CK_ENV_COMPILER_PYTHON_FILE} -c 'import sysconfig ; print(sysconfig.get_paths()["data"])'`
 
     if [ "${?}" != "0" ] ; then
         echo "Error: cannot detect Python paths, which likely means your Python is <2.7 and not supported by Caffe"
         exit 1
     fi
 
-    SPECIFIC_PYTHON_PATHS=" -DPYTHON_EXECUTABLE=${PYTHON_ROOT}/bin/python -DPYTHON_LIBRARY=${PYTHON_ROOT}/Python -DPYTHON_INCLUDE_DIR=${PYTHON_ROOT}/Headers"
+    SPECIFIC_PYTHON_PATHS=" -DPYTHON_LIBRARY=${PYTHON_ROOT}/Python -DPYTHON_INCLUDE_DIR=${PYTHON_ROOT}/Headers"
 else
     SPECIFIC_PYTHON_PATHS=""
 fi
@@ -98,6 +103,8 @@ cmake -DCMAKE_BUILD_TYPE=${CK_ENV_CMAKE_BUILD_TYPE:-Release} \
       -DBOOST_LIBRARYDIR="${CK_ENV_LIB_BOOST_LIB}" \
       -DBoost_INCLUDE_DIR="${CK_ENV_LIB_BOOST_INCLUDE}" \
       -DBoost_LIBRARY_DIR="${CK_ENV_LIB_BOOST_LIB}" \
+      ${CK_ENV_COMPILER_PYTHON_FILE:+"-DPYTHON_EXECUTABLE=${CK_ENV_COMPILER_PYTHON_FILE}"} \
+      ${CK_ENV_LIB_BOOST_PYTHON_LIBRARY:+"-DBoost_PYTHON_LIBRARY=${CK_ENV_LIB_BOOST_PYTHON_LIBRARY}"} \
       -DHDF5_DIR="${CK_ENV_LIB_HDF5}/share/cmake" \
       -DHDF5_ROOT_DIR="${CK_ENV_LIB_HDF5}/share/cmake" \
       -DHDF5_INCLUDE_DIRS="${CK_ENV_LIB_HDF5_INCLUDE}" \
