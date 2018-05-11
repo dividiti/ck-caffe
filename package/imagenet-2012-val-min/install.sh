@@ -38,7 +38,7 @@ fi
 #####################################################################
 echo ""
 echo "Calculating the MD5 hash of '${IMAGENET_VAL_TAR}' ..."
-IMAGENET_VAL_MD5_CALC=($(md5sum ${IMAGENET_VAL_TAR}))
+IMAGENET_VAL_MD5_CALC=($(${CK_MD5SUM_CMD} ${IMAGENET_VAL_TAR}))
 if [ "${?}" != "0" ] ; then
   echo "Error: Calculating the MD5 hash of '${IMAGENET_VAL_TAR}' failed!"
   exit 1

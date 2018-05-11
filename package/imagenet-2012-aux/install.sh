@@ -39,7 +39,7 @@ fi
 #####################################################################
 echo ""
 echo "Calculating the MD5 hash of '${DOWNLOAD_FILE}' ..."
-DOWNLOAD_FILE_MD5_CALC=($(md5sum ${FULL_PATH}))
+DOWNLOAD_FILE_MD5_CALC=($(${CK_MD5SUM_CMD} ${FULL_PATH}))
 if [ "${?}" != "0" ] ; then
   echo "Error: Calculating the MD5 hash of '${DOWNLOAD_FILE}' failed!"
   exit 1
