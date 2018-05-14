@@ -132,14 +132,31 @@ $ sudo pip install protobuf
 
 ### Installing CK
 
+
 ```
 $ sudo pip install ck
-$ ck version
-$ ck set kernel var.install_to_env=yes
 
 ```
 
 Skip "sudo" if installing on Windows.
+
+Alternatively, you can install CK in a user space as following:
+```
+$ git clone http://github.com/ctuning/ck
+$ export PATH=$PWD/ck/bin:$PATH
+
+```
+
+### Testing CK
+
+```
+$ ck version
+```
+
+We suggest you to configure CK to install packages to the CK virtual environment entries (env):
+```
+$ ck set kernel var.install_to_env=yes
+```
 
 ### Installing CK-Caffe repository
 
