@@ -141,8 +141,9 @@ Skip "sudo" if installing on Windows.
 
 Alternatively, you can install CK in a user space as following:
 ```
-$ git clone http://github.com/ctuning/ck
-$ export PATH=$PWD/ck/bin:$PATH
+$ git clone http://github.com/ctuning/ck ck-master
+$ export PATH=$PWD/ck-master/bin:$PATH
+$ export PYTHONPATH=$PWD/ck-master:$PYTHONPATH
 ```
 
 ### Testing CK
