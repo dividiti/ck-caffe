@@ -135,7 +135,6 @@ $ sudo pip install protobuf
 
 ```
 $ sudo pip install ck
-
 ```
 
 Skip "sudo" if installing on Windows.
@@ -144,7 +143,6 @@ Alternatively, you can install CK in a user space as following:
 ```
 $ git clone http://github.com/ctuning/ck
 $ export PATH=$PWD/ck/bin:$PATH
-
 ```
 
 ### Testing CK
