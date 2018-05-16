@@ -139,7 +139,7 @@ $ sudo pip install ck
 
 Skip "sudo" if installing on Windows.
 
-Alternatively, you can install CK in a user space as following:
+Alternatively, you can install CK in a user space as follows:
 ```
 $ git clone http://github.com/ctuning/ck ck-master
 $ export PATH=$PWD/ck-master/bin:$PATH
@@ -200,7 +200,7 @@ You can minimize interactive selection of multiple software dependencies by addi
 ```
 
 If you have Android SDK and NDK installed, you can compile and run the same classification example on your Android device 
-connected to a host machine via ADB as following:
+connected to a host machine via ADB as follows:
 
 ```
  $ ck compile program:caffe-classification --speed --target_os=android21-arm64
@@ -220,7 +220,7 @@ You can also manually install additional flavours of Caffe engines across divers
 and OS (Linux/Windows/Android on Odroid, Raspberry Pi, ARM, Intel, AMD, NVIDIA, etc.)
 as described [here](https://github.com/dividiti/ck-caffe/wiki/Installation).
 
-You can also install extra models as following:
+You can also install extra models as follows:
 ```
  $ ck list package --tags=caffemodel
  $ ck install package:{name of above packages}
@@ -236,7 +236,7 @@ Feel free to try different batch sizes by changing command line option `--env.CK
 
 You can crowd-benchmark Caffe on Windows without re-compilation,
 i.e. using Caffe CPU or OpenCL binaries pre-built by the CK.
-You should install such binaries as following:
+You should install such binaries as follows:
 
 ```
  $ ck install package:lib-caffe-bvlc-master-cpu-bin-win
@@ -260,7 +260,7 @@ You can also open this website from the command line:
 ## Unifying multi-dimensional and multi-objective autotuning
 
 It is also possible to take advantage of our [universal multi-objective CK autotuner](https://github.com/ctuning/ck/wiki/Autotuning)
-to optimize Caffe. As a first simple example, we added batch size tuning via CK. You can invoke it as following:
+to optimize Caffe. As a first simple example, we added batch size tuning via CK. You can invoke it as follows:
 
 ```
 $ ck autotune caffe
