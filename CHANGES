@@ -1,3 +1,5 @@
+2018.05.25 - [FGG] added experimental Caffe build via spack - currently doesn't work
+
 2018.05.14 - [FGG] moved imagenet soft/packages for imagenet (aux,val) to ck-env
              to be able to reuse across different AI frameworks (TF, Caffe, Caffe2, MXNet, CNTK
 
