@@ -9,6 +9,7 @@
         "PACKAGE_URL": "https://github.com/weiliu89/caffe",
         "PACKAGE_PATCH": "YES",
         "PACKAGE_SKIP_CLEAN_OBJ": "YES",
+        "CK_CUDA_ARCH_NAME": "Auto",
         "CPU_ONLY": "OFF",
         "USE_LMDB": "ON"
       },
