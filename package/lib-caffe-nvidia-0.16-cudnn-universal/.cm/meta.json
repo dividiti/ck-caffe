@@ -12,7 +12,7 @@
       "CMAKE_BUILD_SHARED_LIBS": 0,
       "CMAKE_CONFIG": "Release",
       "CPU_ONLY": 0,
-      "CK_CUDA_ARCH_NAME":"Auto",
+      "CK_CUDA_ARCH_NAME": "Auto",
       "PACKAGE_BUILD_TYPE": "cmake",
       "PACKAGE_CONFIGURE_FLAGS": "",
       "PACKAGE_CONFIGURE_FLAGS_ANDROID": "",
