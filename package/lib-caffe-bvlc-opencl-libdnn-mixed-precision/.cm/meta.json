@@ -196,7 +196,7 @@
       "name": "ViennaCL library", 
       "skip_default": "yes", 
       "sort": 35, 
-      "tags": "lib,viennacl,vsrc"
+      "tags": "lib,viennacl,vsrc,vmaster"
     }, 
     "python": {
       "local": "yes", 
