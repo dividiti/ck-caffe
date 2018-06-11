@@ -113,7 +113,10 @@
         "windows"
       ],
       "sort": 18,
-      "tags": "lib,lmdb"
+      "tags": "lib,lmdb",
+      "update_tags_by_target_platform2": {
+        "win": "v0.9.21"
+      }
     },
     "lib-opencv": {
       "local": "yes",

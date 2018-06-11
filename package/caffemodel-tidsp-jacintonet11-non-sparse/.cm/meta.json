@@ -45,8 +45,9 @@
     "linux": "jacintonet11_bn_iter_320000.caffemodel",
     "win": "jacintonet11_bn_iter_320000.caffemodel"
   },
-  "features":{
-    "model_size_mb":12
+  "features": {
+    "accuracy": 0.6077,
+    "accuracy_top5": 0.832
   },
   "only_for_host_os_tags": [
     "windows",
@@ -56,10 +57,6 @@
     "windows",
     "linux"
   ],
-  "features":{
-    "accuracy":0.6077,
-    "accuracy_top5":0.8320
-  },
   "package_extra_name": " (tidsp, jacintonet11, non-sparse)",
   "process_script": "download",
   "soft_uoa": "e2400aabc11d6cd1",

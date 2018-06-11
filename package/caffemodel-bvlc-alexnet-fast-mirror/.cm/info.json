@@ -1,19 +1,19 @@
 {
-  "backup_data_uid": "29043e1b6a95bed6", 
-  "backup_module_uid": "1dc07ee0f4742028", 
-  "backup_module_uoa": "package", 
+  "backup_data_uid": "29043e1b6a95bed6",
+  "backup_module_uid": "1dc07ee0f4742028",
+  "backup_module_uoa": "package",
   "control": {
-    "author": "Evan Shelhamer", 
-    "author_webpage": "https://github.com/shelhamer", 
-    "engine": "CK", 
-    "iso_datetime": "2017-01-10T11:03:52.946282", 
-    "license": "unrestricted (see readme.md)", 
+    "author": "Evan Shelhamer",
+    "author_webpage": "https://github.com/shelhamer",
+    "engine": "CK",
+    "iso_datetime": "2017-01-10T11:03:52.946282",
+    "license": "unrestricted (see readme.md)",
     "version": [
-      "1", 
-      "8", 
-      "6", 
+      "1",
+      "8",
+      "6",
       "1"
     ]
-  }, 
+  },
   "data_name": "caffemodel-bvlc-alexnet-fast-mirror"
 }

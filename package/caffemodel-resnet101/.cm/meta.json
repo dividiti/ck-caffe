@@ -2,8 +2,8 @@
   "check_exit_status": "yes",
   "customize": {
     "extra_dir": "",
-    "file_with_weights": "ResNet-101-model.caffemodel",
     "file_mean_bin": "ResNet_mean.binaryproto",
+    "file_with_weights": "ResNet-101-model.caffemodel",
     "force_ask_path": "yes",
     "install_env": {
       "MODEL_FILE": "ResNet-101-model.caffemodel",
@@ -28,8 +28,8 @@
     "linux": "ResNet-101-model.caffemodel",
     "win": "ResNet-101-model.caffemodel"
   },
-  "features":{
-    "model_size_mb":175
+  "features": {
+    "model_size_mb": 175
   },
   "only_for_host_os_tags": [
     "windows",

@@ -1,76 +1,197 @@
 {
-  "check_exit_status": "yes", 
+  "check_exit_status": "yes",
   "comment": "build stable Caffe cuDNN from master snapshot 20171020",
   "customize": {
-    "extra_dir": "", 
-    "git_src_dir": "src", 
+    "extra_dir": "",
+    "git_src_dir": "src",
     "install_env": {
-      "BLAS_TYPE": "Open", 
-      "BUILD_MATLAB": 0, 
-      "BUILD_PYTHON": 0, 
-      "BUILD_PYTHON_LAYER": 0, 
-      "CAFFE_BUILD_PYTHON": "OFF", 
-      "CMAKE_BUILD_SHARED_LIBS": 0, 
-      "CMAKE_CONFIG": "Release", 
-      "CPU_ONLY": 0, 
+      "BLAS_TYPE": "Open",
+      "BUILD_MATLAB": 0,
+      "BUILD_PYTHON": 0,
+      "BUILD_PYTHON_LAYER": 0,
+      "CAFFE_BUILD_PYTHON": "OFF",
       "CK_CUDA_ARCH_NAME": "Auto",
-      "PACKAGE_BUILD_TYPE": "cmake", 
-      "PACKAGE_CONFIGURE_FLAGS": "", 
-      "PACKAGE_CONFIGURE_FLAGS_ANDROID": "", 
-      "PACKAGE_CONFIGURE_FLAGS_LINUX": "", 
-      "PACKAGE_CONFIGURE_FLAGS_WINDOWS": "", 
-      "PACKAGE_COPY": "NO", 
-      "PACKAGE_GIT": "YES", 
+      "CMAKE_BUILD_SHARED_LIBS": 0,
+      "CMAKE_CONFIG": "Release",
+      "CPU_ONLY": 0,
+      "PACKAGE_BUILD_TYPE": "cmake",
+      "PACKAGE_CONFIGURE_FLAGS": "",
+      "PACKAGE_CONFIGURE_FLAGS_ANDROID": "",
+      "PACKAGE_CONFIGURE_FLAGS_LINUX": "",
+      "PACKAGE_CONFIGURE_FLAGS_WINDOWS": "",
+      "PACKAGE_COPY": "NO",
+      "PACKAGE_GIT": "YES",
       "PACKAGE_GIT_CHECKOUT_LINUX": "691febc",
       "PACKAGE_GIT_CHECKOUT_WINDOWS": "-b windows 28ca814",
       "PACKAGE_PATCH": "YES",
-      "PACKAGE_SKIP_BUILD_ERROR": "YES", 
-      "PACKAGE_SKIP_CLEAN_INSTALL": "NO", 
-      "PACKAGE_SKIP_CLEAN_OBJ": "NO", 
-      "PACKAGE_SKIP_CLEAN_SRC_DIR": "YES", 
-      "PACKAGE_SUB_DIR": "src", 
-      "PACKAGE_SUB_DIR1": "src", 
-      "PACKAGE_URL": "https://github.com/BVLC/caffe", 
-      "PYTHON_EXE": "python", 
-      "RUN_INSTALL": 0, 
-      "RUN_LINT": 0, 
-      "RUN_TESTS": 0, 
-      "USE_CLBLAS": 0, 
-      "USE_CLBLAST": 0, 
-      "USE_CUDA": 1, 
-      "USE_CUDNN": 1, 
-      "USE_FFT": 0, 
-      "USE_GREENTEA": 0, 
-      "USE_INTEL_SPATIAL": "OFF", 
-      "USE_ISAAC": 0, 
-      "USE_LEVELDB": "ON", 
-      "USE_LIBDNN": 0, 
-      "USE_LMDB": "ON", 
-      "USE_NCCL": 0, 
-      "USE_OPENCV": 1, 
-      "USE_OPENMP": 0, 
-      "USE_PREBUILT_DEPENDENCIES": "OFF", 
+      "PACKAGE_SKIP_BUILD_ERROR": "YES",
+      "PACKAGE_SKIP_CLEAN_INSTALL": "NO",
+      "PACKAGE_SKIP_CLEAN_OBJ": "NO",
+      "PACKAGE_SKIP_CLEAN_SRC_DIR": "YES",
+      "PACKAGE_SUB_DIR": "src",
+      "PACKAGE_SUB_DIR1": "src",
+      "PACKAGE_URL": "https://github.com/BVLC/caffe",
+      "PYTHON_EXE": "python",
+      "RUN_INSTALL": 0,
+      "RUN_LINT": 0,
+      "RUN_TESTS": 0,
+      "USE_CLBLAS": 0,
+      "USE_CLBLAST": 0,
+      "USE_CUDA": 1,
+      "USE_CUDNN": 1,
+      "USE_FFT": 0,
+      "USE_GREENTEA": 0,
+      "USE_INTEL_SPATIAL": "OFF",
+      "USE_ISAAC": 0,
+      "USE_LEVELDB": "ON",
+      "USE_LIBDNN": 0,
+      "USE_LMDB": "ON",
+      "USE_NCCL": 0,
+      "USE_OPENCV": 1,
+      "USE_OPENMP": 0,
+      "USE_PREBUILT_DEPENDENCIES": "OFF",
       "WITH_NINJA": 0
-    }, 
-    "sort":10000,
-    "no_ver_in_suggested_path": "yes", 
+    },
+    "no_ver_in_suggested_path": "yes",
     "params": {
-      "cpu_only": 0, 
-      "debug": 0, 
-      "use_clblas": 0, 
-      "use_clblast": 0, 
-      "use_cuda": 1, 
-      "use_cudnn": 1, 
-      "use_greentea": 0, 
-      "use_leveldb": 1, 
-      "use_lmdb": 1, 
+      "cpu_only": 0,
+      "debug": 0,
+      "use_clblas": 0,
+      "use_clblast": 0,
+      "use_cuda": 1,
+      "use_cudnn": 1,
+      "use_greentea": 0,
+      "use_leveldb": 1,
+      "use_lmdb": 1,
       "use_opencv": 1
-    }, 
-    "skip_file_check": "yes", 
-    "use_git_revision": "yes", 
+    },
+    "skip_file_check": "yes",
+    "sort": 10000,
+    "use_git_revision": "yes",
     "version": "master"
-  }, 
+  },
   "deps": {
+    "cmake": {
+      "force_target_as_host": "yes",
+      "local": "yes",
+      "name": "cmake",
+      "skip_from_bat": "yes",
+      "sort": 5,
+      "tags": "tool,cmake"
+    },
+    "compiler": {
+      "local": "yes",
+      "name": "C++ compiler",
+      "sort": 15,
+      "tags": "compiler,lang-cpp",
+      "update_tags_by_target_platform2": {
+        "android": "gcc",
+        "linux": "gcc",
+        "win": "mcl"
+      }
+    },
+    "compiler-cuda": {
+      "local": "yes",
+      "name": "CUDA compiler >=7.0",
+      "sort": 16,
+      "tags": "compiler,lang-c-cuda",
+      "version_from": [
+        7,
+        0,
+        0
+      ],
+      "version_to": [
+        9,
+        99,
+        99
+      ]
+    },
+    "lib-blas": {
+      "local": "yes",
+      "name": "BLAS library",
+      "sort": 30,
+      "tags": "lib,blas,openblas,v0.2.20"
+    },
+    "lib-boost": {
+      "local": "yes",
+      "name": "Boost library",
+      "skip_default": "yes",
+      "sort": 10,
+      "tags": "lib,boost,min-for-caffe",
+      "version_from": [
+        1,
+        64,
+        0
+      ]
+    },
+    "lib-cudnn": {
+      "local": "yes",
+      "name": "CUDA DNN library",
+      "sort": 17,
+      "tags": "lib,cudnn",
+      "version_from": [
+        5,
+        0,
+        0
+      ],
+      "version_to": [
+        7,
+        99,
+        99
+      ]
+    },
+    "lib-gflags": {
+      "force_env_init": "yes",
+      "local": "yes",
+      "name": "GFlags library",
+      "skip_default": "yes",
+      "sort": 12,
+      "tags": "lib,gflags,v2.2.0"
+    },
+    "lib-glog": {
+      "local": "yes",
+      "name": "GLog library",
+      "skip_default": "yes",
+      "sort": 14,
+      "tags": "lib,glog,v0.3.5"
+    },
+    "lib-hdf5": {
+      "local": "yes",
+      "name": "HDF5 library",
+      "only_for_target_os_tags": [
+        "linux",
+        "windows"
+      ],
+      "skip_default": "yes",
+      "sort": 19,
+      "tags": "lib,hdf5,v1.10.1"
+    },
+    "lib-lmdb": {
+      "local": "yes",
+      "name": "LMDB library",
+      "only_for_target_os_tags": [
+        "linux",
+        "windows"
+      ],
+      "skip_default": "yes",
+      "sort": 18,
+      "tags": "lib,lmdb,v0.9.21"
+    },
+    "lib-opencv": {
+      "local": "yes",
+      "name": "OpenCV library",
+      "skip_default": "yes",
+      "sort": 20,
+      "tags": "lib,opencv,v3.3.0"
+    },
+    "lib-protobuf-host": {
+      "force_target_as_host": "yes",
+      "local": "yes",
+      "name": "ProtoBuf host compiler",
+      "skip_default": "yes",
+      "sort": 115,
+      "tags": "lib,protobuf-host,v3.1.0"
+    },
     "python": {
       "local": "yes",
       "name": "Python for interfacing",
@@ -80,145 +201,40 @@
       "skip_from_bat": "yes",
       "sort": 0,
       "tags": "compiler,python"
-    },
-    "cmake": {
-      "force_target_as_host": "yes", 
-      "local": "yes", 
-      "name": "cmake", 
-      "skip_from_bat": "yes", 
-      "sort": 5, 
-      "tags": "tool,cmake"
-    }, 
-    "compiler": {
-      "local": "yes", 
-      "name": "C++ compiler", 
-      "sort": 15, 
-      "tags": "compiler,lang-cpp", 
-      "update_tags_by_target_platform2": {
-        "android": "gcc", 
-        "linux": "gcc", 
-        "win": "mcl"
-      }
-    }, 
-    "compiler-cuda": {
-      "local": "yes", 
-      "name": "CUDA compiler >=7.0", 
-      "sort": 16, 
-      "tags": "compiler,lang-c-cuda",
-      "version_from":[7,0,0],
-      "version_to":[9,99,99]
-    }, 
-    "lib-blas": {
-      "local": "yes", 
-      "name": "BLAS library", 
-      "sort": 30, 
-      "tags": "lib,blas,openblas,v0.2.20"
-    }, 
-    "lib-boost": {
-      "local": "yes", 
-      "name": "Boost library", 
-      "skip_default": "yes", 
-      "sort": 10, 
-      "tags": "lib,boost,min-for-caffe", 
-      "version_from": [
-        1, 
-        64, 
-        0
-      ]
-    }, 
-    "lib-cudnn": {
-      "local": "yes", 
-      "name": "CUDA DNN library", 
-      "sort": 17, 
-      "tags": "lib,cudnn",
-      "version_from":[5,0,0],
-      "version_to":[7,99,99]
-    }, 
-    "lib-gflags": {
-      "force_env_init": "yes",
-      "local": "yes",
-      "name": "GFlags library",
-      "skip_default":"yes",
-      "sort": 12,
-      "tags": "lib,gflags,v2.2.0"
-    }, 
-    "lib-glog": {
-      "local": "yes",
-      "name": "GLog library",
-      "skip_default":"yes",
-      "sort": 14,
-      "tags": "lib,glog,v0.3.5"
-    }, 
-    "lib-hdf5": {
-      "local": "yes",
-      "name": "HDF5 library",
-      "only_for_target_os_tags": [
-        "linux",
-        "windows"
-      ],
-      "skip_default":"yes",
-      "sort": 19,
-      "tags": "lib,hdf5,v1.10.1"
-    }, 
-    "lib-lmdb": {
-      "local": "yes",
-      "name": "LMDB library",
-      "skip_default": "yes",
-      "only_for_target_os_tags": [
-        "linux",
-        "windows"
-      ],
-      "sort": 18,
-      "tags": "lib,lmdb,v0.9.21"
-    }, 
-    "lib-opencv": {
-      "local": "yes",
-      "name": "OpenCV library",
-      "skip_default":"yes",
-      "sort": 20,
-      "tags": "lib,opencv,v3.3.0"
-    }, 
-    "lib-protobuf-host": {
-      "force_target_as_host": "yes",
-      "local": "yes",
-      "name": "ProtoBuf host compiler",
-      "skip_default":"yes",
-      "sort": 115,
-      "tags": "lib,protobuf-host,v3.1.0"
     }
-  }, 
+  },
   "end_full_path": {
-    "linux": "install/bin/caffe", 
+    "linux": "install/bin/caffe",
     "win": "install\\bin\\caffe.exe"
-  }, 
-  "need_cpu_info": "yes", 
+  },
+  "need_cpu_info": "yes",
   "only_for_host_os_tags": [
-    "linux", 
+    "linux",
     "windows"
-  ], 
+  ],
   "only_for_target_os_tags": [
-    "linux", 
+    "linux",
     "windows"
-  ], 
+  ],
   "package_extra_name": " (cudnn, snapshot 20171020)",
-  "process_script": "install", 
-  "soft_uoa": "04ab08137582bd03", 
+  "process_script": "install",
+  "soft_uoa": "04ab08137582bd03",
   "suggested_path": "lib-caffe-bvlc-master-cudnn-20171020",
   "tags": [
-    "lib", 
-    "caffe", 
-    "bvlc", 
-    "v20171020", 
-    "vcuda", 
+    "lib",
+    "caffe",
+    "bvlc",
+    "v20171020",
+    "vcuda",
     "vcudnn",
     "channel-stable"
-  ], 
+  ],
   "use_preprocess_scripts_from_another_entry": {
-    "data_uoa": "fd44428fbc77f77f", 
+    "data_uoa": "fd44428fbc77f77f",
     "module_uoa": "84e27ad9dd12e734"
-  }, 
+  },
   "use_scripts_from_another_entry": {
-    "data_uoa": "cd9ccc74060b3d18", 
+    "data_uoa": "cd9ccc74060b3d18",
     "module_uoa": "script"
   }
 }

@@ -52,6 +52,11 @@
     "linux": "bvlc_googlenet.caffemodel",
     "win": "bvlc_googlenet.caffemodel"
   },
+  "features": {
+    "accuracy": 0.689299,
+    "accuracy_top5": 0.891441,
+    "model_size_mb": 54
+  },
   "only_for_host_os_tags": [
     "windows",
     "linux"
@@ -60,11 +65,6 @@
     "windows",
     "linux"
   ],
-  "features":{
-    "accuracy":0.689299,
-    "accuracy_top5":0.891441,
-    "model_size_mb":54
-  },
   "package_extra_name": " (bvlc, googlenet)",
   "process_script": "download",
   "soft_uoa": "e2400aabc11d6cd1",

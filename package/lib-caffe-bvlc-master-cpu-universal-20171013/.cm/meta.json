@@ -37,7 +37,7 @@
       "RUN_INSTALL": 0,
       "RUN_LINT": 0,
       "RUN_TESTS": 0,
-      "SUBSTITUTE_ORIGINAL_PACKAGE_DIR":"$#path_to_cid=package:b39f40abfd34f10b#$",
+      "SUBSTITUTE_ORIGINAL_PACKAGE_DIR": "$#path_to_cid=package:b39f40abfd34f10b#$",
       "USE_LEVELDB": "ON",
       "USE_LMDB": "ON",
       "USE_OPENMP": 0,
@@ -53,21 +53,11 @@
       "use_lmdb": 1,
       "use_opencv": 1
     },
-    "sort":10000,
+    "sort": 10000,
     "use_git_revision": "yes",
     "version": "master-20171013"
   },
   "deps": {
-    "python": {
-      "local": "yes",
-      "name": "Python for interfacing",
-      "only_for_target_os_tags": [
-        "windows"
-      ],
-      "skip_from_bat": "yes",
-      "sort": 0,
-      "tags": "compiler,python"
-    },
     "cmake": {
       "force_target_as_host": "yes",
       "local": "yes",
@@ -92,12 +82,12 @@
       "name": "BLAS library",
       "skip_default": "yes",
       "sort": 30,
+      "tags": "lib,blas,openblas",
       "update_tags_by_target_platform2": {
         "android": "v0.2.19",
-        "win": "v0.2.20",
-        "linux": "v0.2.20"
-      },
-      "tags": "lib,blas,openblas"
+        "linux": "v0.2.20",
+        "win": "v0.2.20"
+      }
     },
     "lib-boost": {
       "local": "yes",
@@ -105,20 +95,24 @@
       "skip_default": "yes",
       "sort": 25,
       "tags": "lib,boost,min-for-caffe",
-      "version_from":[1,64,0]
+      "version_from": [
+        1,
+        64,
+        0
+      ]
     },
     "lib-gflags": {
       "force_env_init": "yes",
       "local": "yes",
       "name": "GFlags library",
-      "skip_default":"yes",
+      "skip_default": "yes",
       "sort": 12,
       "tags": "lib,gflags,v2.2.0"
     },
     "lib-glog": {
       "local": "yes",
       "name": "GLog library",
-      "skip_default":"yes",
+      "skip_default": "yes",
       "sort": 14,
       "tags": "lib,glog,v0.3.5"
     },
@@ -129,36 +123,39 @@
         "linux",
         "windows"
       ],
-      "skip_default":"yes",
+      "skip_default": "yes",
       "sort": 19,
       "tags": "lib,hdf5,v1.10.1"
-    },
-    "lib-lmdb": {
-      "local": "yes",
-      "name": "LMDB library",
-      "skip_default": "yes",
-      "only_for_target_os_tags": [
-        "linux",
-        "windows"
-      ],
-      "sort": 18,
-      "tags": "lib,lmdb,v0.9.21"
-    },
-    "lib-opencv": {
-      "local": "yes",
-      "name": "OpenCV library",
-      "skip_default":"yes",
-      "sort": 20,
-      "tags": "lib,opencv,v3.3.0"
     },
     "lib-leveldb": {
       "local": "yes",
       "name": "LevelDB library",
-      "sort": 40,
       "only_for_target_os_tags": [
         "linux"
       ],
+      "sort": 40,
       "tags": "lib,leveldb"
+    },
+    "lib-lmdb": {
+      "local": "yes",
+      "name": "LMDB library",
+      "only_for_target_os_tags": [
+        "linux",
+        "windows"
+      ],
+      "skip_default": "yes",
+      "sort": 18,
+      "tags": "lib,lmdb,v0.9.21",
+      "update_tags_by_target_platform2": {
+        "win": "v0.9.21"
+      }
+    },
+    "lib-opencv": {
+      "local": "yes",
+      "name": "OpenCV library",
+      "skip_default": "yes",
+      "sort": 20,
+      "tags": "lib,opencv,v3.3.0"
     },
     "lib-protobuf": {
       "local": "yes",
@@ -166,7 +163,7 @@
       "only_for_target_os_tags": [
         "android"
       ],
-      "skip_default":"yes",
+      "skip_default": "yes",
       "sort": 110,
       "tags": "lib,protobuf,v3.1.0"
     },
@@ -174,9 +171,19 @@
       "force_target_as_host": "yes",
       "local": "yes",
       "name": "ProtoBuf host compiler",
-      "skip_default":"yes",
+      "skip_default": "yes",
       "sort": 115,
       "tags": "lib,protobuf-host,v3.1.0"
+    },
+    "python": {
+      "local": "yes",
+      "name": "Python for interfacing",
+      "only_for_target_os_tags": [
+        "windows"
+      ],
+      "skip_from_bat": "yes",
+      "sort": 0,
+      "tags": "compiler,python"
     }
   },
   "distribute_extra_commands": {

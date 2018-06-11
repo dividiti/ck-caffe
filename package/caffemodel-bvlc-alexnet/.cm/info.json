@@ -1,18 +1,18 @@
 {
-  "backup_data_uid": "b3a4a0c7bb464882", 
-  "backup_module_uid": "1dc07ee0f4742028", 
-  "backup_module_uoa": "package", 
+  "backup_data_uid": "b3a4a0c7bb464882",
+  "backup_module_uid": "1dc07ee0f4742028",
+  "backup_module_uoa": "package",
   "control": {
-    "author": "Evan Shelhamer", 
+    "author": "Evan Shelhamer",
     "author_webpage": "https://github.com/shelhamer",
-    "engine": "CK", 
+    "engine": "CK",
     "iso_datetime": "2016-07-04T15:16:44.325303",
     "license": "unrestricted (see readme.md)",
     "version": [
-      "1", 
-      "7", 
+      "1",
+      "7",
       "2dev"
     ]
-  }, 
+  },
   "data_name": "caffemodel-bvlc-alexnet"
 }

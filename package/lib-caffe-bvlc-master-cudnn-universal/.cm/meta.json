@@ -9,10 +9,10 @@
       "BUILD_PYTHON": 0,
       "BUILD_PYTHON_LAYER": 0,
       "CAFFE_BUILD_PYTHON": "OFF",
+      "CK_CUDA_ARCH_NAME": "Auto",
       "CMAKE_BUILD_SHARED_LIBS": 0,
       "CMAKE_CONFIG": "Release",
       "CPU_ONLY": 0,
-      "CK_CUDA_ARCH_NAME": "Auto",
       "PACKAGE_BUILD_TYPE": "cmake",
       "PACKAGE_CONFIGURE_FLAGS": "",
       "PACKAGE_CONFIGURE_FLAGS_ANDROID": "",
@@ -35,8 +35,6 @@
       "RUN_INSTALL": 0,
       "RUN_LINT": 0,
       "RUN_TESTS": 0,
-      "USE_LMDB": "ON",
-      "USE_LEVELDB": "ON",
       "USE_CLBLAS": 0,
       "USE_CLBLAST": 0,
       "USE_CUDA": 1,
@@ -45,13 +43,16 @@
       "USE_GREENTEA": 0,
       "USE_INTEL_SPATIAL": "OFF",
       "USE_ISAAC": 0,
+      "USE_LEVELDB": "ON",
       "USE_LIBDNN": 0,
+      "USE_LMDB": "ON",
       "USE_NCCL": 0,
       "USE_OPENCV": 1,
       "USE_OPENMP": 0,
-      "USE_PREBUILT_DEPENDENCIES":"OFF",
+      "USE_PREBUILT_DEPENDENCIES": "OFF",
       "WITH_NINJA": 0
     },
+    "no_ver_in_suggested_path": "yes",
     "params": {
       "cpu_only": 0,
       "debug": 0,
@@ -66,20 +67,9 @@
     },
     "skip_file_check": "yes",
     "use_git_revision": "yes",
-    "no_ver_in_suggested_path": "yes",
     "version": "master"
   },
   "deps": {
-    "python": {
-      "local": "yes",
-      "name": "Python for interfacing",
-      "only_for_target_os_tags": [
-        "windows"
-      ],
-      "skip_from_bat": "yes",
-      "sort": 0,
-      "tags": "compiler,python"
-    },
     "cmake": {
       "force_target_as_host": "yes",
       "local": "yes",
@@ -117,7 +107,11 @@
       "skip_default": "yes",
       "sort": 10,
       "tags": "lib,boost",
-      "version_from":[1,64,0]
+      "version_from": [
+        1,
+        64,
+        0
+      ]
     },
     "lib-cudnn": {
       "local": "yes",
@@ -171,7 +165,10 @@
         "windows"
       ],
       "sort": 21,
-      "tags": "lib,lmdb"
+      "tags": "lib,lmdb",
+      "update_tags_by_target_platform2": {
+        "win": "v0.9.21"
+      }
     },
     "lib-opencv": {
       "local": "yes",
@@ -193,6 +190,16 @@
       },
       "sort": 115,
       "tags": "lib,protobuf-host"
+    },
+    "python": {
+      "local": "yes",
+      "name": "Python for interfacing",
+      "only_for_target_os_tags": [
+        "windows"
+      ],
+      "skip_from_bat": "yes",
+      "sort": 0,
+      "tags": "compiler,python"
     }
   },
   "end_full_path": {

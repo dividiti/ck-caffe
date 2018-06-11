@@ -9,10 +9,10 @@
       "BUILD_PYTHON": 0,
       "BUILD_PYTHON_LAYER": 0,
       "CAFFE_BUILD_PYTHON": "OFF",
+      "CK_CUDA_ARCH_NAME": "Auto",
       "CMAKE_BUILD_SHARED_LIBS": 0,
       "CMAKE_CONFIG": "Release",
       "CPU_ONLY": 0,
-      "CK_CUDA_ARCH_NAME": "Auto",
       "PACKAGE_BUILD_TYPE": "cmake",
       "PACKAGE_CONFIGURE_FLAGS": "",
       "PACKAGE_CONFIGURE_FLAGS_ANDROID": "",
@@ -51,6 +51,7 @@
       "USE_PREBUILT_DEPENDENCIES": "OFF",
       "WITH_NINJA": 0
     },
+    "no_ver_in_suggested_path": "yes",
     "params": {
       "cpu_only": 0,
       "debug": 0,
@@ -63,7 +64,6 @@
       "use_lmdb": 1,
       "use_opencv": 1
     },
-    "no_ver_in_suggested_path": "yes",
     "skip_file_check": "yes",
     "use_git_revision": "yes",
     "version": "nvidia-0.16"
@@ -106,7 +106,11 @@
       "skip_default": "yes",
       "sort": 10,
       "tags": "lib,boost",
-      "version_from":[1,64,0]
+      "version_from": [
+        1,
+        64,
+        0
+      ]
     },
     "lib-cudnn": {
       "local": "yes",
@@ -160,7 +164,10 @@
         "windows"
       ],
       "sort": 21,
-      "tags": "lib,lmdb"
+      "tags": "lib,lmdb",
+      "update_tags_by_target_platform2": {
+        "win": "v0.9.21"
+      }
     },
     "lib-opencv": {
       "local": "yes",

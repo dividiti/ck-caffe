@@ -5,42 +5,57 @@
     "file_with_weights": "bvlc_googlenet.caffemodel",
     "force_ask_path": "yes",
     "install_env": {
-      "MODEL_URL": "http://dl.caffe.berkeleyvision.org/bvlc_googlenet.caffemodel",
       "MODEL_FILE": "bvlc_googlenet.caffemodel",
       "MODEL_HASH_CALCULATOR": "sha1sum",
-      "MODEL_HASH_REF": "405fc5acd08a3bb12de8ee5e23a96bec22f08204"
+      "MODEL_HASH_REF": "405fc5acd08a3bb12de8ee5e23a96bec22f08204",
+      "MODEL_URL": "http://dl.caffe.berkeleyvision.org/bvlc_googlenet.caffemodel"
     },
     "no_os_in_suggested_path": "yes",
     "no_ver_in_suggested_path": "no",
     "params": {
-      "train": {
-        "template": "train_val.prototxt",
-        "substitute":{
-          "train_batch_size": 32,
-          "val_batch_size": 50
-        }
+      "deploy": {
+        "substitute": {
+          "batch_size": 10
+        },
+        "template": "deploy.prototxt"
       },
-      "val": {
-        "template": "train_val.prototxt",
-        "substitute":{
+      "train": {
+        "substitute": {
           "train_batch_size": 32,
           "val_batch_size": 50
         },
-        "accuracy_layers": [
-          "loss1/loss1", "loss1/top-1", "loss1/top-5",
-          "loss2/loss1", "loss2/top-1", "loss2/top-5",
-          "loss3/loss3", "loss3/top-1", "loss3/top-5"
-        ]
+        "template": "train_val.prototxt"
       },
-      "deploy": {
-        "template": "deploy.prototxt",
-        "substitute":{
-          "batch_size": 10
-        }
+      "val": {
+        "accuracy_layers": [
+          "loss1/loss1",
+          "loss1/top-1",
+          "loss1/top-5",
+          "loss2/loss1",
+          "loss2/top-1",
+          "loss2/top-5",
+          "loss3/loss3",
+          "loss3/top-1",
+          "loss3/top-5"
+        ],
+        "substitute": {
+          "train_batch_size": 32,
+          "val_batch_size": 50
+        },
+        "template": "train_val.prototxt"
       }
     },
     "skip_file_check": "yes",
     "version": "bvlc-googlenet"
+  },
+  "end_full_path": {
+    "linux": "bvlc_googlenet.caffemodel",
+    "win": "bvlc_googlenet.caffemodel"
+  },
+  "features": {
+    "accuracy": 0.689299,
+    "accuracy_top5": 0.891441,
+    "model_size_mb": 54
   },
   "only_for_host_os_tags": [
     "windows",
@@ -50,18 +65,9 @@
     "windows",
     "linux"
   ],
-  "package_extra_name":" (bvlc, googlenet)",
+  "package_extra_name": " (bvlc, googlenet)",
   "process_script": "download",
   "soft_uoa": "e2400aabc11d6cd1",
-  "end_full_path": {
-    "win": "bvlc_googlenet.caffemodel",
-    "linux": "bvlc_googlenet.caffemodel"
-  },
-  "features": {
-    "accuracy": 0.689299,
-    "accuracy_top5": 0.891441,
-    "model_size_mb": 54
-  },
   "suggested_path": "caffemodel",
   "tags": [
     "caffe",

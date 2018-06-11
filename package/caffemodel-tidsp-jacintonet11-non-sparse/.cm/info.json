@@ -1,16 +1,16 @@
 {
-  "backup_data_uid": "90896a4ec3be86d7", 
-  "backup_module_uid": "1dc07ee0f4742028", 
-  "backup_module_uoa": "package", 
+  "backup_data_uid": "90896a4ec3be86d7",
+  "backup_module_uid": "1dc07ee0f4742028",
+  "backup_module_uoa": "package",
   "control": {
-    "engine": "CK", 
-    "iso_datetime": "2017-04-04T23:31:16.072653", 
+    "engine": "CK",
+    "iso_datetime": "2017-04-04T23:31:16.072653",
     "version": [
-      "1", 
-      "8", 
-      "7", 
+      "1",
+      "8",
+      "7",
       "1"
     ]
-  }, 
+  },
   "data_name": "caffemodel-tidsp-jacintonet11-non-sparse"
 }

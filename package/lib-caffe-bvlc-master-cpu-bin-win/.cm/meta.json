@@ -1,6 +1,6 @@
 {
-  "comment":"download pre-built Caffe",
   "check_exit_status": "yes",
+  "comment": "download pre-built Caffe",
   "customize": {
     "install_env": {
       "PACKAGE_NAME": "ck-distro-1c1be4c4592468c7.zip",

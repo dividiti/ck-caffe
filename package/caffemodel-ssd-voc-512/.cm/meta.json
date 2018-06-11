@@ -1,57 +1,57 @@
-{ 
-  "check_exit_status": "yes", 
-  "customize": { 
-    "extra_dir": "", 
-    "file_with_weights": "VGG_VOC0712_SSD_512x512_iter_120000.caffemodel", 
+{
+  "check_exit_status": "yes",
+  "customize": {
+    "extra_dir": "",
     "file_with_labelmap": "labelmap_voc.prototxt",
-    "force_ask_path": "yes", 
-    "install_env": { 
-      "PACKAGE_WGET": "YES",
-      "PACKAGE_SKIP_CLEAN_SRC_DIR": "YES", 
-      "PACKAGE_SKIP_LINUX_MAKE": "YES", 
+    "file_with_weights": "VGG_VOC0712_SSD_512x512_iter_120000.caffemodel",
+    "force_ask_path": "yes",
+    "install_env": {
+      "PACKAGE_NAME": "caffemodel-ssd-voc-512.zip",
       "PACKAGE_SKIP_CLEAN_OBJ": "YES",
+      "PACKAGE_SKIP_CLEAN_SRC_DIR": "YES",
+      "PACKAGE_SKIP_LINUX_MAKE": "YES",
       "PACKAGE_UNZIP": "YES",
       "PACKAGE_URL": "https://www.dropbox.com/s/ys0prt1euhw2ydy",
-      "PACKAGE_NAME": "caffemodel-ssd-voc-512.zip",
+      "PACKAGE_WGET": "YES",
       "PACKAGE_WGET_EXTRA": "-O caffemodel-ssd-voc-512.zip"
-    }, 
-    "no_os_in_suggested_path": "yes", 
-    "no_ver_in_suggested_path": "yes", 
-    "params": { 
-      "deploy": { 
-        "template": "deploy.prototxt",
-          "substitute": { 
-            "batch_size": 10 
-          }
-      } 
-    }, 
-    "skip_file_check": "yes", 
-    "version": "trunk" 
-  }, 
-  "end_full_path": { 
-    "linux": "VGG_VOC0712_SSD_512x512_iter_120000.caffemodel", 
-    "win": "VGG_VOC0712_SSD_512x512_iter_120000.caffemodel" 
-  }, 
-  "only_for_host_os_tags": [ 
-    "windows", 
-    "linux" 
-  ], 
-  "only_for_target_os_tags": [ 
-    "windows", 
-    "linux" 
-  ], 
-  "package_extra_name": " (ssd, ssd-512, ssd-voc)", 
-  "process_script": "install", 
-  "soft_uoa": "e2400aabc11d6cd1", 
-  "suggested_path": "caffemodel-ssd-voc-512", 
-  "tags": [ 
-    "caffe", 
-    "weights", 
-    "caffemodel", 
-    "ssd", 
+    },
+    "no_os_in_suggested_path": "yes",
+    "no_ver_in_suggested_path": "yes",
+    "params": {
+      "deploy": {
+        "substitute": {
+          "batch_size": 10
+        },
+        "template": "deploy.prototxt"
+      }
+    },
+    "skip_file_check": "yes",
+    "version": "trunk"
+  },
+  "end_full_path": {
+    "linux": "VGG_VOC0712_SSD_512x512_iter_120000.caffemodel",
+    "win": "VGG_VOC0712_SSD_512x512_iter_120000.caffemodel"
+  },
+  "only_for_host_os_tags": [
+    "windows",
+    "linux"
+  ],
+  "only_for_target_os_tags": [
+    "windows",
+    "linux"
+  ],
+  "package_extra_name": " (ssd, ssd-512, ssd-voc)",
+  "process_script": "install",
+  "soft_uoa": "e2400aabc11d6cd1",
+  "suggested_path": "caffemodel-ssd-voc-512",
+  "tags": [
+    "caffe",
+    "weights",
+    "caffemodel",
+    "ssd",
     "ssd-voc",
     "ssd-512",
-    "channel-stable" 
+    "channel-stable"
   ],
   "use_scripts_from_another_entry": {
     "data_uoa": "cd9ccc74060b3d18",

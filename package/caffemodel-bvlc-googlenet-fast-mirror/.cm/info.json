@@ -1,18 +1,18 @@
 {
-  "backup_data_uid": "b96fc6a959de0ad1", 
-  "backup_module_uid": "1dc07ee0f4742028", 
-  "backup_module_uoa": "package", 
+  "backup_data_uid": "b96fc6a959de0ad1",
+  "backup_module_uid": "1dc07ee0f4742028",
+  "backup_module_uoa": "package",
   "control": {
-    "author": "Sergio Guadarrama", 
-    "engine": "CK", 
-    "iso_datetime": "2017-01-10T11:04:08.147126", 
-    "license": "unrestricted (see readme.me)", 
+    "author": "Sergio Guadarrama",
+    "engine": "CK",
+    "iso_datetime": "2017-01-10T11:04:08.147126",
+    "license": "unrestricted (see readme.me)",
     "version": [
-      "1", 
-      "8", 
-      "6", 
+      "1",
+      "8",
+      "6",
       "1"
     ]
-  }, 
+  },
   "data_name": "caffemodel-bvlc-googlenet-fast-mirror"
 }

@@ -50,6 +50,11 @@
     "linux": "bvlc_alexnet.caffemodel",
     "win": "bvlc_alexnet.caffemodel"
   },
+  "features": {
+    "accuracy": 0.568279,
+    "accuracy_top5": 0.799501,
+    "model_size_mb": 244
+  },
   "only_for_host_os_tags": [
     "windows",
     "linux"
@@ -62,11 +67,6 @@
   "process_script": "download",
   "soft_uoa": "e2400aabc11d6cd1",
   "suggested_path": "caffemodel-bvlc-alexnet-fast-mirror",
-  "features":{
-    "accuracy":0.568279,
-    "accuracy_top5":0.799501,
-    "model_size_mb":244
-  },
   "tags": [
     "caffe",
     "weights",

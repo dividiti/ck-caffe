@@ -1,3 +1,6 @@
+2018.06.11 - [FGG] fixed LMDB package v0.9.21 on Windows. 
+             See https://github.com/BVLC/caffe/issues/5631
+
 2018.06.07 - [FGG] added CYGWIN path for BOOST include on Windows
              (update all repos and run "ck refresh env" before using)
 

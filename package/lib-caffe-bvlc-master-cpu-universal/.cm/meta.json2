@@ -1,4 +1,5 @@
 {
+  "comment":"build Caffe CPU from master",
   "check_exit_status": "yes",
   "customize": {
     "extra_dir": "",
@@ -11,21 +12,21 @@
       "CAFFE_BUILD_PYTHON": "OFF",
       "CMAKE_BUILD_SHARED_LIBS": 0,
       "CMAKE_CONFIG": "Release",
-      "CPU_ONLY": 0,
-      "DISABLE_DEVICE_HOST_UNIFIED_MEMORY": "OFF",
-      "DISABLE_DOUBLE_SUPPORT": "OFF",
+      "CPU_ONLY": 1,
       "PACKAGE_BUILD_TYPE": "cmake",
       "PACKAGE_CONFIGURE_FLAGS": "",
+      "PACKAGE_CONFIGURE_FLAGS_ANDROID": "-DBUILD_python=OFF -DBUILD_docs=OFF -DUSE_HDF5=OFF",
+      "PACKAGE_CONFIGURE_FLAGS_LINUX": "",
+      "PACKAGE_CONFIGURE_FLAGS_WINDOWS": "",
       "PACKAGE_COPY": "NO",
       "PACKAGE_GIT": "YES",
-      "PACKAGE_GIT_CHECKOUT_ANDROID": "opencl",
-      "PACKAGE_GIT_CHECKOUT_LINUX": "opencl",
-      "PACKAGE_GIT_CHECKOUT_WINDOWS": "opencl",
+      "PACKAGE_GIT_CHECKOUT_ANDROID": "-b opencl c61d487",
+      "PACKAGE_GIT_CHECKOUT_WINDOWS": "windows",
       "PACKAGE_PATCH": "YES",
       "PACKAGE_SKIP_BUILD_ERROR": "YES",
       "PACKAGE_SKIP_CLEAN_INSTALL": "NO",
       "PACKAGE_SKIP_CLEAN_OBJ": "NO",
-      "PACKAGE_SKIP_CLEAN_SRC_DIR": "YES",
+      "PACKAGE_SKIP_CLEAN_SRC_DIR": "NO",
       "PACKAGE_SUB_DIR": "src",
       "PACKAGE_SUB_DIR1": "src",
       "PACKAGE_URL_ANDROID": "https://github.com/BVLC/caffe",
@@ -35,34 +36,22 @@
       "RUN_INSTALL": 0,
       "RUN_LINT": 0,
       "RUN_TESTS": 0,
-      "USE_CLBLAS": 0,
-      "USE_CLBLAST": 1,
-      "USE_CUDA": 0,
-      "USE_CUDNN": 0,
-      "USE_FFT": 0,
-      "USE_GREENTEA": 1,
-      "USE_INTEL_SPATIAL": "OFF",
-      "USE_ISAAC": 0,
       "USE_LEVELDB": "ON",
-      "USE_LIBDNN": 0,
       "USE_LMDB": "ON",
-      "USE_NCCL": 0,
+      "USE_OPENMP": 0,
       "USE_PREBUILT_DEPENDENCIES": "OFF",
       "WITH_NINJA": 0
     },
     "params": {
-      "cpu_only": 0,
+      "cpu_only": 1,
       "debug": 0,
-      "use_clblas": 0,
-      "use_clblast": 1,
       "use_cuda": 0,
-      "use_greentea": 1,
       "use_leveldb": 1,
       "use_lmdb": 1,
-      "use_opencv": 1,
-      "viennacl_debug": 0
+      "use_opencv": 1
     },
     "use_git_revision": "yes",
+    "no_ver_in_suggested_path": "yes",
     "version": "master"
   },
   "deps": {
@@ -98,18 +87,7 @@
       "skip_default": "yes",
       "sort": 25,
       "tags": "lib,boost",
-      "version_from": [
-        1,
-        64,
-        0
-      ]
-    },
-    "lib-clblast": {
-      "local": "yes",
-      "name": "CLBlast library",
-      "skip_default": "yes",
-      "sort": 40,
-      "tags": "lib,clblast,tune"
+      "version_from":[1,64,0]
     },
     "lib-gflags": {
       "force_env_init": "yes",
@@ -157,19 +135,7 @@
         "windows"
       ],
       "sort": 18,
-      "tags": "lib,lmdb",
-      "update_tags_by_target_platform2": {
-        "win": "v0.9.21"
-      }
-    },
-    "lib-opencl": {
-      "local": "yes",
-      "name": "OpenCL library (stubs on Android)",
-      "skip_installed": {
-        "android": "yes"
-      },
-      "sort": 11,
-      "tags": "lib,opencl"
+      "tags": "lib,lmdb"
     },
     "lib-opencv": {
       "local": "yes",
@@ -180,6 +146,15 @@
       },
       "sort": 20,
       "tags": "lib,opencv"
+    },
+    "lib-leveldb": {
+      "local": "yes",
+      "name": "LevelDB library",
+      "sort": 40,
+      "only_for_target_os_tags": [
+        "linux"
+      ],
+      "tags": "lib,leveldb"
     },
     "lib-protobuf": {
       "local": "yes",
@@ -192,7 +167,7 @@
         "win": "yes"
       },
       "sort": 110,
-      "tags": "lib,protobuf"
+      "tags": "lib,protobuf,v3.1.0"
     },
     "lib-protobuf-host": {
       "force_target_as_host": "yes",
@@ -203,25 +178,61 @@
         "win": "yes"
       },
       "sort": 115,
-      "tags": "lib,protobuf-host"
-    },
-    "lib-viennacl": {
-      "local": "yes",
-      "name": "ViennaCL library",
-      "skip_default": "yes",
-      "sort": 35,
-      "tags": "lib,viennacl,vsrc"
-    },
-    "python": {
-      "local": "yes",
-      "name": "Python for interfacing",
-      "only_for_target_os_tags": [
-        "windows"
-      ],
-      "skip_from_bat": "yes",
-      "sort": 0,
-      "tags": "compiler,python"
+      "tags": "lib,protobuf-host,v3.1.0"
     }
+  },
+  "distribute_extra_commands": {
+    "win": [
+      {
+        "action": "compile",
+        "data_uoa": "4d01855945175f57",
+        "module_uoa": "program"
+      }
+    ]
+  },
+  "distribute_extra_file": {
+    "win": [
+      {
+        "file": "boost_chrono-mt.dll"
+      },
+      {
+        "file": "boost_system-mt.dll"
+      },
+      {
+        "file": "boost_thread-mt.dll"
+      },
+      {
+        "file": "gflags.dll"
+      },
+      {
+        "file": "glog.dll"
+      },
+      {
+        "file": "hdf5.dll"
+      },
+      {
+        "file": "hdf5_hl.dll"
+      },
+      {
+        "file": "libopenblas.dll"
+      },
+      {
+        "file": "opencv_core320.dll"
+      },
+      {
+        "file": "opencv_imgcodecs320.dll"
+      },
+      {
+        "file": "opencv_imgproc320.dll"
+      },
+      {
+        "data_uoa": "4d01855945175f57",
+        "extra_dir": "tmp",
+        "file": "caffe.exe",
+        "module_uoa": "program",
+        "new_file": "ck-caffe-time.exe"
+      }
+    ]
   },
   "end_full_path": {
     "android": "install/lib/libcaffe.so",
@@ -229,31 +240,29 @@
     "win": "install/bin/caffe.exe"
   },
   "need_cpu_info": "yes",
-  "need_gpgpu_info": "yes",
-  "need_gpgpu_type": "opencl",
   "only_for_host_os_tags": [
-    "windows",
-    "linux"
+    "linux",
+    "windows"
   ],
   "only_for_target_os_tags": [
     "linux",
     "windows",
     "android"
   ],
-  "package_extra_name": " (opencl,clblast,tune)",
+  "package_extra_name": " (cpu)",
   "process_script": "install",
   "soft_uoa": "04ab08137582bd03",
-  "suggested_path": "lib-caffe-bvlc-opencl-clblast-tune",
+  "suggested_path": "lib-caffe-bvlc-master-cpu",
   "tags": [
     "lib",
     "caffe",
     "bvlc",
-    "vopencl",
-    "vclblast",
-    "vtune"
+    "vmaster",
+    "vcpu",
+    "channel-dev"
   ],
   "use_preprocess_scripts_from_another_entry": {
-    "data_uoa": "34479ac968f42cfc",
+    "data_uoa": "fd44428fbc77f77f",
     "module_uoa": "84e27ad9dd12e734"
   },
   "use_scripts_from_another_entry": {

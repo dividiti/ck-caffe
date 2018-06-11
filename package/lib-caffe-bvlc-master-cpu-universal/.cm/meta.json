@@ -1,6 +1,6 @@
 {
-  "comment":"build Caffe CPU from master",
   "check_exit_status": "yes",
+  "comment": "build Caffe CPU from master",
   "customize": {
     "extra_dir": "",
     "git_src_dir": "src",
@@ -42,6 +42,7 @@
       "USE_PREBUILT_DEPENDENCIES": "OFF",
       "WITH_NINJA": 0
     },
+    "no_ver_in_suggested_path": "yes",
     "params": {
       "cpu_only": 1,
       "debug": 0,
@@ -51,20 +52,9 @@
       "use_opencv": 1
     },
     "use_git_revision": "yes",
-    "no_ver_in_suggested_path": "yes",
     "version": "master"
   },
   "deps": {
-    "python": {
-      "local": "yes",
-      "name": "Python for interfacing",
-      "only_for_target_os_tags": [
-        "windows"
-      ],
-      "skip_from_bat": "yes",
-      "sort": 0,
-      "tags": "compiler,python"
-    },
     "cmake": {
       "force_target_as_host": "yes",
       "local": "yes",
@@ -78,14 +68,14 @@
       "name": "C++ compiler",
       "sort": 10,
       "tags": "compiler,lang-cpp",
+      "update_tags_by_target_os_uoa": {
+        "linux-32": "gcc",
+        "linux-64": "gcc",
+        "macos-64": "llvm"
+      },
       "update_tags_by_target_platform2": {
         "android": "gcc",
         "win": "mcl"
-      },
-      "update_tags_by_target_os_uoa": {
-        "linux-64": "gcc",
-        "linux-32": "gcc",
-        "macos-64": "llvm"
       }
     },
     "lib-blas": {
@@ -101,7 +91,11 @@
       "skip_default": "yes",
       "sort": 25,
       "tags": "lib,boost",
-      "version_from":[1,64,0]
+      "version_from": [
+        1,
+        64,
+        0
+      ]
     },
     "lib-gflags": {
       "force_env_init": "yes",
@@ -141,6 +135,15 @@
       "sort": 19,
       "tags": "lib,hdf5"
     },
+    "lib-leveldb": {
+      "local": "yes",
+      "name": "LevelDB library",
+      "only_for_target_os_tags": [
+        "linux"
+      ],
+      "sort": 40,
+      "tags": "lib,leveldb"
+    },
     "lib-lmdb": {
       "local": "yes",
       "name": "LMDB library",
@@ -149,7 +152,10 @@
         "windows"
       ],
       "sort": 18,
-      "tags": "lib,lmdb"
+      "tags": "lib,lmdb",
+      "update_tags_by_target_platform2": {
+        "win": "v0.9.21"
+      }
     },
     "lib-opencv": {
       "local": "yes",
@@ -160,15 +166,6 @@
       },
       "sort": 20,
       "tags": "lib,opencv"
-    },
-    "lib-leveldb": {
-      "local": "yes",
-      "name": "LevelDB library",
-      "sort": 40,
-      "only_for_target_os_tags": [
-        "linux"
-      ],
-      "tags": "lib,leveldb"
     },
     "lib-protobuf": {
       "local": "yes",
@@ -193,6 +190,16 @@
       },
       "sort": 115,
       "tags": "lib,protobuf-host"
+    },
+    "python": {
+      "local": "yes",
+      "name": "Python for interfacing",
+      "only_for_target_os_tags": [
+        "windows"
+      ],
+      "skip_from_bat": "yes",
+      "sort": 0,
+      "tags": "compiler,python"
     }
   },
   "distribute_extra_commands": {

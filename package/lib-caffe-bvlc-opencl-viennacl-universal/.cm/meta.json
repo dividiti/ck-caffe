@@ -37,8 +37,6 @@
       "PYTHON_EXE": "python",
       "RUN_INSTALL": 0,
       "RUN_LINT": 0,
-      "USE_LMDB": "ON",
-      "USE_LEVELDB": "ON",
       "RUN_TESTS": 0,
       "USE_CLBLAS": 0,
       "USE_CLBLAST": 0,
@@ -48,10 +46,12 @@
       "USE_GREENTEA": 1,
       "USE_INTEL_SPATIAL": "OFF",
       "USE_ISAAC": 0,
+      "USE_LEVELDB": "ON",
       "USE_LIBDNN": 0,
+      "USE_LMDB": "ON",
       "USE_NCCL": 0,
       "USE_OPENMP": 0,
-      "USE_PREBUILT_DEPENDENCIES":"OFF",
+      "USE_PREBUILT_DEPENDENCIES": "OFF",
       "WITH_NINJA": 0
     },
     "params": {
@@ -70,16 +70,6 @@
     "version": "master"
   },
   "deps": {
-    "python": {
-      "local": "yes",
-      "name": "Python for interfacing",
-      "only_for_target_os_tags": [
-        "windows"
-      ],
-      "skip_from_bat": "yes",
-      "sort": 0,
-      "tags": "compiler,python"
-    },
     "cmake": {
       "force_target_as_host": "yes",
       "local": "yes",
@@ -112,7 +102,11 @@
       "skip_default": "yes",
       "sort": 25,
       "tags": "lib,boost",
-      "version_from":[1,64,0]
+      "version_from": [
+        1,
+        64,
+        0
+      ]
     },
     "lib-gflags": {
       "force_env_init": "yes",
@@ -160,7 +154,10 @@
         "windows"
       ],
       "sort": 18,
-      "tags": "lib,lmdb"
+      "tags": "lib,lmdb",
+      "update_tags_by_target_platform2": {
+        "win": "v0.9.21"
+      }
     },
     "lib-opencl": {
       "local": "yes",
@@ -211,6 +208,16 @@
       "skip_default": "yes",
       "sort": 35,
       "tags": "lib,viennacl,vsrc"
+    },
+    "python": {
+      "local": "yes",
+      "name": "Python for interfacing",
+      "only_for_target_os_tags": [
+        "windows"
+      ],
+      "skip_from_bat": "yes",
+      "sort": 0,
+      "tags": "compiler,python"
     }
   },
   "end_full_path": {
@@ -219,8 +226,8 @@
     "win": "install/bin/caffe.exe"
   },
   "need_cpu_info": "yes",
-  "need_gpgpu_info":"yes",
-  "need_gpgpu_type":"opencl",
+  "need_gpgpu_info": "yes",
+  "need_gpgpu_type": "opencl",
   "only_for_host_os_tags": [
     "windows",
     "linux"
