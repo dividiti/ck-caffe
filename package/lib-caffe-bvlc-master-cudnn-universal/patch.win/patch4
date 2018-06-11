@@ -1,0 +1,12 @@
+diff -ruN src\cmake\Cuda.cmake src.new\cmake\Cuda.cmake
+--- src\cmake\Cuda.cmake	Mon Jun 11 15:02:57 2018
++++ src.new\cmake\Cuda.cmake	Mon Jun 11 17:17:20 2018
+@@ -4,7 +4,7 @@
+ 
+ # Known NVIDIA GPU achitectures Caffe can be compiled for.
+ # This list will be used for CUDA_ARCH_NAME = All option
+-set(Caffe_known_gpu_archs "20 21(20) 30 35 50 60 61")
++set(Caffe_known_gpu_archs "30 35 50 60 61")
+ 
+ ################################################################################################
+ # A function for automatic detection of GPUs installed  (if autodetection is enabled)
