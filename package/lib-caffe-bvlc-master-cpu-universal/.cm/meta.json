@@ -194,6 +194,9 @@
     "python": {
       "local": "yes",
       "name": "Python for interfacing",
+      "enable_if_env": {
+        "CAFFE_BUILD_PYTHON":"ON"
+      },
       "sort": 0,
       "tags": "compiler,python"
     }
