@@ -194,10 +194,6 @@
     "python": {
       "local": "yes",
       "name": "Python for interfacing",
-      "only_for_target_os_tags": [
-        "windows"
-      ],
-      "skip_from_bat": "yes",
       "sort": 0,
       "tags": "compiler,python"
     }
