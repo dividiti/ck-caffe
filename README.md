@@ -127,7 +127,6 @@ $ sudo apt install libboost-all-dev \
                    libprotobuf-dev \
                    protobuf-compiler \
                    libopencv-dev
-$ sudo pip install protobuf
 ```
 
 ### Installing CK
@@ -161,6 +160,14 @@ $ ck set kernel var.install_to_env=yes
 
 ```
 $ ck pull repo:ck-caffe --url=https://github.com/dividiti/ck-caffe
+```
+
+### Installing CK packages
+
+Very often latest Caffe conflicts with the older protobuf version installed on a system.
+That's why we suggest to install protobuf via CK before installing Caffe:
+```
+$ ck install package --tags=protobuf-host
 ```
 
 ### Building Caffe and all dependencies via CK
