@@ -21,5 +21,6 @@
     "weights",
     "caffemodel",
     "bvlc"
-  ]
+  ],
+  "template":"yes"
 }

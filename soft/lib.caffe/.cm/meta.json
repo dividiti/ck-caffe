@@ -20,5 +20,6 @@
     "lib", 
     "caffe", 
     "bvlc"
-  ]
+  ],
+  "template":"yes"
 }
