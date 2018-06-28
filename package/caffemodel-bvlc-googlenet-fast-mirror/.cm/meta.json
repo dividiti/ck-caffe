@@ -82,5 +82,6 @@
     "data_uoa": "download-caffemodel",
     "module_uoa": "script",
     "repo_uoa": "ck-caffe"
-  }
+  },
+  "template":"yes"
 }

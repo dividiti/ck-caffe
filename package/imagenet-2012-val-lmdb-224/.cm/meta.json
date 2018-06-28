@@ -55,5 +55,6 @@
     "bvlc-googlenet",
     "resnet",
     "channel-stable"
-  ]
+  ],
+  "template":"yes"
 }
