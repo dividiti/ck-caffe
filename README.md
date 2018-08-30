@@ -1,7 +1,7 @@
 # [cknowledge.org/ai](http://cknowledge.org/ai): Crowdsourcing benchmarking and optimisation of AI
 
 A suite of open-source tools for [collecting knowledge on optimising AI](http://bit.ly/hipeac49-ckdl):
-* [Android app](https://play.google.com/store/apps/details?id=openscience.crowdsource.video.experiments&hl=en_GB)
+* [Android app](http://cKnowledge.org/android-apps.html)
 * [Desktop app](https://github.com/dividiti/ck-crowdsource-dnn-optimization)
 * [CK-Caffe](https://github.com/dividiti/ck-caffe)
 * [CK-Caffe2](https://github.com/ctuning/ck-caffe2)
@@ -254,7 +254,7 @@ or
  $ ck install package:lib-caffe-bvlc-opencl-libdnn-viennacl-bin-win
 ```
 
-You can also use this [Android app](https://play.google.com/store/apps/details?id=openscience.crowdsource.video.experiments)
+You can also use this [Android app](http://cKnowledge.org/android-apps.html)
 to crowdsource benchmarking of ARM-based Caffe libraries for image recognition.
 
 You can see continuously aggregated results in the
@@ -360,7 +360,7 @@ and tuning of various DNN frameworks (or any representative workloads)
 using Collective Knowledge Technology:
 * [CK-TensorFlow](https://github.com/dividiti/ck-tensorflow)
 * [CK-Caffe2](https://github.com/ctuning/ck-caffe2)
-* [Android app for DNN crowd-benchmarking and crowd-tuning](https://play.google.com/store/apps/details?id=openscience.crowdsource.video.experiments)
+* [Android app for DNN crowd-benchmarking and crowd-tuning](http://cKnowledge.org/android-apps.html)
 * [CK-powered ARM workload automation](https://github.com/ctuning/ck-wa)
 
 We continue to gradually expose various design and optimization
