@@ -1,0 +1,14 @@
+diff --git a/src/caffe/layer_factory.cpp b/src/caffe/layer_factory.cpp
+index 0218d96..e040da2 100644
+--- a/src/caffe/layer_factory.cpp
++++ b/src/caffe/layer_factory.cpp
+@@ -116,7 +116,8 @@ shared_ptr<Layer<Dtype> > GetConvolutionLayer(
+     }
+ #endif
+ #ifdef MKLDNN_SUPPORTED
+-    else if (ep.isEngine("MKLDNN")) {
++    // NB: Only read 'use_dilation' to silence '-Werror=unused-but-set-variable'.
++    else if (ep.isEngine("MKLDNN") || use_dilation) {
+       engine = ConvolutionParameter_Engine_MKLDNN;
+     }
+ #endif

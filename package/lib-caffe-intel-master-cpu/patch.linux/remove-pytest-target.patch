@@ -1,0 +1,17 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 364a579..6a777e1 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -132,12 +132,6 @@ add_subdirectory(scripts/SystemTap)
+ # ---[ Linter target
+ add_custom_target(lint COMMAND ${CMAKE_COMMAND} -P ${PROJECT_SOURCE_DIR}/cmake/lint.cmake)
+ 
+-# ---[ pytest target
+-if(BUILD_python)
+-  add_custom_target(pytest COMMAND python${python_version} -m unittest discover -s caffe/test WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/python )
+-  add_dependencies(pytest pycaffe)
+-endif()
+-
+ # ---[ Configuration summary
+ caffe_print_configuration_summary()
+ 

@@ -1,0 +1,37 @@
+diff --git a/scripts/calibrator.py b/scripts/calibrator.py
+index ccdf420..6d2f3c0 100644
+--- a/scripts/calibrator.py
++++ b/scripts/calibrator.py
+@@ -51,7 +51,7 @@ def check_existence(path):
+ 
+ def setup_env():
+     os.chdir(os.path.dirname(os.path.abspath(params.root)))
+-    caffe.set_mode_cpu()
++#    caffe.set_mode_cpu()
+ 
+ 
+ def read_prototxt(prototxt):
+@@ -382,7 +382,7 @@ if __name__ == '__main__':
+     if not check_existence(pycaffe_path):
+         print "Please check the pycaffe existence.Suggest to rebuild pycaffe via 'make pycaffe'"
+     sys.path.insert(0, pycaffe_path)
+-    import caffe
++#    import caffe
+     from caffe.proto import caffe_pb2
+     
+     try:
+@@ -433,12 +433,12 @@ if __name__ == '__main__':
+         print 'Please check weights: {} existence.'.format(user_input_weights)
+         sys.exit(-1)
+ 
+-    sample = os.path.abspath(params.root + os.path.sep + 'tools/sample')
++    sample = os.path.abspath(params.root + os.path.sep + 'bin/sample')
+     if not check_existence(sample):
+         print 'Please check sample: {} existence.'.format(sample)
+         sys.exit(-1)
+ 
+-    caffe_bin_path = os.path.abspath(params.root + os.path.sep + 'tools/caffe')
++    caffe_bin_path = os.path.abspath(params.root + os.path.sep + 'bin/caffe')
+     if not check_existence(caffe_bin_path):
+         print 'Please check model/weights/sample existence.'
+         sys.exit(-1)
