@@ -103,6 +103,7 @@
         "win": "yes"
       },
       "sort": 19,
+      "no_tags": "vstatic",
       "tags": "lib,hdf5"
     },
     "lib-lmdb": {
