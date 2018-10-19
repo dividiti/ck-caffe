@@ -177,6 +177,11 @@
         "android": "yes",
         "win": "yes"
       },
+      "version_to": [
+        3,
+        3,
+        99
+      ],
       "sort": 20,
       "tags": "lib,opencv"
     },
