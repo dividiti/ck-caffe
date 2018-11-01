@@ -96,8 +96,11 @@ def setup(i):
         if not os.path.exists(val_labels_dir):
             os.mkdir(val_labels_dir)
         env['CK_ENV_DATASET_LABELS_DIR'] = val_labels_dir
-        annotations_to_labels(val_labels_dir, os.path.join(full_path, val_file), p1)
+        annotations = os.path.join(full_path, val_file)
+        env['CK_ENV_DATASET_ANNOTATIONS'] = annotations
+        annotations_to_labels(val_labels_dir, annotations, p1)
 
+    env['CK_ENV_DATASET_TYPE']='coco'
     env[ep] = pi
 
     return {'return':0, 'bat':s}
