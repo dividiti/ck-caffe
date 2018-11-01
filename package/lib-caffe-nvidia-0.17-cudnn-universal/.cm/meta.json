@@ -155,6 +155,7 @@
       },
       "sort": 25,
       "tags": "lib,hdf5",
+      "no_tags": "vstatic",
       "version_to": [
         1,
         8,
