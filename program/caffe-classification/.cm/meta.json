@@ -42,7 +42,8 @@
       "name": "Caffe library",
       "skip_pruning_by_other_deps": "yes",
       "sort": 1,
-      "tags": "lib,caffe,vcpu"
+      "tags": "lib,caffe,vcpu",
+      "no_tags": "dnn-proxy"
     },
     "lib-gflags": {
       "local": "yes",
