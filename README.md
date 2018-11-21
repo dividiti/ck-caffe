@@ -14,8 +14,8 @@ A suite of open-source tools for [collecting knowledge on optimising AI](http://
 * [CK-CNTK](https://github.com/ctuning/ck-cntk)
 * [CK-TinyDNN](https://github.com/ctuning/ck-tiny-dnn)
 * [CK-MVNC (Movidius Neural Compute Stick)](https://github.com/ctuning/ck-mvnc)
-* [CK-TensorRT](https://github.com/dividiti/ck-tensorrt)
-* [CK-KaNN](https://github.com/dividiti/ck-kann)
+* [CK-TensorRT](https://github.com/ctuning/ck-tensorrt)
+* [CK-KaNN](https://github.com/ctuning/ck-kann)
 * etc.
 
 # Collective Knowledge repository for collaboratively optimising Caffe-based designs
@@ -79,7 +79,7 @@ The experimental data (stored in the main CK-Caffe repository under '[experiment
 
 We have performed several detailed performance analysis studies across a range of platforms using CK-Caffe. The following results are publicly available:
 
-- [NVIDIA TX1](https://github.com/dividiti/ck-caffe-nvidia-tx1) ([view on github.com](https://github.com/dividiti/ck-caffe-nvidia-tx1/blob/master/script/caffe-tensorrt/ck-caffe-nvidia-tx1-with-tensorrt.20170429.ipynb); [view on nbviewer.jupyter.org](https://nbviewer.jupyter.org/github/dividiti/ck-caffe-nvidia-tx1/blob/master/script/caffe-tensorrt/ck-caffe-nvidia-tx1-with-tensorrt.20170429.ipynb?raw)): 4 models, 6 Caffe configs + 2 TensorRT 1.0 EA configs (also varying the batch size). **NB:** The Caffe results are released with approval from General Motors. The TensorRT 1.0 EA results are obtained with [CK-TensorRT](https://github.com/dividiti/ck-tensorrt) and released with approval from General Motors and NVIDIA.
+- [NVIDIA TX1](https://github.com/dividiti/ck-caffe-nvidia-tx1) ([view on github.com](https://github.com/dividiti/ck-caffe-nvidia-tx1/blob/master/script/caffe-tensorrt/ck-caffe-nvidia-tx1-with-tensorrt.20170429.ipynb); [view on nbviewer.jupyter.org](https://nbviewer.jupyter.org/github/dividiti/ck-caffe-nvidia-tx1/blob/master/script/caffe-tensorrt/ck-caffe-nvidia-tx1-with-tensorrt.20170429.ipynb?raw)): 4 models, 6 Caffe configs + 2 TensorRT 1.0 EA configs (also varying the batch size). **NB:** The Caffe results are released with approval from General Motors. The TensorRT 1.0 EA results are obtained with [CK-TensorRT](https://github.com/ctuning/ck-tensorrt) and released with approval from General Motors and NVIDIA.
 
 - [NVIDIA GTX1080](https://github.com/dividiti/ck-caffe-nvidia-gtx1080) ([view on github.com](https://github.com/dividiti/ck-caffe-nvidia-gtx1080/blob/master/script/analysis/ck-caffe-nvidia-gtx1080.20170518.ipynb); [view on nbviewer.jupyter.org](https://nbviewer.jupyter.org/github/dividiti/ck-caffe-nvidia-gtx1080/blob/master/script/analysis/ck-caffe-nvidia-gtx1080.20170518.ipynb?raw)): 4 models, 14 configs (also varying the batch size). **NB:** The Caffe results are released with approval from General Motors.
 
