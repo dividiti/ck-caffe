@@ -1,5 +1,6 @@
 {
   "check_exit_status": "yes",
+  "comment": "outdated?",
   "customize": {
     "extra_dir": "",
     "git_src_dir": "src",
@@ -42,6 +43,7 @@
       "USE_PREBUILT_DEPENDENCIES": "OFF",
       "WITH_NINJA": 0
     },
+    "sort":-100000,
     "use_git_revision": "yes",
     "version": "trunk"
   },
@@ -194,12 +196,12 @@
   ],
   "only_for_target_os_tags": [
     "linux",
-    "windows",
-    "android"
+    "windows"
   ],
   "package_extra_name": " (cpu)",
   "process_script": "install",
   "soft_uoa": "04ab08137582bd03",
+
   "suggested_path": "lib-caffe-bvlc-opencl-cpu",
   "tags": [
     "lib",
