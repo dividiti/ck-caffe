@@ -1,6 +1,13 @@
 [![compatibility](https://github.com/ctuning/ck-guide-images/blob/master/ck-compatible.svg)](https://github.com/ctuning/ck)
 [![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
 
+# News
+
+* 20181205: It seems that Caffe for Android fails with the latest NDK. 
+However, we checked that we can still automatically build Caffe 
+for Android via CK with the NDK r13b and Boost 1.64 as described 
+[here](https://github.com/dividiti/ck-caffe/issues/141).
+
 # [cknowledge.org/ai](http://cknowledge.org/ai): Crowdsourcing benchmarking and optimisation of AI
 
 A suite of open-source tools for [collecting knowledge on optimising AI](http://bit.ly/hipeac49-ckdl):
