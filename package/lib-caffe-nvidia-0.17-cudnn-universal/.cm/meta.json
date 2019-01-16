@@ -146,6 +146,7 @@
     "lib-hdf5": {
       "local": "yes",
       "name": "HDF5 library",
+      "no_tags": "vstatic",
       "only_for_target_os_tags": [
         "linux",
         "windows"
@@ -155,7 +156,6 @@
       },
       "sort": 25,
       "tags": "lib,hdf5",
-      "no_tags": "vstatic",
       "version_to": [
         1,
         8,

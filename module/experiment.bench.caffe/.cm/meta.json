@@ -6,15 +6,15 @@
     "crowdsource": {
       "desc": "crowdsource these experiments"
     },
+    "html_viewer": {
+      "desc": "show info for all layers",
+      "for_web": "yes"
+    },
     "replay": {
       "desc": "replay experiment (TBD)"
     },
     "show": {
       "desc": "show results"
-    },
-    "html_viewer": {
-      "desc": "show info for all layers",
-      "for_web": "yes"
     }
   },
   "copyright": "See CK COPYRIGHT.txt for copyright details",
@@ -47,12 +47,14 @@
   },
   "priority": -210,
   "program_tags": "crowd-benchmarking,caffe",
-  "record_module_uoa":"1eb2f50d4620903e",
+  "record_module_uoa": "1eb2f50d4620903e",
   "tags": [
     "crowdsource",
     "experiments",
     "program benchmarking",
     "program optimization",
     "caffe"
-  ]
+  ],
+  "workflow": "yes",
+  "workflow_type": "crowd-benchmarking pipeline for Caffe"
 }

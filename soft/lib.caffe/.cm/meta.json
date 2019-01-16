@@ -1,25 +1,25 @@
 {
-  "auto_detect": "yes", 
+  "auto_detect": "yes",
   "customize": {
-    "check_that_exists": "yes", 
-    "ck_version": 10, 
+    "check_that_exists": "yes",
+    "ck_version": 10,
     "env_prefix": "CK_ENV_LIB_CAFFE",
     "limit_recursion_dir_search": {
       "linux": 4,
       "win": 4
-    }, 
+    },
     "soft_file": {
-      "win": "caffe.exe",
-      "linux": "libcaffe.so"
+      "linux": "libcaffe.so",
+      "win": "caffe.exe"
     }
-  }, 
-  "deps": {
-  }, 
-  "soft_name": "BVLC Caffe framework", 
+  },
+  "deps": {},
+  "soft_name": "BVLC Caffe framework",
   "tags": [
-    "lib", 
-    "caffe", 
+    "lib",
+    "caffe",
     "bvlc"
   ],
-  "template":"yes"
+  "template": "yes",
+  "template_type": "caffe library"
 }

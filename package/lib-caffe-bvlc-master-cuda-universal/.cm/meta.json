@@ -170,13 +170,13 @@
         "android": "yes",
         "win": "yes"
       },
+      "sort": 20,
+      "tags": "lib,opencv",
       "version_to": [
         3,
         3,
         99
-      ],
-      "sort": 20,
-      "tags": "lib,opencv"
+      ]
     },
     "lib-protobuf-host": {
       "force_target_as_host": "yes",
@@ -190,11 +190,11 @@
       "tags": "lib,protobuf-host"
     },
     "python": {
+      "enable_if_env": {
+        "CAFFE_BUILD_PYTHON": "ON"
+      },
       "local": "yes",
       "name": "Python for interfacing",
-      "enable_if_env": {
-        "CAFFE_BUILD_PYTHON":"ON"
-      },
       "sort": 0,
       "tags": "compiler,python"
     }
@@ -224,6 +224,8 @@
     "vcuda",
     "vno-cudnn"
   ],
+  "template": "yes",
+  "template_type": "Caffe AI framework (rebuild for CUDA)",
   "use_preprocess_scripts_from_another_entry": {
     "data_uoa": "fd44428fbc77f77f",
     "module_uoa": "84e27ad9dd12e734"
@@ -231,6 +233,5 @@
   "use_scripts_from_another_entry": {
     "data_uoa": "cd9ccc74060b3d18",
     "module_uoa": "script"
-  },
-  "template":"yes"
+  }
 }

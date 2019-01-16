@@ -3,8 +3,8 @@
   "build_compiler_vars": {
     "ANDROID_USE_OPENMP": "ON",
     "BLAS": "Open",
+    "USE_GREENTEA": "ON",
     "USE_LMDB": "OFF",
-    "USE_GREENTEA": "ON", 
     "USE_OPENCV": "ON",
     "XOPENME": "ON"
   },
@@ -18,11 +18,11 @@
       "tags": "lib,boost"
     },
     "compiler": {
-      "local": "yes", 
-      "name": "C++ compiler", 
-      "sort": 0, 
+      "local": "yes",
+      "name": "C++ compiler",
+      "sort": 0,
       "tags": "compiler,lang-cpp"
-    }, 
+    },
     "lib-blas": {
       "local": "yes",
       "name": "BLAS library",
@@ -30,8 +30,8 @@
       "tags": "lib,blas,openblas"
     },
     "lib-boost": {
-      "issue": "https://github.com/dividiti/ck-caffe/issues/113",
       "force_add_static_lib_path": "yes",
+      "issue": "https://github.com/dividiti/ck-caffe/issues/113",
       "local": "yes",
       "name": "Boost library",
       "sort": 4,
@@ -56,6 +56,22 @@
       "name": "GLog library",
       "sort": 7,
       "tags": "lib,glog"
+    },
+    "lib-lmdb": {
+      "local": "yes",
+      "name": "LMDB library",
+      "only_for_target_os_tags": [
+        "windows"
+      ],
+      "sort": 5,
+      "tags": "lib,lmdb"
+    },
+    "lib-opencl": {
+      "local": "yes",
+      "name": "OpenCL library (stubs on Android)",
+      "skip_default": "yes",
+      "sort": 15,
+      "tags": "lib,opencl"
     },
     "lib-opencv": {
       "local": "yes",
@@ -82,39 +98,23 @@
       "sort": 9,
       "tags": "lib,protobuf-host"
     },
-    "lib-opencl": {
-      "local": "yes",
-      "name": "OpenCL library (stubs on Android)",
-      "skip_default": "yes",
-      "sort": 15,
-      "tags": "lib,opencl"
-    },
     "lib-viennacl": {
       "local": "yes",
       "name": "ViennaCL library",
+      "skip_copy_to_remote": "yes",
       "skip_default": "yes",
       "skip_linking": "yes",
-      "skip_copy_to_remote": "yes",
       "sort": 35,
+      "tags": "lib,viennacl",
       "update_tags_by_target_platform2": {
         "linux": "vsrc"
-      },
-      "tags": "lib,viennacl"
+      }
     },
     "xopenme": {
       "local": "yes",
       "name": "xOpenME library",
       "sort": 100,
       "tags": "lib,xopenme"
-    },
-    "lib-lmdb": {
-      "local": "yes", 
-      "name": "LMDB library", 
-      "only_for_target_os_tags": [
-        "windows"
-      ], 
-      "sort": 5, 
-      "tags": "lib,lmdb"
     }
   },
   "compiler_add_include_as_env_from_deps": [
@@ -172,6 +172,48 @@
         ]
       }
     },
+    "use_continuous": {
+      "ignore_return_code": "no",
+      "run_deps": {
+        "imagenet-aux": {
+          "local": "yes",
+          "name": "ImageNet (aux)",
+          "sort": 50,
+          "tags": "imagenet,aux"
+        },
+        "imagenet-val": {
+          "local": "yes",
+          "name": "ImageNet (val)",
+          "sort": 60,
+          "tags": "imagenet,val"
+        }
+      },
+      "run_time": {
+        "fine_grain_timer_file": "tmp-ck-timer.json",
+        "params": {
+          "caffemodel_key": "deploy",
+          "classification": "yes"
+        },
+        "pre_process_via_ck": {
+          "data_uoa": "569404c41618603a",
+          "script_name": "preprocess"
+        },
+        "run_cmd_main": "$#BIN_FILE#$ $<<CK_CAFFE_MODEL_FILE>>$ $<<CK_CAFFE_MODEL_WEIGHTS>>$ $<<CK_CAFFE_IMAGENET_MEAN_BIN>>$ $<<CK_CAFFE_IMAGENET_SYNSET_WORDS_TXT>>$ --continuous $<<CK_CAFFE_IMAGENET_VAL>>$ $<<CK_CAFFE_IMAGENET_VAL_TXT>>$ $<<CAFFE_COMPUTE_DEVICE_ID>>$",
+        "run_cmd_out1": "tmp-output1.tmp",
+        "run_cmd_out2": "tmp-output2.tmp",
+        "run_correctness_output_files": [],
+        "run_input_files": [
+          "$<<CK_CAFFE_MODEL_FILE>>$",
+          "$<<CK_ENV_MODEL_CAFFE_WEIGHTS>>$",
+          "$<<CK_CAFFE_IMAGENET_MEAN_BIN>>$",
+          "$<<CK_CAFFE_IMAGENET_SYNSET_WORDS_TXT>>$"
+        ],
+        "run_output_files": [
+          "tmp-output.tmp",
+          "tmp-ck-timer.json"
+        ]
+      }
+    },
     "use_external_image": {
       "ignore_return_code": "no",
       "run_time": {
@@ -197,48 +239,6 @@
           "tmp-ck-timer.json"
         ]
       }
-    },
-    "use_continuous": {
-      "ignore_return_code": "no",
-      "run_time": {
-        "fine_grain_timer_file": "tmp-ck-timer.json",
-        "params": {
-          "caffemodel_key": "deploy",
-          "classification": "yes"
-        },
-        "pre_process_via_ck": {
-          "data_uoa": "569404c41618603a",
-          "script_name": "preprocess"
-        },
-        "run_cmd_main": "$#BIN_FILE#$ $<<CK_CAFFE_MODEL_FILE>>$ $<<CK_CAFFE_MODEL_WEIGHTS>>$ $<<CK_CAFFE_IMAGENET_MEAN_BIN>>$ $<<CK_CAFFE_IMAGENET_SYNSET_WORDS_TXT>>$ --continuous $<<CK_CAFFE_IMAGENET_VAL>>$ $<<CK_CAFFE_IMAGENET_VAL_TXT>>$ $<<CAFFE_COMPUTE_DEVICE_ID>>$",
-        "run_cmd_out1": "tmp-output1.tmp",
-        "run_cmd_out2": "tmp-output2.tmp",
-        "run_correctness_output_files": [],
-        "run_input_files": [
-          "$<<CK_CAFFE_MODEL_FILE>>$",
-          "$<<CK_ENV_MODEL_CAFFE_WEIGHTS>>$",
-          "$<<CK_CAFFE_IMAGENET_MEAN_BIN>>$",
-          "$<<CK_CAFFE_IMAGENET_SYNSET_WORDS_TXT>>$"
-        ],
-        "run_output_files": [
-          "tmp-output.tmp",
-          "tmp-ck-timer.json"
-        ]
-      },
-      "run_deps": {
-        "imagenet-aux": {
-          "local": "yes",
-          "name": "ImageNet (aux)",
-          "sort": 50,
-          "tags": "imagenet,aux"
-        },
-        "imagenet-val": {
-          "local": "yes",
-          "name": "ImageNet (val)",
-          "sort": 60,
-          "tags": "imagenet,val"
-        }
-      }
     }
   },
   "run_deps": {
@@ -246,15 +246,15 @@
       "force_target_as_host": "yes",
       "local": "yes",
       "name": "Caffe model (net and weights)",
+      "no_tags": "caffemodel2",
       "sort": 40,
-      "tags": "caffemodel",
-      "no_tags": "caffemodel2"
+      "tags": "caffemodel"
     }
   },
   "run_vars": {
-    "CK_CAFFE_BATCH_SIZE":"1",
-    "CAFFE_COMPUTE_DEVICE_ID":0
-  }, 
+    "CAFFE_COMPUTE_DEVICE_ID": 0,
+    "CK_CAFFE_BATCH_SIZE": "1"
+  },
   "skip_bin_ext": "yes",
   "source_files": [
     "classification.cpp"

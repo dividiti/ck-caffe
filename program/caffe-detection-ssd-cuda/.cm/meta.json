@@ -5,7 +5,7 @@
     "BLAS": "Open",
     "USE_LMDB": "OFF",
     "USE_OPENCV": "ON",
-    "XOPENME":""
+    "XOPENME": ""
   },
   "compile_deps": {
     "boost": {
@@ -35,8 +35,8 @@
       "tags": "lib,blas,openblas"
     },
     "lib-boost": {
-      "issue": "https://github.com/dividiti/ck-caffe/issues/113",
       "force_add_static_lib_path": "yes",
+      "issue": "https://github.com/dividiti/ck-caffe/issues/113",
       "local": "yes",
       "name": "Boost library",
       "sort": 4,
@@ -69,22 +69,22 @@
       "tags": "lib,opencv"
     },
     "lib-protobuf": {
-      "local": "yes", 
-      "name": "ProtoBuf library", 
+      "local": "yes",
+      "name": "ProtoBuf library",
       "only_for_target_os_tags": [
         "android"
-      ], 
-      "sort": 9, 
+      ],
+      "sort": 9,
       "tags": "lib,protobuf"
-    }, 
+    },
     "lib-protobuf-host": {
-      "local": "yes", 
-      "name": "ProtoBuf HOST library", 
+      "local": "yes",
+      "name": "ProtoBuf HOST library",
       "only_for_target_os_tags": [
         "linux",
         "windows"
-      ], 
-      "sort": 9, 
+      ],
+      "sort": 9,
       "tags": "lib,protobuf-host"
     },
     "xopenme": {
@@ -103,8 +103,14 @@
   "compiler_env": "CK_NVCXX",
   "compiler_flags_as_env": "$<<CK_OPT_UNWIND>>$ $<<CK_ENV_LIB_CAFFE_CXXFLAGS>>$ $<<CK_COMPILER_FLAG_CPP11>>$",
   "data_name": "Caffe SSD detection via CUDA",
-  "extra_ld_vars": "$<<CK_ENV_LIB_HDF5_LFLAG>>$ $<<CK_ENV_LIB_HDF5_LFLAG_HL>>$ $<<CK_ENV_LIB_GLOG_LFLAG>>$ $<<CK_ENV_LIB_BOOST_LFLAG_THREAD>>$ $<<CK_ENV_LIB_BOOST_LFLAG_DATE_TIME>>$ $<<CK_ENV_LIB_BOOST_LFLAG_FILESYSTEM>>$ $<<CK_ENV_LIB_BOOST_LFLAG_SYSTEM>>$ $<<CK_ENV_LIB_OPENCV_LFLAG_IMGPROC>>$ $<<CK_ENV_LIB_OPENCV_LFLAG_HIGHGUI>>$ $<<CK_ENV_LIB_OPENCV_LFLAG_CORE>>$ $<<CK_ENV_LIB_OPENCV_LFLAG_IMGCODECS>>$ $<<CK_EXTRA_LIB_Z>>$ $<<CK_EXTRA_LIB_LOG>>$ $<<CK_EXTRA_LIB_M>>$  $<<CK_ENV_LIB_CAFFE_LFLAG_PROTO>>$ $<<CK_ENV_LIB_CAFFE_LINK_FLAGS>>$ $<<CK_ENV_LIB_STDCPP_STATIC>>$", 
+  "extra_ld_vars": "$<<CK_ENV_LIB_HDF5_LFLAG>>$ $<<CK_ENV_LIB_HDF5_LFLAG_HL>>$ $<<CK_ENV_LIB_GLOG_LFLAG>>$ $<<CK_ENV_LIB_BOOST_LFLAG_THREAD>>$ $<<CK_ENV_LIB_BOOST_LFLAG_DATE_TIME>>$ $<<CK_ENV_LIB_BOOST_LFLAG_FILESYSTEM>>$ $<<CK_ENV_LIB_BOOST_LFLAG_SYSTEM>>$ $<<CK_ENV_LIB_OPENCV_LFLAG_IMGPROC>>$ $<<CK_ENV_LIB_OPENCV_LFLAG_HIGHGUI>>$ $<<CK_ENV_LIB_OPENCV_LFLAG_CORE>>$ $<<CK_ENV_LIB_OPENCV_LFLAG_IMGCODECS>>$ $<<CK_EXTRA_LIB_Z>>$ $<<CK_EXTRA_LIB_LOG>>$ $<<CK_EXTRA_LIB_M>>$  $<<CK_ENV_LIB_CAFFE_LFLAG_PROTO>>$ $<<CK_ENV_LIB_CAFFE_LINK_FLAGS>>$ $<<CK_ENV_LIB_STDCPP_STATIC>>$",
   "main_language": "cpp",
+  "only_for_host_os_tags": [
+    "linux"
+  ],
+  "only_for_target_os_tags": [
+    "linux"
+  ],
   "process_in_tmp": "yes",
   "program": "yes",
   "run_cmds": {
@@ -140,6 +146,7 @@
       }
     },
     "use_continuous": {
+      "ignore_return_code": "no",
       "run_deps": {
         "detection-dataset": {
           "local": "yes",
@@ -148,7 +155,6 @@
           "tags": "dataset,images,object-detection"
         }
       },
-      "ignore_return_code": "no",
       "run_time": {
         "fine_grain_timer_file": "tmp-ck-timer.json",
         "params": {
@@ -210,15 +216,9 @@
     }
   },
   "run_vars": {
-    "CK_CAFFE_BATCH_SIZE":"1",
+    "CK_CAFFE_BATCH_SIZE": "1",
     "GLOG_minloglevel": "2"
   },
-  "only_for_host_os_tags": [
-    "linux"
-  ],
-  "only_for_target_os_tags": [
-    "linux"
-  ],
   "skip_bin_ext": "yes",
   "source_files": [
     "ssd-detect.cpp"
@@ -234,5 +234,7 @@
     "webcam"
   ],
   "target_file": "ssd-detect",
+  "template": "yes",
+  "template_type": "object detection via Caffe (Python)",
   "version": "1.0.0"
 }

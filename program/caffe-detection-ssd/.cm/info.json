@@ -1,15 +1,15 @@
 {
-  "backup_data_uid": "caa8ee40c1aa36fd", 
-  "backup_module_uid": "b0ac08fe1d3c2615", 
-  "backup_module_uoa": "program", 
+  "backup_data_uid": "caa8ee40c1aa36fd",
+  "backup_module_uid": "b0ac08fe1d3c2615",
+  "backup_module_uoa": "program",
   "control": {
-    "engine": "CK", 
-    "iso_datetime": "2017-04-12T12:47:51.410260", 
+    "engine": "CK",
+    "iso_datetime": "2017-04-12T12:47:51.410260",
     "version": [
-      "1", 
-      "8", 
+      "1",
+      "8",
       "7"
     ]
-  }, 
+  },
   "data_name": "caffe-detection-ssd"
 }

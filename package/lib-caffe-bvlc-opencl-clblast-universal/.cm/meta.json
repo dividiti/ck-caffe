@@ -251,6 +251,8 @@
     "vopencl",
     "vclblast"
   ],
+  "template": "yes",
+  "template_type": "Caffe AI framework (rebuild for OpenCL with CLBlast)",
   "use_preprocess_scripts_from_another_entry": {
     "data_uoa": "34479ac968f42cfc",
     "module_uoa": "84e27ad9dd12e734"
@@ -258,6 +260,5 @@
   "use_scripts_from_another_entry": {
     "data_uoa": "cd9ccc74060b3d18",
     "module_uoa": "script"
-  },
-  "template":"yes"
+  }
 }

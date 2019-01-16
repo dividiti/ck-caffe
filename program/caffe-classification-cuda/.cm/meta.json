@@ -1,21 +1,21 @@
 {
-  "backup_data_uid": "f4a92a0b77812d7d", 
+  "backup_data_uid": "f4a92a0b77812d7d",
   "build_compiler_vars": {
-    "ANDROID_USE_OPENMP": "ON", 
-    "BLAS": "Open", 
-    "USE_LMDB": "OFF", 
-    "USE_OPENCV": "ON", 
+    "ANDROID_USE_OPENMP": "ON",
+    "BLAS": "Open",
+    "USE_LMDB": "OFF",
+    "USE_OPENCV": "ON",
     "XOPENME": ""
-  }, 
+  },
   "compile_deps": {
     "boost": {
       "issue": "https://github.com/dividiti/ck-caffe/issues/113",
-      "local": "yes", 
-      "name": "Boost C++ libraries", 
-      "skip_from_bat": "yes", 
-      "sort": 30, 
+      "local": "yes",
+      "name": "Boost C++ libraries",
+      "skip_from_bat": "yes",
+      "sort": 30,
       "tags": "lib,boost"
-    }, 
+    },
     "compiler": {
       "local": "yes",
       "name": "C++ compiler",
@@ -23,11 +23,45 @@
       "tags": "compiler,lang-cpp"
     },
     "compiler-cuda": {
-      "add_to_the_end_of_bat":"yes",
+      "add_to_the_end_of_bat": "yes",
       "local": "yes",
       "name": "CUDA compiler >=7.0",
       "sort": 0,
       "tags": "compiler,lang-c-cuda"
+    },
+    "lib-blas": {
+      "local": "yes",
+      "name": "BLAS library",
+      "sort": 8,
+      "tags": "lib,blas,openblas"
+    },
+    "lib-boost": {
+      "force_add_static_lib_path": "yes",
+      "issue": "https://github.com/dividiti/ck-caffe/issues/113",
+      "local": "yes",
+      "name": "Boost library",
+      "sort": 4,
+      "tags": "lib,boost"
+    },
+    "lib-caffe": {
+      "local": "yes",
+      "name": "Caffe library",
+      "skip_pruning_by_other_deps": "yes",
+      "sort": 1,
+      "tags": "lib,caffe,vcuda"
+    },
+    "lib-gflags": {
+      "local": "yes",
+      "name": "GFlags library",
+      "sort": 5,
+      "tags": "lib,gflags"
+    },
+    "lib-glog": {
+      "force_add_static_lib_path": "yes",
+      "local": "yes",
+      "name": "GLog library",
+      "sort": 7,
+      "tags": "lib,glog"
     },
     "lib-hdf5": {
       "local": "yes",
@@ -35,136 +69,144 @@
       "sort": 25,
       "tags": "lib,hdf5"
     },
-    "lib-blas": {
-      "local": "yes", 
-      "name": "BLAS library", 
-      "sort": 8, 
-      "tags": "lib,blas,openblas"
-    }, 
-    "lib-boost": {
-      "issue": "https://github.com/dividiti/ck-caffe/issues/113",
-      "force_add_static_lib_path": "yes", 
-      "local": "yes", 
-      "name": "Boost library", 
-      "sort": 4,
-      "tags": "lib,boost"
-    }, 
-    "lib-caffe": {
-      "local": "yes", 
-      "name": "Caffe library", 
-      "skip_pruning_by_other_deps": "yes", 
-      "sort": 1, 
-      "tags": "lib,caffe,vcuda"
-    }, 
-    "lib-gflags": {
-      "local": "yes", 
-      "name": "GFlags library", 
-      "sort": 5, 
-      "tags": "lib,gflags"
-    }, 
-    "lib-glog": {
-      "force_add_static_lib_path": "yes", 
-      "local": "yes", 
-      "name": "GLog library", 
-      "sort": 7, 
-      "tags": "lib,glog"
-    }, 
+    "lib-lmdb": {
+      "local": "yes",
+      "name": "LMDB library",
+      "only_for_target_os_tags": [
+        "windows"
+      ],
+      "sort": 5,
+      "tags": "lib,lmdb"
+    },
     "lib-opencv": {
-      "local": "yes", 
-      "name": "OpenCV library", 
-      "sort": 10, 
+      "local": "yes",
+      "name": "OpenCV library",
+      "sort": 10,
       "tags": "lib,opencv"
-    }, 
+    },
     "lib-protobuf": {
-      "local": "yes", 
-      "name": "ProtoBuf library", 
+      "local": "yes",
+      "name": "ProtoBuf library",
       "only_for_target_os_tags": [
         "android"
-      ], 
-      "sort": 9, 
+      ],
+      "sort": 9,
       "tags": "lib,protobuf"
-    }, 
-    "lib-protobuf-host": {
-      "local": "yes", 
-      "name": "ProtoBuf HOST library", 
-      "only_for_target_os_tags": [
-        "linux", 
-        "windows"
-      ], 
-      "sort": 9, 
-      "tags": "lib,protobuf-host"
-    }, 
-    "xopenme": {
-      "local": "yes", 
-      "name": "xOpenME library", 
-      "sort": 100, 
-      "tags": "lib,xopenme"
     },
-    "lib-lmdb": {
-      "local": "yes", 
-      "name": "LMDB library", 
+    "lib-protobuf-host": {
+      "local": "yes",
+      "name": "ProtoBuf HOST library",
       "only_for_target_os_tags": [
+        "linux",
         "windows"
-      ], 
-      "sort": 5, 
-      "tags": "lib,lmdb"
+      ],
+      "sort": 9,
+      "tags": "lib,protobuf-host"
+    },
+    "xopenme": {
+      "local": "yes",
+      "name": "xOpenME library",
+      "sort": 100,
+      "tags": "lib,xopenme"
     }
-  }, 
+  },
   "compiler_add_include_as_env_from_deps": [
-    "CK_ENV_LIB_STDCPP_INCLUDE", 
-    "CK_ENV_LIB_STDCPP_INCLUDE_EXTRA", 
+    "CK_ENV_LIB_STDCPP_INCLUDE",
+    "CK_ENV_LIB_STDCPP_INCLUDE_EXTRA",
     "CK_ENV_LIB_CAFFE_EXTRA_INCLUDE",
     "CK_ENV_LIB_HDF5_INCLUDE"
   ],
-  "compiler_env": "CK_NVCXX", 
-  "compiler_env_win": "CK_CXX", 
+  "compiler_env": "CK_NVCXX",
+  "compiler_env_win": "CK_CXX",
   "compiler_flags_as_env": "$<<CK_OPT_UNWIND>>$ $<<CK_COMPILER_FLAG_CPP11>>$ -D_GLIBCXX_USE_C99_MATH=1",
   "compiler_flags_as_env_win": "/MD /EHsc /D CMAKE_WINDOWS_BUILD -I\"%CK_ENV_COMPILER_CUDA_INCLUDE%\"",
-  "data_name": "Caffe classification via CUDA", 
-  "extra_ld_vars": "$<<CK_ENV_LIB_HDF5_LFLAG>>$ $<<CK_ENV_LIB_HDF5_LFLAG_HL>>$ $<<CK_ENV_LIB_GLOG_LFLAG>>$ $<<CK_ENV_LIB_BOOST_LFLAG_THREAD>>$ $<<CK_ENV_LIB_BOOST_LFLAG_DATE_TIME>>$ $<<CK_ENV_LIB_BOOST_LFLAG_FILESYSTEM>>$ $<<CK_ENV_LIB_BOOST_LFLAG_SYSTEM>>$ $<<CK_ENV_LIB_OPENCV_LFLAG_IMGPROC>>$ $<<CK_ENV_LIB_OPENCV_LFLAG_HIGHGUI>>$ $<<CK_ENV_LIB_OPENCV_LFLAG_CORE>>$ $<<CK_ENV_LIB_OPENCV_LFLAG_IMGCODECS>>$ $<<CK_EXTRA_LIB_Z>>$ $<<CK_EXTRA_LIB_LOG>>$ $<<CK_ENV_LIB_CAFFE_LFLAG_PROTO>>$ --linker-options=\"$<<CK_ENV_LIB_CAFFE_LINK_FLAGS>>$\"", 
-  "extra_ld_vars_win": "$<<CK_ENV_LIB_HDF5_LFLAG>>$ $<<CK_ENV_LIB_HDF5_LFLAG_HL>>$ $<<CK_ENV_LIB_GLOG_LFLAG>>$ $<<CK_ENV_LIB_BOOST_LFLAG_THREAD>>$ $<<CK_ENV_LIB_BOOST_LFLAG_DATE_TIME>>$ $<<CK_ENV_LIB_BOOST_LFLAG_FILESYSTEM>>$ $<<CK_ENV_LIB_BOOST_LFLAG_SYSTEM>>$ $<<CK_ENV_LIB_OPENCV_LFLAG_IMGPROC>>$ $<<CK_ENV_LIB_OPENCV_LFLAG_HIGHGUI>>$ $<<CK_ENV_LIB_OPENCV_LFLAG_CORE>>$ $<<CK_ENV_LIB_OPENCV_LFLAG_IMGCODECS>>$ $<<CK_EXTRA_LIB_Z>>$ $<<CK_EXTRA_LIB_LOG>>$ $<<CK_ENV_LIB_CAFFE_LFLAG_PROTO>>$ $<<CK_ENV_LIB_CAFFE_LINK_FLAGS>>$ \"$<<CK_ENV_COMPILER_CUDA_LIB>>$\\cudart.lib\" \"$<<CK_ENV_COMPILER_CUDA_LIB>>$\\cublas.lib\" \"$<<CK_ENV_COMPILER_CUDA_LIB>>$\\curand.lib\" \"$<<CK_ENV_LIB_CUDNN_LIB>>$\\cudnn.lib\"", 
-  "main_language": "cpp", 
+  "data_name": "Caffe classification via CUDA",
+  "extra_ld_vars": "$<<CK_ENV_LIB_HDF5_LFLAG>>$ $<<CK_ENV_LIB_HDF5_LFLAG_HL>>$ $<<CK_ENV_LIB_GLOG_LFLAG>>$ $<<CK_ENV_LIB_BOOST_LFLAG_THREAD>>$ $<<CK_ENV_LIB_BOOST_LFLAG_DATE_TIME>>$ $<<CK_ENV_LIB_BOOST_LFLAG_FILESYSTEM>>$ $<<CK_ENV_LIB_BOOST_LFLAG_SYSTEM>>$ $<<CK_ENV_LIB_OPENCV_LFLAG_IMGPROC>>$ $<<CK_ENV_LIB_OPENCV_LFLAG_HIGHGUI>>$ $<<CK_ENV_LIB_OPENCV_LFLAG_CORE>>$ $<<CK_ENV_LIB_OPENCV_LFLAG_IMGCODECS>>$ $<<CK_EXTRA_LIB_Z>>$ $<<CK_EXTRA_LIB_LOG>>$ $<<CK_ENV_LIB_CAFFE_LFLAG_PROTO>>$ --linker-options=\"$<<CK_ENV_LIB_CAFFE_LINK_FLAGS>>$\"",
+  "extra_ld_vars_win": "$<<CK_ENV_LIB_HDF5_LFLAG>>$ $<<CK_ENV_LIB_HDF5_LFLAG_HL>>$ $<<CK_ENV_LIB_GLOG_LFLAG>>$ $<<CK_ENV_LIB_BOOST_LFLAG_THREAD>>$ $<<CK_ENV_LIB_BOOST_LFLAG_DATE_TIME>>$ $<<CK_ENV_LIB_BOOST_LFLAG_FILESYSTEM>>$ $<<CK_ENV_LIB_BOOST_LFLAG_SYSTEM>>$ $<<CK_ENV_LIB_OPENCV_LFLAG_IMGPROC>>$ $<<CK_ENV_LIB_OPENCV_LFLAG_HIGHGUI>>$ $<<CK_ENV_LIB_OPENCV_LFLAG_CORE>>$ $<<CK_ENV_LIB_OPENCV_LFLAG_IMGCODECS>>$ $<<CK_EXTRA_LIB_Z>>$ $<<CK_EXTRA_LIB_LOG>>$ $<<CK_ENV_LIB_CAFFE_LFLAG_PROTO>>$ $<<CK_ENV_LIB_CAFFE_LINK_FLAGS>>$ \"$<<CK_ENV_COMPILER_CUDA_LIB>>$\\cudart.lib\" \"$<<CK_ENV_COMPILER_CUDA_LIB>>$\\cublas.lib\" \"$<<CK_ENV_COMPILER_CUDA_LIB>>$\\curand.lib\" \"$<<CK_ENV_LIB_CUDNN_LIB>>$\\cudnn.lib\"",
+  "main_language": "cpp",
   "only_for_target_os_tags": [
-    "windows", 
+    "windows",
     "linux",
     "android"
-  ], 
+  ],
   "print_files_after_run": [
-    "tmp-output1.tmp", 
+    "tmp-output1.tmp",
     "tmp-output2.tmp"
-  ], 
-  "process_in_tmp": "yes", 
-  "program": "yes", 
+  ],
+  "process_in_tmp": "yes",
+  "program": "yes",
   "run_cmds": {
     "default": {
       "dataset_tags": [
-        "image", 
-        "jpeg", 
+        "image",
+        "jpeg",
         "dataset"
-      ], 
-      "ignore_return_code": "no", 
+      ],
+      "ignore_return_code": "no",
       "run_time": {
-        "fine_grain_timer_file": "tmp-ck-timer.json", 
+        "fine_grain_timer_file": "tmp-ck-timer.json",
         "params": {
-          "caffemodel_key": "deploy", 
+          "caffemodel_key": "deploy",
           "classification": "yes"
-        }, 
+        },
         "pre_process_via_ck": {
-          "data_uoa": "569404c41618603a", 
+          "data_uoa": "569404c41618603a",
           "script_name": "preprocess"
-        }, 
-        "run_cmd_main": "$#BIN_FILE#$ $<<CK_CAFFE_MODEL_FILE>>$ $<<CK_CAFFE_MODEL_WEIGHTS>>$ $#up_dir#$imagenet_mean.binaryproto $#up_dir#$synset_words.txt $#dataset_path#$$#dataset_filename#$", 
+        },
+        "run_cmd_main": "$#BIN_FILE#$ $<<CK_CAFFE_MODEL_FILE>>$ $<<CK_CAFFE_MODEL_WEIGHTS>>$ $#up_dir#$imagenet_mean.binaryproto $#up_dir#$synset_words.txt $#dataset_path#$$#dataset_filename#$",
         "run_cmd_out1": "tmp-output1.tmp",
         "run_cmd_out2": "tmp-output2.tmp",
-        "run_correctness_output_files": [], 
+        "run_correctness_output_files": [],
         "run_input_files": [
-          "$<<CK_CAFFE_MODEL_FILE>>$", 
-          "$<<CK_ENV_MODEL_CAFFE_WEIGHTS>>$", 
-          "imagenet_mean.binaryproto", 
+          "$<<CK_CAFFE_MODEL_FILE>>$",
+          "$<<CK_ENV_MODEL_CAFFE_WEIGHTS>>$",
+          "imagenet_mean.binaryproto",
           "synset_words.txt"
-        ], 
+        ],
         "run_output_files": [
-          "tmp-output.tmp", 
+          "tmp-output.tmp",
+          "tmp-ck-timer.json"
+        ]
+      }
+    },
+    "use_continuous": {
+      "ignore_return_code": "no",
+      "run_deps": {
+        "imagenet-aux": {
+          "local": "yes",
+          "name": "ImageNet (aux)",
+          "sort": 50,
+          "tags": "imagenet,aux"
+        },
+        "imagenet-val": {
+          "local": "yes",
+          "name": "ImageNet (val)",
+          "sort": 60,
+          "tags": "imagenet,val"
+        }
+      },
+      "run_time": {
+        "fine_grain_timer_file": "tmp-ck-timer.json",
+        "params": {
+          "caffemodel_key": "deploy",
+          "classification": "yes"
+        },
+        "pre_process_via_ck": {
+          "data_uoa": "569404c41618603a",
+          "script_name": "preprocess"
+        },
+        "run_cmd_main": "$#BIN_FILE#$ $<<CK_CAFFE_MODEL_FILE>>$ $<<CK_CAFFE_MODEL_WEIGHTS>>$ $<<CK_CAFFE_IMAGENET_MEAN_BIN>>$ $<<CK_CAFFE_IMAGENET_SYNSET_WORDS_TXT>>$ --continuous $<<CK_CAFFE_IMAGENET_VAL>>$ $<<CK_CAFFE_IMAGENET_VAL_TXT>>$",
+        "run_cmd_out1": "tmp-output1.tmp",
+        "run_cmd_out2": "tmp-output2.tmp",
+        "run_correctness_output_files": [],
+        "run_input_files": [
+          "$<<CK_CAFFE_MODEL_FILE>>$",
+          "$<<CK_ENV_MODEL_CAFFE_WEIGHTS>>$",
+          "$<<CK_CAFFE_IMAGENET_MEAN_BIN>>$",
+          "$<<CK_CAFFE_IMAGENET_SYNSET_WORDS_TXT>>$"
+        ],
+        "run_output_files": [
+          "tmp-output.tmp",
           "tmp-ck-timer.json"
         ]
       }
@@ -194,73 +236,31 @@
           "tmp-ck-timer.json"
         ]
       }
-    },
-    "use_continuous": {
-      "ignore_return_code": "no",
-      "run_time": {
-        "fine_grain_timer_file": "tmp-ck-timer.json",
-        "params": {
-          "caffemodel_key": "deploy",
-          "classification": "yes"
-        },
-        "pre_process_via_ck": {
-          "data_uoa": "569404c41618603a",
-          "script_name": "preprocess"
-        },
-        "run_cmd_main": "$#BIN_FILE#$ $<<CK_CAFFE_MODEL_FILE>>$ $<<CK_CAFFE_MODEL_WEIGHTS>>$ $<<CK_CAFFE_IMAGENET_MEAN_BIN>>$ $<<CK_CAFFE_IMAGENET_SYNSET_WORDS_TXT>>$ --continuous $<<CK_CAFFE_IMAGENET_VAL>>$ $<<CK_CAFFE_IMAGENET_VAL_TXT>>$",
-        "run_cmd_out1": "tmp-output1.tmp",
-        "run_cmd_out2": "tmp-output2.tmp",
-        "run_correctness_output_files": [],
-        "run_input_files": [
-          "$<<CK_CAFFE_MODEL_FILE>>$",
-          "$<<CK_ENV_MODEL_CAFFE_WEIGHTS>>$",
-          "$<<CK_CAFFE_IMAGENET_MEAN_BIN>>$",
-          "$<<CK_CAFFE_IMAGENET_SYNSET_WORDS_TXT>>$"
-        ],
-        "run_output_files": [
-          "tmp-output.tmp",
-          "tmp-ck-timer.json"
-        ]
-      },
-      "run_deps": {
-        "imagenet-aux": {
-          "local": "yes",
-          "name": "ImageNet (aux)",
-          "sort": 50,
-          "tags": "imagenet,aux"
-        },
-        "imagenet-val": {
-          "local": "yes",
-          "name": "ImageNet (val)",
-          "sort": 60,
-          "tags": "imagenet,val"
-        }
-      }
     }
-  }, 
+  },
   "run_deps": {
     "caffemodel": {
-      "force_target_as_host": "yes", 
-      "local": "yes", 
-      "name": "Caffe model (net and weights)", 
-      "sort": 40, 
-      "tags": "caffemodel",
-      "no_tags": "caffemodel2"
+      "force_target_as_host": "yes",
+      "local": "yes",
+      "name": "Caffe model (net and weights)",
+      "no_tags": "caffemodel2",
+      "sort": 40,
+      "tags": "caffemodel"
     }
-  }, 
+  },
   "run_vars": {
-    "CK_CAFFE_BATCH_SIZE":"1"
-  }, 
-  "skip_bin_ext": "yes", 
+    "CK_CAFFE_BATCH_SIZE": "1"
+  },
+  "skip_bin_ext": "yes",
   "source_files": [
     "classification.cpp"
-  ], 
+  ],
   "tags": [
-    "caffe-classification", 
+    "caffe-classification",
     "demo",
     "vcuda",
     "continuous"
-  ], 
-  "target_file": "classification", 
+  ],
+  "target_file": "classification",
   "version": "1.0.0"
 }

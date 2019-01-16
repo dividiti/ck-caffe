@@ -1,367 +1,369 @@
 {
-  "backup_data_uid": "569404c41618603a", 
-  "data_name": "caffe", 
-  "no_compile": "yes", 
-  "no_target_file": "yes", 
+  "backup_data_uid": "569404c41618603a",
+  "data_name": "caffe",
+  "no_compile": "yes",
+  "no_target_file": "yes",
   "only_for_target_os_tags": [
-    "windows", 
+    "windows",
     "linux"
-  ], 
+  ],
   "print_files_after_run": [
     "stderr.log"
-  ], 
-  "process_in_tmp": "yes", 
-  "program": "yes", 
+  ],
+  "process_in_tmp": "yes",
+  "program": "yes",
   "run_cmds": {
     "classify": {
       "dataset_tags": [
-        "image", 
-        "jpeg", 
+        "image",
+        "jpeg",
         "dataset"
-      ], 
-      "ignore_return_code": "no", 
+      ],
+      "ignore_return_code": "no",
       "run_deps": {
         "caffemodel": {
-          "force_target_as_host": "yes", 
-          "local": "yes", 
-          "name": "Caffe model (net and weights)", 
-          "sort": 40, 
-          "tags": "caffemodel",
-          "no_tags": "caffemodel2"
-        }
-      }, 
-      "run_time": {
-        "params": {
-          "caffemodel_key": "deploy", 
-          "classification": "yes"
-        }, 
-        "pre_process_via_ck": {
-          "data_uoa": "569404c41618603a", 
-          "script_name": "preprocess"
-        }, 
-        "run_cmd_main": "$<<CK_CAFFE_CLASSIFICATION_BIN>>$ $<<CK_CAFFE_MODEL_FILE>>$ $<<CK_CAFFE_MODEL_WEIGHTS>>$ $#up_dir#$for_classification_demo/imagenet_mean.binaryproto $#up_dir#$for_classification_demo/synset_words.txt $#dataset_path#$$#dataset_filename#$", 
-        "run_cmd_out1": "stderr.log", 
-        "run_cmd_out2": "stderr2.log", 
-        "run_correctness_output_files": [], 
-        "run_input_files": [
-          "$<<CK_CAFFE_MODEL_FILE>>$", 
-          "$<<CK_ENV_MODEL_CAFFE_WEIGHTS>>$", 
-          "imagenet_mean.binaryproto", 
-          "synset_words.txt"
-        ], 
-        "run_output_files": [
-          "stdout.log", 
-          "stderr.log"
-        ]
-      }
-    }, 
-    "classify_ck_ai_api": {
-      "ignore_return_code": "no", 
-      "run_deps": {
-        "caffemodel": {
-          "force_target_as_host": "yes", 
-          "local": "yes", 
-          "name": "Caffe model (net and weights)", 
-          "sort": 40, 
+          "force_target_as_host": "yes",
+          "local": "yes",
+          "name": "Caffe model (net and weights)",
+          "no_tags": "caffemodel2",
+          "sort": 40,
           "tags": "caffemodel"
         }
-      }, 
+      },
       "run_time": {
         "params": {
-          "caffemodel_key": "deploy", 
+          "caffemodel_key": "deploy",
           "classification": "yes"
-        }, 
+        },
         "pre_process_via_ck": {
-          "data_uoa": "569404c41618603a", 
+          "data_uoa": "569404c41618603a",
           "script_name": "preprocess"
-        }, 
-        "run_cmd_main": "$<<CK_CAFFE_CLASSIFICATION_BIN>>$ $<<CK_CAFFE_MODEL_FILE>>$ $<<CK_CAFFE_MODEL_WEIGHTS>>$ $#up_dir#$for_classification_demo/imagenet_mean.binaryproto $#up_dir#$for_classification_demo/synset_words.txt $<<CK_AI_API_IMAGE_FILE>>$", 
-        "run_cmd_out1": "stderr.log", 
-        "run_cmd_out2": "stderr2.log", 
-        "run_correctness_output_files": [], 
+        },
+        "run_cmd_main": "$<<CK_CAFFE_CLASSIFICATION_BIN>>$ $<<CK_CAFFE_MODEL_FILE>>$ $<<CK_CAFFE_MODEL_WEIGHTS>>$ $#up_dir#$for_classification_demo/imagenet_mean.binaryproto $#up_dir#$for_classification_demo/synset_words.txt $#dataset_path#$$#dataset_filename#$",
+        "run_cmd_out1": "stderr.log",
+        "run_cmd_out2": "stderr2.log",
+        "run_correctness_output_files": [],
         "run_input_files": [
-          "$<<CK_CAFFE_MODEL_FILE>>$", 
-          "$<<CK_ENV_MODEL_CAFFE_WEIGHTS>>$", 
-          "imagenet_mean.binaryproto", 
+          "$<<CK_CAFFE_MODEL_FILE>>$",
+          "$<<CK_ENV_MODEL_CAFFE_WEIGHTS>>$",
+          "imagenet_mean.binaryproto",
           "synset_words.txt"
-        ], 
+        ],
         "run_output_files": [
-          "stdout.log", 
+          "stdout.log",
           "stderr.log"
         ]
       }
-    }, 
-    "query_gpu_cuda": {
-      "ignore_return_code": "no", 
+    },
+    "classify_ck_ai_api": {
+      "ignore_return_code": "no",
+      "run_deps": {
+        "caffemodel": {
+          "force_target_as_host": "yes",
+          "local": "yes",
+          "name": "Caffe model (net and weights)",
+          "sort": 40,
+          "tags": "caffemodel"
+        }
+      },
       "run_time": {
-        "post_process_via_ck": "no", 
-        "run_cmd_main": "$<<CK_CAFFE_BIN>>$ device_query --gpu=$<<CAFFE_COMPUTE_DEVICE_ID>>$", 
-        "run_cmd_out1": "stdout.log", 
+        "params": {
+          "caffemodel_key": "deploy",
+          "classification": "yes"
+        },
+        "pre_process_via_ck": {
+          "data_uoa": "569404c41618603a",
+          "script_name": "preprocess"
+        },
+        "run_cmd_main": "$<<CK_CAFFE_CLASSIFICATION_BIN>>$ $<<CK_CAFFE_MODEL_FILE>>$ $<<CK_CAFFE_MODEL_WEIGHTS>>$ $#up_dir#$for_classification_demo/imagenet_mean.binaryproto $#up_dir#$for_classification_demo/synset_words.txt $<<CK_AI_API_IMAGE_FILE>>$",
+        "run_cmd_out1": "stderr.log",
+        "run_cmd_out2": "stderr2.log",
+        "run_correctness_output_files": [],
+        "run_input_files": [
+          "$<<CK_CAFFE_MODEL_FILE>>$",
+          "$<<CK_ENV_MODEL_CAFFE_WEIGHTS>>$",
+          "imagenet_mean.binaryproto",
+          "synset_words.txt"
+        ],
+        "run_output_files": [
+          "stdout.log",
+          "stderr.log"
+        ]
+      }
+    },
+    "query_gpu_cuda": {
+      "ignore_return_code": "no",
+      "run_time": {
+        "post_process_via_ck": "no",
+        "run_cmd_main": "$<<CK_CAFFE_BIN>>$ device_query --gpu=$<<CAFFE_COMPUTE_DEVICE_ID>>$",
+        "run_cmd_out1": "stdout.log",
         "run_cmd_out2": "stderr.log"
-      }, 
+      },
       "update_deps": {
         "lib-caffe": {
           "tags": "vcuda"
         }
       }
-    }, 
+    },
     "query_gpu_opencl": {
-      "ignore_return_code": "no", 
+      "ignore_return_code": "no",
       "run_time": {
-        "post_process_via_ck": "no", 
-        "run_cmd_main": "$<<CK_CAFFE_BIN>>$ device_query", 
-        "run_cmd_out1": "stdout.log", 
+        "post_process_via_ck": "no",
+        "run_cmd_main": "$<<CK_CAFFE_BIN>>$ device_query",
+        "run_cmd_out1": "stdout.log",
         "run_cmd_out2": "stderr.log"
-      }, 
+      },
       "update_deps": {
         "lib-caffe": {
           "tags": "vopencl"
         }
       }
-    }, 
+    },
     "test_cpu": {
-      "ignore_return_code": "no", 
+      "ignore_return_code": "no",
       "run_time": {
-        "fine_grain_timer_file": "tmp-ck-timer.json", 
+        "fine_grain_timer_file": "tmp-ck-timer.json",
         "params": {
           "caffemodel_key": "val"
-        }, 
+        },
         "post_process_cmds": [
           "python $#src_path_local#$postprocess_accuracy.py"
-        ], 
-        "post_process_via_ck": "yes", 
+        ],
+        "post_process_via_ck": "yes",
         "pre_process_via_ck": {
           "script_name": "preprocess"
-        }, 
-        "run_cmd_main": "$<<CK_CAFFE_BIN>>$ test --model=$<<CK_CAFFE_MODEL>>$ --weights=$<<CK_ENV_MODEL_CAFFE_WEIGHTS>>$ --iterations=$<<CK_CAFFE_ITERATIONS>>$", 
-        "run_cmd_out1": "stdout.log", 
-        "run_cmd_out2": "stderr.log", 
-        "run_correctness_output_files": [], 
-        "run_input_files": [], 
+        },
+        "run_cmd_main": "$<<CK_CAFFE_BIN>>$ test --model=$<<CK_CAFFE_MODEL>>$ --weights=$<<CK_ENV_MODEL_CAFFE_WEIGHTS>>$ --iterations=$<<CK_CAFFE_ITERATIONS>>$",
+        "run_cmd_out1": "stdout.log",
+        "run_cmd_out2": "stderr.log",
+        "run_correctness_output_files": [],
+        "run_input_files": [],
         "run_output_files": [
           "tmp-ck-timer.json"
         ]
-      }, 
+      },
       "update_deps": {
         "lib-caffe": {
           "tags": "vcpu"
         }
       }
-    }, 
+    },
     "test_gpu": {
-      "ignore_return_code": "no", 
+      "ignore_return_code": "no",
       "run_time": {
-        "fine_grain_timer_file": "tmp-ck-timer.json", 
+        "fine_grain_timer_file": "tmp-ck-timer.json",
         "params": {
           "caffemodel_key": "val"
-        }, 
+        },
         "post_process_cmds": [
           "python $#src_path_local#$postprocess_accuracy.py"
-        ], 
-        "post_process_via_ck": "yes", 
+        ],
+        "post_process_via_ck": "yes",
         "pre_process_via_ck": {
           "script_name": "preprocess"
-        }, 
-        "run_cmd_main": "$<<CK_CAFFE_BIN>>$ test --model=$<<CK_CAFFE_MODEL>>$ --weights=$<<CK_ENV_MODEL_CAFFE_WEIGHTS>>$ --iterations=$<<CK_CAFFE_ITERATIONS>>$ --gpu=$<<CAFFE_COMPUTE_DEVICE_ID>>$", 
-        "run_cmd_out1": "stdout.log", 
-        "run_cmd_out2": "stderr.log", 
-        "run_correctness_output_files": [], 
-        "run_input_files": [], 
+        },
+        "run_cmd_main": "$<<CK_CAFFE_BIN>>$ test --model=$<<CK_CAFFE_MODEL>>$ --weights=$<<CK_ENV_MODEL_CAFFE_WEIGHTS>>$ --iterations=$<<CK_CAFFE_ITERATIONS>>$ --gpu=$<<CAFFE_COMPUTE_DEVICE_ID>>$",
+        "run_cmd_out1": "stdout.log",
+        "run_cmd_out2": "stderr.log",
+        "run_correctness_output_files": [],
+        "run_input_files": [],
         "run_output_files": [
           "tmp-ck-timer.json"
         ]
-      }, 
+      },
       "update_deps": {
         "lib-caffe": {
           "no_tags": "vcpu"
         }
       }
-    }, 
+    },
     "test_gpu_fp16": {
-      "ignore_return_code": "no", 
+      "ignore_return_code": "no",
       "run_time": {
-        "fine_grain_timer_file": "tmp-ck-timer.json", 
+        "fine_grain_timer_file": "tmp-ck-timer.json",
         "params": {
           "caffemodel_key": "val"
-        }, 
+        },
         "post_process_cmds": [
           "python $#src_path_local#$postprocess_accuracy.py"
-        ], 
-        "post_process_via_ck": "yes", 
+        ],
+        "post_process_via_ck": "yes",
         "pre_process_via_ck": {
           "script_name": "preprocess"
-        }, 
-        "run_cmd_main": "$<<CK_CAFFE_BIN>>$ test --model=$<<CK_CAFFE_MODEL>>$ --weights=$<<CK_ENV_MODEL_CAFFE_WEIGHTS>>$ --iterations=$<<CK_CAFFE_ITERATIONS>>$ --gpu=$<<CAFFE_COMPUTE_DEVICE_ID>>$",
-        "run_cmd_out1": "stdout.log", 
-        "run_cmd_out2": "stderr.log", 
-        "run_set_env2": {
-          "CK_CAFFE_DEFAULT_FORWARD_TYPE": "FLOAT16",
-          "CK_CAFFE_DEFAULT_BACKWARD_TYPE": "FLOAT16",
-          "CK_CAFFE_DEFAULT_FORWARD_MATH": "FLOAT16",
-          "CK_CAFFE_DEFAULT_BACKWARD_MATH": "FLOAT16"
         },
-        "run_correctness_output_files": [], 
-        "run_input_files": [], 
+        "run_cmd_main": "$<<CK_CAFFE_BIN>>$ test --model=$<<CK_CAFFE_MODEL>>$ --weights=$<<CK_ENV_MODEL_CAFFE_WEIGHTS>>$ --iterations=$<<CK_CAFFE_ITERATIONS>>$ --gpu=$<<CAFFE_COMPUTE_DEVICE_ID>>$",
+        "run_cmd_out1": "stdout.log",
+        "run_cmd_out2": "stderr.log",
+        "run_correctness_output_files": [],
+        "run_input_files": [],
         "run_output_files": [
           "tmp-ck-timer.json"
-        ]
-      }, 
+        ],
+        "run_set_env2": {
+          "CK_CAFFE_DEFAULT_BACKWARD_MATH": "FLOAT16",
+          "CK_CAFFE_DEFAULT_BACKWARD_TYPE": "FLOAT16",
+          "CK_CAFFE_DEFAULT_FORWARD_MATH": "FLOAT16",
+          "CK_CAFFE_DEFAULT_FORWARD_TYPE": "FLOAT16"
+        }
+      },
       "update_deps": {
         "lib-caffe": {
-          "no_tags": "vcpu", 
+          "no_tags": "vcpu",
           "tags": "vfp16"
         }
       }
-    }, 
+    },
     "time_cpu": {
-      "ignore_return_code": "no", 
+      "ignore_return_code": "no",
       "run_time": {
-        "fine_grain_timer_file": "tmp-ck-timer.json", 
+        "fine_grain_timer_file": "tmp-ck-timer.json",
         "params": {
           "caffemodel_key": "deploy"
-        }, 
+        },
         "post_process_cmds": [
           "python $#src_path_local#$postprocess_time.py"
-        ], 
-        "post_process_via_ck": "yes", 
+        ],
+        "post_process_via_ck": "yes",
         "pre_process_via_ck": {
           "script_name": "preprocess"
-        }, 
-        "run_cmd_main": "$<<CK_CAFFE_BIN>>$ time --model=$<<CK_CAFFE_MODEL>>$ --iterations=1", 
-        "run_cmd_out1": "stdout.log", 
-        "run_cmd_out2": "stderr.log", 
-        "run_correctness_output_files": [], 
-        "run_input_files": [], 
+        },
+        "run_cmd_main": "$<<CK_CAFFE_BIN>>$ time --model=$<<CK_CAFFE_MODEL>>$ --iterations=1",
+        "run_cmd_out1": "stdout.log",
+        "run_cmd_out2": "stderr.log",
+        "run_correctness_output_files": [],
+        "run_input_files": [],
         "run_output_files": [
           "tmp-ck-timer.json"
         ]
-      }, 
+      },
       "update_deps": {
         "lib-caffe": {
           "tags": "vcpu"
         }
       }
-    }, 
+    },
     "time_gpu": {
-      "ignore_return_code": "no", 
+      "ignore_return_code": "no",
       "run_time": {
-        "fine_grain_timer_file": "tmp-ck-timer.json", 
+        "fine_grain_timer_file": "tmp-ck-timer.json",
         "params": {
           "caffemodel_key": "deploy"
-        }, 
+        },
         "post_process_cmds": [
           "python $#src_path_local#$postprocess_time.py"
-        ], 
-        "post_process_via_ck": "yes", 
+        ],
+        "post_process_via_ck": "yes",
         "pre_process_via_ck": {
           "script_name": "preprocess"
-        }, 
-        "run_cmd_main": "$<<CK_CAFFE_BIN>>$ time --model=$<<CK_CAFFE_MODEL>>$ --gpu=$<<CAFFE_COMPUTE_DEVICE_ID>>$ --iterations=1", 
-        "run_cmd_out1": "stdout.log", 
-        "run_cmd_out2": "stderr.log", 
-        "run_correctness_output_files": [], 
-        "run_input_files": [], 
+        },
+        "run_cmd_main": "$<<CK_CAFFE_BIN>>$ time --model=$<<CK_CAFFE_MODEL>>$ --gpu=$<<CAFFE_COMPUTE_DEVICE_ID>>$ --iterations=1",
+        "run_cmd_out1": "stdout.log",
+        "run_cmd_out2": "stderr.log",
+        "run_correctness_output_files": [],
+        "run_input_files": [],
         "run_output_files": [
           "tmp-ck-timer.json"
         ]
-      }, 
+      },
       "update_deps": {
         "lib-caffe": {
           "no_tags": "vcpu"
         }
       }
-    }, 
+    },
     "time_gpu_fp16": {
-      "ignore_return_code": "no", 
+      "ignore_return_code": "no",
       "run_time": {
-        "fine_grain_timer_file": "tmp-ck-timer.json", 
+        "fine_grain_timer_file": "tmp-ck-timer.json",
         "params": {
           "caffemodel_key": "deploy"
-        }, 
+        },
         "post_process_cmds": [
           "python $#src_path_local#$postprocess_time.py"
-        ], 
-        "post_process_via_ck": "yes", 
+        ],
+        "post_process_via_ck": "yes",
         "pre_process_via_ck": {
           "script_name": "preprocess"
-        }, 
-        "run_cmd_main": "$<<CK_CAFFE_BIN>>$ time --model=$<<CK_CAFFE_MODEL>>$ --gpu=$<<CAFFE_COMPUTE_DEVICE_ID>>$ --iterations=1",
-        "run_cmd_out1": "stdout.log", 
-        "run_cmd_out2": "stderr.log", 
-        "run_set_env2": {
-          "CK_CAFFE_DEFAULT_FORWARD_TYPE": "FLOAT16",
-          "CK_CAFFE_DEFAULT_BACKWARD_TYPE": "FLOAT16",
-          "CK_CAFFE_DEFAULT_FORWARD_MATH": "FLOAT16",
-          "CK_CAFFE_DEFAULT_BACKWARD_MATH": "FLOAT16"
         },
-        "run_correctness_output_files": [], 
-        "run_input_files": [], 
+        "run_cmd_main": "$<<CK_CAFFE_BIN>>$ time --model=$<<CK_CAFFE_MODEL>>$ --gpu=$<<CAFFE_COMPUTE_DEVICE_ID>>$ --iterations=1",
+        "run_cmd_out1": "stdout.log",
+        "run_cmd_out2": "stderr.log",
+        "run_correctness_output_files": [],
+        "run_input_files": [],
         "run_output_files": [
           "tmp-ck-timer.json"
-        ]
-      }, 
+        ],
+        "run_set_env2": {
+          "CK_CAFFE_DEFAULT_BACKWARD_MATH": "FLOAT16",
+          "CK_CAFFE_DEFAULT_BACKWARD_TYPE": "FLOAT16",
+          "CK_CAFFE_DEFAULT_FORWARD_MATH": "FLOAT16",
+          "CK_CAFFE_DEFAULT_FORWARD_TYPE": "FLOAT16"
+        }
+      },
       "update_deps": {
         "lib-caffe": {
-          "no_tags": "vcpu", 
+          "no_tags": "vcpu",
           "tags": "vfp16"
         }
       }
     }
-  }, 
+  },
   "run_deps": {
     "caffemodel": {
-      "force_target_as_host": "yes", 
-      "local": "yes", 
-      "name": "Caffe model (net and weights)", 
+      "force_target_as_host": "yes",
+      "local": "yes",
+      "name": "Caffe model (net and weights)",
       "only_for_cmd": [
-        "test_cpu", 
-        "test_gpu", 
-        "test_gpu_fp16", 
-        "time_cpu", 
-        "time_gpu", 
+        "test_cpu",
+        "test_gpu",
+        "test_gpu_fp16",
+        "time_cpu",
+        "time_gpu",
         "time_gpu_fp16"
-      ], 
-      "sort": 20, 
+      ],
+      "sort": 20,
       "tags": "caffemodel"
-    }, 
+    },
     "dataset-imagenet-aux": {
-      "force_target_as_host": "yes", 
-      "local": "yes", 
-      "name": "ImageNet dataset (aux)", 
+      "force_target_as_host": "yes",
+      "local": "yes",
+      "name": "ImageNet dataset (aux)",
       "only_for_cmd": [
-        "test_cpu", 
-        "test_gpu", 
+        "test_cpu",
+        "test_gpu",
         "test_gpu_fp16"
-      ], 
-      "sort": 10, 
+      ],
+      "sort": 10,
       "tags": "dataset,imagenet,aux"
-    }, 
+    },
     "dataset-imagenet-lmdb": {
-      "force_target_as_host": "yes", 
-      "local": "yes", 
-      "name": "ImageNet dataset (lmdb)", 
+      "force_target_as_host": "yes",
+      "local": "yes",
+      "name": "ImageNet dataset (lmdb)",
       "only_for_cmd": [
-        "test_cpu", 
-        "test_gpu", 
+        "test_cpu",
+        "test_gpu",
         "test_gpu_fp16"
-      ], 
-      "sort": 40, 
+      ],
+      "sort": 40,
       "tags": "dataset,imagenet,val-lmdb"
-    }, 
+    },
     "lib-caffe": {
-      "local": "yes", 
-      "name": "Caffe framework", 
-      "sort": 30, 
+      "local": "yes",
+      "name": "Caffe framework",
+      "sort": 30,
       "tags": "lib,caffe"
     }
-  }, 
+  },
   "run_vars": {
-    "CAFFE_COMPUTE_DEVICE_ID":0
-  }, 
-  "skip_tmp_deps": "yes", 
+    "CAFFE_COMPUTE_DEVICE_ID": 0
+  },
+  "skip_tmp_deps": "yes",
   "tags": [
-    "program", 
+    "program",
     "caffe"
-  ], 
+  ],
+  "template": "yes",
+  "template_type": "image classification via Caffe (Python)",
   "version": "1.0.0"
 }

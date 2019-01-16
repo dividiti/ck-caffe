@@ -11,8 +11,7 @@
       "linux": ""
     }
   },
-  "deps": {
-  },
+  "deps": {},
   "soft_name": "VOC dataset",
   "tags": [
     "dataset",

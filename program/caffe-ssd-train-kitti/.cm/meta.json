@@ -1,22 +1,22 @@
 {
-  "backup_data_uid": "925820da925b422d", 
+  "backup_data_uid": "925820da925b422d",
   "data_name": "caffe-ssd-train-kitti",
-  "no_compile": "yes", 
-  "process_in_tmp": "yes", 
-  "program": "yes", 
+  "no_compile": "yes",
+  "process_in_tmp": "yes",
+  "program": "yes",
   "run_cmds": {
     "prepare": {
-      "run_time": {
-        "run_cmd_main": "$<<CK_ENV_COMPILER_PYTHON_FILE>>$ ../prepare.py"
-      },
       "run_deps": {
         "kitti-dataset": {
-          "force_target_as_host": "yes", 
-          "local": "yes", 
+          "force_target_as_host": "yes",
+          "local": "yes",
           "name": "KITTI dataset",
-          "sort": 20, 
+          "sort": 20,
           "tags": "dataset,kitti,val"
         }
+      },
+      "run_time": {
+        "run_cmd_main": "$<<CK_ENV_COMPILER_PYTHON_FILE>>$ ../prepare.py"
       }
     },
     "train": {
@@ -27,10 +27,10 @@
   },
   "run_deps": {
     "caffemodel": {
-      "force_target_as_host": "yes", 
-      "local": "yes", 
-      "name": "Caffe model (net and pretrained weights)", 
-      "sort": 40, 
+      "force_target_as_host": "yes",
+      "local": "yes",
+      "name": "Caffe model (net and pretrained weights)",
+      "sort": 40,
       "tags": "caffemodel,ssd"
     },
     "lib-caffe": {
@@ -40,21 +40,21 @@
       "sort": 1,
       "tags": "lib,caffe,ssd"
     }
-  }, 
+  },
   "run_vars": {
-    "CK_TRAIN_IMAGES_PERCENT": 70,
-    "CK_DEVICE_ID": 0,
     "CK_BATCH_SIZE": 8,
+    "CK_DEVICE_ID": 0,
     "CK_SNAPSHOT_INTERVAL": 1000,
-    "CK_TEST_INTERVAL": 250
-  }, 
+    "CK_TEST_INTERVAL": 250,
+    "CK_TRAIN_IMAGES_PERCENT": 70
+  },
   "tags": [
-    "caffe-detection", 
-    "caffe-detection-ssd", 
-    "ssd", 
-    "demo", 
-    "training", 
-    "object-detection" 
-  ], 
+    "caffe-detection",
+    "caffe-detection-ssd",
+    "ssd",
+    "demo",
+    "training",
+    "object-detection"
+  ],
   "version": "1.0.0"
 }

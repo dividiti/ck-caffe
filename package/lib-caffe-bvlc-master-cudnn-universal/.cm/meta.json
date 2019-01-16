@@ -177,13 +177,13 @@
         "android": "yes",
         "win": "yes"
       },
+      "sort": 20,
+      "tags": "lib,opencv",
       "version_to": [
         3,
         3,
         99
-      ],
-      "sort": 20,
-      "tags": "lib,opencv"
+      ]
     },
     "lib-protobuf-host": {
       "force_target_as_host": "yes",
@@ -197,11 +197,11 @@
       "tags": "lib,protobuf-host"
     },
     "python": {
+      "enable_if_env": {
+        "CAFFE_BUILD_PYTHON": "ON"
+      },
       "local": "yes",
       "name": "Python for interfacing",
-      "enable_if_env": {
-        "CAFFE_BUILD_PYTHON":"ON"
-      },
       "sort": 0,
       "tags": "compiler,python"
     }

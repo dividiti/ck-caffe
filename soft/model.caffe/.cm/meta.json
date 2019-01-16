@@ -1,20 +1,20 @@
 {
-  "auto_detect": "yes", 
+  "auto_detect": "yes",
   "customize": {
-    "ck_params_file":"ck-params.json",
-    "check_that_exists": "yes", 
-    "ck_version": 10, 
-    "env_prefix": "CK_ENV_MODEL_CAFFE", 
+    "check_that_exists": "yes",
+    "ck_params_file": "ck-params.json",
+    "ck_version": 10,
+    "env_prefix": "CK_ENV_MODEL_CAFFE",
     "limit_recursion_dir_search": {
       "linux": 3,
       "win": 3
-    }, 
+    },
     "soft_file": {
       "linux": "deploy.prototxt",
       "win": "deploy.prototxt"
     }
-  }, 
-  "soft_name": "Caffe model (net and weights)", 
+  },
+  "soft_name": "Caffe model (net and weights)",
   "tags": [
     "caffe",
     "net",
@@ -22,5 +22,6 @@
     "caffemodel",
     "bvlc"
   ],
-  "template":"yes"
+  "template": "yes",
+  "template_type": "Caffe model"
 }

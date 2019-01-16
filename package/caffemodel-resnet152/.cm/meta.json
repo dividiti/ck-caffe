@@ -51,10 +51,11 @@
     "resnet152",
     "channel-stable"
   ],
+  "template": "yes",
+  "template_type": "Caffe model - ResNet152",
   "use_scripts_from_another_entry": {
     "data_uoa": "download-caffemodel",
     "module_uoa": "script",
     "repo_uoa": "ck-caffe"
-  },
-  "template":"yes"
+  }
 }

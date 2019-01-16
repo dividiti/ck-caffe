@@ -192,11 +192,11 @@
       "tags": "lib,protobuf-host"
     },
     "python": {
+      "enable_if_env": {
+        "CAFFE_BUILD_PYTHON": "ON"
+      },
       "local": "yes",
       "name": "Python for interfacing",
-      "enable_if_env": {
-        "CAFFE_BUILD_PYTHON":"ON"
-      },
       "sort": 0,
       "tags": "compiler,python"
     }
@@ -281,6 +281,8 @@
     "vcpu",
     "channel-dev"
   ],
+  "template": "yes",
+  "template_type": "Caffe AI framework (rebuild for CPU)",
   "use_preprocess_scripts_from_another_entry": {
     "data_uoa": "fd44428fbc77f77f",
     "module_uoa": "84e27ad9dd12e734"
@@ -288,6 +290,5 @@
   "use_scripts_from_another_entry": {
     "data_uoa": "cd9ccc74060b3d18",
     "module_uoa": "script"
-  },
-  "template":"yes"
+  }
 }
