@@ -62,6 +62,10 @@ See [cKnowledge.org/ai](http://cKnowledge.org/ai),
 [reusable AI artifact in the CK format](http://cKnowledge.org/ai-artifacts)
 and [online demo of CK AI API with self-optimizing DNN](http://cKnowledge.org/ai/ck-api-demo) for more details.
 
+## Maintainers
+* Linux/MacOS: [dividiti](http://dividiti.com) - not actively maintained
+* Windows: currently no maintainer
+
 ## Authors/contributors
 
 * Anton Lokhmotov, [dividiti](http://dividiti.com)
