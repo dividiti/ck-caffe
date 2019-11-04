@@ -71,9 +71,13 @@
       "name": "C++ compiler",
       "sort": 10,
       "tags": "compiler,lang-cpp",
+      "update_tags_by_target_os_uoa": {
+        "linux-32": "gcc",
+        "linux-64": "gcc",
+        "macos-64": "llvm,v5"
+      },
       "update_tags_by_target_platform2": {
         "android": "gcc",
-        "linux": "gcc",
         "win": "mcl"
       }
     },
