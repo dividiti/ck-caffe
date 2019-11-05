@@ -1,0 +1,36 @@
+{
+  "customize": {
+    "extra_dir": "",
+    "ck_params_file": "",
+    "install_env": {
+      "PACKAGE_BUILD_TYPE": "none",
+      "PACKAGE_GIT": "YES",
+      "PACKAGE_PATCH": "YES",
+      "PACKAGE_SKIP_CLEAN_SRC_DIR": "YES",
+      "PACKAGE_SKIP_LINUX_MAKE": "YES",
+      "PACKAGE_SUB_DIR": "mobilenet",
+      "PACKAGE_URL": "https://github.com/shicai/MobileNet-Caffe"
+    },
+    "no_os_in_suggested_path": "yes",
+    "no_ver_in_suggested_path": "yes",
+    "use_git_revision": "yes",
+    "version": "master"
+  },
+  "end_full_path_universal": "mobilenet$#sep#$mobilenet.caffemodel",
+  "process_script": "install",
+  "soft_uoa": "model.caffe",
+  "suggested_path": "caffemodel-mobilenet",
+  "tags": [
+    "caffe",
+    "weights",
+    "caffemodel",
+    "mobilenet",
+    "mobilenet_v1",
+    "vfloat32",
+    "vfp32"
+  ],
+  "use_scripts_from_another_entry": {
+    "data_uoa": "cd9ccc74060b3d18",
+    "module_uoa": "script"
+  }
+}

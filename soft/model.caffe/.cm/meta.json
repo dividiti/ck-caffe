@@ -9,10 +9,7 @@
       "linux": 3,
       "win": 3
     },
-    "soft_file": {
-      "linux": "deploy.prototxt",
-      "win": "deploy.prototxt"
-    }
+    "soft_file_universal": "deploy.prototxt"
   },
   "soft_name": "Caffe model (net and weights)",
   "tags": [
