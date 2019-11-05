@@ -4,6 +4,7 @@
     "extra_dir": "",
     "file_mean_bin": "ResNet_mean.binaryproto",
     "file_with_weights": "ResNet-50-model.caffemodel",
+    "deploy_file": "deploy.prototxt",
     "force_ask_path": "yes",
     "install_env": {
       "MODEL_FILE": "ResNet-50-model.caffemodel",

@@ -96,6 +96,11 @@ def setup(i):
       env[ep + '_LABELMAP'] = os.path.join(pi, labelmap_file)
       env[ep + '_LABELMAP_FILE'] = labelmap_file
 
+    deploy_file = cus.get('deploy_file','')
+    if deploy_file:
+      env[ep + '_DEPLOY'] = os.path.join(pi, deploy_file)
+      env[ep + '_DEPLOY_FILE'] = deploy_file
+
     # record params
     pff=cus['ck_params_file']
     pf=os.path.join(pi, pff)
